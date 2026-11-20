@@ -27,11 +27,16 @@ endorsement of it.
   `Statements.lean` character for character into the namespace
   `ZetaLean.RiemannClaim`, where they are elaborated against this arm's own pinned
   Mathlib.  No file of the archive is imported, vendored or built here.
-* **Their truth is not asserted here.**  This module postulates nothing.  Every
-  theorem below takes the proposition it needs as an explicit hypothesis and derives a
-  form that other work in this repository consumes.  A theorem of this module is a
-  theorem about an implication; it says nothing about whether its hypothesis holds.
-  When this module was written the lab had seen no kernel accept the archive.
+* **Their truth is not asserted here.**  This module postulates nothing.  Two helpers
+  are unconditional and rest on Mathlib alone.  Every other theorem below takes the
+  proposition it needs as an explicit hypothesis and derives a form that other work in
+  this repository consumes: it is a theorem about an implication, and it says nothing
+  about whether its hypothesis holds.  When this module was written the lab had seen
+  no kernel accept the archive.
+* **Written without a compiler.**  The proofs below were checked by reading Mathlib's
+  and Lean's source at this arm's pin, not by running Lean.  Until a root build that
+  includes this module has passed (`lake build` in `lean/`), its theorems are stated,
+  not kernel-checked.
 * **Discharge.**  If the five statements become theorems at this arm's pin, each
   conditional theorem below is discharged by one application:
 
@@ -60,16 +65,23 @@ endorsement of it.
   (`lean/qrh/QRHOpenAI.lean`); `dirichlet_nonvanishing_of_lt_re` is the same for every
   `θ ≥ 1/2`.
 * `riemannZeta_ne_zero_of_dirichletLNonvanishing` and
-  `riemannZeta_ne_zero_of_riemannHypothesis`: `ζ(s) ≠ 0` for `1/2 < Re s`, `s ≠ 1`,
-  from the modulus-one case and from `RiemannHypothesis` respectively.
-* `hardyZ_eq_zero_of_riemannHypothesis`: under `RiemannHypothesis` every zero of `ζ`
-  with positive real part is `1/2 + i t` with `t` a zero of the lab's Hardy function
-  `hardyZ` (`ZetaLean/HardyZ.lean`).
+  `riemannZeta_ne_zero_of_riemannHypothesis`: `riemannZeta s ≠ 0` for `1/2 < Re s`, from
+  the modulus-one case and from `RiemannHypothesis` respectively.
+* `hardyZ_eq_zero_of_riemannHypothesis`: under `RiemannHypothesis` every zero of
+  `riemannZeta` with positive real part is `1/2 + i t` with `t` a zero of the lab's
+  Hardy function `hardyZ` (`ZetaLean/HardyZ.lean`).
 * `primitiveDirichletLZerosOnLine_of_dirichletLZerosOnLine`: the statement for all
   characters contains the statement for primitive ones.
 
-One unconditional helper, `not_trivialZero_of_re_pos`, serves the two theorems that
-start from `RiemannHypothesis`.
+The three zeta theorems carry no hypothesis `s ≠ 1`.  The zeta function has a pole at
+`1`; Mathlib's `riemannZeta 1` is a value assigned there, and Mathlib's
+`riemannZeta_one_ne_zero` shows that value is not zero.  So no zero of `riemannZeta` is
+the point `1`, and at `s = 1` the two nonvanishing theorems restate that fact about the
+assigned value: they say nothing there about the zeta function.
+
+Two unconditional helpers serve them.  `ne_one_of_riemannZeta_eq_zero` is the remark
+just made.  `not_trivialZero_of_re_pos` says that a point with positive real part is
+not a trivial zero; the two theorems that start from `RiemannHypothesis` use it.
 -/
 
 namespace ZetaLean.RiemannClaim
@@ -102,6 +114,28 @@ def PrimitiveDirichletLZerosOnLine : Prop :=
   ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive →
     ∀ s : ℂ, 0 < s.re → s.re < 1 → DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2
 
+/-! ### Two unconditional helpers -/
+
+/-- A zero of `riemannZeta` is not the point `1`.  The zeta function has a pole at `1`;
+Mathlib's `riemannZeta 1` is a value assigned there, and Mathlib's
+`riemannZeta_one_ne_zero` shows that value is not zero.  Consumed by the three zeta
+theorems below, which for this reason carry no hypothesis `s ≠ 1`. -/
+theorem ne_one_of_riemannZeta_eq_zero {s : ℂ} (hz : riemannZeta s = 0) : s ≠ 1 :=
+  fun h1 => riemannZeta_one_ne_zero ((congrArg riemannZeta h1).symm.trans hz)
+
+/-- A point with positive real part is not a trivial zero `-2 (n + 1)`, whose real part
+is negative.  Consumed by the two theorems below that start from `RiemannHypothesis`,
+which use it to meet the second hypothesis of that proposition. -/
+theorem not_trivialZero_of_re_pos {s : ℂ} (hs : 0 < s.re) :
+    ¬∃ n : ℕ, s = -2 * ((n : ℂ) + 1) := by
+  rintro ⟨n, hn⟩
+  have hre : s.re = (-2 * ((n : ℂ) + 1)).re := congrArg Complex.re hn
+  simp only [Complex.mul_re, Complex.neg_re, Complex.neg_im, Complex.add_re, Complex.add_im,
+    Complex.natCast_re, Complex.natCast_im, Complex.one_re, Complex.one_im, Complex.re_ofNat,
+    Complex.im_ofNat] at hre
+  have hn0 : (0 : ℝ) ≤ (n : ℝ) := Nat.cast_nonneg n
+  linarith only [hs, hre, hn0]
+
 /-! ### Conditional consequences -/
 
 /-- The archive's `RiemannZetaZerosOnLine` is Mathlib's `RiemannHypothesis` at this arm's
@@ -131,48 +165,41 @@ theorem dirichlet_nonvanishing (h : DirichletLNonvanishingRightOfHalf)
   dirichlet_nonvanishing_of_lt_re h (by norm_num : (1 / 2 : ℝ) ≤ 7 / 8) χ hs hpole
 
 /-- The modulus-one case of the claimed nonvanishing: `riemannZeta` has no zero with real
-part above `1/2`, the point `1` excepted.  Mathlib's
-`DirichletCharacter.LFunction_modOne_eq` identifies the L-function of the character
-modulo `1` with `riemannZeta`. -/
+part above `1/2`.  Mathlib's `DirichletCharacter.LFunction_modOne_eq` identifies the
+L-function of the character modulo `1` with `riemannZeta`.  The hypothesis `h` is silent
+at `s = 1`, which its pole exception leaves out; there the conclusion is Mathlib's
+`riemannZeta_one_ne_zero`, reached through `ne_one_of_riemannZeta_eq_zero`. -/
 theorem riemannZeta_ne_zero_of_dirichletLNonvanishing
-    (h : DirichletLNonvanishingRightOfHalf) {s : ℂ} (hs : 1 / 2 < s.re) (hs1 : s ≠ 1) :
+    (h : DirichletLNonvanishingRightOfHalf) {s : ℂ} (hs : 1 / 2 < s.re) :
     riemannZeta s ≠ 0 := by
+  intro hz
+  have hs1 : s ≠ 1 := ne_one_of_riemannZeta_eq_zero hz
   have key : DirichletCharacter.LFunction (1 : DirichletCharacter ℂ 1) s ≠ 0 :=
     h 1 1 s hs (Or.inr hs1)
   have e : DirichletCharacter.LFunction (1 : DirichletCharacter ℂ 1) s = riemannZeta s :=
     congrFun (DirichletCharacter.LFunction_modOne_eq (χ := 1)) s
-  intro hz
   exact key (e.trans hz)
 
-/-- A point with positive real part is not a trivial zero `-2 (n + 1)`, whose real part
-is negative.  Consumed by the two theorems below, which use it to meet the second
-hypothesis of `RiemannHypothesis`. -/
-theorem not_trivialZero_of_re_pos {s : ℂ} (hs : 0 < s.re) :
-    ¬∃ n : ℕ, s = -2 * ((n : ℂ) + 1) := by
-  rintro ⟨n, hn⟩
-  have hre : s.re = (-2 * ((n : ℂ) + 1)).re := congrArg Complex.re hn
-  simp only [Complex.mul_re, Complex.neg_re, Complex.neg_im, Complex.add_re, Complex.add_im,
-    Complex.natCast_re, Complex.natCast_im, Complex.one_re, Complex.one_im, Complex.re_ofNat,
-    Complex.im_ofNat] at hre
-  have hn0 : (0 : ℝ) ≤ (n : ℝ) := Nat.cast_nonneg n
-  linarith only [hs, hre, hn0]
-
-/-- Under `RiemannHypothesis`, `riemannZeta` has no zero with real part above `1/2`, the
-point `1` excepted. -/
+/-- Under `RiemannHypothesis`, `riemannZeta` has no zero with real part above `1/2`.  At
+`s = 1` the conclusion is Mathlib's `riemannZeta_one_ne_zero`, a fact about the value
+Mathlib assigns at the pole, reached through `ne_one_of_riemannZeta_eq_zero`. -/
 theorem riemannZeta_ne_zero_of_riemannHypothesis (h : RiemannHypothesis) {s : ℂ}
-    (hs : 1 / 2 < s.re) (hs1 : s ≠ 1) : riemannZeta s ≠ 0 := by
+    (hs : 1 / 2 < s.re) : riemannZeta s ≠ 0 := by
   intro hz
   have hpos : 0 < s.re := by linarith only [hs]
+  have hs1 : s ≠ 1 := ne_one_of_riemannZeta_eq_zero hz
   have hre : s.re = 1 / 2 := h s hz (not_trivialZero_of_re_pos hpos) hs1
   linarith only [hs, hre]
 
-/-- Under `RiemannHypothesis`, every zero `s` of `riemannZeta` with positive real part,
-the point `1` excepted, is `1/2 + i t` with `t = s.im`, and `t` is a zero of the lab's
-Hardy function `hardyZ` (`ZetaLean/HardyZ.lean`, through `hardyZ_zero_iff`).  So every
-nontrivial zero is a real zero of `Z`. -/
+/-- Under `RiemannHypothesis`, every zero `s` of `riemannZeta` with positive real part is
+`1/2 + i t` with `t = s.im`, and `t` is a zero of the lab's Hardy function `hardyZ`
+(`ZetaLean/HardyZ.lean`, through `hardyZ_zero_iff`).  So every nontrivial zero is a real
+zero of `Z`.  The point `1` needs no exception: it is not a zero of `riemannZeta`, by
+`ne_one_of_riemannZeta_eq_zero`. -/
 theorem hardyZ_eq_zero_of_riemannHypothesis (h : RiemannHypothesis) {s : ℂ}
-    (hz : riemannZeta s = 0) (hpos : 0 < s.re) (hs1 : s ≠ 1) :
+    (hz : riemannZeta s = 0) (hpos : 0 < s.re) :
     s = 1 / 2 + (s.im : ℂ) * Complex.I ∧ hardyZ s.im = 0 := by
+  have hs1 : s ≠ 1 := ne_one_of_riemannZeta_eq_zero hz
   have hre : s.re = 1 / 2 := h s hz (not_trivialZero_of_re_pos hpos) hs1
   have hcast : ((s.re : ℝ) : ℂ) = 1 / 2 := by
     rewrite [hre, Complex.ofReal_div, Complex.ofReal_one, Complex.ofReal_ofNat]
