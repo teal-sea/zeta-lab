@@ -1249,6 +1249,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `46-davenport-heilbronn-v6-arb-replay.md`, 46. The Davenport-Heilbronn v6 census: a same-verifier Arb replay
 - `47-the-davenport-heilbronn-zero.md`, 47. The Davenport-Heilbronn zero, kernel-checked
 - `48-weil-degeneracy.md`, 48. The Weil functional's degeneracy: three measurements and a constraint on proof strategy
+- `49-the-riemann-claim-day-one.md`, 49. The Riemann claim, day one: what was read, tested and built before any kernel verdict
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)

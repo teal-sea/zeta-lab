@@ -82,5 +82,4 @@ saying what was changed on the way in.
 | `2026-11-20-rh-claim-regrade-board.md` | what changes in this tree if the claim is accepted by a kernel: 79 rows in seven effect classes, the corrections owed to the public record whatever happens, and candidate successor targets. A reading, attacked once, revision unreviewed |
 | `2026-11-20-rh-claim-literature-notes.md` | what is already published under GRH and RH against which this laboratory's conditional results must state their delta, each item labelled as read that day, read second-hand, or recalled |
 
-The record page for that day is in the numbered course, under the title
-"The Riemann claim, day one".
+The record page for that day is `docs/49`.

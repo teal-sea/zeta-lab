@@ -211,6 +211,23 @@ Used by the four hunts that build on it (`docs/39`), each cited where it is used
   Theorem 3: Littlewood's argument under a 3/4 hypothesis. **Y. Lamzouri, X. Li,
   K. Soundararajan**, Math. Comp. 84 (2015): the explicit GRH form. *For: hunt
   #124.*
+- **S. R. Garcia, L. Grenie, E. S. Lee, G. Molteni**, "Bounds for the residue of
+  Dedekind zeta functions under GRH and applications", arXiv:2610.14257 (9
+  October 2026): explicit GRH bounds for the residue, and the complete list of
+  imaginary quadratic fields with class number at most 2000 under GRH, with
+  data (Table 1: 9,245,562 fields for h <= 1500, 16,453,493 for h <= 2000).
+  Posted one day after hunt #124 and not cited there: its h <= 1500 count
+  equals hunt #124's. *The published frontier for hunt #163; a comparator
+  owed to hunt #124 (see `docs/49` section 9).*
+- **A. Languasco, T. Trudgian**, arXiv:2011.08348, J. Number Theory 236 (2022):
+  the Lamzouri-Li-Soundararajan bounds for L(1, chi) under GRH made valid for
+  every modulus. *For: hunt #163, control (b).*
+- **O. Ramare**, "Explicit estimates for the summatory function of
+  Lambda(n)/n from the one of Lambda(n)", Acta Arith. 159 (2013), 113-122, and
+  its corrigendum, Acta Arith. 211 (2023), 93-96 (Lemma 2.1 of the corrigendum
+  corrects sign errors in Lemmas 2.1 and 2.2 of the paper). *For: hunt #161,
+  whose explicit formula for the smoothed von Mangoldt sum is the corrected
+  lemma, zero delta.*
 - **E. S. Lee**, arXiv:2602.14340 (2026), Theorem 1.2: a prime between n^86 and
   (n+1)^86 for every n, unconditional; earlier **M. Cully-Hugill, D. R.
   Johnston** (k = 90, 2025; k = 140, 2023). **D. Platt, T. Trudgian**, Bull. LMS

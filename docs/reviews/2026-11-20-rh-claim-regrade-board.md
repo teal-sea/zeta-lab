@@ -8,7 +8,7 @@
 > was true of the agent that wrote it and is true of this file's content; landing the file is the
 > only edit. Section (b) proposes successor targets: that is a recommendation, not a decision, and
 > per this directory's contract the tree decides and the memo proposes. The record page for the
-> day is in the numbered course, under the title "The Riemann claim, day one".
+> day is `docs/49`.
 
 # Regrade board: what changes in this tree if RH and GRH for Dirichlet L-functions become theorems
 
