@@ -1,0 +1,52 @@
+{
+ "c0": 0.04619141793224202,
+ "elapsed_s": 147.9,
+ "first": [
+  14.134725141734695,
+  21.022039638771556,
+  25.01085758014569
+ ],
+ "height": 18046.464296239203,
+ "ladder": [
+  {
+   "density_prediction": 0.006228509484595191,
+   "height": 236.5242296658162,
+   "n_zeros": 100,
+   "partial": 0.03996970480784761,
+   "tail_budget": 0.006221713124394408
+  },
+  {
+   "density_prediction": 0.0014397336488767276,
+   "height": 1419.4224809459956,
+   "n_zeros": 1000,
+   "partial": 0.04475226170756514,
+   "tail_budget": 0.0014391562246768783
+  },
+  {
+   "density_prediction": 0.00045370249093134495,
+   "height": 5447.8619983012995,
+   "n_zeros": 5000,
+   "partial": 0.04573774710214971,
+   "tail_budget": 0.00045367083009231063
+  },
+  {
+   "density_prediction": 0.00026940495327175754,
+   "height": 9877.782654005501,
+   "n_zeros": 10000,
+   "partial": 0.045922019553294356,
+   "tail_budget": 0.000269398378947662
+  },
+  {
+   "density_prediction": 0.000158089513376023,
+   "height": 18046.464296239203,
+   "n_zeros": 20000,
+   "partial": 0.046033332114918744,
+   "tail_budget": 0.00015808581732327381
+  }
+ ],
+ "max_abs_diff_vs_data_zeros_1000": 0.0,
+ "max_ball_radius": 1.831820454216066e-15,
+ "n_zeros": 20000,
+ "sha256_float64_le": "f9f999cca699618946c6ee544f349f9bfa29946254275a6f5e4854dbc17bda71",
+ "source": "python-flint acb.zeta_zeros at 64 bits (Arb isolates the k-th zero by index)"
+}

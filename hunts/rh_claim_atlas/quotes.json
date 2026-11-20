@@ -1,0 +1,1710 @@
+{
+ "schema": 1,
+ "what": "every path:line cited in ATLAS.md, with the sha256 of exactly those lines",
+ "hash_rule": "read the file as UTF-8, split on newline, take lines first..last (1-based, inclusive), join with newline and no trailing newline, encode UTF-8, sha256",
+ "archive": {
+  "source": "https://alpo.ge/lean.tar.gz.part01 to part14, concatenated",
+  "tarball_sha256": "9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc",
+  "src_dir_inside_tarball": "lean/src",
+  "lean_toolchain": "leanprover/lean4:v4.33.1"
+ },
+ "mathlib": {
+  "tag": "v4.33.1",
+  "rev": "0df444a360eaa60ab8c11dca51a86af692955474"
+ },
+ "abbreviations": {
+  "CB": "Development/AutomorphicArithmetic/CharacterBoxes",
+  "TGC": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses",
+  "DL": "Development/AutomorphicArithmetic/DedekindLFunctions",
+  "LT": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems",
+  "PC": "Development/AutomorphicArithmetic/PrimitiveCosets",
+  "TPS": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries",
+  "FND": "Development/AutomorphicArithmetic/Foundations",
+  "AV": "Development/AutomorphicArithmetic/AutomorphicVarieties",
+  "AVT": "Development/AbelianVarietyTheory",
+  "SWB": "Formalism/SizeWindowBrackets"
+ },
+ "max_quote_lines": 12,
+ "entries": [
+  {
+   "id": "Q001",
+   "tree": "archive",
+   "path": "Main.lean",
+   "first": 4,
+   "last": 12,
+   "sha256": "68fc9bfd30faeb6cad8fac94bb68cd1d6f5bc715a0fd8dd21500cc119e66ac22",
+   "kind": "quote",
+   "text": "theorem riemannHypothesis : RiemannHypothesis := rhOfAll\n\ntheorem riemannZeta_eq_zero_re : RiemannZetaZerosOnLine := rhOfAll\n\ntheorem LFunction_ne_zero_of_half_lt_re : DirichletLNonvanishingRightOfHalf := allChi\n\ntheorem LFunction_eq_zero_re : DirichletLZerosOnLine := claimAll.2.1\n\ntheorem LFunction_eq_zero_re_of_isPrimitive : PrimitiveDirichletLZerosOnLine := critAll"
+  },
+  {
+   "id": "Q002",
+   "tree": "archive",
+   "path": "Statements.lean",
+   "first": 3,
+   "last": 8,
+   "sha256": "043f1a83756858711966c2244dfadc2e4ba21dc3008fd7add2d05b611e502546",
+   "kind": "quote",
+   "text": "def RiemannZetaZerosOnLine : Prop :=\n  ∀ s : ℂ, riemannZeta s = 0 → (¬∃ n : ℕ, s = -2 * ((n : ℂ) + 1)) → s ≠ 1 → s.re = 1 / 2\n\ndef DirichletLNonvanishingRightOfHalf : Prop :=\n  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (s : ℂ),\n    1 / 2 < s.re → (χ ≠ 1 ∨ s ≠ 1) → DirichletCharacter.LFunction χ s ≠ 0"
+  },
+  {
+   "id": "Q003",
+   "tree": "archive",
+   "path": "Statements.lean",
+   "first": 10,
+   "last": 16,
+   "sha256": "4acc128a1d3733d0781b32bb77f76402411866be9b6bc9490cec8ee243148c37",
+   "kind": "quote",
+   "text": "def DirichletLZerosOnLine : Prop :=\n  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (s : ℂ),\n    0 < s.re → s.re < 1 → DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2\n\ndef PrimitiveDirichletLZerosOnLine : Prop :=\n  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive →\n    ∀ s : ℂ, 0 < s.re → s.re < 1 → DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2"
+  },
+  {
+   "id": "Q004",
+   "tree": "mathlib",
+   "path": "Mathlib/NumberTheory/LSeries/RiemannZeta.lean",
+   "first": 185,
+   "last": 186,
+   "sha256": "bdafbbdf74e81dd09a44fed5b95c4e6093a17b7a75b69b2052a73e3b1b46adef",
+   "kind": "quote",
+   "text": "def RiemannHypothesis : Prop :=\n  ∀ (s : ℂ) (_ : riemannZeta s = 0) (_ : ¬∃ n : ℕ, s = -2 * (n + 1)) (_ : s ≠ 1), s.re = 1 / 2"
+  },
+  {
+   "id": "Q005",
+   "tree": "archive",
+   "path": "GroundTheory/AutomorphicForms/GL2/GJLocalZeta.lean",
+   "first": 431,
+   "last": 431,
+   "sha256": "53a06c77dc9b634e777e9affaea970fc02074a38eaa6c587959d1d4242e4c5ea",
+   "kind": "pointer",
+   "head": "def LFunction (s : ℂ) : ℂ :="
+  },
+  {
+   "id": "Q006",
+   "tree": "archive",
+   "path": "GroundTheory/GlobalFields/TateThesis/HeckeLFunction.lean",
+   "first": 363,
+   "last": 363,
+   "sha256": "53a06c77dc9b634e777e9affaea970fc02074a38eaa6c587959d1d4242e4c5ea",
+   "kind": "pointer",
+   "head": "def LFunction (s : ℂ) : ℂ :="
+  },
+  {
+   "id": "Q007",
+   "tree": "mathlib",
+   "path": "Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean",
+   "first": 536,
+   "last": 536,
+   "sha256": "6b71442205bc8cd10e40d5091169ad6ed0d449ef22db4c2f39bff09f1a343dea",
+   "kind": "pointer",
+   "head": "noncomputable def riemannZeta₁ (s : ℂ) : ℂ := 1 + (s - 1) * riemannZeta₀ s"
+  },
+  {
+   "id": "Q008",
+   "tree": "archive",
+   "path": "Supplements/Kernels/MainTheorems.lean",
+   "first": 7,
+   "last": 16,
+   "sha256": "e98b4cf6701a18ba9b08a1994b715af6522a6e235cbb2a0aa8e53e5b6d72b5b4",
+   "kind": "quote",
+   "text": "theorem allChi : UpperTheory.EveryCharacter := UpperTheory.FinalTheorems.everyCharacter\n\ntheorem rhOfAll : RiemannHypothesis := Formalism.VW.rh_of_every allChi\n\ntheorem critAll (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ.IsPrimitive) (s : ℂ)\n    (h0 : 0 < s.re) (h1 : s.re < 1) (hz : LFunction χ s = 0) : s.re = 1 / 2 :=\n  Formalism.VW.critLine allChi N χ hχ s h0 h1 hz\n\ntheorem claimAll : Claim.HalfPlane ∧ Claim.Strip ∧ Claim.Zeta :=\n  ⟨allChi, Claim.strip allChi, Claim.zeta allChi⟩"
+  },
+  {
+   "id": "Q009",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean",
+   "first": 13,
+   "last": 14,
+   "sha256": "19b590d4f118e2b3a8dfc4cddce4d8be959b352780f70bcb530728021a247a3c",
+   "kind": "quote",
+   "text": "def UpperTheory.EveryCharacter : Prop :=\n  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (s : ℂ), 1 / 2 < s.re → (χ ≠ 1 ∨ s ≠ 1) → DirichletCharacter.LFunction χ s ≠ 0"
+  },
+  {
+   "id": "Q010",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/HalfPlane.lean",
+   "first": 3,
+   "last": 4,
+   "sha256": "38733f9fe05ea33c24e390f3fc55f0c435df184c408bff179da153a0766610b9",
+   "kind": "pointer",
+   "head": "def Claim.HalfPlane : Prop :="
+  },
+  {
+   "id": "Q011",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean",
+   "first": 7,
+   "last": 11,
+   "sha256": "220446686475749d395c3c5f924acea05a3f69236ee39b17a2fb24a728c4eded",
+   "kind": "quote",
+   "text": "theorem UpperTheory.FinalTheorems.everyCharacter_of_row (h : UpperTheory.GalStar.Row0b fun h rc => UpperTheory.Zero.LLC.IsRecT h rc) : UpperTheory.EveryCharacter :=\n  UpperTheory.LiteratureTheorems.every_character_of_literature_of_vWin ⟨h, UpperTheory.Zero.LLC.recTExists, h⟩ (UpperTheory.One.vwin_of_row h)\n\ntheorem UpperTheory.FinalTheorems.everyCharacter : UpperTheory.EveryCharacter :=\n  UpperTheory.FinalTheorems.everyCharacter_of_row UpperTheory.Gal.Int.galoisLocalGlobalStrong_recParameter"
+  },
+  {
+   "id": "Q012",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/IntegralStructures/RowSrc.lean",
+   "first": 6,
+   "last": 6,
+   "sha256": "9b1f19b756ad9cdefeec6fcbdb062e6e4c6042fe61c69ee48c430b18a4ce4055",
+   "kind": "pointer",
+   "head": "theorem galoisLocalGlobalStrong_recParameter : UpperTheory.GalStar.Row0b recT := galoisRepresent"
+  },
+  {
+   "id": "Q013",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+   "first": 215,
+   "last": 218,
+   "sha256": "2faedb8ab6c33102ff16eee80c795459cace87930fc9a5e7a86c4647d9e3c4cc",
+   "kind": "quote",
+   "text": "structure UpperTheory.LiteratureTheorems.OpenLiteratureStatements : Prop where\n  caraianiLocalGlobalDual : _root_.UpperTheory.One.M.Row\n  localLanglandsExists : _root_.UpperTheory.Zero.LLC.RecTExists\n  galoisRepOfPolarizedPairLit : _root_.UpperTheory.One.M.Row"
+  },
+  {
+   "id": "Q014",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+   "first": 810,
+   "last": 810,
+   "sha256": "5968ba1b6fa690a8b8d333a18804c181fc165daf59f0dfc7f4951c5712d6f36b",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.LiteratureTheorems.every_character_of_literature_of_vWin (O : _root_.UpperTh"
+  },
+  {
+   "id": "Q015",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+   "first": 219,
+   "last": 220,
+   "sha256": "d09cb0c2e8e7e43a6090f077a7d591aed321dff81c188119684e8fc9c82ba1ab",
+   "kind": "quote",
+   "text": "theorem UpperTheory.LiteratureTheorems.logDerivOne (O : _root_.UpperTheory.LiteratureTheorems.OpenLiteratureStatements) : GlobalTheory.Mem.An.LogDerOne :=\n  GlobalTheory.LogDerOneProof.logDerOne_holds"
+  },
+  {
+   "id": "Q016",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+   "first": 666,
+   "last": 666,
+   "sha256": "685bc775ab5d4119f685462ec0ed01afd4048b000eac497de2d8d9769f05c199",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.LiteratureTheorems.published_results_eigen (O : _root_.UpperTheory.Literatur"
+  },
+  {
+   "id": "Q017",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+   "first": 727,
+   "last": 727,
+   "sha256": "30c1bfdc6fe881449c1feacf2c42dfd1a68695ddc3a42fe08dc7a704689249ce",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.LiteratureTheorems.published_results_first (O : _root_.UpperTheory.Literatur"
+  },
+  {
+   "id": "Q018",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+   "first": 781,
+   "last": 781,
+   "sha256": "68572ce7f194b06c78fab29be097a9c3c2626d3c919495a007f31433efaf2e1f",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.LiteratureTheorems.published_results_arithmetic (O : _root_.UpperTheory.Lite"
+  },
+  {
+   "id": "Q019",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean",
+   "first": 69,
+   "last": 71,
+   "sha256": "0b7b2837f816d813c7e5be4bf3dd2ca88f1781796607249e27045cb520731f36",
+   "kind": "quote",
+   "text": "theorem every_character_of_theta_integrals_local_matching (P : _root_.GlobalTheory.Fc.S0.UnitaryGroupThirdPlaceHypotheses) (F : _root_.GlobalTheory.FunPr.ThetaLocalInputs) (hA : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.ThetaIntegralsAgree)\n    (hM : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.LocalMatching) (hX : _root_.GlobalTheory.CovTop.CovolumeBoundOfX) (hL : _root_.UpperTheory.Zero.LLC.RecTExists) (hV : VWin) :\n    UpperTheory.EveryCharacter :="
+  },
+  {
+   "id": "Q020",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean",
+   "first": 72,
+   "last": 73,
+   "sha256": "e15a0ac52f319042c2c381e3dfd9e4d42a63797edfbbdd36b1b8c1b96b7f9cef",
+   "kind": "pointer",
+   "head": "_root_.UpperTheory.Top.every_character_of_green_v_win (GlobalTheory.GreenBridge.green_of_regular"
+  },
+  {
+   "id": "Q021",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean",
+   "first": 44,
+   "last": 44,
+   "sha256": "d9c5ebb96e5e093518c86a17ea83d7a4078ada8482b21a0f66a11b8b4319f55c",
+   "kind": "pointer",
+   "head": "theorem nonempty_hyps_definite_side_of_closed_bound : _root_.GlobalTheory.Fc.S0.UnitaryGroupThir"
+  },
+  {
+   "id": "Q022",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean",
+   "first": 12,
+   "last": 17,
+   "sha256": "9cf566d944b8520f612515bee9ad9153b578aa607f3996a0d4b759a525948a70",
+   "kind": "quote",
+   "text": "theorem UpperTheory.Top.zero_free_all_of_green_v_win (hG : GlobalTheory.GLq.Green) (hV : UpperTheory.Top.VWin)\n    (h : Nonempty (_root_.GlobalTheory.Fc.HypsAlt (fun 𝒞 => Closed 𝒞 fun Fm _ => LinkN Fm) _root_.GlobalTheory.Fc.DefiniteSideCondition)) : Formalism.HC.ZeroFreeAll :=\n  h.elim fun h => UpperTheory.Top.zeroFreeAll_of_topG (la := 3 / 2) (by norm_num)\n    (_root_.GlobalTheory.Fc.forall_goal_of_shape_of_hyps _ _ _ _ (_root_.UpperTheory.Top.shape_closed_link_n_of_green hG) trivial trivial h) fun ψ => UpperTheory.Top.supplyChi ψ (hV ψ)\ntheorem UpperTheory.Top.every_character_of_green_v_win (hG : GlobalTheory.GLq.Green) (hV : UpperTheory.Top.VWin)\n    (h : Nonempty (_root_.GlobalTheory.Fc.HypsAlt (fun 𝒞 => Closed 𝒞 fun Fm _ => LinkN Fm) _root_.GlobalTheory.Fc.DefiniteSideCondition)) : UpperTheory.EveryCharacter :="
+  },
+  {
+   "id": "Q023",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean",
+   "first": 8,
+   "last": 11,
+   "sha256": "b95ee308fce4004007169a252e15886e0ba1167fdb31f1bfd9180edba59f97db",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.Top.plugWin (hG : GlobalTheory.GLq.Green) (hV : UpperTheory.Top.VWin)"
+  },
+  {
+   "id": "Q024",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean",
+   "first": 5,
+   "last": 7,
+   "sha256": "069dc3a9d48e6850e8b0965cb0f19f69bf9868141899a1a8fb6da19cc8d2f8c3",
+   "kind": "quote",
+   "text": "theorem UpperTheory.Top.imprimitive :\n    ZeroFreeAll → ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (s : ℂ), 1 / 2 < s.re → (χ ≠ 1 ∨ s ≠ 1) →\n      DirichletCharacter.LFunction χ s ≠ 0 := by"
+  },
+  {
+   "id": "Q025",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean",
+   "first": 11,
+   "last": 18,
+   "sha256": "87d350c0aec688af4d49ceb33471624c5302b56acde8c452ce10696acb269ea6",
+   "kind": "quote",
+   "text": "def PChar.ZeroFreeAbove (ψ : PChar) (θ : ℝ) : Prop :=\n  ∀ s : ℂ, θ < s.re → DirichletCharacter.LFunction ψ.χ s ≠ 0\n\ndef ZeroFreeOn (Q : PChar → Prop) : Prop := ∀ ψ : PChar, Q ψ → ψ.ZeroFreeAbove (1 / 2)\n\ndef ZeroFreeEven : Prop := ZeroFreeOn fun ψ => ψ.χ.Even\n\ndef ZeroFreeAll : Prop := ZeroFreeOn fun _ => True"
+  },
+  {
+   "id": "Q026",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean",
+   "first": 7,
+   "last": 11,
+   "sha256": "0eb863309f7445ec34430d8a3d1e8dc0a816c3ee617987574b08abda48137122",
+   "kind": "pointer",
+   "head": "structure PChar where"
+  },
+  {
+   "id": "Q027",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean",
+   "first": 12,
+   "last": 14,
+   "sha256": "eb4352569de4ac8db392c6679585a0109b3a4a376f44cb78fd447e13d065227a",
+   "kind": "quote",
+   "text": "def TopG : Prop :=\n  ∀ (la : ℝ) (G : FReq), 1 < la → HostExW la G.req →\n    (∀ {eps : ℝ} (Fm : FamP eps), G.cls la Fm → HypV Fm.toFamCore) → FamilyClassConnected (G.cls la)"
+  },
+  {
+   "id": "Q028",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/DivinNOfHypV.lean",
+   "first": 13,
+   "last": 15,
+   "sha256": "3b6bbd1855b0fe073244364561c1dc8b7a867cd96e5ac9a3bce1d56351c69742",
+   "kind": "quote",
+   "text": "def FamilyClassConnected (ℰ : FamClass) : Prop :=\n  ∃ eD eL ε₁ : ℝ, 0 < ε₁ ∧ ∀ eps : ℝ, 0 < eps → eps < ε₁ →\n    ∃ Fm : FamP eps, ℰ Fm ∧ ∃ K cHH eK CL x0 : ℝ, ∀ x ≥ x0, x ∈ Fm.Win → ChainTied Fm eD eL K cHH eK CL x"
+  },
+  {
+   "id": "Q029",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean",
+   "first": 26,
+   "last": 29,
+   "sha256": "bc69df978d3c7a586fdb95fe75100c57629e84788a1f41f42fd2c63f9b959482",
+   "kind": "quote",
+   "text": "theorem zeroFreeAll_of_topG {la : ℝ} (hla : 1 < la) (h : TopG) (hS : ∀ ψ : PChar, HostExW la (GChi ψ).req) : ZeroFreeAll := by\n  have key : ZeroFreeOn fun _ => True :=\n    zeroFreeOn_of_tiedWin_cyc (Fam := FamP) (core := fun Fm => Fm.toFamCore) (Tied := fun Fm => ChainTied Fm) hla\n      (fun ψ _ => UpperTheory.Comparison₂.level_gm_le_on_family_scales _) (fun ψ _ => UpperTheory.Comparison₂.formB _) fun ψ _ => by"
+  },
+  {
+   "id": "Q030",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean",
+   "first": 97,
+   "last": 114,
+   "sha256": "ee75ebdaefc4c477d6a861c449117734998c23db306600b5d46646ae33d5eee7",
+   "kind": "pointer",
+   "head": "def ChainTied {eps : ℝ} (Fm : FamP eps) (eD eL K cHH eK CL x : ℝ) : Prop :="
+  },
+  {
+   "id": "Q031",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean",
+   "first": 26,
+   "last": 32,
+   "sha256": "199a69770d269ef21aab8b355800e85e107971775c58ce08de0ec417ca3382f5",
+   "kind": "quote",
+   "text": "def ChebyshevInequalityOnWindows (Λ : Level) : Prop :=\n  ∀ (eD eL eps : ℝ), 0 < eps → ∀ Fm : Fam eps, EFamC Λ (core Fm) → ChebyshevInequalityOnFamilyWindows @core @Tied Fm eD eL →\n    ∃ x1 : ℝ, ∀ x ≥ x1, x ∈ (core Fm).Win → Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * eps)\n\ndef ChebyshevInequalityAtWindowScale (la : ℝ) (Λ : Level) : Prop :=\n  ∃ eD eL ε₁ : ℝ, 0 < ε₁ ∧ ∀ eps : ℝ, 0 < eps → eps < ε₁ → ∃ Fm : Fam eps, EFamC Λ (core Fm) ∧\n    (core Fm).Windows la ∧ ChebyshevInequalityOnFamilyWindows @core @Tied Fm eD eL"
+  },
+  {
+   "id": "Q032",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean",
+   "first": 68,
+   "last": 69,
+   "sha256": "acdcd560d81cdcda7c8698c3f2c18c1491d6b58ead010dafb17822db8bfed124",
+   "kind": "quote",
+   "text": "theorem level_of_tiedWin {Λ : Level} {la : ℝ} (h112 : ChebyshevInequalityOnWindows @core @Tied Λ) (hB : Λ.FormBAt la)\n    (h : ChebyshevInequalityAtWindowScale @core @Tied la Λ) : Λ.ZeroFreeLevel := by"
+  },
+  {
+   "id": "Q033",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean",
+   "first": 70,
+   "last": 81,
+   "sha256": "8728d48597e47adcf3dcc19842a52e775607571e506112e82d5d80092975e33f",
+   "kind": "pointer",
+   "head": "obtain ⟨eD, eL, ε₁, h1, h⟩ := h"
+  },
+  {
+   "id": "Q034",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean",
+   "first": 90,
+   "last": 93,
+   "sha256": "36d8faaaa8fcf358a1250ed36e10632ee8b47b989ceb420a88bee1f0a36fc443",
+   "kind": "pointer",
+   "head": "theorem zeroFreeOn_of_tiedWin_cyc {Q : PChar → Prop} {la : ℝ} (hla : 1 < la)"
+  },
+  {
+   "id": "Q035",
+   "tree": "archive",
+   "path": "Formalism/StatementOC.lean",
+   "first": 11,
+   "last": 13,
+   "sha256": "6429370ff1e172844889837c6f08fd0409af49663f24c1449a88d60f5d66296d",
+   "kind": "quote",
+   "text": "def Sz (x : ℝ) : ℝ := ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, Λ n * (x / n - 1)\n\ndef Gz (x : ℝ) : ℝ := Sz x - x * Real.log x + (1 + Real.eulerMascheroniConstant) * x"
+  },
+  {
+   "id": "Q036",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean",
+   "first": 14,
+   "last": 24,
+   "sha256": "545055c243edb53b966f2095383567bef9693015f62de11632591dff4cd4ce07",
+   "kind": "quote",
+   "text": "def G (y : ℝ) : ℝ :=\n  (∑ n ∈ Finset.Icc 1 ⌊y⌋₊, abelian₂ n * max (y / n - 1) 0) -\n    y * (Real.log y - 1 - Real.eulerMascheroniConstant)\n\ndef sumLamChi {N : ℕ} (χ : DirichletCharacter ℂ N) (y : ℝ) : ℂ :=\n  ∑ n ∈ Finset.Icc 1 ⌊y⌋₊, (abelian₂ n : ℂ) * χ (n : ZMod N) * ((max (y / n - 1) 0 : ℝ) : ℂ)\n\nopen Classical in\n\ndef gChi {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (y : ℝ) : ℂ :=\n  if χ = 1 then ((G y : ℝ) : ℂ) else sumLamChi χ y + (y : ℂ) * logDerivativeAtOne χ"
+  },
+  {
+   "id": "Q037",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean",
+   "first": 36,
+   "last": 38,
+   "sha256": "be118ad8ab020d26ade95e2140bbecf8159983098c6ab162c2e14a1b7eb21b61",
+   "kind": "quote",
+   "text": "def wt (ψ : PChar) : ℝ := if Λ.psK = some ψ then 1 else (3 * (Λ.o : ℝ) + 1)⁻¹\n\ndef Gm (y : ℝ) : ℝ := Formalism.Gz y + ∑ ψ ∈ Λ.Nt, Λ.wt ψ * (An.gChi ψ.χ y).re"
+  },
+  {
+   "id": "Q038",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean",
+   "first": 9,
+   "last": 9,
+   "sha256": "da08fe3a9c417ecd259de3abd3fc7e004d537381f645c4f0f1e927306ec32a2f",
+   "kind": "pointer",
+   "head": "abbrev abelian₂ (n : ℕ) : ℝ := (ArithmeticFunction.vonMangoldt n : ℝ)"
+  },
+  {
+   "id": "Q039",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean",
+   "first": 11,
+   "last": 12,
+   "sha256": "0d785d8f1ffd60c45cd034bd37faa1f2ddde6f22f63f3479bd8d672cd24d81b8",
+   "kind": "pointer",
+   "head": "def logDerivativeAtOne {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) : ℂ :="
+  },
+  {
+   "id": "Q040",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean",
+   "first": 105,
+   "last": 121,
+   "sha256": "53eec7e8dcb1f92fcc627034ac85b97c2f04ca33dd3ca80fbade4c977400a470",
+   "kind": "pointer",
+   "head": "def Level.ofSub {M : ℕ} [NeZero M] (Ξ : Subgroup (DirichletCharacter ℂ M)) : Level where"
+  },
+  {
+   "id": "Q041",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/GzEq.lean",
+   "first": 6,
+   "last": 7,
+   "sha256": "0c6a09f0048fd8efdf11ea34fa19cae46b8f3888c7449a97351d6548cbcf5579",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.Comparison₂.Gz_eq :"
+  },
+  {
+   "id": "Q042",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean",
+   "first": 7,
+   "last": 8,
+   "sha256": "f167636b6517f85cb7ac8252194e3253566ca98a25f1c90c082076897a7a75ff",
+   "kind": "quote",
+   "text": "def HasWindows (S : Set ℝ) (la : ℝ) : Prop :=\n  ∀ y : ℝ, ∃ Y : ℝ, y ≤ Y ∧ ∀ x : ℝ, Y ≤ x → x ≤ Y ^ la → x ∈ S"
+  },
+  {
+   "id": "Q043",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean",
+   "first": 30,
+   "last": 33,
+   "sha256": "55a6490eec2ec122e08c18cfadaf7f75b1c3d19adbe8b04e8a23156959742935",
+   "kind": "quote",
+   "text": "def FormBAt (la : ℝ) : Prop :=\n  ∀ θ : ℝ, 0 < θ → θ < 1 → HasWindows {x | Λ.Gm x ≤ x ^ θ} la → Λ.ZeroFreeAbove θ\n\ndef FormB : Prop := ∀ la : ℝ, 1 < la → Λ.FormBAt la"
+  },
+  {
+   "id": "Q044",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean",
+   "first": 8,
+   "last": 13,
+   "sha256": "8733af8c53161b3b54b2e822ffa3959d6dc9ee528a9dca17a91c936c9ec2dc6e",
+   "kind": "quote",
+   "text": "theorem UpperTheory.Comparison₂.formB :\n    ∀ Λ : Level, Λ.FormB := by\n  intro Λ la hla θ hθ0 hθ1 hW\n  obtain ⟨F, hG, hZ⟩ := UpperTheory.Comparison₂.level_family Λ\n  rw [← hZ]\n  refine Deduction.zeroFree_of_rpow_window F (δ := la - 1) (C := 1) hθ0 hθ1 (by linarith) fun Y₀ => ?_"
+  },
+  {
+   "id": "Q045",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean",
+   "first": 11,
+   "last": 14,
+   "sha256": "3b6b55af7f0e73ce4bec45738805bc20ab3e4dde5c2f5b9e57843a3f2f0d5d1d",
+   "kind": "quote",
+   "text": "theorem zeroFree_of_rpow_window (F : CharFamily) {θ δ C : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hδ : 0 < δ)\n    (h : ∀ Y₀ : ℝ, ∃ Y : ℝ, Y₀ ≤ Y ∧ ∀ y ∈ Set.Icc Y (Y ^ (1 + δ)), Gm F y ≤ C * y ^ θ) :\n    ZeroFree F θ :=\n  lemmaL F hθ hθ1 hδ (windowHyp_of_rpow F hδ h)"
+  },
+  {
+   "id": "Q046",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean",
+   "first": 36,
+   "last": 45,
+   "sha256": "3f0aff597105cf9ad284ace20aaaafb09ccd72cbe9a8771f3f946b33df333187",
+   "kind": "quote",
+   "text": "def Gm (F : CharFamily) (y : ℝ) : ℝ := ∑ i, F.a i * (Gchi (F.χ i) y).re\n\ndef ZeroFree (F : CharFamily) (θ : ℝ) : Prop :=\n  ∀ i, ∀ s : ℂ, θ < s.re → DirichletCharacter.LFunction (F.χ i) s ≠ 0\n\ndef WindowHyp (F : CharFamily) (θ δ : ℝ) : Prop :=\n  ∀ η : ℝ, 0 < η → ∀ Y₀ : ℝ, ∃ Y : ℝ, Y₀ ≤ Y ∧ ∃ R : ℝ → ℝ,\n    MeasureTheory.IntegrableOn (fun y => R y * y ^ (-θ - 1)) (Set.Icc Y (Y ^ (1 + δ))) ∧\n    (∀ y ∈ Set.Icc Y (Y ^ (1 + δ)), 0 ≤ R y ∧ Gm F y ≤ R y) ∧\n    ∫ y in Set.Icc Y (Y ^ (1 + δ)), R y * y ^ (-θ - 1) ≤ Y ^ η"
+  },
+  {
+   "id": "Q047",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean",
+   "first": 13,
+   "last": 22,
+   "sha256": "2caf90513ea86ccb9c5e06c53b84ccd4d07217b8c76bd4049247b7da2995bc72",
+   "kind": "quote",
+   "text": "theorem lemmaL (F : CharFamily) {θ δ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hδ : 0 < δ) (h : WindowHyp F θ δ) :\n    ZeroFree F θ := by\n  intro i s hs hzero\n  obtain ⟨Φ, hP⟩ := poleData F\n  have hZ := landau_window hP hθ hθ1 hδ (windowHypU_of_windowHyp F hδ h)\n  by_cases h1 : 1 ≤ s.re\n  · exact charFamily_LFunction_ne_zero_of_one_le_re F i s h1 hzero\n  · have hmem : s ∈ zeroSet F := ⟨by linarith, i, Or.inl hzero⟩\n    have := hZ s hmem\n    linarith"
+  },
+  {
+   "id": "Q048",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean",
+   "first": 11,
+   "last": 13,
+   "sha256": "82375c5b2c96742f10d5ab16af47cce92a3b8a7e1ca3562b3385858c28c513ed",
+   "kind": "quote",
+   "text": "def zeroSet (F : CharFamily) : Set ℂ :=\n  {ρ | 0 < ρ.re ∧ ∃ i, DirichletCharacter.LFunction (F.χ i) ρ = 0 ∨\n    DirichletCharacter.LFunction (F.χ i) ((starRingEnd ℂ) ρ) = 0}"
+  },
+  {
+   "id": "Q049",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean",
+   "first": 24,
+   "last": 32,
+   "sha256": "10ebcba2c47eb31c45e7c3e4860e7187400e0ba4c5fb76888c5142e6ff392956",
+   "kind": "pointer",
+   "head": "structure CharFamily where"
+  },
+  {
+   "id": "Q050",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/landauWindow.lean",
+   "first": 83,
+   "last": 84,
+   "sha256": "28e7bf970a911ab551d4992da73e8fab662f3093550184c057313697f303a45e",
+   "kind": "pointer",
+   "head": "theorem landau_window {g : ℝ → ℝ} {Φ : ℂ → ℂ} {Z : Set ℂ} (hP : PoleData g Φ Z) {θ δ : ℝ}"
+  },
+  {
+   "id": "Q051",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/CharFamilyLFunctionNeZeroOfOneLeRe.lean",
+   "first": 9,
+   "last": 9,
+   "sha256": "7a81e82399d037181de5a69c66fcfdda35266a5342a76a1b102e4993f1bf0802",
+   "kind": "pointer",
+   "head": "theorem charFamily_LFunction_ne_zero_of_one_le_re (F : CharFamily) (i : F.ι) (s : ℂ) (hs : 1 ≤ s"
+  },
+  {
+   "id": "Q052",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/poleData.lean",
+   "first": 248,
+   "last": 248,
+   "sha256": "736cfb784a12f17670969dc1ffc8399538ccc30b5b0789f898b7df35c1b4fdbf",
+   "kind": "pointer",
+   "head": "theorem poleData (F : CharFamily) : ∃ Φ : ℂ → ℂ, PoleData (gm F) Φ (zeroSet F) := by"
+  },
+  {
+   "id": "Q053",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauZeroFreeCriterion.lean",
+   "first": 15,
+   "last": 23,
+   "sha256": "b0ff27fb54bb8bd50f33b773e316b9f0d69f0fdbaf8440ad17c134236c7dd2a0",
+   "kind": "pointer",
+   "head": "structure PoleData (g : ℝ → ℝ) (Φ : ℂ → ℂ) (Z : Set ℂ) : Prop where"
+  },
+  {
+   "id": "Q054",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean",
+   "first": 1,
+   "last": 1,
+   "sha256": "a8117b26ace836a6e1e796dab3989403c805ace56e8ecb22705c9b1a484bbd94",
+   "kind": "pointer",
+   "head": "import Mathlib"
+  },
+  {
+   "id": "Q055",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/CoreGm.lean",
+   "first": 12,
+   "last": 15,
+   "sha256": "1d2bd43f6b62006818f0e1d8605617870479e1086e141d2081a98cb8de446c1c",
+   "kind": "quote",
+   "text": "theorem UpperTheory.Comparison₂.core_gm :\n    ∀ (Λ : Level) (eD eL K cHH eK C eps : ℝ), 0 < eps → ∃ x1 : ℝ, ∀ x ≥ x1, ∀ (φ : Frame) (H : HostAx φ) (TT : Finset φ.A),\n      EAtH Λ H.toHostRaw TT x eps C → CoreAtH H.toHostRaw TT eD eL K cHH eK eps x →\n        Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * eps) := by"
+  },
+  {
+   "id": "Q056",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/CoreAtH.lean",
+   "first": 29,
+   "last": 40,
+   "sha256": "d6e36e45e62a7dabdf27a1c29fd38b3cb0578a0a21564ab1aace26fa2eb66aa2",
+   "kind": "pointer",
+   "head": "def CoreAtH (H : HostRaw φ) (TT : Finset φ.A) (eD eL K cHH eK eps x : ℝ) : Prop :="
+  },
+  {
+   "id": "Q057",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiOfNeOne.lean",
+   "first": 116,
+   "last": 119,
+   "sha256": "3181542f5cc7f55203eaee93bbc067c4a157b500db279e6ed3297ce65169a87e",
+   "kind": "quote",
+   "text": "theorem mellin_Gchi_of_ne_one {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ ≠ 1) (s : ℂ) (hs : 1 < s.re) :\n    ∫ y in Ioi (1 : ℝ), Gchi χ y * (y : ℂ) ^ (-s - 1) =\n      -(deriv (DirichletCharacter.LFunction χ) s / DirichletCharacter.LFunction χ s -\n          s * (deriv (DirichletCharacter.LFunction χ) 1 / DirichletCharacter.LFunction χ 1)) / (s * (s - 1)) := by"
+  },
+  {
+   "id": "Q058",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiOfNeOne.lean",
+   "first": 126,
+   "last": 127,
+   "sha256": "953676b78ace58bf8e94df0f8db561f41c589ca5f56b925d9440d20cf2d6de92",
+   "kind": "quote",
+   "text": "  have hL : LSeries (fun n : ℕ => χ n * ((ArithmeticFunction.vonMangoldt n : ℝ) : ℂ)) s = _ :=\n    χ.LSeries_twist_vonMangoldt_eq hs"
+  },
+  {
+   "id": "Q059",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean",
+   "first": 19,
+   "last": 25,
+   "sha256": "fcc28a531245c93953fc10ad0b4136f0a2b9f787d80c174dc5e6c778a813a9ae",
+   "kind": "quote",
+   "text": "def IsChiField (ψ : PChar) (e q d : ℕ) (E : Type) [Field E] [NumberField E] : Prop :=\n  ∃ (N : ℕ) (_ : NeZero N) (j : E →ₐ[ℚ] CyclotomicField N ℚ) (ζ : CyclotomicField N ℚ),\n    2 ^ (e + 2) ∣ N ∧ ψ.N ∣ N ∧ q ∣ N ∧ d ∣ N ∧ IsPrimitiveRoot ζ N ∧\n    ∀ (τ : CyclotomicField N ℚ ≃ₐ[ℚ] CyclotomicField N ℚ) (a : ℕ), τ ζ = ζ ^ a →\n      ((∀ x : E, τ (j x) = j x) ↔\n        (a ≡ 1 [MOD 2 ^ (e + 2)] ∨ a + 1 ≡ 0 [MOD 2 ^ (e + 2)]) ∧ ψ.val a = 1 ∧\n          jacobiSym (a : ℤ) q = 1 ∧ jacobiSym (a : ℤ) d = 1)"
+  },
+  {
+   "id": "Q060",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ConjEMemHostFIff.lean",
+   "first": 12,
+   "last": 46,
+   "sha256": "eb8332b7d000bf55f3dc1f387598eb4f41f8c69921f547f4a4c220983634d152",
+   "kind": "pointer",
+   "head": "structure HostRaw (φ : Frame) where"
+  },
+  {
+   "id": "Q061",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean",
+   "first": 65,
+   "last": 66,
+   "sha256": "b9425b1b75bb8ea007c7096d7e24895ab9e46a2455a3dc07b144b772ce230fc0",
+   "kind": "quote",
+   "text": "def primVal (D : ArithData H) (ψ : AddChar (E0 × H) ℂ) (n : ℕ) : ℂ :=\n  ∏ p ∈ n.primeFactors, cosetMean (D.inertia p) (n.factorization p • D.frob p) ψ"
+  },
+  {
+   "id": "Q062",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean",
+   "first": 84,
+   "last": 87,
+   "sha256": "b935a5a9ac4f5021949a0e1e135311de97f9b87bcc33571db719990b08d982c2",
+   "kind": "quote",
+   "text": "def ASK (D : ArithData H) (N : ℕ) (a : ℝ) (t : H) (w : E0 × H → ℝ) : ℝ := by\n  classical\n  exact (∑ p ∈ (range (N + 1)).filter (IsInert D), 2 * Real.log p * askP D N a t w p)\n    + Real.log D.d * askD D N a t w"
+  },
+  {
+   "id": "Q063",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean",
+   "first": 98,
+   "last": 101,
+   "sha256": "bf242266fcd2ebed467e5d46762273939575f7d597b9be8fb404bb2e183859f8",
+   "kind": "quote",
+   "text": "def AskMainBalance : Prop :=\n  ∀ (D : ArithData H), HostFacts D → ∀ (ell : AddChar (E0 × H) ℂ → ℂ) (a : ℝ) (t : H) (w : E0 × H → ℝ),\n    0 < a → (∀ ρ, InPhi ρ → 0 < w ρ) → ∀ N : ℕ, (∀ ρ, InPhi ρ → a / w ρ ≤ N) →\n      (ASK D N a t w : ℂ) - MAIN ell a w = De D ell a t w"
+  },
+  {
+   "id": "Q064",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean",
+   "first": 110,
+   "last": 114,
+   "sha256": "a33825272d5f9a51a92b9d366a91a6af473dfb13c8280bc7fe6ef487f54afd39",
+   "kind": "quote",
+   "text": "def OrthoUnram : Prop :=\n  ∀ (D : ArithData H), HostFacts D → ∀ (p i : ℕ), p.Prime → p ≠ 2 → p ≠ D.q1 → p ≠ D.d → 1 ≤ i →\n    ∀ g : E0 × H, (1 / ((PhiSet (H := H)).card : ℂ)) * ∑ ψ : AddChar (E0 × H) ℂ,\n        starRingEnd ℂ (ψ g) * primVal D ψ (p ^ i)\n      = if i • D.frob p = g then 2 else 0"
+  },
+  {
+   "id": "Q065",
+   "tree": "archive",
+   "path": "Formalism/ThickAverageLoss/PartnersToFactorsAt.lean",
+   "first": 20,
+   "last": 20,
+   "sha256": "c79d9c6358a2456ca5d0f751489a9f4f4b71c0e0eeab594d2dadc81ee319c6d2",
+   "kind": "pointer",
+   "head": "def InPhi (g : E0 × H) : Prop := g.1.1 = 0"
+  },
+  {
+   "id": "Q066",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean",
+   "first": 89,
+   "last": 91,
+   "sha256": "d4e32f1a446297d9c3ed75840badca9ad9de7d45237cc3420ec3aaa73f312cb9",
+   "kind": "pointer",
+   "head": "def MAIN (ell : AddChar (E0 × H) ℂ → ℂ) (a : ℝ) (w : E0 × H → ℝ) : ℂ :="
+  },
+  {
+   "id": "Q067",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/FirstPrimeNeSecondPrime.lean",
+   "first": 68,
+   "last": 70,
+   "sha256": "7ad68117cc418697ac88d335764d871835c4b41ae20489b24f99f20ebd14ab38",
+   "kind": "pointer",
+   "head": "def GPsi (D : ArithData H) (ell : AddChar (E0 × H) ℂ → ℂ) (ψ : AddChar (E0 × H) ℂ) (y : ℝ) : ℂ :"
+  },
+  {
+   "id": "Q068",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/ChainSlopeWindows/StronglyIrreducible.lean",
+   "first": 318,
+   "last": 318,
+   "sha256": "9dca430e2ecd0474a2c1e0028e78217e9d19f4e5b97a76fcdc2f2fbc32742899",
+   "kind": "pointer",
+   "head": "theorem orthogonality_unramified : OrthoUnram (H := H) := by"
+  },
+  {
+   "id": "Q069",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/ChainSlopeWindows/StronglyIrreducible.lean",
+   "first": 695,
+   "last": 695,
+   "sha256": "9944e93e16e3da089259a64a3c481727d91a14192d4f12c169e6fa242c659988",
+   "kind": "pointer",
+   "head": "theorem colour_balance : AskMainBalance (H := H) := by"
+  },
+  {
+   "id": "Q070",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/GmAEq.lean",
+   "first": 61,
+   "last": 64,
+   "sha256": "31a711612da2d38c3f1124f4d2399fe847442c13d112e4ba5bd46b4b59a2d360",
+   "kind": "quote",
+   "text": "theorem UpperTheory.Comparison₂.gmA_eq :\n    ∀ (Λ : Level) (φ : Frame) (H : HostAx φ) (TT : Finset φ.A) (x eps C : ℝ) (ell : AddChar (E0 × φ.A) ℂ → ℂ),\n      EAtH Λ H.toHostRaw TT x eps C → HostAddCharCompatible H.toHostRaw ell → ∀ y,\n        GmA (arith H.toHostRaw) ell (keptA Λ H.toHostRaw) (3 * (Λ.o : ℝ) + 1)⁻¹ y = Λ.Gm y := by"
+  },
+  {
+   "id": "Q071",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChTop.lean",
+   "first": 37,
+   "last": 44,
+   "sha256": "a305daadc706c43b7e773e9c07d6727673bffa50bca38086e7f340c51296b790",
+   "kind": "pointer",
+   "head": "theorem ch_top {H : Type} [AddCommGroup H] [Fintype H] [DecidableEq H] {U0 : Type} [Fintype U0] "
+  },
+  {
+   "id": "Q072",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean",
+   "first": 343,
+   "last": 351,
+   "sha256": "c99517a7707f88c01f7336b0e2e629f544da952eaa0e0b762bef0b7f815b7630",
+   "kind": "pointer",
+   "head": "theorem ch_core (C ε CE Ko c M : ℝ) (hC : 0 ≤ C) (hε : 0 < ε) (hc : |c| ≤ 1) : ∃ x1 : ℝ, ∀ x ≥ x"
+  },
+  {
+   "id": "Q073",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/SChain.lean",
+   "first": 17,
+   "last": 19,
+   "sha256": "1bfc9b23298a4e019cd710e6191a74d5240e7b448e3027d19b4dad8ca7e70ada",
+   "kind": "pointer",
+   "head": "def SizeData₂ (Dd : Data U0 W Top m f) (C : Consts) (Xpp : ℝ) : Prop :="
+  },
+  {
+   "id": "Q074",
+   "tree": "archive",
+   "path": "Formalism/GammaFactorNonvanishing/CritLine.lean",
+   "first": 29,
+   "last": 32,
+   "sha256": "beecfff17a25432d57c68fb893b086240bbfcc8095a94583bc6213691cd2b451",
+   "kind": "quote",
+   "text": "theorem Formalism.VW.rh_of_every (h : UpperTheory.EveryCharacter) : RiemannHypothesis :=\n  Formalism.VW.rh_of_right fun s hs hs1 => by\n    have := h 1 (1 : DirichletCharacter ℂ 1) s hs (Or.inr hs1)\n    rwa [LFunction_modOne_eq] at this"
+  },
+  {
+   "id": "Q075",
+   "tree": "archive",
+   "path": "Formalism/GammaFactorNonvanishing/RhOfRight.lean",
+   "first": 5,
+   "last": 5,
+   "sha256": "13524770a794a2fd4be40accb801728e34f993314638842d01118b7d4dadcd62",
+   "kind": "quote",
+   "text": "theorem Formalism.VW.rh_of_right (hz : ∀ s : ℂ, 1 / 2 < s.re → s ≠ 1 → riemannZeta s ≠ 0) : RiemannHypothesis := by"
+  },
+  {
+   "id": "Q076",
+   "tree": "archive",
+   "path": "Formalism/GammaFactorNonvanishing/RhOfRight.lean",
+   "first": 28,
+   "last": 28,
+   "sha256": "9e0cabea038d3aba28721ab3d300061575b7042e274573d8fbf6878cd1275a5f",
+   "kind": "pointer",
+   "head": "have key := riemannZeta_one_sub hnat h1"
+  },
+  {
+   "id": "Q077",
+   "tree": "archive",
+   "path": "Formalism/GammaFactorNonvanishing/CritLine.lean",
+   "first": 11,
+   "last": 12,
+   "sha256": "fb9ef92b107e3c3ed428017dfeb6f0e8bc896cf499e63189dd17884c4aefdf2e",
+   "kind": "quote",
+   "text": "theorem Formalism.VW.critLine (h : UpperTheory.EveryCharacter) (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ.IsPrimitive) (s : ℂ)\n    (h0 : 0 < s.re) (h1 : s.re < 1) (hz : LFunction χ s = 0) : s.re = 1 / 2 := by"
+  },
+  {
+   "id": "Q078",
+   "tree": "archive",
+   "path": "Formalism/GammaFactorNonvanishing/CritLine.lean",
+   "first": 22,
+   "last": 22,
+   "sha256": "cc6609aea6f6c77f9d3976bdeb2ee3365efb0ad10790621d0f34000810b12d24",
+   "kind": "pointer",
+   "head": "have hfe := hinv.completedLFunction_one_sub s"
+  },
+  {
+   "id": "Q079",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean",
+   "first": 75,
+   "last": 75,
+   "sha256": "13b7999047ed73e20536590109488659a4f9c1c9ff113bcfd2313605778d8325",
+   "kind": "pointer",
+   "head": "theorem zeta (h : HalfPlane) : Zeta := by"
+  },
+  {
+   "id": "Q080",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ClaimStrip.lean",
+   "first": 102,
+   "last": 102,
+   "sha256": "ff1e193d8791861153c9d1c0077712253a3b3ba9eab7de39b73b42ea9f2f5559",
+   "kind": "quote",
+   "text": "theorem zeta_iff : Zeta ↔ RiemannHypothesis := Iff.rfl"
+  },
+  {
+   "id": "Q081",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/RiemannHypothesisOfEveryCharacter.lean",
+   "first": 215,
+   "last": 215,
+   "sha256": "e1d4c17aee83661a39cad9aacf85967f619bd201df3bd32aca6a2c9c67699555",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.riemannHypothesis_of_everyCharacter (h : UpperTheory.EveryCharacter) : Riema"
+  },
+  {
+   "id": "Q082",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean",
+   "first": 13,
+   "last": 14,
+   "sha256": "c18278a0825dd8b1b0fbd9d3b680e8cfe86563443b92ae4444d90955e2c7fdc7",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.FinalTheorems.riemannHypothesis : RiemannHypothesis :="
+  },
+  {
+   "id": "Q083",
+   "tree": "archive",
+   "path": "Formalism/LocalRingCardinality/DataTheta.lean",
+   "first": 529,
+   "last": 530,
+   "sha256": "78d21c27a3320cacdd30a37db03c169e623ac43b8b3658f89e1769c079615a34",
+   "kind": "pointer",
+   "head": "def Interlace : Prop :="
+  },
+  {
+   "id": "Q084",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/SChain.lean",
+   "first": 53,
+   "last": 58,
+   "sha256": "31eac523ae6fec75b1a09d20e03b5bb1728fb9367d437768c3b6bca1d900167c",
+   "kind": "pointer",
+   "head": "def RestSize (ε x : ℝ) (n nT nT2 m : ℕ) (b k aE : ℝ) : Prop :="
+  },
+  {
+   "id": "Q085",
+   "tree": "archive",
+   "path": "Formalism/RankGapBounds/MeanBoundSecondForm.lean",
+   "first": 88,
+   "last": 88,
+   "sha256": "95cf3a92fe2d4262c3105f4ce20176bbb8509fde1fa63a70e6b3fc0f0341bc9f",
+   "kind": "pointer",
+   "head": "def logOm : ℝ := D.gam + Real.log (π / D.v) - D.LpL"
+  },
+  {
+   "id": "Q086",
+   "tree": "archive",
+   "path": "Formalism/RankGapBounds/MeanBoundSecondForm.lean",
+   "first": 118,
+   "last": 121,
+   "sha256": "6f20a758a81b428e043ffbcbefb9c128ed04eb0c1d60b22158412e97e3c81563",
+   "kind": "pointer",
+   "head": "def DIV : Prop :="
+  },
+  {
+   "id": "Q087",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean",
+   "first": 39,
+   "last": 39,
+   "sha256": "5c079fa2167546b4831f85e87ae72cf36fdd0feb3e156278712125dcdd4efece",
+   "kind": "pointer",
+   "head": "def PageN (eps x : ℝ) (e : ℕ) : Prop := x ^ (2 + 8 * eps) ≤ (2 : ℝ) ^ e ∧ (2 : ℝ) ^ e ≤ 2 * x ^ "
+  },
+  {
+   "id": "Q088",
+   "tree": "archive",
+   "path": "Formalism/ThetaLiftIndependence/Statement.lean",
+   "first": 232,
+   "last": 235,
+   "sha256": "a4f8ba1ad714e62720b93dc52091b4b4c4450d581c6387494f37215b2c98759b",
+   "kind": "pointer",
+   "head": "def RallisHyp {𝕜 E F P : Type*} [RCLike 𝕜] [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]"
+  },
+  {
+   "id": "Q089",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ResidueCharacters/ClosedOfAll.lean",
+   "first": 11,
+   "last": 11,
+   "sha256": "d90ac27bb861b3a4bce64c93d3c18ce114414a7960816088563b59cc0b020220",
+   "kind": "pointer",
+   "head": "theorem boundAtTwoThree_family_of_prints (hP : Hypotheses₂) {eps : ℝ} (Fm : FamP eps) : BoundAtT"
+  },
+  {
+   "id": "Q090",
+   "tree": "archive",
+   "path": "Formalism/PeriodIntegrals/OrbitalBoundsConclusion/PoincareSeriesFinite.lean",
+   "first": 5,
+   "last": 5,
+   "sha256": "2fc294fb54ca388c4d181d7e5893fe833bb52021242c61fecfe579a1ea52205b",
+   "kind": "pointer",
+   "head": "theorem poincareSeries_finite (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] "
+  },
+  {
+   "id": "Q091",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+   "first": 812,
+   "last": 812,
+   "sha256": "fdbee33ba404a1685f67c01ae69f783337996913986a966dd5c5d6b3e0b65e25",
+   "kind": "pointer",
+   "head": "(_root_.SelfIntersectionVolumeEstimates.topCovolSlim2_use_alt_alt (_root_.UpperTheory.Literature"
+  },
+  {
+   "id": "Q092",
+   "tree": "archive",
+   "path": "Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean",
+   "first": 85,
+   "last": 86,
+   "sha256": "27cb2b1649bdcf6ee273144f050ca99308e30d74a3a5d5483e083b0901a81f62",
+   "kind": "pointer",
+   "head": "lemma noRel_image (L S d k : ℕ) (hL : 1 ≤ L) :"
+  },
+  {
+   "id": "Q093",
+   "tree": "archive",
+   "path": "CompanionTheory/SpectralGeometry/LocalGlobalProofs/AdelicAnalysis/FiniteFieldQuadraticFormPointCount.lean",
+   "first": 108,
+   "last": 112,
+   "sha256": "e27a74582b0519aa8ee169d42f3204ff922145318601e6e5271a52e286cf3bc8",
+   "kind": "quote",
+   "text": "theorem card_quadric_even (k : Type) [Field k] [Fintype k] (hchar : ringChar k ≠ 2)\n    (ι : Type) [Fintype ι] [DecidableEq ι] (M : ℕ) (hM : Fintype.card ι = 2 * M) (hM1 : 1 ≤ M)\n    (B : Matrix ι ι k) (hB : B.IsSymm) (hdet : B.det ≠ 0) (s : k) :\n    |(Nat.card {x : ι → k // (2 : k)⁻¹ * (x ⬝ᵥ (B *ᵥ x)) = s} : ℝ) -\n      (Fintype.card k : ℝ) ^ (2 * M - 1)| ≤ (Fintype.card k : ℝ) ^ M := by"
+  },
+  {
+   "id": "Q094",
+   "tree": "archive",
+   "path": "Development/EtaleCohomology/WeilConjectures/FermatCount.lean",
+   "first": 170,
+   "last": 172,
+   "sha256": "6b2de8fbe816b7b453a1ec122032076f2b96d41b80f0fc8b24c789b3512a1a76",
+   "kind": "pointer",
+   "head": "def FermatCount : Prop := ∀ (F : Type) [Field F] [Finite F] (m e : ℕ), 0 < m → 0 < e →"
+  },
+  {
+   "id": "Q095",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability/HomologicalStability/LinkExactnessStability/QuillenStabilisationSurjectiveBottom.lean",
+   "first": 40,
+   "last": 40,
+   "sha256": "424da419de4ea12202fd8aea4614bfc5cae5f5d03be64fa6a288cec9cd6afa46",
+   "kind": "pointer",
+   "head": "theorem _root_.GlobalTheory.T.quillen_stabilisation_surjective_bottom : ∀ (k G : Type) [CommRing"
+  },
+  {
+   "id": "Q096",
+   "tree": "archive",
+   "path": "Formalism/LocalRingCardinality/DataParams₂.lean",
+   "first": 240,
+   "last": 242,
+   "sha256": "75e548f67fc33aeadb41026f47b84664b8c86377a40580093486d58c8461afca",
+   "kind": "quote",
+   "text": "def vonMangoldtClassSum (j : ℕ) (t : D.host.TT) (p : ℕ) : ℝ :=\n  ∑ i ∈ Finset.range (Nat.log p (L.aT t).toNat + 2),\n    if Odd i then max 0 ((L.aT t : ℝ) / (p : ℝ) ^ i - L.wPart j t p i) else 0"
+  },
+  {
+   "id": "Q097",
+   "tree": "archive",
+   "path": "Formalism/StatementU.lean",
+   "first": 14,
+   "last": 17,
+   "sha256": "7a033d42349acc6edc760a1fe664927ddfc1c0d339751af980bed9af3fd35b63",
+   "kind": "quote",
+   "text": "def ZetaLandau : Prop :=\n  ∀ s₀ : ℝ, (s₀ = 1 ∨ s₀ = -1) → ∀ θ : ℝ, 0 < θ → θ < 1 →\n  (∃ C x₀ : ℝ, ∀ x : ℝ, x₀ ≤ x → s₀ * Gz x ≤ C * x ^ θ) →\n  ∀ s : ℂ, θ < s.re → riemannZeta s ≠ 0"
+  },
+  {
+   "id": "Q098",
+   "tree": "archive",
+   "path": "Formalism/ZetaNonvanishing/ZetaLandau.lean",
+   "first": 258,
+   "last": 258,
+   "sha256": "a007e421d7ecbb32c4db2c445debc5602a47a945541ebbb6579165bec37ef673",
+   "kind": "pointer",
+   "head": "theorem zetaLandau : ZetaLandau := by"
+  },
+  {
+   "id": "Q099",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/Divisibility/ZetaProductPairs.lean",
+   "first": 240,
+   "last": 242,
+   "sha256": "3ba431a6468dc5f820736282dc518e8506be2bb8e550f2b9566996d2d4c7ec4b",
+   "kind": "quote",
+   "text": "def LiftChain (T : ThetaX D) (μ : D.what₂.Tup) (F : D.what₂.Amb μ) (G : ∀ j, T.cusp (D.sp.Y j)) : Prop :=\n  G D.R.m = T.rowAF μ D.R.m ((D.what₂.multTop μ).symm F) ∧\n  ∀ j, j < D.R.m → ((G j : T.cusp (D.sp.Y j)) : T.AF (D.sp.Y j)) = vth T μ j (G (j + 1))"
+  },
+  {
+   "id": "Q100",
+   "tree": "archive",
+   "path": "Formalism/RankGapBounds/MeanBoundSecondForm.lean",
+   "first": 151,
+   "last": 156,
+   "sha256": "1a09a82583ceb6c2f766f6be3930e7eccae81223fc29177dce9c002705d994e3",
+   "kind": "quote",
+   "text": "def SlopeIneq : Prop :=\n  ∀ u0, 0 ≤ D.del u0 → D.del u0 < 1 → 0 ≤ D.η u0 → 0 ≤ D.e u0 → D.e u0 ≤ 1 / 4 →\n    D.s u0 - D.muMinCC u0 ≤ D.HH u0 → 0 < D.HH u0 →\n    D.s u0 - Real.log (Fintype.card (W u0) : ℝ)\n      - (1 - D.del u0)⁻¹ * (4 * D.uF u0 * Real.log (1 + D.HH u0 / D.uF u0)\n          + (D.η u0 + 4 * Real.sqrt (D.e u0)) * D.HH u0) ≤ D.muCC u0"
+  },
+  {
+   "id": "Q101",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean",
+   "first": 12,
+   "last": 17,
+   "sha256": "40401271208e3cb9536b359c87cf6a4f28cab860edb7e750e1294a7c45913a4f",
+   "kind": "quote",
+   "text": "def VVle (E : Type) [Field E] [NumberField E] (t : ℕ) (B : ℝ) : Prop :=\n  ∀ (Ω : Type) [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (ld : ∀ (p : ℕ) [Fact p.Prime], Formalism.GaloisCohomology.LData E Ω p),\n    (∀ (p : ℕ) [Fact p.Prime] (e : ℕ), 0 < e → e < t → Formalism.GaloisCohomology.shaLen (ld p) (e : ℤ) ≠ ⊤) ∧\n    ∀ S : Finset Nat.Primes,\n      ∑ l ∈ S, Real.log (l : ℕ) *\n        ∑ e ∈ Finset.Ico 1 t, ((@Formalism.GaloisCohomology.shaLen E Ω _ _ _ _ _ l ⟨l.2⟩ (@ld l ⟨l.2⟩) (e : ℤ)).toNat : ℝ) ≤ B"
+  },
+  {
+   "id": "Q102",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean",
+   "first": 41,
+   "last": 49,
+   "sha256": "a97b48867f3171673f484bd33368804e85d9f9194e46af3ba037f7302041eddf",
+   "kind": "quote",
+   "text": "def VAt (ψ : PChar) (eps Ct : ℝ) (q d e : ℕ) (x : ℝ) : Prop :=\n  ∀ (E : Type) [Field E] [NumberField E], IsChiField ψ e q d E → VVle E ⌊x ^ Ct⌋₊ (Real.sqrt (Real.exp (x ^ eps)))\n\ndef VWinAt (ψ : PChar) (Ct : ℝ) : Prop :=\n  ∀ eps : ℝ, 0 < eps → eps < 1 / 52 → ∀ e : ℝ → ℕ, (∀ x ≥ (1 : ℝ), PageN eps x (e x)) →\n    ∃ J : ℝ, 1 ≤ J ∧ ∃ X0 : ℝ, ∀ X ≥ X0, ∀ q d : ℕ, WinPair eps (X ^ (1 / J)) q d →\n      ∃ Y : ℝ, X ^ (1 / J) ≤ Y ∧ Y ^ (2 : ℝ) ≤ X ∧ ∀ x : ℝ, Y ≤ x → x ≤ Y ^ (2 : ℝ) → VAt ψ eps Ct q d (e x) x\n\ndef VWin : Prop := ∀ ψ : PChar, VWinAt ψ 401"
+  },
+  {
+   "id": "Q103",
+   "tree": "archive",
+   "path": "Formalism/GaloisCohomology/Statement.lean",
+   "first": 75,
+   "last": 78,
+   "sha256": "c83e30e6f598dd431ff87a06ae03d3dd053bf03e633515c3fffcb9f895b6d205",
+   "kind": "pointer",
+   "head": "def Sha (D : LData F Ω l) (e : ℤ) : Submodule ℤ_[l] (H1 (qzTw D e)) :="
+  },
+  {
+   "id": "Q104",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/ModularityArgument/ThresholdArguments/DenseThresholdCases/VwinOfRow.lean",
+   "first": 4,
+   "last": 4,
+   "sha256": "15c91faaa414b736b2a171b8192568e48c310d596b2dd5705465e3716eef0ca6",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.One.vwin_of_row (h : UpperTheory.GalStar.Row0b fun h rc => UpperTheory.Zero."
+  },
+  {
+   "id": "Q105",
+   "tree": "archive",
+   "path": "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/CardQuadricSubSqLe.lean",
+   "first": 66,
+   "last": 66,
+   "sha256": "8a8107dae7ae56bdca27c737d0ba1d9ac5ee42da13fd2d1da8382be102438aff",
+   "kind": "pointer",
+   "head": "theorem card_quadric_sub_sq_le : ∀ (k : Type) [Field k] [Fintype k] [DecidableEq k] (ι : Type) ["
+  },
+  {
+   "id": "Q106",
+   "tree": "archive",
+   "path": "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/RiemannZetaNeZeroOfMemIoo.lean",
+   "first": 256,
+   "last": 257,
+   "sha256": "d8fb223b8d2374fdf972628327265cd97af71bb5eb3cfa2b84c2ec795d32081b",
+   "kind": "pointer",
+   "head": "theorem no_real_zero :"
+  },
+  {
+   "id": "Q107",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/ClassNumberThree.lean",
+   "first": 32,
+   "last": 32,
+   "sha256": "7f2cc8cb4ff04c8322a90b92ea4056daceadf8c7187750f4fc18b983c67d08ac",
+   "kind": "pointer",
+   "head": "theorem classNumber_three : classNumber (Kstar 3) = 1 := by"
+  },
+  {
+   "id": "Q108",
+   "tree": "archive",
+   "path": "Supplements/Kernels/MainTheoremsAll.lean",
+   "first": 1,
+   "last": 2,
+   "sha256": "c09513ea439d4492a76678e62d075959fa623dbed4b055a68dce01bb11dd5997",
+   "kind": "pointer",
+   "head": "import Supplements.Kernels.MainTheoremsCritical"
+  },
+  {
+   "id": "Q109",
+   "tree": "archive",
+   "path": "Formalism/BehrendSets/Statement.lean",
+   "first": 54,
+   "last": 56,
+   "sha256": "ba4fe72fab20624aa1be8aff69adfaf3b08156bd42c0af43da9185d7174d8d07",
+   "kind": "pointer",
+   "head": "def BehrendBound : Prop := ∃ C : ℝ, 0 < C ∧ ∀ K N : ℕ, 1 ≤ K → 1 ≤ N →"
+  },
+  {
+   "id": "Q110",
+   "tree": "archive",
+   "path": "Formalism/ArtinHasse/Statement.lean",
+   "first": 53,
+   "last": 53,
+   "sha256": "fbdb704f1338425feb4e74d863aca067e0475b3dab89f7e5dcea8e76a55ab609",
+   "kind": "pointer",
+   "head": "def ArtinHasseIntegral : Prop :="
+  },
+  {
+   "id": "Q111",
+   "tree": "archive",
+   "path": "Formalism/SuccessiveMinima/StatementMink.lean",
+   "first": 18,
+   "last": 24,
+   "sha256": "8f49334ee21bb61ab0021dfb47379e90e01cb3d2db34d7a8abad81ee6039f43c",
+   "kind": "quote",
+   "text": "def MinkowskiIIUpper : Prop :=\n  ∀ {E : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]\n    [MeasurableSpace E] [BorelSpace E] (μ : Measure E) [μ.IsAddHaarMeasure]\n    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] (K : Set E),\n    IsCompact K → Convex ℝ K → (∀ x ∈ K, -x ∈ K) → (0 : E) ∈ interior K →\n      μ.real K * ∏ i : Fin (finrank ℝ E), succMin L K ((i : ℕ) + 1)\n        ≤ 2 ^ finrank ℝ E * ZLattice.covolume L μ"
+  },
+  {
+   "id": "Q112",
+   "tree": "archive",
+   "path": "Formalism/SuccessiveMinima/MinkowskiIIUpper.lean",
+   "first": 14,
+   "last": 14,
+   "sha256": "82face410440f26bce334e3e5717264356749da7a5800e19136284a689eaf3d8",
+   "kind": "pointer",
+   "head": "theorem minkowskiIIUpper : MinkowskiIIUpper :="
+  },
+  {
+   "id": "Q113",
+   "tree": "archive",
+   "path": "ReciprocityTheory/Chebotarev/CycStatement.lean",
+   "first": 7,
+   "last": 10,
+   "sha256": "4dfd4cb7e83d5d0f49d504f9084f143ee26bf17c02d6a6a922fa9a7386ea9e97",
+   "kind": "quote",
+   "text": "def Statement : Prop :=\n  ∀ (K : Type) [Field K] [NumberField K] [IsGalois ℚ K] (σ : Gal(K/ℚ)) (T : Finset ℕ),\n    ∃ p : ℕ, p.Prime ∧ p ∉ T ∧ ∃ P : Ideal (𝓞 K), ∃ _ : P.IsPrime,\n      P.LiesOver (Ideal.span {(p : ℤ)}) ∧ Algebra.IsUnramifiedAt ℤ P ∧ IsArithFrobAt ℤ σ P"
+  },
+  {
+   "id": "Q114",
+   "tree": "archive",
+   "path": "ReciprocityTheory/Chebotarev/StatementHolds.lean",
+   "first": 6,
+   "last": 6,
+   "sha256": "ee5f247f11db5f5dcffbf67d2cbf8c6728ce4186fc6fad1520074e0387b234cc",
+   "kind": "pointer",
+   "head": "theorem statement_holds : Statement := cross cyc_holds"
+  },
+  {
+   "id": "Q115",
+   "tree": "archive",
+   "path": "Formalism/FrobeniusOrbits/HostThickExists.lean",
+   "first": 13,
+   "last": 16,
+   "sha256": "894119564c0f1ca209ba64cbe7ac2ec88ca2efe75949e8149abd7bbe12f763c9",
+   "kind": "quote",
+   "text": "def NoRel (T : Finset ℕ) (L : ℕ) : Prop :=\n  ∀ s₁ ∈ T, ∀ s₂ ∈ T, ∀ s₃ ∈ T, s₁ ≠ s₂ → s₁ ≠ s₃ → s₂ ≠ s₃ →\n    ∀ i j : ℤ, 0 < |i| → |i| ≤ L → 0 < |j| → |j| ≤ L → i ≠ j →\n      j * ((s₂ : ℤ) - s₁) ≠ i * ((s₃ : ℤ) - s₁)"
+  },
+  {
+   "id": "Q116",
+   "tree": "archive",
+   "path": "Formalism/FrobeniusOrbits/HostThickExists.lean",
+   "first": 30,
+   "last": 32,
+   "sha256": "a2cc12983054ab57bef59c44225c031ddf496bcf0420941b08832903396f7332",
+   "kind": "quote",
+   "text": "def HostThickExists : Prop :=\n  ∃ C : ℝ, 0 < C ∧ ∀ n L : ℕ, 2 ≤ L → ∃ T : Finset ℕ, (∀ s ∈ T, 4 * L * s < n) ∧ NoRel T L ∧\n    (n : ℝ) * Real.exp (-C * Real.sqrt (Real.log n * Real.log L)) / L ≤ T.card"
+  },
+  {
+   "id": "Q117",
+   "tree": "archive",
+   "path": "Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs/ThickExists.lean",
+   "first": 181,
+   "last": 181,
+   "sha256": "11c7ebf84746f212a6deee4c369d58207d207ab3bd076a02be992d2395e92b12",
+   "kind": "pointer",
+   "head": "theorem hostThickExists : HostThickExists := by"
+  },
+  {
+   "id": "Q118",
+   "tree": "archive",
+   "path": "Development/ResolutionOfSingularities/Statements.lean",
+   "first": 150,
+   "last": 152,
+   "sha256": "6ceedacfb350e6085d18ce2324d5aded380e0e57b5d7c9cb89e62c7af2b221e3",
+   "kind": "pointer",
+   "head": "def FunctorialResolutionCharZero : Prop :="
+  },
+  {
+   "id": "Q119",
+   "tree": "archive",
+   "path": "Development/ResolutionOfSingularities/HasSimpleNormalCrossingsOfInStrictNormalCrossing.lean",
+   "first": 15,
+   "last": 15,
+   "sha256": "e1db7600e42af4aaada87d3297c0ba063e07a0766fb315ce0b8e1c58cb0edb0b",
+   "kind": "pointer",
+   "head": "theorem functorialResolutionCharZero : FunctorialResolutionCharZero.{u} := by"
+  },
+  {
+   "id": "Q120",
+   "tree": "archive",
+   "path": "Development/ResolutionOfSingularities/HasSimpleNormalCrossingsOfInStrictNormalCrossing.lean",
+   "first": 102,
+   "last": 102,
+   "sha256": "35fd85e0b8edd1b01973f6b74c68bb3be1b8a2f058b325ca5f9fe57711675364",
+   "kind": "pointer",
+   "head": "theorem functorialPrincipalizationCharZero : FunctorialPrincipalizationCharZero.{u} :="
+  },
+  {
+   "id": "Q121",
+   "tree": "archive",
+   "path": "Formalism/BehrendSets/StatementE.lean",
+   "first": 89,
+   "last": 91,
+   "sha256": "388140cbff54947496a43ecdc3891c5a09233133dc4937ee11b6190d9babf75d",
+   "kind": "quote",
+   "text": "def TrivStab : Prop := ∀ (E : Type) [Field E] [NumberField E] (k g : ℕ), g.Prime →\n  Module.finrank ℚ E * k < g - 1 →\n  ∀ Γ : Subgroup (GL (Fin k) E), Finite Γ → IsPGroup g Γ → Γ = ⊥"
+  },
+  {
+   "id": "Q122",
+   "tree": "archive",
+   "path": "Formalism/BehrendSets/BehrendVariance/TotientLeOfIsPrimitiveRoot.lean",
+   "first": 65,
+   "last": 65,
+   "sha256": "529f8b5a7c62a024d3c1db83ee4906d440c86fe9da66b28ed1cf2745e7051b98",
+   "kind": "pointer",
+   "head": "theorem trivStab : TrivStab := by"
+  },
+  {
+   "id": "Q123",
+   "tree": "archive",
+   "path": "Formalism/DirichletDensity/Statement.lean",
+   "first": 36,
+   "last": 38,
+   "sha256": "e94cac9f96613badc2cf699411e7459c730a69fc62e26835a83f8ba3dc64937b",
+   "kind": "pointer",
+   "head": "def APLogDensity : Prop :="
+  },
+  {
+   "id": "Q124",
+   "tree": "archive",
+   "path": "Formalism/DirichletDensity/DirichletDensityProofs/APLogDensity.lean",
+   "first": 103,
+   "last": 103,
+   "sha256": "62c31ad33b797851020ccef95e2bf5030e22a9c9b71db327304ae80101a510df",
+   "kind": "pointer",
+   "head": "theorem Formalism.HF.apLogDensity : Formalism.HF.APLogDensity := by"
+  },
+  {
+   "id": "Q125",
+   "tree": "archive",
+   "path": "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean",
+   "first": 88,
+   "last": 89,
+   "sha256": "0e92bb13a722cb77cbd4d53089ab529d68fae32abf72c950d7ee6e611627cdd9",
+   "kind": "pointer",
+   "head": "def LocalReciprocity [IsNonarchimedeanLocalField K] : Prop :="
+  },
+  {
+   "id": "Q126",
+   "tree": "archive",
+   "path": "ReciprocityTheory/ClassFieldTheory/LocalClassField/TransportC.lean",
+   "first": 155,
+   "last": 156,
+   "sha256": "2fd6b37703dcf880cb3bde6727fe54fb434b1f55f79a667ebdd573ef36933d66",
+   "kind": "pointer",
+   "head": "theorem artin_reciprocity_char_zero (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]"
+  },
+  {
+   "id": "Q127",
+   "tree": "archive",
+   "path": "Development/AbelianVarietyTheory/PublishedTheorems/PublishedFoundations/PrimesInProgressionNonempty.lean",
+   "first": 9,
+   "last": 11,
+   "sha256": "8458d656dbd6a33ff5ebd89fefd6b1fd10403a5c5f663b0ccd48439fb87f56e5",
+   "kind": "quote",
+   "text": "def Linnik : Prop :=\n  ∃ C L : ℝ, 0 < C ∧ 0 < L ∧ ∀ a q : ℕ, 1 ≤ a → 1 ≤ q → a.Coprime q →\n    (leastPrimeMod a q : ℝ) ≤ C * (q : ℝ) ^ L"
+  },
+  {
+   "id": "Q128",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/ThetaCorrespondence/Linnik.lean",
+   "first": 142,
+   "last": 142,
+   "sha256": "96dd9c613aef85d991b06e19807798698b404c1d75dbce4beb5b355bf7defff4",
+   "kind": "pointer",
+   "head": "theorem linnik : GlobalTheory.Published.Linnik := by"
+  },
+  {
+   "id": "Q129",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/ClassNumberThree.lean",
+   "first": 16,
+   "last": 20,
+   "sha256": "e203987de8b7658804a59234e2977a269c9d7fe9954debda776e31f109bcab77",
+   "kind": "quote",
+   "text": "def Bound : Prop :=\n  ∃ C A : ℕ, ∀ (Ω : Type) [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (e : ℕ), 1 ≤ e → Even e →\n    ∀ (c : ∀ l : Nat.Primes, Coef l) (Ls : Finset Nat.Primes), (∀ l ∈ Ls, 5 ≤ (l : ℕ) ∧ ¬ (l : ℕ) - 1 ∣ 2 * e) →\n      (∀ l ∈ Ls, len Ω l (c l) e ≠ ⊤) ∧\n      ∑ l ∈ Ls, Real.log (l : ℕ) * (((len Ω l (c l) e).toNat : ℝ) / ((eO l (c l).O).toNat : ℝ)) ≤ C * ((e : ℝ) + 1) ^ A"
+  },
+  {
+   "id": "Q130",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/ClassNumberThree.lean",
+   "first": 88,
+   "last": 88,
+   "sha256": "67ea5b2533a1d29925e00f81c20a06c1703b5217f5b97a1119102e7a3d8745be",
+   "kind": "pointer",
+   "head": "theorem bound_of (hG : U3.CorGK) : Bound := by"
+  },
+  {
+   "id": "Q131",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/CorGKOf.lean",
+   "first": 25,
+   "last": 27,
+   "sha256": "76028046a9033477f359c9f7f022a6d7c0cb3482d3f8b44783f1723a1a5a8c64",
+   "kind": "pointer",
+   "head": "theorem corGK : U3.CorGK := corGK_of (UpperTheory.V.HV.DescentVanishingReductions.published_hypo"
+  },
+  {
+   "id": "Q132",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/ClassNumberThree.lean",
+   "first": 13,
+   "last": 14,
+   "sha256": "6f7557c97e95ed4e12f41a6bb3091f7f60333f2846d2af1c8878781754959bae",
+   "kind": "pointer",
+   "head": "def len (Ω : Type) [Field Ω] [CharZero Ω] (l : ℕ) [Fact l.Prime] (c : Coef l) (e : ℕ) : ℕ∞ :="
+  },
+  {
+   "id": "Q133",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/LenEqZeroIff.lean",
+   "first": 65,
+   "last": 68,
+   "sha256": "052636a532cef1885d4a0b689cafd933417f3ffdecbdca184f55d82d2e3080a1",
+   "kind": "pointer",
+   "head": "def Large : Prop :="
+  },
+  {
+   "id": "Q134",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers/LenEqZeroIff.lean",
+   "first": 70,
+   "last": 70,
+   "sha256": "56c886adbf535266fca920c7b1e061c3233cbb03500891d0fc155baaf6496ac6",
+   "kind": "pointer",
+   "head": "theorem large_of (h : Bound) : Large := by"
+  },
+  {
+   "id": "Q135",
+   "tree": "archive",
+   "path": "Formalism/SuccessiveMinima/StatementMink.lean",
+   "first": 26,
+   "last": 26,
+   "sha256": "287f6d2393fb74fe390ff42263edd61cad31a511ab78429bb3b0f62a7213435f",
+   "kind": "pointer",
+   "head": "def MinkowskiIILower : Prop :="
+  },
+  {
+   "id": "Q136",
+   "tree": "archive",
+   "path": "Formalism/ArtinHasse/Statement.lean",
+   "first": 59,
+   "last": 59,
+   "sha256": "8f1f6dbe26ac838c09284db4709e7038cdd54c5e438483682afe51414f83b390",
+   "kind": "pointer",
+   "head": "def KummerZp : Prop :="
+  },
+  {
+   "id": "Q137",
+   "tree": "archive",
+   "path": "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean",
+   "first": 91,
+   "last": 93,
+   "sha256": "c92805086ca1c285918393d962d5f19447d58addd163e54f0abded2937d4379d",
+   "kind": "pointer",
+   "head": "def LocalExistence [IsNonarchimedeanLocalField K] : Prop :="
+  },
+  {
+   "id": "Q138",
+   "tree": "archive",
+   "path": "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean",
+   "first": 150,
+   "last": 150,
+   "sha256": "312acc4ff3d438c0bb629c24110911b353e8c0cce4c43ab87fe6b46c858246c6",
+   "kind": "pointer",
+   "head": "def GlobalExistence : Prop :="
+  },
+  {
+   "id": "Q139",
+   "tree": "archive",
+   "path": "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean",
+   "first": 242,
+   "last": 242,
+   "sha256": "2c9b2203aa981d0ae41d0818e77384ec8b334da6eaae1e34d4a867cdf3d64e20",
+   "kind": "pointer",
+   "head": "def RayClassFieldExistence : Prop :="
+  },
+  {
+   "id": "Q140",
+   "tree": "archive",
+   "path": "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean",
+   "first": 306,
+   "last": 306,
+   "sha256": "0ea47d832fd706b8af7b798ddbebf8cb66dfc2442a63c4477245a53ecceff1ba",
+   "kind": "pointer",
+   "head": "def ChebotarevDensity' (L : Type*) [Field L] [NumberField L] [Algebra K L] [FiniteDimensional K "
+  },
+  {
+   "id": "Q141",
+   "tree": "archive",
+   "path": "Formalism/StatementOC.lean",
+   "first": 23,
+   "last": 23,
+   "sha256": "a5a7a1e63c06f66d95e284550caf0411233a27653ef4d74046759b1062902aad",
+   "kind": "pointer",
+   "head": "def OCStep : Prop :="
+  },
+  {
+   "id": "Q142",
+   "tree": "archive",
+   "path": "Formalism/StatementOC.lean",
+   "first": 65,
+   "last": 65,
+   "sha256": "0a29edf12a590203fd1cfa2773a49392dfa70cc2c2b9f75fd537990f4be87c0b",
+   "kind": "pointer",
+   "head": "def RiemannHypothesisOfLowerBounds : Prop :="
+  },
+  {
+   "id": "Q143",
+   "tree": "archive",
+   "path": "Formalism/Statement.lean",
+   "first": 46,
+   "last": 46,
+   "sha256": "e7b7268e2f38102d0d39f7cbcf73c5877f7e69c373af0d16e1ee736ddbe0ce70",
+   "kind": "pointer",
+   "head": "def RHofG {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) : Prop :="
+  },
+  {
+   "id": "Q144",
+   "tree": "archive",
+   "path": "Formalism/StatementCM.lean",
+   "first": 35,
+   "last": 35,
+   "sha256": "9328ad92cf199623dc030cae8778ec0db92264cb37b011a0d6b1544d1bb345ba",
+   "kind": "pointer",
+   "head": "def ForcedSumCM : Prop :="
+  },
+  {
+   "id": "Q145",
+   "tree": "archive",
+   "path": "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean",
+   "first": 76,
+   "last": 82,
+   "sha256": "e7dd029e64c9c7c6e6ef91822fcbc84d92e8e0808570fb2e4ce921eddda870ab",
+   "kind": "quote",
+   "text": "    match ci with\n    | .defnInfo d =>\n      addDecl (.defnDecl { d with name := n', type := subst tainted d.type, value := subst tainted d.value })\n      k := k + 1\n    | .thmInfo t =>\n      if defsOnly then continue\n      addDecl (.thmDecl { t with name := n', type := subst tainted t.type, value := subst tainted t.value })"
+  },
+  {
+   "id": "Q146",
+   "tree": "archive",
+   "path": "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean",
+   "first": 87,
+   "last": 89,
+   "sha256": "79ac1e09e026d96257c52eff4f19fdc5dd4bf7e9de697db6625a37dd3eb45155",
+   "kind": "pointer",
+   "head": "elab \"cpt_copy_thms\" : command => do"
+  },
+  {
+   "id": "Q147",
+   "tree": "archive",
+   "path": "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutMainCpt.lean",
+   "first": 945,
+   "last": 945,
+   "sha256": "7477288aebcbaa125d8bc8eb177505df32d69f5288c92e4ae93d9373458750a5",
+   "kind": "pointer",
+   "head": "cpt_copy_thms"
+  },
+  {
+   "id": "Q148",
+   "tree": "archive",
+   "path": "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean",
+   "first": 28,
+   "last": 30,
+   "sha256": "f9ef4081a8f2a7b5ba89b4bf854ccfaf285529e04304bfb015d6b65f9d0097e1",
+   "kind": "pointer",
+   "head": "def roots : List Name :="
+  },
+  {
+   "id": "Q149",
+   "tree": "archive",
+   "path": "Formalism/LocalToGlobal/IndefiniteReal/HeckeNonvanishing/Imports.lean",
+   "first": 5,
+   "last": 8,
+   "sha256": "b53f8dad2436adc5e828293058dfd1975c494a6c62239ba85db44ebca7d7b210",
+   "kind": "quote",
+   "text": "elab \"kexactB \" e:term : tactic => withMainContext do\n  let g ← getMainGoal\n  let v ← Term.elabTermAndSynthesize e none\n  g.assign (← instantiateMVars v)"
+  },
+  {
+   "id": "Q150",
+   "tree": "archive",
+   "path": "Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean",
+   "first": 53,
+   "last": 58,
+   "sha256": "3f3cd73945a8299c7b1898c552b1dec47f5f4ef1dc67c71b5863b5d9384f702b",
+   "kind": "pointer",
+   "head": "elab \"kcopy \" t:term : tactic => withMainContext do"
+  },
+  {
+   "id": "Q151",
+   "tree": "archive",
+   "path": "BuildAid/D1.lean",
+   "first": 4,
+   "last": 4,
+   "sha256": "b3361c4e4e8b5814918340b424a84ec9bdeed9d27dd0b975a5d3845402b90977",
+   "kind": "pointer",
+   "head": "run_cmd Lean.modifyEnv fun env => Lean.LibrarySuggestions.nameDenyListExt.addEntry env \"Companio"
+  },
+  {
+   "id": "Q152",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean",
+   "first": 69,
+   "last": 73,
+   "sha256": "23cc1c7b8b2db73b7854a708307bade99265d8282dbcb44c2a9e7cd186cab132",
+   "kind": "quote",
+   "text": "def Row0b : Prop :=\n  ∀ (E Ω : Type) [Field E] [NumberField E] [IsCMField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]\n    (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ), 1 ≤ a →\n    ∀ (π : CuspSub E a) (χ : HChar (maximalRealSubfield E)), (CG.mk π).IsRegAlg → GlobalTheory.ContraPair.PolarizedPair π χ →\n      ∃ (r : G E Ω →* GL (Fin a) (Qbar l)) (wt : ℤ) (HT : (E →+* Qbar l) → Multiset ℤ), PropsB Rc π ι r wt HT"
+  },
+  {
+   "id": "Q153",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean",
+   "first": 78,
+   "last": 80,
+   "sha256": "770ee84cef1f7e304ecddca20818f293cbfa15cd26aa74a127dcefec54481c55",
+   "kind": "pointer",
+   "head": "def RecTExists : Prop :="
+  },
+  {
+   "id": "Q154",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean",
+   "first": 65,
+   "last": 71,
+   "sha256": "3ec33298c4cc3ca9bdb180cf1598b31dc77d26e52d413c09436c79606c01935c",
+   "kind": "pointer",
+   "head": "twist : ∀ x χ hχ, Good x → rc (x.tw χ hχ) = (rc x).lpChar (rc (.ofChar χ hχ))"
+  },
+  {
+   "id": "Q155",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/Foundations/LocalLanglands/IsRecTOfIsRec.lean",
+   "first": 20,
+   "last": 24,
+   "sha256": "9490f61d5de475a19ade6eda84034f833df4f2fd313c1524a43e4f5a826a7e7c",
+   "kind": "quote",
+   "text": "def GoodCusp (y : IrrGL k) : Prop :=\n  y.1 = 1 ∨ ((∃ (g : ℕ) (_ : Fact g.Prime) (i : ℚ_[g] ≃+* k), Continuous i) ∧\n    ∃ (y₀ : IrrGL k) (χ : kˣ →* ℂˣ) (hχ : IsSmoothChar χ), GlobalTheory.PRep.fixed y₀.rep (GlobalTheory.SplitWeil.KOne k (Fin y₀.1)) ≠ ⊥ ∧ y = y₀.tw χ hχ)\n\ndef Good (x : IrrGL k) : Prop := ∃ s, HasSupport x.rep s ∧ ∀ y ∈ s, GoodCusp y"
+  },
+  {
+   "id": "Q156",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/Foundations/GaloisRepresentations/TypeConditions/WeightsConjBis.lean",
+   "first": 64,
+   "last": 67,
+   "sha256": "146c26a901f7d2b9afd4b727cbc8ec157a2159e9afd0419a4f1689f3fa2208e2",
+   "kind": "quote",
+   "text": "  above : ∀ (P : LocPrime l) (AI : LocAinf l P), Nonempty (LocTied l P AI) →\n    ∀ (w : HeightOneSpectrum (𝓞 E)) (A : ValuationSubring Ω) (h : IsPlaceOver A w)\n      (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O]\n      (Bw : LocBridge l E Ω (Dec (F := E) A) O) (hj : Pst.Induces Bw), AboveB Rc π ι r HT P h Bw hj"
+  },
+  {
+   "id": "Q157",
+   "tree": "archive",
+   "path": "Formalism/LocalRingCardinality/AdicCompletionLocal/LocTied.lean",
+   "first": 11,
+   "last": 11,
+   "sha256": "b57bf963f6d645bb58b37024ef81519078aab29c7ba815f54ecb7e911ffed6ba",
+   "kind": "pointer",
+   "head": "structure LocTied (l : ℕ) [Fact l.Prime] (P : LocPrime l) (AI : LocAinf l P) where"
+  },
+  {
+   "id": "Q158",
+   "tree": "archive",
+   "path": "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsLocalPrimeAinfStatement.lean",
+   "first": 8,
+   "last": 8,
+   "sha256": "b5e2c68ae89d79c92ebb083fa7188d8d68bc02ce8103131a625c698d00de5422",
+   "kind": "quote",
+   "text": "theorem _root_.GlobalTheory.T.exists_local_prime_ainf : ∀ (l : ℕ) [Fact l.Prime], ∃ (P : LocPrime l) (AI : LocAinf l P), Nonempty (LocTied l P AI) := by"
+  },
+  {
+   "id": "Q159",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean",
+   "first": 144,
+   "last": 151,
+   "sha256": "6d042c989f177fb9e5a1cabea9919b30f12420d35ddd8d3b8e118859644f5f75",
+   "kind": "quote",
+   "text": "structure EAtH (Λ : Level) {φ : Frame} (H : HostRaw φ) (TT : Finset φ.A) (x eps C : ℝ) : Prop where\n  o_eq : φ.o = Λ.o\n  kept : H.KeptInXp Λ.KEPT\n  ps : H.ExceptionalCharacterKept Λ.KEPT Λ.psK\n  shares : φ.Shares TT (x ^ (-1 + eps))\n  bdG : H.BoundedCharsPointwise Λ.KEPT x eps\n  bdL : ∀ θ ∈ H.Bounded Λ.KEPT, ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), H.IsPrimOf θ χ →\n    ‖An.logDerivativeAtOne χ‖ ≤ C * Real.log x"
+  },
+  {
+   "id": "Q160",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean",
+   "first": 154,
+   "last": 156,
+   "sha256": "760091c566cf02ecec02f645e6cc558d484e69b72ef17c982d701923980efbee",
+   "kind": "quote",
+   "text": "def BoundedCharsPointwise (S : Finset PChar) (x eps : ℝ) : Prop :=\n  ∀ θ ∈ H.Bounded S, ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), H.IsPrimOf θ χ →\n    ‖An.gChi χ x‖ ≤ x ^ ((1 : ℝ) / 2 + eps)"
+  },
+  {
+   "id": "Q161",
+   "tree": "archive",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean",
+   "first": 136,
+   "last": 136,
+   "sha256": "ab5ba6c31d5e15c5b707597962bfa3b02cb07700b85f9c1cc2b8d00fb56ac681",
+   "kind": "pointer",
+   "head": "def Bounded (S : Finset PChar) : Set φ.Char := {θ | (θ ∈ φ.Xp ∧ ¬ H.Kept S θ) ∨ θ ∈ φ.Xm}"
+  },
+  {
+   "id": "Q162",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/SupplyChi.lean",
+   "first": 8,
+   "last": 9,
+   "sha256": "81bdb95d68b971144956b4d9d71f5bdb8f4731267e5bbe9d1b410bde25249810",
+   "kind": "quote",
+   "text": "theorem UpperTheory.Top.supplyChi :\n    ∀ ψ : PChar, VWinAt ψ 401 → HostExW (3 / 2) (GChi ψ).req := by"
+  },
+  {
+   "id": "Q163",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/HostOfField.lean",
+   "first": 17,
+   "last": 23,
+   "sha256": "66195108ad05a556a2286e18fe6cc9c7a3714d941fc5a6e99090495094e3dea4",
+   "kind": "pointer",
+   "head": "theorem UpperTheory.Top.supplyOfAdm :"
+  },
+  {
+   "id": "Q164",
+   "tree": "archive",
+   "path": "Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean",
+   "first": 120,
+   "last": 123,
+   "sha256": "103c1da695348039363b1f584ec8eaddcaa5bd7ba24eb13653a56a322375e593",
+   "kind": "pointer",
+   "head": "def HostExW (la : ℝ) (P : HostReq) : Prop :="
+  },
+  {
+   "id": "Q165",
+   "tree": "archive",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/ExistsPageN.lean",
+   "first": 27,
+   "last": 37,
+   "sha256": "775fd31669f295cd7b939b57d58e7efcaa417318c4d862ed03833c401a045bc8",
+   "kind": "pointer",
+   "head": "structure WinPair (eps Y : ℝ) (q d : ℕ) : Prop where"
+  },
+  {
+   "id": "Q166",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/SmoothedRemainderRealIntegralFormula.lean",
+   "first": 50,
+   "last": 60,
+   "sha256": "bfae52d01c5ba9429db76f883f7a2d78eb526aa1d7e95b8098e6fc5f23c84b13",
+   "kind": "pointer",
+   "head": "def ExistsSplitGoodPrimePair (ε C x : ℝ) : Prop :="
+  },
+  {
+   "id": "Q167",
+   "tree": "archive",
+   "path": "Development/AbelianVarietyTheory/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean",
+   "first": 68,
+   "last": 71,
+   "sha256": "7ffd94785d4baed9cd29430959a0895ce832571ba73a3b89867cf213a90ab72f",
+   "kind": "pointer",
+   "head": "def BoxH (H : Host R) (Y eps : ℝ) : Prop :="
+  },
+  {
+   "id": "Q168",
+   "tree": "archive",
+   "path": "Formalism/SizeWindowBrackets/SmoothedRemainderRealIntegralFormula.lean",
+   "first": 41,
+   "last": 45,
+   "sha256": "fa0d1724a67393b0cfffc9e4e706be9a1612d848bfa78eebe5fa739ec66d8cee",
+   "kind": "pointer",
+   "head": "def ZeroFreeBox {N : ℕ} [NeZero N] (Q : ℝ) (χ : DirichletCharacter ℂ N) : Prop :="
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "statement": "the Arb evaluation (upper Riemann sums on a grid) against mpmath adaptive quadrature of the same expressions; the Arb value must be the smaller bound, by the grid loss only",
+ "rows": [
+  {
+   "q_hi": 163,
+   "M_arb": -1.6460969050987162,
+   "M_second_route": -1.6460969050987162,
+   "Rx_arb_over_second_route": 1.0008575704436222,
+   "Ry_arb_over_second_route": 1.0008578050503796,
+   "T_arb_over_second_route": 1.0,
+   "logL_arb": -1.8221720384057811,
+   "logL_second_route": -1.8220211832369555,
+   "second_route_minus_arb": 0.00015085516882562544
+  },
+  {
+   "q_hi": 10070,
+   "M_arb": -1.7042440975898536,
+   "M_second_route": -1.7042440975898536,
+   "Rx_arb_over_second_route": 1.0008555514655921,
+   "Ry_arb_over_second_route": 1.0008379966344942,
+   "T_arb_over_second_route": 1.0,
+   "logL_arb": -1.9153394430681396,
+   "logL_second_route": -1.915162235344379,
+   "second_route_minus_arb": 0.00017720772376073057
+  },
+  {
+   "q_hi": 1003191,
+   "M_arb": -1.7479498616899043,
+   "M_second_route": -1.7479498616899043,
+   "Rx_arb_over_second_route": 1.000854871295855,
+   "Ry_arb_over_second_route": 1.0008228172591207,
+   "T_arb_over_second_route": 1.0,
+   "logL_arb": -1.989847807953231,
+   "logL_second_route": -1.9896481765889007,
+   "second_route_minus_arb": 0.00019963136433021056
+  },
+  {
+   "q_hi": 100507984,
+   "M_arb": -1.7850015040241753,
+   "M_second_route": -1.7850015040241753,
+   "Rx_arb_over_second_route": 1.000854345203582,
+   "Ry_arb_over_second_route": 1.0008105098492432,
+   "T_arb_over_second_route": 1.0,
+   "logL_arb": -2.049871178425324,
+   "logL_second_route": -2.0496557540573117,
+   "second_route_minus_arb": 0.00021542436801214038
+  },
+  {
+   "q_hi": 16396235837,
+   "M_arb": -1.8504513619659204,
+   "M_second_route": -1.8504513619659204,
+   "Rx_arb_over_second_route": 1.0008537028194426,
+   "Ry_arb_over_second_route": 1.0008046908418902,
+   "T_arb_over_second_route": 1.0,
+   "logL_arb": -2.0952680892351427,
+   "logL_second_route": -2.0950702315588194,
+   "second_route_minus_arb": 0.00019785767632329865
+  },
+  {
+   "q_hi": 100000000000,
+   "M_arb": -1.8588740066283551,
+   "M_second_route": -1.8588740066283551,
+   "Rx_arb_over_second_route": 1.0008532404073731,
+   "Ry_arb_over_second_route": 1.000801132265705,
+   "T_arb_over_second_route": 1.0,
+   "logL_arb": -2.1106014473488406,
+   "logL_second_route": -2.1103988983710105,
+   "second_route_minus_arb": 0.00020254897783011927
+  }
+ ],
+ "max_abs_M_difference": 0.0,
+ "max_R_ratio": 1.0008578050503796,
+ "min_R_ratio": 1.000801132265705,
+ "max_logL_gap": 0.00021542436801214038,
+ "min_logL_gap": 0.00015085516882562544
+}

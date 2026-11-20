@@ -1,0 +1,126 @@
+{
+ "statement": "ratio of this hunt's Arb-enclosed lower bound for L(1, chi_D) to the LLS / Languasco-Trudgian bound, both under GRH, at the right end of every cell",
+ "cells": 2118,
+ "range": [
+  101,
+  100000000000000000000000000000000000000000000000000
+ ],
+ "min_ratio": 1.0569013932728584,
+ "min_ratio_at_q": 100000000000000000000000000000000000000000000000000,
+ "max_ratio": 2.354196185894273,
+ "max_ratio_at_q": 101,
+ "this_hunt_stronger_on_every_cell": true,
+ "samples": [
+  {
+   "q_hi": 101,
+   "L_lower_this_hunt": 0.163987296869698,
+   "L_lower_LLS": 0.06965744734965885,
+   "ratio": 2.354196185894273
+  },
+  {
+   "q_hi": 996,
+   "L_lower_this_hunt": 0.15444258371932063,
+   "L_lower_LLS": 0.07478853973152003,
+   "ratio": 2.0650568158403284
+  },
+  {
+   "q_hi": 9970,
+   "L_lower_this_hunt": 0.147319084744205,
+   "L_lower_LLS": 0.07889832102573467,
+   "ratio": 1.86720177094964
+  },
+  {
+   "q_hi": 1003191,
+   "L_lower_this_hunt": 0.13671623098528504,
+   "L_lower_LLS": 0.08435673769981478,
+   "ratio": 1.6206913011713733
+  },
+  {
+   "q_hi": 99512855,
+   "L_lower_this_hunt": 0.12876670277823155,
+   "L_lower_LLS": 0.08749189832880977,
+   "ratio": 1.4717557309626987
+  },
+  {
+   "q_hi": 1001009278,
+   "L_lower_this_hunt": 0.1254498266207235,
+   "L_lower_LLS": 0.08853509459563892,
+   "ratio": 1.4169502748450546
+  },
+  {
+   "q_hi": 9969547947,
+   "L_lower_this_hunt": 0.12357265012012832,
+   "L_lower_LLS": 0.08932919227154176,
+   "ratio": 1.383340059143194
+  },
+  {
+   "q_hi": 100000000000,
+   "L_lower_this_hunt": 0.12116507010374102,
+   "L_lower_LLS": 0.08993525320342365,
+   "ratio": 1.347247778684505
+  },
+  {
+   "q_hi": 806777466959,
+   "L_lower_this_hunt": 0.11914266313671452,
+   "L_lower_LLS": 0.09035382169444851,
+   "ratio": 1.3186233952518562
+  },
+  {
+   "q_hi": 84135140661209251841,
+   "L_lower_this_hunt": 0.10785837262729413,
+   "L_lower_LLS": 0.09122992294458775,
+   "ratio": 1.1822696890011226
+  },
+  {
+   "q_hi": 100000000000000000000000000000000000000000000000000,
+   "L_lower_this_hunt": 0.09138392962840954,
+   "L_lower_LLS": 0.08646400715342524,
+   "ratio": 1.0569013932728584
+  },
+  {
+   "q_hi": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+   "L_lower_this_hunt": 0.08142254183309057,
+   "L_lower_LLS": 0.08016189689847794,
+   "ratio": 1.0157262363215929,
+   "source": "sibling abscissae.json, sigma0 = 1/2"
+  }
+ ],
+ "cutoffs": {
+  "1": {
+   "D_GRH_this_hunt": 399,
+   "LLS_LT_bound_inverted": 1715,
+   "cremona_sutherland_prop19": 611
+  },
+  "100": {
+   "D_GRH_this_hunt": 5554909,
+   "LLS_LT_bound_inverted": 13245411,
+   "cremona_sutherland_prop19": 14150512
+  },
+  "1000": {
+   "D_GRH_this_hunt": 620886399,
+   "LLS_LT_bound_inverted": 1256613594,
+   "cremona_sutherland_prop19": 1629085093
+  },
+  "2000": {
+   "D_GRH_this_hunt": 2576135045,
+   "LLS_LT_bound_inverted": 4971610067,
+   "cremona_sutherland_prop19": 6727912377
+  },
+  "5000": {
+   "D_GRH_this_hunt": 16396235837,
+   "LLS_LT_bound_inverted": 30702866530,
+   "cremona_sutherland_prop19": 43651697617
+  },
+  "10000": {
+   "D_GRH_this_hunt": 67356456941,
+   "LLS_LT_bound_inverted": 121901625556,
+   "cremona_sutherland_prop19": 179082778487
+  }
+ },
+ "gglm_pairs_as_transcribed": {
+  "1": 1592,
+  "100": 19124734,
+  "2000": 8213527466
+ },
+ "lls_h_at_1e11": 9052.740868291708
+}

@@ -20,6 +20,7 @@ public import ZetaLean.DHAssembly
 public import ZetaLean.DHDemo
 public import ZetaLean.DHZeroCriterion
 public import ZetaLean.HardyZ
+public import ZetaLean.RiemannClaim
 public import ZetaLean.DHCertSupport
 public import ZetaLean.FiniteFieldTrace
 public import ZetaLean.FrontierMathObstruction

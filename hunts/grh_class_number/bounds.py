@@ -12,6 +12,8 @@ theorem_a  the clean form L(1, chi_D) >= C_A / log log |D|: tail constant at
            Q1 and a log-scale cover [10^2, Q1].
 ladder     monotonicity in sigma0: 1/2 against the sibling hunt's 7/8 rows on
            every cell of the cover, and at identical parameters.
+door       the bound from 2^40 on (a door, RESULTS.md): what the unconditional
+           Jacobson-Mosunov table would complete.
 
 Every bound is computed by the sibling hunt's modules, imported and not
 edited (`hunts.qrh_class_number.lbound`, `.explicit`), with sigma0 = '1/2'.
@@ -186,5 +188,24 @@ def ladder():
     print({k: v for k, v in out.items() if k != 'same_parameter_points'})
 
 
+def door():
+    """h(D) > N for every |D| >= 2^40, from a log-scale cover and the tail."""
+    t0 = time.time()
+    rows = ex.cover(2**40, Q1, BRIDGE_RATIO, sigma0=SIGMA0, log_scale=True)
+    assert_adjacent(rows, 2**40, Q1)
+    tail = ex.tail_constant(Q1, sigma0=SIGMA0, **TAIL)
+    th = tail_h_lower(tail)
+    hmin = min(r['h_lower'] for r in rows)
+    assert th > hmin
+    out = {
+        'statement': 'h(D) >= h_lower for every fundamental D with |D| >= 2^40, given that '
+                     'L(s, chi_D) has no zero with Re s > 1/2',
+        'from': 2**40, 'cells': len(rows), 'h_lower': hmin, 'first_cell': rows[0],
+        'tail_h_lower_at_Q1': th, 'seconds': round(time.time() - t0, 1),
+    }
+    (HERE / 'door_2_40.json').write_text(json.dumps(out, indent=1) + '\n')
+    print('for |D| >= 2^40: h >=', hmin)
+
+
 if __name__ == '__main__':
-    {'dtable': dtable, 'theorem_a': theorem_a, 'ladder': ladder}[sys.argv[1]]()
+    {'dtable': dtable, 'theorem_a': theorem_a, 'ladder': ladder, 'door': door}[sys.argv[1]]()

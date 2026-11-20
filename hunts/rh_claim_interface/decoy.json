@@ -1,0 +1,68 @@
+{
+ "c0": 0.04619141793224202,
+ "decoy_max_fraction_inside_after_refit": 0.189116722555533,
+ "decoy_min_sup_abs_F_after_refit": 40.834755311333005,
+ "decoy_min_sup_abs_F_raw": 208.12331315819614,
+ "elapsed_s": 1.3,
+ "n_max": 1000000,
+ "null": "Cramer set: each integer n >= 3 kept independently with probability 1/log n, weight log n",
+ "rows": [
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.019476928215893374,
+   "n_kept": 78849,
+   "seed": 1000,
+   "sup_abs_F_after_linear_refit_n_ge_100": 319.54939270847507,
+   "sup_abs_F_raw_n_ge_100": 689.6878738649866
+  },
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.02361633801746373,
+   "n_kept": 79192,
+   "seed": 1001,
+   "sup_abs_F_after_linear_refit_n_ge_100": 302.3866652461615,
+   "sup_abs_F_raw_n_ge_100": 813.3749130059906
+  },
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.15308515543038761,
+   "n_kept": 78688,
+   "seed": 1002,
+   "sup_abs_F_after_linear_refit_n_ge_100": 56.465898800437245,
+   "sup_abs_F_raw_n_ge_100": 1149.8390787059448
+  },
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.189116722555533,
+   "n_kept": 78874,
+   "seed": 1003,
+   "sup_abs_F_after_linear_refit_n_ge_100": 40.834755311333005,
+   "sup_abs_F_raw_n_ge_100": 392.5520792057772
+  },
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.1647453097856688,
+   "n_kept": 78494,
+   "seed": 1004,
+   "sup_abs_F_after_linear_refit_n_ge_100": 243.02617691521937,
+   "sup_abs_F_raw_n_ge_100": 631.0634392785001
+  },
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.03870883217438526,
+   "n_kept": 78634,
+   "seed": 1005,
+   "sup_abs_F_after_linear_refit_n_ge_100": 79.60378986529642,
+   "sup_abs_F_raw_n_ge_100": 823.5157763766877
+  },
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.11818270008730865,
+   "n_kept": 78505,
+   "seed": 1006,
+   "sup_abs_F_after_linear_refit_n_ge_100": 54.88369162922338,
+   "sup_abs_F_raw_n_ge_100": 502.55023886319475
+  },
+  {
+   "fraction_n_ge_100_inside_c0_after_refit": 0.0983627379110532,
+   "n_kept": 78330,
+   "seed": 1007,
+   "sup_abs_F_after_linear_refit_n_ge_100": 84.87657044155995,
+   "sup_abs_F_raw_n_ge_100": 208.12331315819614
+  }
+ ],
+ "true_primes_sup_abs_F_n_ge_100": 0.022681240495803
+}

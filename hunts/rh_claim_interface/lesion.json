@@ -1,0 +1,1014 @@
+{
+ "closed_form_extrapolation": [
+  {
+   "beta": 1.0,
+   "gamma0": 1000000.0,
+   "log10_predicted_onset": 23.39794000867247,
+   "theta": 0.5
+  },
+  {
+   "beta": 0.75,
+   "gamma0": 1000000.0,
+   "log10_predicted_onset": 46.795880017344615,
+   "theta": 0.5
+  },
+  {
+   "beta": 0.6,
+   "gamma0": 1000000.0,
+   "log10_predicted_onset": 233.97940008672296,
+   "theta": 0.55
+  },
+  {
+   "beta": 0.51,
+   "gamma0": 1000000.0,
+   "log10_predicted_onset": 2339.7940008672235,
+   "theta": 0.505
+  },
+  {
+   "beta": 1.0,
+   "gamma0": 3000000000000.0,
+   "log10_predicted_onset": 49.30642502755069,
+   "theta": 0.5
+  },
+  {
+   "beta": 0.75,
+   "gamma0": 3000000000000.0,
+   "log10_predicted_onset": 98.61285005510138,
+   "theta": 0.5
+  },
+  {
+   "beta": 0.6,
+   "gamma0": 3000000000000.0,
+   "log10_predicted_onset": 493.06425027550756,
+   "theta": 0.55
+  },
+  {
+   "beta": 0.51,
+   "gamma0": 3000000000000.0,
+   "log10_predicted_onset": 4930.642502755064,
+   "theta": 0.505
+  }
+ ],
+ "control_no_lesion": {
+  "model": {
+   "any_envelope_violation": false,
+   "any_interface_violation_theta_half": false,
+   "max_abs_F_model": 0.026251482628229385
+  },
+  "prime_side_first_envelope_violation_n_ge_2": null,
+  "prime_side_last_n_with_G_above_n_pow_theta": {
+   "0.5": 3,
+   "0.6": 2,
+   "0.75": 2
+  }
+ },
+ "detectors": {
+  "envelope": "|G - log 2pi - T| > c0 sqrt(y), read from y >= 10",
+  "interface": "G(y) > y^theta (the archive's form with C = 1), read from y >= 10"
+ },
+ "elapsed_s": 24.0,
+ "lesion": "quadruple beta +- i gamma0, 1 - beta +- i gamma0 added through the zero-side formula",
+ "model": {
+  "du": 0.0002,
+  "log10_y_max": 29.999999999999996,
+  "n_zeros": 2000,
+  "tail_budget": 0.0008846762129442257,
+  "window_exponent": 1.5
+ },
+ "prime_side_reach": 10000000,
+ "prime_side_s": 11.6,
+ "rows": [
+  {
+   "beta": 0.6,
+   "envelope_first_y_model": 16.460854259050674,
+   "envelope_first_y_prime_side": 17.0,
+   "envelope_predicted_onset": 4431.878291424542,
+   "gamma0": 10.0,
+   "thetas": [
+    {
+     "first_y_model": 1.5071772222371286e+17,
+     "first_y_prime_side": null,
+     "log10_first_y": 17.178164322065392,
+     "log10_onset_to_the_two_thirds": 11.452109548043593,
+     "max_gap_between_violations_in_log_y": 0.5537999999999386,
+     "period_2pi_over_gamma0": 0.6283185307179586,
+     "predicted_onset": 1.0022472791067654e+17,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 11.45207843706803,
+      "n_windows": 218746,
+      "n_windows_with_violation": 98411
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 11.45216529596441,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 98411,
+      "n_windows_with_violation": 98411
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 1.0044996084770123e+34,
+     "theta": 0.55
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 1.011287011788557e+85,
+     "theta": 0.58
+    }
+   ]
+  },
+  {
+   "beta": 0.6,
+   "envelope_first_y_model": 316435445161.17535,
+   "envelope_first_y_prime_side": null,
+   "envelope_predicted_onset": 15100540679752.002,
+   "gamma0": 30.0,
+   "thetas": [
+    {
+     "first_y_model": 4.434312891585751e+26,
+     "first_y_prime_side": null,
+     "log10_first_y": 26.646826334311804,
+     "log10_onset_to_the_two_thirds": 17.7645508895412,
+     "max_gap_between_violations_in_log_y": 0.19099999999998118,
+     "period_2pi_over_gamma0": 0.20943951023931953,
+     "predicted_onset": 3.4149123270390566e+26,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 17.764548731531097,
+      "n_windows": 218746,
+      "n_windows_with_violation": 25736
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 17.764635590427478,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 25736,
+      "n_windows_with_violation": 25736
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 1.1661626201365075e+53,
+     "theta": 0.55
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 4.6440596717479334e+132,
+     "theta": 0.58
+    }
+   ]
+  },
+  {
+   "beta": 0.6,
+   "envelope_first_y_model": 6.322395303755757e+21,
+   "envelope_first_y_prime_side": null,
+   "envelope_predicted_onset": 4.319424602407161e+23,
+   "gamma0": 100.0,
+   "thetas": [
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 9.768164354707228e+36,
+     "theta": 0.5
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 9.541703486059309e+73,
+     "theta": 0.55
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.893337852288038e+184,
+     "theta": 0.58
+    }
+   ]
+  },
+  {
+   "beta": 0.6,
+   "envelope_first_y_model": null,
+   "envelope_first_y_prime_side": null,
+   "envelope_predicted_onset": 4.318312942346498e+43,
+   "gamma0": 1000.0,
+   "thetas": [
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 9.765650390654447e+56,
+     "theta": 0.5
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 9.536792755252048e+113,
+     "theta": 0.55
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.88189966092413e+284,
+     "theta": 0.58
+    }
+   ]
+  },
+  {
+   "beta": 0.75,
+   "envelope_first_y_model": 16.12200474200622,
+   "envelope_first_y_prime_side": 17.0,
+   "envelope_predicted_onset": 28.80978481644067,
+   "gamma0": 10.0,
+   "thetas": [
+    {
+     "first_y_model": 6560550.617501192,
+     "first_y_prime_side": 6560405.0,
+     "log10_first_y": 6.816940290611514,
+     "log10_onset_to_the_two_thirds": 4.544626860407676,
+     "max_gap_between_violations_in_log_y": 0.568199999999937,
+     "period_2pi_over_gamma0": 0.6283185307179586,
+     "predicted_onset": 6328413.360672951,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 4.54462470239757,
+      "n_windows": 218746,
+      "n_windows_with_violation": 177936
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 4.54471156129395,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 177936,
+      "n_windows_with_violation": 177936
+     }
+    },
+    {
+     "first_y_model": 43213976674766.47,
+     "first_y_prime_side": null,
+     "log10_first_y": 13.635624233180957,
+     "log10_onset_to_the_two_thirds": 9.09041615545397,
+     "max_gap_between_violations_in_log_y": 0.5715999999999362,
+     "period_2pi_over_gamma0": 0.6283185307179586,
+     "predicted_onset": 40048815663543.91,
+     "theta": 0.625,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 9.090385044478406,
+      "n_windows": 218746,
+      "n_windows_with_violation": 125601
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 9.090471903374787,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 125601,
+      "n_windows_with_violation": 125601
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 1.0379716323701387e+85,
+     "theta": 0.73
+    }
+   ]
+  },
+  {
+   "beta": 0.75,
+   "envelope_first_y_model": 65302.46693227199,
+   "envelope_first_y_prime_side": 65295.0,
+   "envelope_predicted_onset": 186938.28149772828,
+   "gamma0": 30.0,
+   "thetas": [
+    {
+     "first_y_model": 43559126978.37622,
+     "first_y_prime_side": null,
+     "log10_first_y": 10.639079166945232,
+     "log10_onset_to_the_two_thirds": 7.092719444630154,
+     "max_gap_between_violations_in_log_y": 0.19239999999997792,
+     "period_2pi_over_gamma0": 0.20943951023931953,
+     "predicted_onset": 41063226462.43293,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 7.092717286620048,
+      "n_windows": 218746,
+      "n_windows_with_violation": 148600
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 7.092804145516429,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 148600,
+      "n_windows_with_violation": 148600
+     }
+    },
+    {
+     "first_y_model": 1.9122836193602788e+21,
+     "first_y_prime_side": null,
+     "log10_first_y": 21.281552304879625,
+     "log10_onset_to_the_two_thirds": 14.187701536586417,
+     "max_gap_between_violations_in_log_y": 0.1939999999999813,
+     "period_2pi_over_gamma0": 0.20943951023931953,
+     "predicted_onset": 1.6861885675050524e+21,
+     "theta": 0.625,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 14.187699378576312,
+      "n_windows": 218746,
+      "n_windows_with_violation": 66916
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 14.187786237472691,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 66916,
+      "n_windows_with_violation": 66916
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 4.6576127574077896e+132,
+     "theta": 0.73
+    }
+   ]
+  },
+  {
+   "beta": 0.75,
+   "envelope_first_y_model": 503545731.3913399,
+   "envelope_first_y_prime_side": null,
+   "envelope_predicted_onset": 2845636865.2563734,
+   "gamma0": 100.0,
+   "thetas": [
+    {
+     "first_y_model": 655215361031622.6,
+     "first_y_prime_side": null,
+     "log10_first_y": 14.816384070579389,
+     "log10_onset_to_the_two_thirds": 9.87758938038626,
+     "max_gap_between_violations_in_log_y": 0.058599999999991326,
+     "period_2pi_over_gamma0": 0.06283185307179587,
+     "predicted_onset": 625078127880887.0,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 9.877587222376153,
+      "n_windows": 218746,
+      "n_windows_with_violation": 116538
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 9.877674081272534,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 116538,
+      "n_windows_with_violation": 116538
+     }
+    },
+    {
+     "first_y_model": 4.042314387579572e+29,
+     "first_y_prime_side": null,
+     "log10_first_y": 29.606630087378523,
+     "log10_onset_to_the_two_thirds": 19.73775339158568,
+     "max_gap_between_violations_in_log_y": 0.06059999999999377,
+     "period_2pi_over_gamma0": 0.06283185307179587,
+     "predicted_onset": 3.9072266595507444e+29,
+     "theta": 0.625,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 19.737722280610114,
+      "n_windows": 218746,
+      "n_windows_with_violation": 3019
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 19.737809139506496,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 3019,
+      "n_windows_with_violation": 3019
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.895672476315491e+184,
+     "theta": 0.73
+    }
+   ]
+  },
+  {
+   "beta": 0.75,
+   "envelope_first_y_model": 3.362294423563828e+16,
+   "envelope_first_y_prime_side": null,
+   "envelope_predicted_onset": 2.8452847485950835e+17,
+   "gamma0": 1000.0,
+   "thetas": [
+    {
+     "first_y_model": 6.096489093989037e+22,
+     "first_y_prime_side": null,
+     "log10_first_y": 22.785079801228516,
+     "log10_onset_to_the_two_thirds": 15.190053200819012,
+     "max_gap_between_violations_in_log_y": 0.006199999999999761,
+     "period_2pi_over_gamma0": 0.006283185307179587,
+     "predicted_onset": 6.250007812502882e+22,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 15.190051042808905,
+      "n_windows": 218746,
+      "n_windows_with_violation": 55376
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 15.190137901705286,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 55376,
+      "n_windows_with_violation": 55376
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 3.906259765634706e+45,
+     "theta": 0.625
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.881922975923029e+284,
+     "theta": 0.73
+    }
+   ]
+  },
+  {
+   "beta": 0.9,
+   "envelope_first_y_model": 11.592810169723947,
+   "envelope_first_y_prime_side": 12.0,
+   "envelope_predicted_onset": 8.189587892210515,
+   "gamma0": 10.0,
+   "thetas": [
+    {
+     "first_y_model": 22136.54392199167,
+     "first_y_prime_side": 22136.0,
+     "log10_first_y": 4.345109817411238,
+     "log10_onset_to_the_two_thirds": 2.8967398782741594,
+     "max_gap_between_violations_in_log_y": 0.49999999999994316,
+     "period_2pi_over_gamma0": 0.6283185307179586,
+     "predicted_onset": 17859.068924201798,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 2.8967377202640527,
+      "n_windows": 218746,
+      "n_windows_with_violation": 196908
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 2.8968245791604335,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 196908,
+      "n_windows_with_violation": 196908
+     }
+    },
+    {
+     "first_y_model": 512794169.2004227,
+     "first_y_prime_side": null,
+     "log10_first_y": 8.7099430783312,
+     "log10_onset_to_the_two_thirds": 5.806628718887467,
+     "max_gap_between_violations_in_log_y": 0.5183999999999429,
+     "period_2pi_over_gamma0": 0.6283185307179586,
+     "predicted_onset": 318946342.8393882,
+     "theta": 0.7,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 5.8065976079119,
+      "n_windows": 218746,
+      "n_windows_with_violation": 163407
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 5.806684466808281,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 163407,
+      "n_windows_with_violation": 163407
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 1.0893721475552679e+85,
+     "theta": 0.88
+    }
+   ]
+  },
+  {
+   "beta": 0.9,
+   "envelope_first_y_model": 1833.872431721596,
+   "envelope_first_y_prime_side": 1834.0,
+   "envelope_predicted_onset": 1972.0999072713353,
+   "gamma0": 30.0,
+   "thetas": [
+    {
+     "first_y_model": 4346950.370678586,
+     "first_y_prime_side": 4346911.0,
+     "log10_first_y": 6.638184681860156,
+     "log10_onset_to_the_two_thirds": 4.425456454573436,
+     "max_gap_between_violations_in_log_y": 0.19239999999997792,
+     "period_2pi_over_gamma0": 0.20943951023931953,
+     "predicted_onset": 4300566.601509944,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 4.425454296563331,
+      "n_windows": 218746,
+      "n_windows_with_violation": 179308
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 4.425541155459712,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 179308,
+      "n_windows_with_violation": 179308
+     }
+    },
+    {
+     "first_y_model": 18971995618361.156,
+     "first_y_prime_side": null,
+     "log10_first_y": 13.278113015678242,
+     "log10_onset_to_the_two_thirds": 8.852075343785495,
+     "max_gap_between_violations_in_log_y": 0.1957999999999771,
+     "period_2pi_over_gamma0": 0.20943951023931953,
+     "predicted_onset": 18494873094022.582,
+     "theta": 0.7,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 8.852044232809927,
+      "n_windows": 218746,
+      "n_windows_with_violation": 128345
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 8.852131091706308,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 128345,
+      "n_windows_with_violation": 128345
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 4.682885689871201e+132,
+     "theta": 0.88
+    }
+   ]
+  },
+  {
+   "beta": 0.9,
+   "envelope_first_y_model": 313634.97635796684,
+   "envelope_first_y_prime_side": 313572.0,
+   "envelope_predicted_onset": 810723.4948182844,
+   "gamma0": 100.0,
+   "thetas": [
+    {
+     "first_y_model": 1778053552.306379,
+     "first_y_prime_side": null,
+     "log10_first_y": 9.249944837129643,
+     "log10_onset_to_the_two_thirds": 6.166629891419762,
+     "max_gap_between_violations_in_log_y": 0.058999999999993946,
+     "period_2pi_over_gamma0": 0.06283185307179587,
+     "predicted_onset": 1767948151.1152601,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 6.166627733409656,
+      "n_windows": 218746,
+      "n_windows_with_violation": 159262
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 6.166714592306036,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 159262,
+      "n_windows_with_violation": 159262
+     }
+    },
+    {
+     "first_y_model": 3.1672174268913326e+18,
+     "first_y_prime_side": null,
+     "log10_first_y": 18.500677878357028,
+     "log10_onset_to_the_two_thirds": 12.333785252238018,
+     "max_gap_between_violations_in_log_y": 0.06059999999999377,
+     "period_2pi_over_gamma0": 0.06283185307179587,
+     "predicted_onset": 3.1256406650318193e+18,
+     "theta": 0.7,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 12.333783094227915,
+      "n_windows": 218746,
+      "n_windows_with_violation": 88260
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 12.333869953124296,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 88260,
+      "n_windows_with_violation": 88260
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.900009800226492e+184,
+     "theta": 0.88
+    }
+   ]
+  },
+  {
+   "beta": 0.9,
+   "envelope_first_y_model": 35315404471.52086,
+   "envelope_first_y_prime_side": null,
+   "envelope_predicted_onset": 81064123414.97177,
+   "gamma0": 1000.0,
+   "thetas": [
+    {
+     "first_y_model": 177640878722989.4,
+     "first_y_prime_side": null,
+     "log10_first_y": 14.249542912799326,
+     "log10_onset_to_the_two_thirds": 9.499695275199551,
+     "max_gap_between_violations_in_log_y": 0.006199999999999761,
+     "period_2pi_over_gamma0": 0.006283185307179587,
+     "predicted_onset": 176776876492769.9,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 9.499664164223987,
+      "n_windows": 218746,
+      "n_windows_with_violation": 120889
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 9.499751023120366,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 120889,
+      "n_windows_with_violation": 120889
+     }
+    },
+    {
+     "first_y_model": 3.155675220665481e+28,
+     "first_y_prime_side": null,
+     "log10_first_y": 28.499092299628973,
+     "log10_onset_to_the_two_thirds": 18.999394866419316,
+     "max_gap_between_violations_in_log_y": 0.012599999999991951,
+     "period_2pi_over_gamma0": 0.006283185307179587,
+     "predicted_onset": 3.1250064062539292e+28,
+     "theta": 0.7,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 18.999334802478288,
+      "n_windows": 218746,
+      "n_windows_with_violation": 11520
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 18.99942166137467,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 11520,
+      "n_windows_with_violation": 11520
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.881966275365738e+284,
+     "theta": 0.88
+    }
+   ]
+  },
+  {
+   "beta": 1.0,
+   "envelope_first_y_model": 11.376901241657157,
+   "envelope_first_y_prime_side": 12.0,
+   "envelope_predicted_onset": 5.387458903742399,
+   "gamma0": 10.0,
+   "thetas": [
+    {
+     "first_y_model": 3300.3542592918916,
+     "first_y_prime_side": 3300.0,
+     "log10_first_y": 3.51856055945306,
+     "log10_onset_to_the_two_thirds": 2.345707039635373,
+     "max_gap_between_violations_in_log_y": 0.4775999999999456,
+     "period_2pi_over_gamma0": 0.6283185307179586,
+     "predicted_onset": 2525.0,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 2.345704881625268,
+      "n_windows": 218746,
+      "n_windows_with_violation": 203252
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 2.3457917405216486,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 203252,
+      "n_windows_with_violation": 203252
+     }
+    },
+    {
+     "first_y_model": 6505672.801821226,
+     "first_y_prime_side": 6504955.0,
+     "log10_first_y": 6.813292216963527,
+     "log10_onset_to_the_two_thirds": 4.542194811309018,
+     "max_gap_between_violations_in_log_y": 0.5599999999999383,
+     "period_2pi_over_gamma0": 0.6283185307179586,
+     "predicted_onset": 6375624.999999999,
+     "theta": 0.75,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 4.542192653298912,
+      "n_windows": 218746,
+      "n_windows_with_violation": 177964
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 4.542279512195294,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 177964,
+      "n_windows_with_violation": 177964
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 1.1390284227070933e+85,
+     "theta": 0.98
+    }
+   ]
+  },
+  {
+   "beta": 1.0,
+   "envelope_first_y_model": 387.3718533213904,
+   "envelope_first_y_prime_side": 388.0,
+   "envelope_predicted_onset": 432.54360644007056,
+   "gamma0": 30.0,
+   "thetas": [
+    {
+     "first_y_model": 229575.00930036316,
+     "first_y_prime_side": 229536.0,
+     "log10_first_y": 5.360924610582833,
+     "log10_onset_to_the_two_thirds": 3.573949740388555,
+     "max_gap_between_violations_in_log_y": 0.17679999999997875,
+     "period_2pi_over_gamma0": 0.20943951023931953,
+     "predicted_onset": 202725.00000000003,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 3.573889676447529,
+      "n_windows": 218746,
+      "n_windows_with_violation": 189112
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 3.5739765353439092,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 189112,
+      "n_windows_with_violation": 189112
+     }
+    },
+    {
+     "first_y_model": 43576554114.362366,
+     "first_y_prime_side": null,
+     "log10_first_y": 10.639252884737992,
+     "log10_onset_to_the_two_thirds": 7.092835256491996,
+     "max_gap_between_violations_in_log_y": 0.1915999999999798,
+     "period_2pi_over_gamma0": 0.20943951023931953,
+     "predicted_onset": 41097425625.00001,
+     "theta": 0.75,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 7.092804145516429,
+      "n_windows": 218746,
+      "n_windows_with_violation": 148599
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 7.0928910044128095,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 148599,
+      "n_windows_with_violation": 148599
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 4.706333807474722e+132,
+     "theta": 0.98
+    }
+   ]
+  },
+  {
+   "beta": 1.0,
+   "envelope_first_y_model": 32662.57130768137,
+   "envelope_first_y_prime_side": 32659.0,
+   "envelope_predicted_onset": 53346.51138250271,
+   "gamma0": 100.0,
+   "thetas": [
+    {
+     "first_y_model": 26381804.13024367,
+     "first_y_prime_side": null,
+     "log10_first_y": 7.421304491628013,
+     "log10_onset_to_the_two_thirds": 4.947536327752008,
+     "max_gap_between_violations_in_log_y": 0.05779999999999319,
+     "period_2pi_over_gamma0": 0.06283185307179587,
+     "predicted_onset": 25002500.0,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 4.947476263810983,
+      "n_windows": 218746,
+      "n_windows_with_violation": 173298
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 4.947563122707363,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 173298,
+      "n_windows_with_violation": 173298
+     }
+    },
+    {
+     "first_y_model": 655346417209009.5,
+     "first_y_prime_side": null,
+     "log10_first_y": 14.816470929475768,
+     "log10_onset_to_the_two_thirds": 9.87764728631718,
+     "max_gap_between_violations_in_log_y": 0.05919999999998993,
+     "period_2pi_over_gamma0": 0.06283185307179587,
+     "predicted_onset": 625125006250000.0,
+     "theta": 0.75,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 9.877587222376153,
+      "n_windows": 218746,
+      "n_windows_with_violation": 116538
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 9.877674081272534,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 116538,
+      "n_windows_with_violation": 116538
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.904015323282465e+184,
+     "theta": 0.98
+    }
+   ]
+  },
+  {
+   "beta": 1.0,
+   "envelope_first_y_model": 318261870.17949295,
+   "envelope_first_y_prime_side": null,
+   "envelope_predicted_onset": 533412306.0595349,
+   "gamma0": 1000.0,
+   "thetas": [
+    {
+     "first_y_model": 245358217770.07495,
+     "first_y_prime_side": null,
+     "log10_first_y": 11.38980060836311,
+     "log10_onset_to_the_two_thirds": 7.593200405575406,
+     "max_gap_between_violations_in_log_y": 0.006199999999999761,
+     "period_2pi_over_gamma0": 0.006283185307179587,
+     "predicted_onset": 250000250000.0,
+     "theta": 0.5,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 7.5931982475653,
+      "n_windows": 218746,
+      "n_windows_with_violation": 142838
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 7.593285106461681,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 142838,
+      "n_windows_with_violation": 142838
+     }
+    },
+    {
+     "first_y_model": 6.290956004244229e+22,
+     "first_y_prime_side": null,
+     "log10_first_y": 22.798716647960276,
+     "log10_onset_to_the_two_thirds": 15.199144431973515,
+     "max_gap_between_violations_in_log_y": 0.012599999999999056,
+     "period_2pi_over_gamma0": 0.006283185307179587,
+     "predicted_onset": 6.2500125000062495e+22,
+     "theta": 0.75,
+     "windows_from_10": {
+      "every_window_has_violation": false,
+      "log10_Y_first_window": 1.0,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": 15.19908436803249,
+      "n_windows": 218746,
+      "n_windows_with_violation": 55272
+     },
+     "windows_from_onset_two_thirds": {
+      "every_window_has_violation": true,
+      "log10_Y_first_window": 15.199171226928872,
+      "log10_Y_last_window": 19.99994928878327,
+      "log10_last_clean_window_start": null,
+      "n_windows": 55272,
+      "n_windows_with_violation": 55272
+     }
+    },
+    {
+     "first_y_model": null,
+     "first_y_prime_side": null,
+     "predicted_onset": 8.882006244265751e+284,
+     "theta": 0.98
+    }
+   ]
+  }
+ ]
+}

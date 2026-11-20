@@ -1,0 +1,119 @@
+{
+ "archive": {
+  "what": "Lean 4 source tree posted 2026-11-20 with a stated proof of RH and of GRH for Dirichlet L-functions; 175187 .lean files under lean/src",
+  "status": "read as text only (rg, sed, sha256sum); no Lean kernel was run by this hunt; a separate session is running the replay",
+  "joined_tarball_sha256": "9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc",
+  "joined_tarball_note": "sha256 of the 14 parts lean.tar.gz.part01..part14 concatenated in order",
+  "root": "lean/src"
+ },
+ "files": {
+  "Formalism/StatementOC.lean": "0249562a8b70df61856f6fdce16afdf17fbe88c9945af4231700503d11027f8a",
+  "Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean": "ca0ca8acb80ff4ffc36896204650f9ca16167193a22c36a140402b27cfc8c336",
+  "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean": "3252473ba2654b05e9d2ea0781ea91b4c7eadcca0def18b0f21d20212c2f0316",
+  "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiOfNeOne.lean": "22192caa33f0e9b840298329573ca3ea15e3e5d9e60624efcda3562f8ddff26a",
+  "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean": "52ef51f6acc3ac5bdc351912a0c2934b36b4bbffcc60aea8cc6cfcf886ac3a89",
+  "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean": "d6b12bcbdc15c1b717c33a712474f9fca18c577a65c41fff2b2937534e5447ba",
+  "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean": "882989a78da888b0462d17f285e42e44970a3dee70c1dc8c667fb5a3f985c2f7",
+  "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean": "3f75794693f7f4ce9618f48c91ef4672c5de1909347fd245fb4e5a93cd2e6c6c",
+  "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean": "afbbf8ec0a8aca08b7935c6118c76eef06b2eee896805e7de277b9d4e09fc52b",
+  "Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean": "9d38c47879d3c02199f747433f009ba4cf6eb44d7480f031e5763a2ee271950e",
+  "Development/AutomorphicArithmetic/PrimitiveCosets/LevelFamily.lean": "99ab2af08664a9d1cf3afbe5113894d2b56bb64eb052a378f62d027d0f74354e",
+  "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean": "31f6e49936226cfc3d71b15685347bd2874db0aef384e5cf4fea7d09ba68dc71",
+  "Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean": "349d9eafe63952c2fa4ccb2055bef7de0144d442c552196183fe48f01958f033"
+ },
+ "quotes": [
+  {
+   "id": "Sz",
+   "path": "Formalism/StatementOC.lean",
+   "lines": "11",
+   "text": "def Sz (x : ℝ) : ℝ := ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, Λ n * (x / n - 1)"
+  },
+  {
+   "id": "Gz",
+   "path": "Formalism/StatementOC.lean",
+   "lines": "13",
+   "text": "def Gz (x : ℝ) : ℝ := Sz x - x * Real.log x + (1 + Real.eulerMascheroniConstant) * x"
+  },
+  {
+   "id": "Gchi_real",
+   "path": "Formalism/StatementOC.lean",
+   "lines": "17-21",
+   "text": "def Schi {N : ℕ} (χ : DirichletCharacter ℂ N) (x : ℝ) : ℝ :=\n  ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, Λ n * (χ n).re * (x / n - 1)\n\ndef Gchi {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (x : ℝ) : ℝ :=\n  Schi χ x + (deriv (DirichletCharacter.LFunction χ) 1 / DirichletCharacter.LFunction χ 1).re * x"
+  },
+  {
+   "id": "An.gChi",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Analytic.lean",
+   "lines": "11-24",
+   "text": "def logDerivativeAtOne {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) : ℂ :=\n  deriv (DirichletCharacter.LFunction χ) 1 / DirichletCharacter.LFunction χ 1\n\ndef G (y : ℝ) : ℝ :=\n  (∑ n ∈ Finset.Icc 1 ⌊y⌋₊, abelian₂ n * max (y / n - 1) 0) -\n    y * (Real.log y - 1 - Real.eulerMascheroniConstant)\n\ndef sumLamChi {N : ℕ} (χ : DirichletCharacter ℂ N) (y : ℝ) : ℂ :=\n  ∑ n ∈ Finset.Icc 1 ⌊y⌋₊, (abelian₂ n : ℂ) * χ (n : ZMod N) * ((max (y / n - 1) 0 : ℝ) : ℂ)\n\nopen Classical in\n\ndef gChi {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (y : ℝ) : ℂ :=\n  if χ = 1 then ((G y : ℝ) : ℂ) else sumLamChi χ y + (y : ℂ) * logDerivativeAtOne χ",
+   "note": "abelian₂ n is ArithmeticFunction.vonMangoldt n (line 9)"
+  },
+  {
+   "id": "Level.wt_Gm",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean",
+   "lines": "32-38",
+   "text": "def Nt : Finset PChar := Λ.KEPT.erase PChar.one\n\nopen Classical in\n\ndef wt (ψ : PChar) : ℝ := if Λ.psK = some ψ then 1 else (3 * (Λ.o : ℝ) + 1)⁻¹\n\ndef Gm (y : ℝ) : ℝ := Formalism.Gz y + ∑ ψ ∈ Λ.Nt, Λ.wt ψ * (An.gChi ψ.χ y).re",
+   "note": "here Λ is a Level, not the von Mangoldt function"
+  },
+  {
+   "id": "Level.ofSub_cyc",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean",
+   "lines": "105-121",
+   "text": "def Level.ofSub {M : ℕ} [NeZero M] (Ξ : Subgroup (DirichletCharacter ℂ M)) : Level where\n  KEPT := (Finset.univ.filter fun χ : DirichletCharacter ℂ M => χ ∈ Ξ).image PChar.of\n  ...\n  psK := none\n  psK_spec := fun _ h => by cases h\n  o := Nat.card Ξ\n...\ndef Level.cyc (ψ : PChar) : Level := Level.ofSub (Subgroup.zpowers ψ.χ)",
+   "note": "abridged at the two ellipses (proof fields and one lemma)"
+  },
+  {
+   "id": "PChar.of",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/PrimePairSizeCondition.lean",
+   "lines": "32-33",
+   "text": "def of {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) : PChar :=\n  @PChar.mk χ.conductor ⟨χ.conductor_ne_zero⟩ χ.primitiveCharacter χ.primitiveCharacter_isPrimitive"
+  },
+  {
+   "id": "CharFamily.Gm",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean",
+   "lines": "24-39",
+   "text": "structure CharFamily where\n  ι : Type\n  [fin : Fintype ι]\n  N : ι → ℕ\n  [nz : ∀ i, NeZero (N i)]\n  χ : ∀ i, DirichletCharacter ℂ (N i)\n  a : ι → ℝ\n  a_pos : ∀ i, 0 < a i\n  adm : ∀ i, N i = 1 ∨ χ i ≠ 1\n\nattribute [instance] CharFamily.fin CharFamily.nz\n\ndef Gm (F : CharFamily) (y : ℝ) : ℝ := ∑ i, F.a i * (Gchi (F.χ i) y).re\n\ndef ZeroFree (F : CharFamily) (θ : ℝ) : Prop :=\n  ∀ i, ∀ s : ℂ, θ < s.re → DirichletCharacter.LFunction (F.χ i) s ≠ 0"
+  },
+  {
+   "id": "zeroFree_of_rpow_window",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ZeroFreeOfRpowWindow.lean",
+   "lines": "11-14",
+   "text": "theorem zeroFree_of_rpow_window (F : CharFamily) {θ δ C : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hδ : 0 < δ)\n    (h : ∀ Y₀ : ℝ, ∃ Y : ℝ, Y₀ ≤ Y ∧ ∀ y ∈ Set.Icc Y (Y ^ (1 + δ)), Gm F y ≤ C * y ^ θ) :\n    ZeroFree F θ :=\n  lemmaL F hθ hθ1 hδ (windowHyp_of_rpow F hδ h)"
+  },
+  {
+   "id": "FormB",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/Window.lean",
+   "lines": "7-8, 30-33",
+   "text": "def HasWindows (S : Set ℝ) (la : ℝ) : Prop :=\n  ∀ y : ℝ, ∃ Y : ℝ, y ≤ Y ∧ ∀ x : ℝ, Y ≤ x → x ≤ Y ^ la → x ∈ S\n...\ndef FormBAt (la : ℝ) : Prop :=\n  ∀ θ : ℝ, 0 < θ → θ < 1 → HasWindows {x | Λ.Gm x ≤ x ^ θ} la → Λ.ZeroFreeAbove θ\n\ndef FormB : Prop := ∀ la : ℝ, 1 < la → Λ.FormBAt la"
+  },
+  {
+   "id": "formB_uses_window_lemma",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean",
+   "lines": "8-13",
+   "text": "theorem UpperTheory.Comparison₂.formB :\n    ∀ Λ : Level, Λ.FormB := by\n  intro Λ la hla θ hθ0 hθ1 hW\n  obtain ⟨F, hG, hZ⟩ := UpperTheory.Comparison₂.level_family Λ\n  rw [← hZ]\n  refine Deduction.zeroFree_of_rpow_window F (δ := la - 1) (C := 1) hθ0 hθ1 (by linarith) fun Y₀ => ?_"
+  },
+  {
+   "id": "top_window_exponent",
+   "path": "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean",
+   "lines": "8-11",
+   "text": "theorem UpperTheory.Top.plugWin (hG : GlobalTheory.GLq.Green) (hV : UpperTheory.Top.VWin)\n    (h : Nonempty (Hyps (fun 𝒞 => Closed 𝒞 fun Fm _ => LinkN Fm) DRS)) : Formalism.HC.ZeroFreeAll :=\n  h.elim fun h => UpperTheory.Top.zeroFreeAll_of_topG (la := 3 / 2) (by norm_num)\n    (GlobalTheory.Fc.shape_of _ _ _ _ (UpperTheory.Top.shapeWin hG) trivial trivial h) fun ψ => UpperTheory.Top.supplyChi ψ (hV ψ)"
+  },
+  {
+   "id": "upper_bound_shape",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean",
+   "lines": "26-28",
+   "text": "def ChebyshevInequalityOnWindows (Λ : Level) : Prop :=\n  ∀ (eD eL eps : ℝ), 0 < eps → ∀ Fm : Fam eps, EFamC Λ (core Fm) → ChebyshevInequalityOnFamilyWindows @core @Tied Fm eD eL →\n    ∃ x1 : ℝ, ∀ x ≥ x1, x ∈ (core Fm).Win → Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * eps)"
+  },
+  {
+   "id": "mellin_Gchi",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiOfNeOne.lean",
+   "lines": "116-119",
+   "text": "theorem mellin_Gchi_of_ne_one {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ ≠ 1) (s : ℂ) (hs : 1 < s.re) :\n    ∫ y in Ioi (1 : ℝ), Gchi χ y * (y : ℂ) ^ (-s - 1) =\n      -(deriv (DirichletCharacter.LFunction χ) s / DirichletCharacter.LFunction χ s -\n          s * (deriv (DirichletCharacter.LFunction χ) 1 / DirichletCharacter.LFunction χ 1)) / (s * (s - 1)) := by"
+  }
+ ],
+ "plain_mathematics": {
+  "G": "G(y) = sum_{n<=y} Lambda(n)(y/n - 1) - y log y + (1 + gamma) y",
+  "Gchi": "Gchi(y) = sum_{n<=y} Lambda(n) chi(n)(y/n - 1) + y L'/L(1, chi), chi nontrivial",
+  "Gm": "for psi primitive of order o: Gm(y) = G(y) + (3o+1)^-1 sum_{k=1}^{o-1} Re Gchi_{(psi^k)*}(y), (psi^k)* the primitive character inducing psi^k",
+  "window_statement": "the archive states: if for arbitrarily large Y, Gm(y) <= C y^theta for all y in [Y, Y^(1+delta)], then no L-function of the family vanishes at any s with Re s > theta; the top of the archive uses C = 1, 1 + delta = 3/2 and theta = 1/2 + (eD + eL + 7) eps"
+ }
+}
