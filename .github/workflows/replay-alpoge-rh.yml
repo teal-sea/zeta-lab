@@ -472,6 +472,7 @@ jobs:
           MAIN_BUILT: ${{ steps.count.outputs.main_built }}
           N_FAILED: ${{ steps.count.outputs.n_failed }}
           PERCENT: ${{ steps.count.outputs.percent }}
+          TIMED_OUT: ${{ steps.count.outputs.timed_out_shards }}
         run: |
           set -euo pipefail
           echo "state artifact id: $STATE_ARTIFACT" | tee -a "$GITHUB_STEP_SUMMARY"
@@ -479,6 +480,12 @@ jobs:
           if [ "$MAIN_BUILT" = "true" ]; then
             next=verdict
             echo "Main is built. Next: verdict." | tee -a "$GITHUB_STEP_SUMMARY"
+          elif [ "$BUILT" = "0" ] && [ "$TIMED_OUT" != "0" ] && [ "$BUILD_MINUTES" -lt 280 ]; then
+            # Some module needs more than one deadline of kernel time. Give
+            # the same round twice the time, up to what one job allows.
+            BUILD_MINUTES=$(( BUILD_MINUTES * 2 > 280 ? 280 : BUILD_MINUTES * 2 ))
+            next=round
+            echo "Round $ROUND built nothing and $TIMED_OUT shards hit the deadline. Next: round $((ROUND + 1)) with $BUILD_MINUTES build minutes." | tee -a "$GITHUB_STEP_SUMMARY"
           elif [ "$BUILT" = "0" ]; then
             echo "::error::round $ROUND built nothing; the chain stops here. Failed modules so far: $N_FAILED"
             echo "Stalled at ${PERCENT}% with $N_FAILED failed modules." >> "$GITHUB_STEP_SUMMARY"
@@ -642,6 +649,33 @@ jobs:
             cat "$OUT/evidence/axioms.txt"
             echo '```'
             echo "All five theorems of Main.lean depend only on propext, Classical.choice, Quot.sound."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Four interior statements the session reading the proof chain asked
+      # for (hunts/rh_claim_atlas on its own branch): the Landau lemma through
+      # which the archive reaches L-functions, its consumer, the one theorem
+      # all five in Main.lean derive from, and the class-number bound. Their
+      # names were read from the archive text. This step informs and never
+      # decides: a wrong name fails here, not in the verdict above.
+      - name: print the axioms behind four interior statements (supplementary)
+        if: success()
+        continue-on-error: true
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -uo pipefail
+          cat > "$RUNNER_TEMP/PrintAxiomsInterior.lean" <<'LEAN'
+          import Main
+          #print axioms Deduction.zeroFree_of_rpow_window
+          #print axioms UpperTheory.Comparison₂.formB
+          #print axioms UpperTheory.FinalTheorems.everyCharacter
+          #print axioms UpperTheory.V.SmallClassNumbers.bound
+          LEAN
+          lake env lean "$RUNNER_TEMP/PrintAxiomsInterior.lean" 2>&1 | tee "$OUT/evidence/axioms-interior.txt"
+          {
+            echo "### four interior statements (supplementary)"
+            echo '```'
+            cat "$OUT/evidence/axioms-interior.txt"
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: preserve the evidence, including failures

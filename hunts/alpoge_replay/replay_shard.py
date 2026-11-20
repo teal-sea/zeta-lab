@@ -242,12 +242,14 @@ def cmd_merge(a) -> None:
         "complete": len(state["where"]) == total,
         "failed": sorted(state["failed"])[:20],
         "n_failed": len(state["failed"]),
+        "timed_out_shards": rnd["timed_out_shards"],
         "round_summary": rnd,
     }
     print(json.dumps(out))
     if a.github_output:
         with open(a.github_output, "a") as fh:
-            for k in ("built_this_round", "modules_built", "main_built", "complete", "n_failed", "percent"):
+            for k in ("built_this_round", "modules_built", "main_built", "complete", "n_failed", "percent",
+                      "timed_out_shards"):
                 v = out[k]
                 fh.write(f"{k}={str(v).lower() if isinstance(v, bool) else v}\n")
 
