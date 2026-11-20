@@ -16,7 +16,8 @@ were reproduced and none was rejected. What changed, heaviest first:
    something its own defect test had found. Corrected: zero delta, and the
    2013 Theorem 1.1 is now stated as the unconditional frontier.
 2. *Teeth, downgraded.* The onsets `10^49.3` and `10^46.6` are a model of one
-   planted quadruple. What is known without RH guarantees `G(y) <= sqrt(y)`
+   planted quadruple. The arguments used here without RH (a published theorem
+   and a derivation with a float-grade weight) guarantee `G(y) <= sqrt(y)`
    only up to about `10^23`.
 3. *Grades, downgraded.* The sharp calibration of the identity is float grade;
    Arb decides only a coarse inequality at 4 points. Three statements at
@@ -32,6 +33,9 @@ were reproduced and none was rejected. What changed, heaviest first:
    bound with the `theta` of the windowed statement. Seven quotes were added.
 7. *Tests, repaired.* The pins were substring checks that ten wrong numbers
    passed, and no test ran the Arb zero side. Both are fixed and shown red.
+   That repair was cut off by a usage limit; a second pass found the test
+   file behind this text and one test failing, and brought them into line
+   (rows P2.1 to P2.6 of the record).
 
 The record of each finding, with evidence, is the section "Review findings and
 dispositions". Wrong statements of the first version are quoted there and at
@@ -66,8 +70,9 @@ carry every step of the number in question.
    (0.5346 of `c0`) at `y = 34186454.425380` and its minimum is
    -0.0226812404958921 (-0.4910 of `c0`) at the prime `y = 319439`. Scan:
    measured. The two values at those two points: hardened (Arb at 128 and at
-   192 bits). Without RH, known facts already force `|F(y)| <= c0 + 4.7e-08`
-   on this range (section 6), so the scan could not have come out otherwise.
+   192 bits). Without RH, the bound of section 6 (a derivation whose weight is
+   float grade) already gives `|F(y)| <= c0 + 4.7e-08` on this range, so the
+   scan could not have come out otherwise.
 4. **Characters.** The character formulas (even and odd differ) calibrate for
    all 26 primitive characters of conductor at most 12. For all 35 levels
    `Level.cyc psi` with conductor at most 20, `Gm` stays within 0.7180 of the
@@ -80,10 +85,13 @@ carry every step of the number in question.
    power 2/3 on, every window `[Y, Y^(3/2)]` in reach contains a violation. At
    the verified height `gamma0 = 3 * 10^12` a single quadruple with `beta = 1`
    has its onset near `10^49.3` (closed form for one quadruple, not a
-   measurement and not the frontier of what is known). Known facts guarantee
-   `G(y) <= sqrt(y)` only up to about `10^23`: 8.2 * 10^22 from a published
-   theorem, 4.2 * 10^23 from the bound of section 6. Between about `10^23` and
-   `10^49` nothing here excludes a violation made by many zeros together.
+   measurement and not the frontier of what is known). The arguments used here
+   guarantee `G(y) <= sqrt(y)` only up to about `10^23`: 8.2 * 10^22 from a
+   published theorem (one lemma of whose proof does not hold as printed in the
+   copy read, see Literature), 4.2 * 10^23 from the bound of section 6
+   (derivation, float-grade weight). Between about `10^23` and `10^49` nothing
+   here excludes a violation made by many zeros together; zero-density
+   theorems were not examined.
 6. **Rivals.** For Davenport-Heilbronn and for the Epstein zeta function of
    the form (1,1,6), the coefficients of `-f'/f` are not supported on prime
    powers, and the same smoothed sum grows with the exponent of the off-line
@@ -281,8 +289,11 @@ bins per decade (float route, 130.1 s on one core).
 `scan_1e9_enclosed.json` holds Arb values at the per-decade extremes: four per
 decade (the minimum, the integer maximum, the interior maximum, and the
 maximum of `G(n)/sqrt(n)`), each at 128 and at 192 bits. The two enclosures
-overlap at all 36 values and agree to every digit the 128-bit ball prints, 24
-or more. The first version of this stage repeated only the 9 minima at 192
+overlap at all 36 values. The 128-bit balls print 24 or more digits, and the
+printed midpoints at the two precisions differ by at most 3.3e-25, below the
+largest 128-bit radius 4.5e-25. The last printed digit is rounded, so a digit
+by digit match is the wrong test; the interrupted first repair of this round
+wrote "agree to every digit", which fails at one value. The first version of this stage repeated only the 9 minima at 192
 bits while this paragraph said "repeated at 192 bits with identical digits"
 of all of them; the stage was rerun in the review round and reproduced every
 earlier field exactly.
@@ -448,8 +459,8 @@ gave only the first of them and let it read as the frontier.
   `|G(x)| <= sqrt(x)/2 + 1.75e-12 x` for `x >= 8950`, hence `G(x) <= sqrt(x)`
   up to 8.2 * 10^22.
 
-So known facts guarantee the interface inequality with `theta = 1/2` and
-`C = 1` up to about `10^23` and no further. Between about `10^23` and the
+So the arguments used here guarantee the interface inequality with
+`theta = 1/2` and `C = 1` up to about `10^23`, and they give nothing further. Between about `10^23` and the
 single-quadruple onset near `10^49`, nothing in this hunt excludes a violation
 made by many zeros above `H` acting together; whether zero-density theorems
 narrow that gap was not examined. The scan to `10^9` sits fourteen orders of
@@ -749,12 +760,16 @@ title search returns first.
   archive, are outside this hunt.
 - The Epstein off-line zero is this lab's 20-digit measurement.
 - What the tests pin. Every decimal number, every number in scientific
-  notation and every integer of four or more digits in this file is inside a
-  phrase that `test_rh_claim_interface.py` either builds from the committed
-  data or holds as a frozen reference string (citations, archive locations,
-  dates), with an exact occurrence count, and a mutation test changes each
-  such number in turn and requires a failure. Integers below 1000 are pinned
-  only where such a phrase carries them. A frozen string guards against
+  notation and every integer of four or more digits in this file is a token
+  that `test_every_number_in_results_is_accounted_for` lists with its exact
+  occurrence count: either computed in the test from the committed data (or
+  recomputed), or held as a frozen string with a stated kind (citation or
+  date, archive location, chosen parameter, a published constant, a
+  reviewer's report, a hedged round figure). A mutation test changes each
+  occurrence in turn and requires a failure. Most data tokens are also pinned
+  inside a phrase or table row by the other tests; the token list alone checks
+  values and counts, not which sentence a value sits in. Integers below 1000
+  are pinned only where a phrase carries them. A frozen string guards against
   drift, not against being wrong.
 - The unit timings of the first round are evidenced by a log only for the
   scan (`RUNS.md`).
@@ -785,6 +800,21 @@ Where a reviewer's own detail did not reproduce exactly, that is said.
 | R2.4 | minor | the Epstein onset at 0.6 was quoted with its prediction, the one at 0.55 without | `rivals.json` | fixed with R1.5 |
 | R2.5 | minor | "written before the scaled runs" is not evidenced; no unit for two stages | the logs and the file times | downgraded in `RUNS.md`; review-round estimates were logged with a time stamp before each run |
 | R2.6 | minor | the closed-form reach (1170, 18.5) is loose by tens of percent | the prime side to `10^7`: a plant at 407 is flagged where the closed form gives 370 | fixed: section 6 and checklist item 3 reworded |
+
+**The second repair pass.** The first repair pass of the review round was cut
+off by a usage limit. A second pass on the same day found the prose of this
+file and of `MISSION.md`, the reruns and `RUNS.md` largely done, and the test
+file not: it still had one failing test, and several things this file said
+the tests did were not in it. What the second pass found and did:
+
+| id | finding of the second pass | disposition |
+| --- | --- | --- |
+| P2.1 | `test_remaining_numbers_quoted_in_results` failed: it required "about 1170" and "about 18.5", which the R2.6 rewording had removed | the test now pins the reworded sentence ("an order of magnitude, not a threshold"), and `test_the_reach_of_the_scan_on_the_prime_side` recomputes the plants at `gamma0` = 370, 407 and 444 on the prime side to `10^7` (first flags: 4845867, 5553908, none) and reads the two `beta = 0.6` figures from `lesion.json` |
+| P2.2 | the test of the Arb zero side, the density-read `c0` fault, the reach check and the exact-count pins with a mutation test were described in this file but absent from the test file | written, run and shown to fail on the planted faults this file names; the caveat on what the tests pin was rewritten to what they now do |
+| P2.3 | the first repair said the 128-bit and 192-bit balls "agree to every digit the 128-bit ball prints"; at one value (the integer maximum of decade 8) the last printed digit differs by rounding | reworded to the measured statement (overlap at all 36, midpoints within 3.3e-25, below the largest 128-bit radius); the test checks overlap and that bound |
+| P2.4 | "known facts guarantee" (item 3, item 5, section 6) gave a derivation with a float-grade weight the voice of a theorem | reworded to "the arguments used here"; the grade is stated at each place |
+| P2.5 | the 192-bit claim for the maxima (R1.3, R2.3): checked again in the data, not only in the prose | all four values of every decade carry a second-precision ball; the test now loops over all 36 instead of the 9 minima |
+| P2.6 | the Lemma 4.2 observation (Literature) had not been looked at by any reviewer | the printed statement was extracted again from the author copy (same sha256 as in `frontier.json`) and reads as quoted; the observation stays float grade and unreviewed |
 
 Details where this hunt's reproduction differs from a reviewer's report:
 

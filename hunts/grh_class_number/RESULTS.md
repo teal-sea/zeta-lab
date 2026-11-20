@@ -11,6 +11,22 @@ integer computations that agree with every independent table found. A
 composite claim takes the grade of its weakest step: here the hypothesis,
 which is not a theorem, then the unreviewed written proof.
 
+**After review (2026-11-20).** Two independent reviewers attacked this hunt,
+one on the proof and one on the computation; both returned "holds" and
+neither found a wrong or missing field or a failed step. Their eleven
+findings and what was done about each are in section 9. Nothing above was
+downgraded. What changed: the reviewer's full-range independent sweep is now
+a committed control (`sweep.py`, `lsieve.c`, `controls_sweep.json`), the
+list for h <= 2000 is compared field by field with Molteni's data file, the
+planted-fault controls state what they cannot see, section 2.6 now describes
+the stalled cover cells correctly (the table D_GRH(h) is a valid cutoff
+everywhere, and 1 to 2% weaker than Theorem B allows for about
+400 < h <= 2760), and the first door is now a different classical route that
+measures 7 to 16% stronger in L than Theorem B (float grade, not adopted).
+Hand-back is blocked on one shared-file item outside this directory: the
+case-log entry for this hunt in `hunts/README.md`, which the orchestrator
+adds.
+
 ## 0. The hypothesis
 
 Throughout, D < 0 is a fundamental discriminant, q = |D|, chi = chi_D is the
@@ -30,9 +46,14 @@ Dirichlet character chi mod N and every s with Re s > 1/2, L(s, chi) != 0
 unless chi = 1 and s = 1. That statement contains H(1/2) for every chi_D. As
 of this writing the archive has been accepted by no kernel and reviewed by
 no human, and this hunt neither reads nor checks it. The results below are
-GRH-conditional theorems whatever happens to that claim. If the archive is
-accepted by a kernel, the hypothesis is discharged at the grade of that
-check, and the weakest step becomes this hunt's written proof.
+GRH-conditional theorems whatever happens to that claim. A replay of the
+archive is in progress in another session (`hunts/alpoge_replay/`, on
+another branch); it is pending and this hunt states no verdict on it. The
+hypothesis would be discharged only by a kernel check of that statement with
+zero sorrys and standard axioms only, together with the bridge that chi_D is
+a Dirichlet character mod |D| whose Mathlib L-function is L(s, chi_D)
+(routine, but not written here); the weakest step would then be this hunt's
+written proof.
 
 What exactly is assumed, and for which D: Theorems A, B and C use H(1/2) for
 the character of the discriminant they speak about. Corollary D uses it only
@@ -79,7 +100,9 @@ is the audit that licenses the substitution.
 
 **Theorem C (the table D_GRH(h)).** Given H(1/2) for chi_D: if h(D) <= h
 then |D| <= D_GRH(h), with D_GRH(h) from `dtable_grh.json`, for every
-h <= 10 000. Selected values, with the 7/8 table of the sibling hunt:
+h <= 10 000. The table is a valid cutoff everywhere; it is not the smallest
+cutoff Theorem B gives, because the cover stalled on some cells (section
+2.6). Selected values, with the 7/8 table of the sibling hunt:
 
 | h | D_GRH(h) | D_7/8(h) | ratio | h | D_GRH(h) |
 | --- | --- | --- | --- | --- | --- |
@@ -102,12 +125,14 @@ exactly those found by the search of section 5, for every h <= 5000:
 - there are 102 746 940 fields in all; the largest discriminant is
   D = -6 912 348 787 (h = 4967); every h <= 5000 occurs; 9 681 947 of the
   fields have odd class number and 93 064 993 even;
-- 86 293 447 of them have 2000 < h <= 5000, beyond every complete list found
-  in the literature (section 7);
+- 86 293 447 of them have 2000 < h <= 5000: the delta against the published
+  frontier (Garcia, Grenie, Lee and Molteni, every h <= 2000 under GRH) is
+  the range 2000 < h <= 5000 (section 7);
 - for h <= 2000 the list has 16 453 493 fields, the largest
   D = -1 062 350 083, the same count and the same largest discriminant as
   the GRH list of Garcia, Grenie, Lee and Molteni, in each of the 20 rows of
-  their table;
+  their table, and the same set of discriminants for every h <= 2000 as
+  Molteni's per-field data file (16 453 493 fields, `controls_molteni.json`);
 - for every odd h < 5000 the count equals the GRH-conditional count of
   Holmin and Kurlberg (2500 values of h, computed by a different method);
 - for h <= 1500 the list is line for line the sibling hunt's list under the
@@ -163,8 +188,29 @@ display):
 -(L'/L)(sigma + w) t^w / w^2 has a double pole at w = 0 with residue
 d/dw [ -(L'/L)(sigma + w) t^w ] at 0, a simple pole at w = rho - sigma with
 residue -t^(rho - sigma) / (rho - sigma)^2, and the same at the trivial
-zeros -1, -3, ... of an odd character. *Audit:* no hypothesis on the zeros,
-no sigma0.
+zeros -1, -3, ... of an odd character. *The contour shift, written out
+(review finding P1):* for c > 1 - sigma,
+(1/(2 pi i)) int_(c) -(L'/L)(sigma + w) t^w / w^2 dw equals the left side
+(expand -(L'/L) as a Dirichlet series and use
+(1/(2 pi i)) int_(c) (t/n)^w / w^2 dw = log(t/n) for n <= t and 0 for n > t).
+Move the line to Re(sigma + w) = -2K with K -> infinity through the
+integers (the trivial zeros of an odd character sit at -1, -3, ..., so
+these lines stay half-way between two of them), closing with horizontal segments at
+heights +-T_j chosen at distance >> 1/log(q T_j) from every ordinate.
+On such segments and lines (L'/L)(s) = O(log^2(q |s|)) (Davenport, chapters
+17 and 19; on the far line through the functional equation), so the
+horizontal integrals are O(t^c log^2(q T) / T^2) -> 0 and the far vertical
+line contributes O(t^(-K) K^(-1) log K) -> 0 for t > 1. Every residue above
+is then collected exactly once, and the sum over rho converges absolutely
+because |rho - sigma|^(-2) is summable against N(T) = O(T log qT). This is the
+standard route (the same display is the start of the proof of Lemma 2.5 of
+Lamzouri, Li and Soundararajan); it is written here, not reviewed by a human.
+*Audit:* no hypothesis on the zeros, no sigma0. The proof reviewer re-derived
+the four terms and their signs by the same residue computation and measured
+the identity at three characters this hunt did not use (D = -7, -1000003,
+-6623767483: defects -3.4e-6, -3.3e-6 and +7.9e-6, against |E| of 0.0020,
+0.0264 and 0.0437); those three numbers are the reviewer's run, not
+repeated here.
 
 **(2.2) Two cutoffs.** Subtract the identity at y from the identity at x:
 (L'/L)'(sigma) cancels. Integrate over sigma in [1, inf). With the trapezoid
@@ -256,22 +302,47 @@ never validity: the split point is restricted to delta <= 1/2 (the
 optimiser sits on that cap on the 8 cells with q <= 115), and the lower
 cutoff to y > 30 (it sits on that floor on 1311 cells, up to
 q = 7.0 * 10^7).
-The float optimiser was started from five different points at nine values
-of q between 10^3 and 10^12: the default start gave the best value every
-time (two other starts stalled 0.002 and 0.006 lower in log L at 10^8 and
-10^9). It assigns no truth: every reported number is recomputed in Arb.
+*The optimiser and the stalled cells (corrected after review).* The cover
+does not restart the float optimiser on each cell: `explicit.cover` warm-starts
+every cell from the previous cell's optimum. From q = 2.99 * 10^7 to
+4 967 973 832 (514 cells) it stays in a local optimum with the lower cutoff
+y below 49, so p = 7 never enters the prime-square sum; at 4 967 973 832 it
+jumps to y = e^3.9 = 49.4 and the bound rises by 0.76% from one cell to the
+next. A restart at a = 3.9 does better on these cells: on the cell
+[991 098 295, 1 001 009 278] the committed parameters (a = 177/50,
+b = 187/25) give log L >= -2.075849, and a = 39/10, b = 751/100 give
+-2.070110 in Arb, that is L >= 0.12617 against 0.12545 (pinned by a test).
+Because the bound at a larger q is valid at every smaller q, 76 committed
+cells are also beaten by a later cell of the same table (pinned). Each cell's
+value is still an Arb-enclosed lower bound, so the table D_GRH(h) is a valid
+cutoff; it is weaker than Theorem B allows. The proof reviewer restarted
+every cell in Arb and measured the cost (reviewer's run, not repeated here):
+D_GRH(1000) 620 886 399 against 614 739 008, D_GRH(1500) 1 432 212 849
+against 1 418 032 523, D_GRH(2000) 2 576 135 045 against 2 525 375 006,
+D_GRH(2500) 4 071 475 474 against 3 991 251 321, that is 1 to 2% for about
+400 < h <= 2760, and D_GRH(1), D_GRH(100), D_GRH(5000) and D_GRH(10 000)
+unchanged. So the search range and Corollary D are untouched, and the
+search below 3 * 10^9 already exceeds what the smaller cutoffs would demand.
+The table was not regenerated in this pass. The earlier sentence here, that
+the default start gave the best value at nine values of q and two other
+starts stalled at 10^8 and 10^9, described a separate experiment with the
+default start, not the cover, whose cells at 10^8 and 10^9 are exactly those
+stalled values; it was wrong as a description of the table and is withdrawn.
+The optimiser assigns no truth: every reported number is recomputed in Arb.
 
-Typical parameters at 1/2 (verified cells): at q = 10^9, y = e^3.54 = 34,
-x = e^7.48 = 1770, delta = 0.2245, M = -1.8075, E = 0.2683,
-L(1, chi) >= 0.12545; at q = 1.64 * 10^10, y = e^3.9, x = e^7.7,
-M = -1.8505, E = 0.2448, L >= 0.12304. At 7/8 the same q needed
+Typical parameters at 1/2 (verified cells): at q = 10^9 the committed cell
+has y = e^3.54 = 34, x = e^7.48 = 1770, delta = 0.2245, M = -1.8075,
+E = 0.2683, L(1, chi) >= 0.12545 (a stalled cell; a restart gives 0.12617,
+above); at q = 1.64 * 10^10, y = e^3.9, x = e^7.7, M = -1.8505, E = 0.2448,
+L >= 0.12304. At 7/8 the same q needed
 x = e^23. The cutoff is now (log q)^2.45; Littlewood's argument puts it
 near (log q)^2.
 
 ## 3. Proof of Theorem C
 
 `dtable_grh.json` covers [10^2, 10^11] by 2041 cells with
-q_hi/q_lo <= 1.01. On each, parameters are chosen and Theorem B is evaluated
+q_hi = ceil(1.01 q_lo), so q_hi/q_lo <= 1.0198 (the largest is the cell
+[101, 103]). On each, parameters are chosen and Theorem B is evaluated
 at q_hi, where it is weakest; then h(D) >= sqrt(q_lo) L_lower / pi for every
 |D| in the cell. The code asserts that the first cell starts at 10^2, the
 last ends at 10^11 and every cell starts where the previous one ended
@@ -293,14 +364,22 @@ h-bound is at least 12 145, and the tail lemma of section 4 from 10^50 on
    sha256), and L(1, chi_D) log log |D| >= 1/3 for all of them except
    D = -3 and D = -4; the minimum from |D| = 7 on is 0.4006, at D = -163
    (`theorem_a_small.json`).
-2. **22 786 <= q <= 10^50, verified cover.** 163 cells with
-   log q_hi / log q_lo <= 1.02; from q = 22 786 on, Theorem B at q_hi times
-   log log q_lo is at least 0.33350 (`theorem_a_grh.json`).
+2. **22 786 <= q <= 10^50, verified cover.** The cover in
+   `theorem_a_grh.json` has 163 cells from q = 100 to 10^50 with
+   log q_hi / log q_lo <= 1.0213. On the first 39 cells (q_hi <= 22 786)
+   Theorem B at q_hi times log log q_lo falls below 1/3; that range is
+   covered by item 1. On the other 124, from q = 22 786 on, it is at least
+   0.33350, attained on the cell [22 786, 27 850], only 0.00017 above 1/3 and
+   inside the exact range of item 1 anyway.
 3. **q >= Q1 = 10^50, tail lemma, rederived at 1/2.** Take eta = 1/4,
    delta_x = delta_y = 1/10 and a(q) = 2 log log q, b = (1 + eta) a, so
    that e^(-a/2) = 1/log q exactly. Then
    - main term: Rosser and Schoenfeld's S(t) < log log t + B +
-     1/(2 log^2 t) for t >= 286 applies on [a, b] as soon as
+     1/(2 log^2 t) for t >= 286 (Rosser and Schoenfeld 1962, Theorem 5; the
+     equation number was not confirmed against the paper in this pass; the
+     inequality was measured at every prime from 286 to 3 * 10^6, smallest
+     margin 0.00112 at 293, and it fails at 283, as the threshold predicts:
+     float grade, a test) applies on [a, b] as soon as
      a(q) >= log 286 = 5.656, that is log q >= 16.92. **This is the one
      side condition that the change of abscissa touches**: at 7/8,
      a = 8 log log q made it automatic; at 1/2 it holds from Q1 on because
@@ -370,8 +449,9 @@ replaces the driver: it includes `cn.c` unchanged (its `build_pattern`,
   over-counting.
 
 **Checks of the new driver.** Mode 1 against brute-force reduced-form
-counting for every fundamental |D| <= 6000; mode 1 output byte-identical to
-`cn.c` output on [3, 2 * 10^6], [10^7, 1.2 * 10^7], [10^8, 1.02 * 10^8],
+counting for every fundamental |D| <= 6000; mode 1 output identical, as
+sorted lists, to `cn.c` output (which is written per progression and ends
+with a stats line, so it is sorted and that line dropped before comparing) on [3, 2 * 10^6], [10^7, 1.2 * 10^7], [10^8, 1.02 * 10^8],
 [5 * 10^8, 5.2 * 10^8] and [2 * 10^9, 2.02 * 10^9] (2 946 395 fields); every
 mode 1 class number against
 `exact_h` on four windows up to 2.9 * 10^9 (212 769 discriminants,
@@ -424,7 +504,14 @@ sqrt|D| * bound / pi is at most 5000 there, the bound holds at **every one
 of the 4 934 512 971 fundamental discriminants with
 100 <= |D| <= 16 233 896 868**, not only at the listed ones. Under the 7/8
 half-plane the same control had a margin of 3.9; at 1/2 it has 1.45, so it
-is a much sharper test of the proof than it was, and it passes.
+is a much sharper test of the proof than it was, and it passes. *Its
+detection floor:* by the same token this control cannot see any error that
+raises the bound by less than the factor 1.449 in L, about 2.1 in D. Planted
+at the largest |D| of every h, dropping the zero term altogether (exp(M))
+leaves the smallest ratio at 1.1206 and halving it at 1.2816: both stay
+green (`controls_fault.json`, a test). The size of the zero term, which
+fixes the search cutoff, is therefore checked only by the seven-character
+zero-term control below and by the written proof.
 
 **The two halves separately, against real zeros** (`controls_zero_term.json`;
 measured, not an enclosure). The composite control (a) cannot tell a bound
@@ -488,7 +575,11 @@ within a factor 1.25 to 1.43 of the true absolute zero sum at the extremal
 discriminants (table above), and the composite bound stays below every
 exact value (control (a)). In units of log(1/L) at q = 5.6 * 10^8:
 published 2.427, this hunt 2.070, the truth at the extremal discriminant
--562394347 is 1.623. Cutoffs: h <= 5000 forces |D| <= 16 396 235 837 here,
+-562394347 is 1.623. Fourth, and found only in review: Theorem 1.5 is a
+closed-form simplification of a route that is itself stronger than this
+hunt's bound when it is evaluated numerically instead of in closed form
+(`lls_route.py`, float grade, the first door below). The margin over the
+published bound is a margin over its closed form, not over its method. Cutoffs: h <= 5000 forces |D| <= 16 396 235 837 here,
 30 702 866 530 by inverting the published bound, 43 651 697 617 by Cremona
 and Sutherland's Proposition 19.
 
@@ -504,9 +595,18 @@ The zero term was given the wrong sign, exp(M + E) in place of exp(M - E),
 and the result compared with the exact L(1, chi_D) at the largest |D| of
 every h <= 5000. With the fault 2724 of the 5000 values fall below the
 "bound" (the clearest: D = -3 416 131 987, h = 3377, L = 0.18152 against
-0.21185, recomputed in Arb); without it none does. The control goes red. A
-second plant, on the search side: removing one field with h = 4999 from the
-counts is caught by the Holmin-Kurlberg comparison (a test).
+0.21185, recomputed in Arb); without it none does. The control goes red.
+The plant is sized at twice the zero term; the control's floor (factor 1.449
+in L) and the two plants it does not catch are stated under (a) above.
+
+Plants on the search side, each named in its test for what it can and cannot
+catch: removing one field with odd h = 4999 is caught by the Holmin-Kurlberg
+comparison; removing one field with even h = 2002, 3000 or 4998 passes every
+published-table comparison (no table exists for those h), and is caught only
+by the independent sweep (below), which on a window at 1.5 * 10^9 reports the
+dropped field as missing; and a listed class number moved by 2 inside that
+window passes the sweep too, because it stays within the sweep's tolerance
+(it is the field-level PARI checks that can see that, and only on samples).
 
 **Class numbers.**
 `crosschecks.json`, `controls_pari.json`, `theorem_a_small.json`.
@@ -523,13 +623,37 @@ counts is caught by the Holmin-Kurlberg comparison (a test).
 | PARI | 577 random list entries | all agree |
 | PARI | every fundamental abs(D) in 13 windows of width 3000 from 2 * 10^6 to the end of the range, one across the mode switch at 3 * 10^9 (11 856 discriminants, 2051 of them listed) | the same fields with the same h |
 | PARI | the 600 fundamental abs(D) just above D_GRH(h), h = 1, 2, 3, 10, 100, 500, 1000, 2000, 3000, 4000, 5000, 10 000 | no class number <= h (smallest above D_GRH(5000): 11 082) |
+| Molteni's per-field file for Garcia, Grenie, Lee, Molteni (sha256 `2900aabe...`, fetched by the computation reviewer) | the set of discriminants for every h <= 2000 | identical (16 453 493 fields, 6 491 770 of them with even h in (1500, 2000]) |
+| independent sweep, reviewer's run (`sweep.py`, `lsieve.c`) | every fundamental abs(D) <= 16 396 235 837: Euler-product estimate, PARI on every unlisted candidate and every listed entry outside tolerance | no missing field, no wrong class number; smallest unlisted candidate h = 5001 |
+| independent sweep, rerun here | [3, 5 * 10^7] and [1.5 * 10^9, 16 396 235 837] with the committed code | the reviewer's rows reproduced exactly; no missing field, no wrong class number |
 
 The sibling's lists were computed by a different program path (its scalar
 exact count on every survivor), the Holmin-Kurlberg and Garcia-Grenie-Lee-
-Molteni tables by PARI on other machines. The Garcia-Grenie-Lee-Molteni and
-Cremona-Sutherland numbers are transcriptions from this workflow's
-literature notes, not re-read here. For even h between 2002 and 5000 no
-outside table exists: see section 8.
+Molteni tables by PARI on other machines. The 20 rows of Garcia-Grenie-Lee-
+Molteni Table 1 were checked against the PDF by the computation reviewer,
+and the rows 500, 1000, 1500 and 2000 re-read from the PDF by the
+orchestrator; the Cremona-Sutherland numbers remain transcriptions from the
+literature notes. The computation reviewer also ran PARI on 1 000 000 random
+listed entries (823 685 with h > 2000), on all 230 721 listed entries above
+3 * 10^9 and on 12 windows of width 2 * 10^5, with no disagreement
+(reviewer's run, recorded here, not repeated).
+
+*The independent sweep* (`controls_sweep.json`) is the full-range control for
+the even h above 2000, for which no outside table exists. `lsieve.c` sieves
+the fundamental discriminants itself and estimates every class number by a
+truncated Euler product (p <= 20 000 and tolerance 2.5% below 3 * 10^9,
+p <= 3000 and 6% above); every discriminant whose estimate is at most
+5000 e^tol must be listed with a class number within tolerance, or goes to
+PARI. It shares no code with `cn.c` or `cnx.c`. The reviewer ran it over the
+whole range: 4 983 858 175 fundamental discriminants, every listed entry
+inside tolerance except |D| = 3 and 4 (their unit factor), 5 358 520
+unlisted candidates sent to PARI, smallest class number among them 5001. The
+repair rerun with the committed code (about 15 CPU-minutes, `RUNS.md`)
+reproduced the reviewer's rows exactly on [3, 5 * 10^7] and on
+[1.5 * 10^9, 16 396 235 837], which holds the whole filter zone. It is a
+detector and a cross-check, not a bound: the truncated product has no error
+term, PARI is not an oracle of record, and a class number wrong by less than
+the tolerance passes it.
 
 ## 7. The delta against the literature
 

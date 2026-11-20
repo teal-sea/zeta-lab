@@ -11,5 +11,24 @@
   "ratio": 0.8568116964426743
  },
  "faulty_bound_recomputed_in_arb": 0.21184988173955102,
- "control_goes_red": true
+ "control_goes_red": true,
+ "detection_floor_in_L": 1.4491827703877456,
+ "detection_floor_in_D": 2.1001307019887014,
+ "other_plants": {
+  "zero_dropped": {
+   "violations": 0,
+   "min_ratio": 1.1206470496774419,
+   "caught": false
+  },
+  "zero_half": {
+   "violations": 0,
+   "min_ratio": 1.2816238624699945,
+   "caught": false
+  },
+  "none": {
+   "violations": 0,
+   "min_ratio": 1.4491827703877456,
+   "caught": false
+  }
+ }
 }

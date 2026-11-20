@@ -7,6 +7,7 @@
     .venv/bin/python -m hunts.grh_class_number.controls crosschecks
     .venv/bin/python -m hunts.grh_class_number.controls pari OUTDIR
     .venv/bin/python -m hunts.grh_class_number.controls small_range OUTDIR
+    .venv/bin/python -m hunts.grh_class_number.controls molteni FILE OUTDIR
 
 lls          the bound against the published GRH bound of Lamzouri, Li and
              Soundararajan (Theorem 1.5; valid for all q >= 3 by Languasco
@@ -22,6 +23,8 @@ fault        a planted sign error in the zero term, against the exact
 crosschecks  the H = 5000 lists against the sibling hunt's H = 1500 run,
              Watkins, Holmin-Kurlberg (odd h), Cremona-Sutherland and
              Garcia-Grenie-Lee-Molteni
+molteni      the list for h <= 2000 against Molteni's per-field data file for
+             Garcia-Grenie-Lee-Molteni, field by field (review control)
 small_range  exact L(1, chi_D) for every |D| <= 3 * 10^6 (Theorem A below
              the cover), and the list there against the sibling's full list
 pari         PARI qfbclassno (an unrelated implementation, a cross-check and
@@ -337,21 +340,35 @@ def independent():
 
 def faulty_log_L(q_hi: int, params, fault: str) -> float:
     """The bound with a planted error.  'zero_sign': the zero term enters
-    with the wrong sign (M + E in place of M - E)."""
+    with the wrong sign (M + E in place of M - E).  'zero_dropped': the zero
+    term is left out (M alone).  'zero_half': half the zero term (M - E/2)."""
     a, b, dx, dy = params
     with ctx.workprec(lb.PREC):
         d = lb.log_L1_lower(q_hi, a, b, dx, dy, sigma0='1/2', detail=True)
         if fault == 'zero_sign':
             return ex._lower(d['M'] + d['E'])
+        if fault == 'zero_dropped':
+            return ex._lower(d['M'])
+        if fault == 'zero_half':
+            return ex._lower(d['M'] - d['E'] / 2)
         if fault == 'none':
             return ex._lower(d['logL'])
         raise ValueError(fault)
 
 
+#: planted faults: name -> log of the faulty "bound" from the cell's M and E
+FAULTS = {'zero_sign': lambda M, E: M + E, 'zero_dropped': lambda M, E: M,
+          'zero_half': lambda M, E: M - E / 2, 'none': None}
+
+
 def fault():
+    """Each planted fault against the exact L(1, chi_D) at the largest |D| of
+    every h <= 5000.  The control's detection floor is the smallest ratio
+    exact / bound over the listed fields (controls_exact_l.json): a fault that
+    raises the bound by less than that factor everywhere cannot go red."""
     s = _load(f'search_H{H}.json')
     cells = _load('dtable_grh.json')['intervals']
-    red, green, worst = 0, 0, None
+    stats = {k: {'violations': 0, 'min_ratio': math.inf, 'worst': None} for k in FAULTS}
     for h in range(1, H + 1):
         n = s['max_absD_by_h'][str(h)]
         if n < cells[0]['q_lo']:
@@ -360,22 +377,40 @@ def fault():
         L = math.pi * h / math.sqrt(n)
         M = float(arb(c['M']).mid())
         E = float(arb(c['E']).mid())
-        if L < math.exp(M + E):
-            red += 1
-            if worst is None or L / math.exp(M + E) < worst['ratio']:
-                worst = {'absD': n, 'h': h, 'L_exact': L, 'faulty_bound': math.exp(M + E),
-                         'ratio': L / math.exp(M + E)}
-        if L < c['L_lower']:
-            green += 1
-    # recompute the worst case in Arb
+        for k, f in FAULTS.items():
+            b = c['L_lower'] if f is None else math.exp(f(M, E))
+            st = stats[k]
+            if L < b:
+                st['violations'] += 1
+            if L / b < st['min_ratio']:
+                st['min_ratio'] = L / b
+                st['worst'] = {'absD': n, 'h': h, 'L_exact': L, 'faulty_bound': b, 'ratio': L / b}
+    # the clearest violation of the sign fault, recomputed in Arb
+    worst = None
+    for h in range(1, H + 1):
+        n = s['max_absD_by_h'][str(h)]
+        if n < cells[0]['q_lo']:
+            continue
+        c = cell_of(cells, n)
+        L = math.pi * h / math.sqrt(n)
+        b = math.exp(float(arb(c['M']).mid()) + float(arb(c['E']).mid()))
+        if L < b and (worst is None or L / b < worst['ratio']):
+            worst = {'absD': n, 'h': h, 'L_exact': L, 'faulty_bound': b, 'ratio': L / b}
     c = cell_of(cells, worst['absD'])
     again = math.exp(faulty_log_L(c['q_hi'], cell_params(c), 'zero_sign'))
+    floor = _load('controls_exact_l.json')['worst_margin']['margin']
+    red, green = stats['zero_sign']['violations'], stats['none']['violations']
     out = {
         'fault': 'zero term with the wrong sign: exp(M + E) in place of exp(M - E)',
         'pairs_checked': 'the largest |D| of every h <= 5000',
         'violations_with_fault': red, 'violations_without_fault': green,
         'clearest_violation': worst, 'faulty_bound_recomputed_in_arb': again,
         'control_goes_red': red > 0 and green == 0 and again > worst['L_exact'],
+        'detection_floor_in_L': floor,
+        'detection_floor_in_D': floor ** 2,
+        'other_plants': {k: {'violations': stats[k]['violations'], 'min_ratio': stats[k]['min_ratio'],
+                             'caught': stats[k]['violations'] > 0}
+                         for k in ('zero_dropped', 'zero_half', 'none')},
     }
     (HERE / 'controls_fault.json').write_text(json.dumps(out, indent=1) + '\n')
     print(json.dumps(out, indent=1))
@@ -385,7 +420,9 @@ def fault():
 
 #: Garcia, Grenie, Lee, Molteni, arXiv:2610.14257v1, Table 1 (GRH): h0, number
 #: of fields with h <= h0, largest |disc|.  Transcribed from this workflow's
-#: literature notes of 2026-11-20, which read the PDF; not re-read here.
+#: literature notes of 2026-11-20, which read the PDF; all 20 rows checked
+#: against the PDF by the computation reviewer, and the rows 500, 1000, 1500
+#: and 2000 re-read from the PDF by the orchestrator, the same day.
 GGLM_TABLE1 = {
     100: (42272, 2383747), 200: (167157, 8377363), 300: (372393, 19225243),
     400: (665008, 35723227), 500: (1028749, 55171603), 600: (1488496, 81792547),
@@ -432,7 +469,7 @@ def crosschecks():
     }
     bad = [k for k, (c, m) in GGLM_TABLE1.items() if s['cumulative_by_hundreds'][str(k)] != [c, m]]
     out['gglm_table1_h_le_2000'] = {'rows_compared': len(GGLM_TABLE1), 'mismatches': bad,
-                                    'provenance': 'transcribed from the literature notes, not re-read'}
+                                    'provenance': 'transcribed from the literature notes; all 20 rows checked against the PDF by the computation reviewer, rows 500, 1000, 1500, 2000 re-read by the orchestrator (2026-11-20)'}
     c1000 = s['cumulative_by_hundreds']['1000']
     out['cremona_sutherland_h_le_1000'] = {
         'count_equal': c1000[0] == CREMONA_SUTHERLAND['count_h_le_1000'],
@@ -450,6 +487,52 @@ def crosschecks():
                         and out['cremona_sutherland_h_le_1000']['count_equal']
                         and out['cremona_sutherland_h_le_1000']['largest_equal'])
     (HERE / 'crosschecks.json').write_text(json.dumps(out, indent=1) + '\n')
+    print(json.dumps(out, indent=1))
+
+
+#: Molteni's per-field data file for arXiv:2610.14257 (line h lists the
+#: discriminants of class number h, h = 1..2000), fetched by the computation
+#: reviewer of 2026-11-20 from sites.unimi.it/molteni/research/class_numbers/
+MOLTENI_FILE = {'name': 'classes-list-2000.txt', 'bytes': 165368321,
+                'sha256': '2900aabef20e51511cbe0cbb1c7519f6788dfbd9a17b172626dcee70b302cb12'}
+
+
+def molteni(src: Path, outdir: Path):
+    """The list for h <= 2000 against Molteni's per-field file, field by field."""
+    t0 = time.time()
+    raw = src.read_bytes()
+    sha = hashlib.sha256(raw).hexdigest()
+    theirs = {}
+    for h, line in enumerate(raw.decode().splitlines(), start=1):
+        body = line.strip().strip('[]')
+        theirs[h] = np.sort(-np.array(body.split(','), dtype=np.int64)) if body else np.zeros(0, np.int64)
+    del raw
+    s = _load(f'search_H{H}.json')
+    top = s['cumulative_by_hundreds']['2000'][1]                 # largest |D| with h <= 2000
+    from hunts.grh_class_number import search
+    ns, hs = [], []
+    for lo, hi, *_ in search.chunks(s['X']):
+        if lo > top:
+            break
+        a = np.array(search.chunk_path(outdir, lo, hi).read_bytes().split(), dtype=np.int64).reshape(-1, 2)
+        keep = a[:, 1] <= 2000
+        ns.append(a[keep, 0])
+        hs.append(a[keep, 1])
+    n, h = np.concatenate(ns), np.concatenate(hs)
+    order = np.lexsort((n, h))
+    n, h = n[order], h[order]
+    cuts = np.searchsorted(h, np.arange(1, 2002))
+    bad = []
+    for k in range(1, 2001):
+        ours = n[cuts[k - 1]:cuts[k]]
+        if len(ours) != len(theirs.get(k, ())) or not np.array_equal(ours, theirs[k]):
+            bad.append(k)
+    out = {'file': MOLTENI_FILE, 'sha256_matches_record': sha == MOLTENI_FILE['sha256'],
+           'lines': len(theirs), 'fields_in_file': int(sum(len(v) for v in theirs.values())),
+           'fields_in_list_h_le_2000': int(len(n)), 'h_with_different_sets': bad,
+           'even_h_above_1500_fields': int(sum(len(theirs[k]) for k in range(1502, 2001, 2))),
+           'seconds': round(time.time() - t0, 1)}
+    (HERE / 'controls_molteni.json').write_text(json.dumps(out, indent=1) + '\n')
     print(json.dumps(out, indent=1))
 
 
@@ -597,6 +680,8 @@ if __name__ == '__main__':
         small_range(Path(sys.argv[2]))
     elif cmd == 'make_hk':
         make_hk(Path(sys.argv[2]))
+    elif cmd == 'molteni':
+        molteni(Path(sys.argv[2]), Path(sys.argv[3]))
     else:
         {'lls': lls, 'zero_term': zero_term, 'fault': fault, 'crosschecks': crosschecks,
          'independent': independent}[cmd]()

@@ -1,11 +1,21 @@
-"""Checks for hunt #161: every number RESULTS.md quotes, and faults planted to see red.
+"""Checks for hunt #161: the numbers RESULTS.md quotes, and faults planted to see red.
 
-Three kinds of test live here.
+Four kinds of test live here.
 
 * Recomputation: the instrument is run again at reduced size and compared with
   the committed JSON (decade extremes, enclosures, level ratios, rival slopes).
 * Pins: a number quoted in RESULTS.md must be the number in the JSON, formatted
-  the same way.  A changed run that is not carried into the prose fails here.
+  the same way.  Most pins are phrase or table-row checks; a bare substring
+  check can be satisfied by another occurrence, which is why the next kind
+  exists.
+* Coverage: `test_every_number_in_results_is_accounted_for` lists every
+  numeric token of RESULTS.md (decimals, scientific notation, integers of four
+  or more digits) with its exact occurrence count, each one either computed
+  here from the committed data or held as a frozen reference string with a
+  stated kind (citation, archive location, chosen parameter, reviewer report).
+  A frozen string guards against drift, not against being wrong.  A mutation
+  test changes every occurrence in turn and requires a failure.  Integers
+  below 1000 are not tokens and are pinned only where a phrase carries them.
 * Planted faults: each check that could pass vacuously is shown to fail on a
   deliberately wrong input (sign of the zero sum, a dropped term, a missing
   zero, the wrong parity formula, a perturbed constant, a planted off-line
@@ -84,6 +94,10 @@ def test_transcription_is_pinned_and_quoted_in_the_mission():
 
 
 def test_c0_and_the_value_at_one():
+    """F(1) = c0 is arithmetic of constants (G(1) = 1 + gamma by an empty sum), not a calibration.
+
+    It checks the instrument's assembly of the constants and nothing about the zeros.
+    """
     c0 = I.c0_arb(128)
     assert abs(float(c0.mid()) - I.C0) < 2e-16  # the float constant carries its own rounding
     assert I.C0 == pytest.approx(0.0461914179322420676, abs=2e-16)
@@ -210,9 +224,26 @@ def test_scan_stays_inside_the_envelope_and_the_extremes_are_where_results_says(
     for d in decs:
         assert f"| {d['decade']} | {d['n_min']} | {_mid(d['F_min_arb']):.10f} | {d['F_min_over_c0']:.4f} |" in text
         assert f"{d['y_crit']:.4f} | {_mid(d['F_crit_arb']):.10f} | {d['F_crit_over_c0']:.4f} |" in text
-    # the precision response: 128 against 192 bits
-    for d in decs:
-        assert abs(_mid(d["F_min_arb"]) - _mid(d["F_min_arb_prec2"])) < 1e-15
+    # the precision response: 128 against 192 bits, at all four values of every decade
+    n_vals, worst_mid, worst_rad = 0, 0.0, 0.0
+    ctx.prec = 256
+    try:
+        for d in decs:
+            for key in ("F_min_arb", "F_max_int_arb", "F_crit_arb", "G_over_sqrt_max_arb"):
+                a, b = arb(d[key].strip("[]")), arb(d[key + "_prec2"].strip("[]"))
+                assert a.overlaps(b), (d["decade"], key)
+                assert len(d[key].split(" +/- ")[0].lstrip("[-").split(".")[1]) >= 24
+                worst_mid = max(worst_mid, float(abs(a.mid() - b.mid()).mid()))
+                worst_rad = max(worst_rad, float(a.rad()))
+                n_vals += 1
+            assert d["inside_envelope_decided_by_arb"] and d["inside_envelope_decided_by_arb_prec2"]
+    finally:
+        ctx.prec = 53
+    assert worst_mid < worst_rad
+    flat = re.sub(r"\s+", " ", text)
+    assert n_vals == 36 and "overlap at all 36 values" in flat
+    assert f"differ by at most {worst_mid:.1e}, below the largest 128-bit radius {worst_rad:.1e}" in flat
+    assert enc["precisions_bits"] == [128, 192]
 
 
 def test_the_global_minimum_and_maximum_enclosures_recompute():
@@ -266,7 +297,9 @@ def _zeta_defect_ratio(gammas, budget_gammas=None, sign=1.0, drop_T=False, gamma
 def test_explicit_formula_for_G_within_the_exact_tail_budget():
     g = _lab_zeros()
     ratio = _zeta_defect_ratio(g)
-    assert ratio[0] == pytest.approx(1.0, abs=1e-9)  # at y = 1 every phase is aligned
+    # at y = 1 the ratio is 1 for ANY zero list (defect(1) = c0 - partial = budget): it cannot fail
+    # and is evidence of nothing; it is kept only as an assembly check and excluded from the calibration
+    assert ratio[0] == pytest.approx(1.0, abs=1e-9)
     assert np.max(np.abs(ratio[1:])) < 0.2
     z = _load("zeros.json")
     rung = {r["n_zeros"]: r for r in z["ladder"]}
@@ -290,8 +323,8 @@ def test_explicit_formula_for_G_within_the_exact_tail_budget():
 def test_planted_faults_in_the_explicit_formula_go_red():
     g = _lab_zeros()
 
-    def passes(ratio):
-        return bool(np.max(np.abs(ratio[1:])) <= 1.0) and abs(ratio[0] - 1.0) < 1e-6
+    def passes(ratio):  # y = 1 is excluded: its ratio is 1 whatever the zero list
+        return bool(np.max(np.abs(ratio[1:])) <= 1.0)
 
     assert passes(_zeta_defect_ratio(g))
     # the sign of the zero sum as one fetched source prints it
@@ -303,10 +336,55 @@ def test_planted_faults_in_the_explicit_formula_go_red():
     # one zero missing from the list while the budget believes the list is complete
     lesioned = np.delete(g, 4)
     assert not passes(_zeta_defect_ratio(lesioned, budget_gammas=g))
-    # the constant c0 perturbed: the budget at y = 1 no longer closes
-    ratio = _zeta_defect_ratio(g)
-    wrong_tail = (I.C0 + 1e-4) - Z.zeta_partial(g)
-    assert abs(ratio[0] * Z.zeta_tail_budget(g) / wrong_tail - 1.0) > 0.05
+    # the constant c0 perturbed, read where it can fail: against the zero density.
+    # (The first version read c0 + 1e-4 at y = 1, which is the tautology above.)
+    z = _load("zeros.json")
+    top = {r["n_zeros"]: r for r in z["ladder"]}[20000]
+    true_miss = top["tail_budget"] / top["density_prediction"] - 1
+    wrong_miss = (top["tail_budget"] + 1e-6) / top["density_prediction"] - 1
+    assert abs(true_miss) < 2e-3 and abs(wrong_miss) > 2e-3
+    assert f"{100 * wrong_miss:.2f} percent against a tolerance of 0.2" in _text().replace("\n", " ")
+
+
+def test_the_arb_zero_side_runs_and_its_planted_faults_go_red():
+    """The Arb route itself, with 300 zeros: what it decides and what it cannot resolve."""
+
+    def decide(y, sign=1, keep_T=True, shift_in_budgets=0.0, shift_abs=0.0):
+        (ps,) = I.G_arb([y], 128)
+        p = Z.zeta_zero_side_arb_parts(y, 300, 128)
+        ctx.prec = 128
+        try:
+            b = p["tail"] * p["sqrt_y"]
+            zs = sign * p["zero_sum"] + p["log_2pi"] + (p["T"] if keep_T else 0) + shift_in_budgets * b + shift_abs
+            d = abs(ps - zs)
+            return bool(d <= b), bool(d > b)  # (decided inside, decided outside)
+        finally:
+            ctx.prec = 53
+
+    assert decide(2.5) == (True, False)
+    assert decide(2.5, sign=-1) == (False, True)
+    assert decide(2.5, keep_T=False) == (False, True)
+    assert decide(2.5, shift_in_budgets=2.0) == (False, True)
+    assert decide(2.5, shift_abs=1e-4) == (True, False)  # below the budget: not resolved
+    assert decide(100.5) == (True, False)
+    assert decide(100.5, keep_T=False) == (True, False)  # T(100.5) is far below the budget
+    # the wrapper returns the same pieces
+    val, tail = Z.zeta_zero_side_arb(2.5, 300, 128)
+    p = Z.zeta_zero_side_arb_parts(2.5, 300, 128)
+    ctx.prec = 128
+    try:
+        assert val.overlaps(p["zero_sum"] + p["log_2pi"] + p["T"]) and tail.overlaps(p["tail"])
+    finally:
+        ctx.prec = 53
+    # the committed spot checks and the resolution RESULTS states next to them
+    spots = _load("explicit_zeta.json")["arb_spots"][1:]
+    budgets = [float(_mid(s["budget"])) for s in spots]
+    slack = [round(_mid(s["budget"]) / abs(_mid(s["defect"]))) for s in spots]
+    assert slack == [2510, 822, 97, 205]
+    text = _flat(_text())
+    assert "The budgets there are " + ", ".join(f"{b:.2e}" for b in budgets[:3]) + f" and {budgets[3]:.2e}, which is 2510, 822, 97 and 205 times the defect" in text
+    # a constant wrong by 1e-3 sits inside the budget at the last two points
+    assert all(abs(_mid(s["defect"])) + 1e-3 < _mid(s["budget"]) for s in spots[2:])
 
 
 # ------------------------------------------------------------------ characters
@@ -709,9 +787,10 @@ def test_remaining_numbers_quoted_in_results():
         if t.get("max_gap_between_violations_in_log_y")
     ]
     assert max(gaps) < 2.01
+    # the closed-form reach of the scan to 10^9 (an order of magnitude, not a threshold; see the reach test)
     assert RL.predicted_envelope_onset(1.0, 1170.0) == pytest.approx(1e9, rel=0.02)
     assert RL.predicted_envelope_onset(0.6, 18.5) == pytest.approx(1e9, rel=0.05)
-    assert "about 1170" in text and "about 18.5" in text
+    assert "The closed form puts those limits at 1170 and 18.5, and it is an order of magnitude, not a threshold" in text.replace("\n", " ")
     # rivals remarks
     r = _load("rivals.json")
     zc, d, e = r["zeta_control"], r["davenport_heilbronn"], r["epstein_1_1_6"]
@@ -741,6 +820,409 @@ def test_remaining_numbers_quoted_in_results():
     assert f"{100 * share:.1f} percent" in text
     per_decade = ", ".join(f"{d['F_crit_over_c0']:.2f}" for d in enc["decades"])
     assert per_decade in text.replace("\n", " ").replace("   ", " ")
+
+
+# ------------------------------------------- review round: frontier, rivals, reach
+
+
+def _flat(text):
+    return re.sub(r"\s+", " ", text)
+
+
+def test_the_unconditional_frontier_recomputes_and_is_quoted():
+    """Section 6 and Literature: what is known without RH, recomputed from the stated formulas."""
+    fr = _load("frontier.json")
+    w1 = RS.one_sided_density_weight(RS.H_PLATT_TRUDGIAN)
+    reach = RS.unconditional_reach(w1)
+    ref = fr["reach"]["H_3e12"]
+    for k, v in reach.items():
+        assert v == pytest.approx(ref[k], rel=1e-12), k
+    text = _flat(_text())
+    assert f"`w1 = {w1:.2e}`" in text  # 1.48e-12
+    assert f"The excess over the RH envelope is {reach['excess_over_c0_at_y_1e9']:.1e} at `y = 10^9`" in text
+    m, e = f"{reach['y_where_excess_over_envelope_reaches_c0']:.1e}".split("e+")
+    assert f"reaches `c0` itself at `y = {m} * 10^{int(e)}`" in text  # 9.7 * 10^20
+    m, e = f"{reach['y_up_to_which_G_le_sqrt_y_is_guaranteed']:.1e}".split("e+")
+    assert f"guaranteed for `4 <= y <= {m} * 10^{int(e)}`" in text  # 4.2 * 10^23
+    m1, e1 = f"{reach['crude_y_where_2w1_y_reaches_c0_sqrt_y']:.1e}".split("e+")
+    m2, e2 = f"{reach['crude_y_where_2w1_y_reaches_sqrt_y']:.1e}".split("e+")
+    assert f"as the reviewer did, gives {m1} * 10^{int(e1)} and {m2} * 10^{int(e2)}" in text
+    # the lower end 4 of that range: the smaller root of w1 s^2 - (1 - c0 - 3 w1) s + log 2pi
+    a = 1 - I.C0 - 3 * w1
+    lo = ((a - math.sqrt(a * a - 4 * w1 * I.LOG_2PI)) / (2 * w1)) ** 2
+    assert 3 < lo < 4
+    # the published theorem's reach: sqrt(x)/2 + 1.75e-12 x <= sqrt(x)
+    th = fr["ramare_theorem_1_1"]
+    reach_th = (th["sqrt_const"] / th["linear_const"]) ** 2
+    assert reach_th == pytest.approx(th["y_up_to_which_G_le_sqrt_y_follows"], rel=1e-12)
+    m, e = f"{reach_th:.1e}".split("e+")
+    assert text.count(f"{m} * 10^{int(e)}") == 5  # 8.2 * 10^22
+    assert text.count("`|G(x)| <= sqrt(x)/2 + 1.75e-12 x` for `x >= 8950`") == 3
+    assert th["bound_on_abs_F_at_y_1e9_from_its_proof"] < 0.0471
+    # without RH, the scan could not have come out otherwise: c0 + excess is far below the scanned extremes' room
+    assert reach["excess_over_c0_at_y_1e9"] < 1e-7
+    # the onset of a single quadruple lies far above the guaranteed range
+    assert RL.predicted_onset(1.0, 3e12, 0.5) > 1e25 * reach["y_up_to_which_G_le_sqrt_y_is_guaranteed"]
+    # Lemma 4.2 of the 2013 paper as printed in the author copy, against the zero table
+    chk = fr["ramare_lemma_4_2_check"]
+    row = {r["T"]: r for r in chk["rows"]}[1000.0]
+    assert row["lemma_4_2_as_printed"] == pytest.approx(RS.ramare_lemma_4_2_as_printed(1000.0), rel=1e-14)
+    assert row["density_leading_term"] == pytest.approx(RS.one_sided_density_weight(1000.0), rel=1e-14)
+    assert row["listed_sum_alone_exceeds_printed_bound"] and row["n_listed_zeros_from_T"] == 19351
+    assert (
+        f"the 19351 listed zeros with `1000 <= gamma <= {fr['zero_table_height']:.3f}` alone sum to "
+        f"{row['listed_sum_of_inverse_squares']:.3e}, above the printed bound {row['lemma_4_2_as_printed']:.3e}"
+    ) in text
+    assert f"the sum is {row['listed_sum_plus_tail_from_c0']:.3e}, and the density integral" in text
+    assert f"gives {row['density_leading_term']:.3e}" in text
+    assert f"turns {chk['printed_bound_at_T0']:.2e} into {chk['density_leading_term_at_T0']:.2e}" in text
+    assert chk["printed_bound_at_T0"] < 1.75e-12 < chk["density_leading_term_at_T0"]
+    assert w1 < 1.75e-12
+    # the zeros above 3e12 weigh about 3e-12 (both signs of gamma)
+    assert 2 * w1 == pytest.approx(3e-12, rel=0.02) and "about 3e-12" in text
+    # the printed and the corrected bounded term at x = 1 (2.338 against 1.531)
+    assert f"`B(1) = {0.5 + I.LOG_2PI:.3f}`" in text and f"`log 4pi - 1 = {math.log(4 * math.pi) - 1:.3f}`" in text
+    # the hashes of the two author copies are recorded
+    assert fr["sources"]["ramare_2013_author_copy_sha256"] == RS.RAMARE_2013_AUTHOR_COPY_SHA256
+    assert fr["sources"]["ramare_2023_author_copy_sha256"] == RS.RAMARE_2023_CORRIGENDUM_AUTHOR_COPY_SHA256
+
+
+def test_the_battery_and_the_epstein_onsets_are_quoted_whole():
+    r = _load("rivals.json")
+    b = r["battery_type_claim"]
+    assert b["riemann_zeta"] is True and b["distinguishes"] is False
+    assert not b["davenport_heilbronn"] and not b["epstein_1_1_6"] and not b["shifted_product"]
+    assert b["undefined_for"] == ["epstein_2_1_3"] and "a_1 = 0" in b["undefined_reasons"]["epstein_2_1_3"]
+    lam2 = b["shifted_product_lambda_2_over_log_2"]
+    assert lam2 == pytest.approx(2**0.25 + 2**-0.25, rel=1e-12)
+    text = _flat(_text())
+    assert f"`Lambda_f(2)/log 2 = {lam2:.4f}`" in text
+    assert "The Epstein form (2,1,3) is **undefined for this claim**" in text
+    # the battery itself still says this, recomputed
+    assert RR.battery_record()["undefined_for"] == ["epstein_2_1_3"]
+    e = r["epstein_1_1_6"]
+    att = e["onset_attribution"]
+    for row in att["rows"]:
+        th = row["theta"]
+        line = (
+            f"| {th} | {row['first_violation']} | {row['predicted_onset']:.0f} | {row['observed_over_predicted']:.4f} | "
+        )
+        assert line in text, line
+        assert row["first_violation"] == {x["theta"]: x for x in e["interface"]}[th]["first_violation"]
+        assert row["predicted_onset"] == pytest.approx(e["predicted_first_violation"][str(th)], rel=1e-12)
+    r50, r55, r60 = att["rows"]
+    assert f"{r50['first_violation_without_recorded_quadruple']} |" in text  # 89
+    assert f"first at `n = {r50['first_violation_without_recorded_quadruple']}` and at {r50['n_violations_without_recorded_quadruple']} integers up to 10^7 ({r50['n_violations']} with the zero)" in text
+    assert f"reaches {att['sup_rest_over_sqrt_n_ge_10']:.2f} `sqrt(n)` at `n = {att['sup_rest_over_sqrt_at']}`" in text
+    assert r55["n_violations_without_recorded_quadruple"] == 0 and r60["n_violations_without_recorded_quadruple"] == 0
+    assert f"arrives a factor {r55['predicted_onset'] / r55['first_violation']:.1f} early" in text
+    assert (
+        f"the quadruple contributes {r55['quadruple_part_at_first']:.1f} and the rest {r55['rest_at_first']:.1f} "
+        f"of the threshold {r55['threshold_at_first']:.1f}"
+    ) in text
+    assert f"the quadruple contributes {r60['quadruple_part_at_first']:.1f} of {r60['G_f_at_first']:.1f}" in text
+    assert f"holds to {100 * abs(r60['observed_over_predicted'] - 1):.2f} percent" in text
+    m, ex = f"{e['predicted_first_violation']['0.75']:.1e}".split("e+")
+    assert f"predicted onset {m} * 10^{int(ex)}" in text
+
+
+def test_the_reach_of_the_scan_on_the_prime_side():
+    """Section 6: the closed-form reach is an order of magnitude; plants above it can still be flagged."""
+    plants = (370.0, 407.0, 444.0)
+    first = dict.fromkeys(plants)
+    for n, e, r, _ in I.scan_integers(10**7, seg=1 << 20):
+        base = n * e - r - I.LOG_2PI - I.T_float(n)
+        u = np.log(n)
+        for g0 in plants:
+            if first[g0] is None:
+                d = RL.lesion_delta(u, 1.0, g0)
+                first[g0] = RL.first_true((np.abs(base + d) > I.C0 * np.sqrt(n)) & (n >= 10), n)
+    assert RL.predicted_envelope_onset(1.0, 370.0) == pytest.approx(1e7, rel=1e-3)
+    assert first[370.0] == 4845867.0 and first[407.0] == 5553908.0 and first[444.0] is None
+    text = _flat(_text())
+    assert "where the closed form gives 370, a plant at `gamma0 = 407` is still flagged (first at `n = 5553908`) and one at 444 is not" in text
+    les = {(r["beta"], r["gamma0"]): r for r in _load("lesion.json")["rows"]}
+    r10, r30 = les[(0.6, 10.0)], les[(0.6, 30.0)]
+    assert f"the envelope breaks at `y = {r10['envelope_first_y_model']:.1f}` where the closed form says {RL.predicted_envelope_onset(0.6, 10.0):.0f}" in text
+    m, ex = f"{r30['envelope_first_y_model']:.1e}".split("e+")
+    assert f"the model puts the break at {m} * 10^{int(ex)}, beyond the scan" in text
+    assert r30["envelope_first_y_prime_side"] is None
+
+
+# ------------------------------------------------ every number in RESULTS.md
+
+_NUM_TOKEN = re.compile(r"(?<![\w.])[-+]?(?:\d+\.\d+(?:e[-+]?\d+)?|\d+e[-+]?\d+|\d{4,})(?![\w])")
+
+
+def _tokens(text):
+    from collections import Counter
+
+    return Counter(_NUM_TOKEN.findall(text))
+
+
+def _sci(x):
+    """'9.7' from 9.74e20: the mantissa RESULTS writes as 'm * 10^k'."""
+    return f"{x:.1e}".split("e")[0]
+
+
+#: Tokens held as frozen strings, with their kind.  A frozen string guards against drift only.
+_FROZEN = [
+    # citations, dates, section numbers of cited papers
+    ("2023", 8, "citation"), ("2026", 3, "date"), ("2013", 14, "citation"), ("2021", 1, "citation"),
+    ("2003", 1, "citation"), ("1936", 1, "citation"), ("10.4064", 1, "DOI"),
+    ("2.1", 10, "lemma number"), ("2.2", 4, "lemma number"), ("1.1", 13, "lemma or theorem number"),
+    ("4.2", 3, "lemma number"), ("2311.09464", 2, "arXiv id"), ("1410.7036", 1, "arXiv id"),
+    ("2411.07436", 1, "arXiv id"), ("1912.00853", 1, "arXiv id"),
+    ("0.0461914", 1, "value a search summary reports for arXiv 1410.7036 (equals c0 to 6 digits, checked below)"),
+    ("1.12036", 1, "abscissa recorded in docs/29"),
+    # constants of the published theorem and lemmas (read, not re-proved)
+    ("1.75e-12", 6, "published constant"), ("8950", 6, "published constant"), ("0.047", 4, "published constant"),
+    ("0.67", 1, "published constant"), ("2.44", 1, "published verification height"),
+    # chosen parameters of the computations
+    ("20000", 7, "parameter"), ("2000", 4, "parameter"), ("1000", 7, "parameter"), ("5000", 1, "parameter"),
+    ("2.5", 2, "parameter"), ("100.5", 2, "parameter"), ("10007.25", 1, "parameter"),
+    ("1000003.5", 1, "parameter"), ("1.25", 1, "parameter"), ("1e-3", 3, "planted fault size"),
+    ("1e-4", 2, "planted fault size"), ("1e-6", 1, "planted fault size"), ("0.5", 4, "theta"),
+    ("0.55", 3, "theta"), ("0.6", 13, "theta or beta"), ("0.75", 3, "theta or beta"), ("0.9", 1, "beta"),
+    ("0.04", 1, "parameter"), ("0.2", 1, "tolerance"),
+    # bounds that a test asserts (a stated bound, not a value)
+    ("0.2", 2, "bound asserted in a test"), ("0.02", 1, "bound asserted in a test"),
+    ("0.01", 1, "bound asserted in a test"),
+    # reports of the reviewers, not rerun here
+    ("1e-18", 1, "reviewer report"), ("8.1e22", 1, "reviewer report"), ("5547578", 1, "reviewer report"),
+    # hedged round figure, checked below against the weight
+    ("3e-12", 1, "hedged round figure"),
+]
+
+
+def _derived_tokens():
+    """Every data token of RESULTS.md with its count, computed from the committed data."""
+    from mpmath import euler, log, mp, nstr, pi
+
+    out = []
+
+    def add(s, k=1):
+        out.append((s, k))
+
+    enc = _load("scan_1e9_enclosed.json")
+    decs = enc["decades"]
+    for d in decs:  # the decade table
+        add(f"{_mid(d['F_min_arb']):.10f}")
+        add(f"{d['y_crit']:.4f}")
+        add(f"{_mid(d['F_crit_arb']):.10f}")
+        if d["n_min"] >= 1000 and d["decade"] != 5:
+            add(str(d["n_min"]))
+        if d["decade"] != 7:
+            add(f"{d['F_crit_over_c0']:.4f}")
+        if d["decade"] != 5:
+            add(f"{d['F_min_over_c0']:.4f}")
+    top, bot = decs[7], decs[5]
+    add(f"{top['F_crit_over_c0']:.4f}", 4)  # table, item 3, the doors twice
+    add(f"{bot['F_min_over_c0']:.4f}", 2)
+    add(str(bot["n_min"]), 3)
+    add(f"{top['y_crit']:.6f}", 2)
+    add(str(top["n_max"]))
+    add(f"{_mid(top['F_crit_arb']):.16f}")
+    add(f"{_mid(bot['F_min_arb']):.16f}")
+    for key in ("F_crit_arb", "F_min_arb", "F_prime_at_y_crit_arb"):
+        m, r = top[key].strip("[]").split(" +/- ") if key != "F_min_arb" else bot[key].strip("[]").split(" +/- ")
+        add(m)
+        add(r)
+    with mp.workdps(30):
+        c0 = 2 + euler - log(4 * pi)
+        add(nstr(c0, 18))
+        add(nstr(c0, 9))
+        add(nstr(c0, 3))
+        assert nstr(c0, 6) == "0.0461914"  # the frozen search-summary value
+    worst = max(max(abs(d["F_min_float_minus_arb"]), abs(d["F_max_float_minus_arb"])) for d in decs)
+    add(f"{worst:.1e}", 2)
+    add(f"{_load('scan_1e9.json')['elapsed_s']:.1f}")
+    add(f"{_mid(decs[2]['G_over_sqrt_max_arb']):.5f}")
+    ctx.prec = 256
+    try:
+        a_b = [(arb(d[k].strip("[]")), arb(d[k + "_prec2"].strip("[]"))) for d in decs
+               for k in ("F_min_arb", "F_max_int_arb", "F_crit_arb", "G_over_sqrt_max_arb")]
+        add(f"{max(float(abs(a.mid() - b.mid()).mid()) for a, b in a_b):.1e}", 2)
+        add(f"{max(float(a.rad()) for a, _ in a_b):.1e}")
+    finally:
+        ctx.prec = 53
+    # the doors: per-decade maxima, the share of the first zero, 0.53 in section 6
+    per = [f"{d['F_crit_over_c0']:.2f}" for d in decs]
+    for s in sorted(set(per)):
+        add(s, per.count(s) + (1 if s == f"{top['F_crit_over_c0']:.2f}" else 0))
+    add(f"{100 * 2 / (0.25 + 14.134725141734693**2) / I.C0:.1f}")
+    # zeros and the explicit formula
+    z = _load("zeros.json")
+    add(f"{z['height']:.3f}", 2)
+    add(str(int(z["height"])))
+    add(f"{z['max_ball_radius']:.1e}")
+    top_rung = {r["n_zeros"]: r for r in z["ladder"]}[20000]
+    add(f"{top_rung['tail_budget']:.6e}")
+    add(f"{top_rung['density_prediction']:.6e}")
+    rel = abs(top_rung["tail_budget"] / top_rung["density_prediction"] - 1)
+    add(f"{rel:.1e}")
+    add(f"{abs(top_rung['tail_budget'] - top_rung['density_prediction']):.1e}", 2)
+    add(f"{100 * ((top_rung['tail_budget'] + 1e-6) / top_rung['density_prediction'] - 1):.2f}")
+    x = _load("explicit_zeta.json")
+    for m in ("100", "1000", "5000", "20000"):
+        lad = x["ladder"][m]
+        # 0.082 again in item 2; 1.58e-04 in the doors; 9.95e-04 and 1.30e-05 in the checklist
+        add(f"{lad['max_abs_ratio_y_gt_1']:.3f}", 1 + (1 if m == "20000" else 0))
+        add(f"{lad['tail_budget']:.2e}", 1 + (1 if m == "20000" else 0))
+        add(f"{lad['tail_budget'] * lad['max_abs_ratio_y_gt_1']:.2e}", 1 + (1 if m in ("100", "20000") else 0))
+    add(_sci(max(RS.explicit_grid())))
+    (row125,) = [r for r in x["rows"] if r["y"] == 1.25]
+    add(f"{abs(row125['defect']):.2e}")
+    spots = x["arb_spots"][1:]
+    for s in spots:
+        add(f"{_mid(s['budget']):.2e}")
+    add(str(round(_mid(spots[0]["budget"]) / abs(_mid(spots[0]["defect"])))), 2)
+    # characters and levels
+    ls = _load("lseries.json")
+    add(f"{ls['worst_abs_A_minus_B_upper']:.1e}")
+    add(f"{ls['worst_abs_A_minus_C']:.1e}")
+    add(f"{ls['worst_abs_const0_direct_minus_derived_upper']:.1e}")
+    rows = {(r["q"], r["conrey"]): r for r in ls["rows"]}
+    add(f"{_mid(rows[(3, 2)]['l1_re']):.15f}")
+    c = _load("explicit_chi.json")
+    add(str(sum(r["n_zeros"] for r in c["rows"])))
+    add(f"{c['worst_ratio_y_gt_1']:.3f}")
+    add(f"{100 * c['worst_tail_vs_density']:.1f}", 2)
+    big = _load("levels_q20_y7.json")
+    add(f"{big['worst_level_ratio_n_ge_100']:.4f}", 3)
+    add(f"{big['worst_char_ratio_n_ge_2']:.4f}", 3)
+    add(f"{big['worst_char_ratio_n_ge_100']:.4f}")
+    add(f"{big['max_level_C']:.4f}")
+    add(f"{big['max_level_sup_Gm_over_sqrt_n_ge_100']:.4f}")
+    chk = big["arb_checks"][0]
+    add(str(chk["n"]))
+    add(f"{_mid(chk['ratio_arb']):.12f}")
+    add(f"{_load('levels_q30_y6.json')['worst_level_ratio_n_ge_100']:.4f}")
+    zs = Z.l_zero_ordinates(_char(19, 3), 2.0, step=0.01)
+    cc = float(I.char_constants(_char(19, 3), 128)["c"].mid())
+    add(f"{zs[0]:.4f}")
+    add(f"{abs(zs[0]):.4f}")
+    add(f"{(1.0 / (0.25 + zs[0] ** 2)) / cc:.3f}")
+    add(f"{cc:.4f}")
+    add(f"{Z.l_zero_ordinates(_char(17, 5), 2.0, step=0.01)[0]:.3f}")
+    # lesion and reach
+    les = _load("lesion.json")
+    rws = {(r["beta"], r["gamma0"]): r for r in les["rows"]}
+    add(str(int({t["theta"]: t for t in rws[(1.0, 30.0)]["thetas"]}[0.5]["first_y_prime_side"])))
+    det = [t for row in les["rows"] for t in row["thetas"] if t["first_y_model"] is not None]
+    add(f"{min(t['first_y_model'] / t['predicted_onset'] for t in det):.2f}")
+    add(f"{max(t['first_y_model'] / t['predicted_onset'] for t in det):.2f}")
+    add(f"{math.log10(RL.predicted_onset(1.0, 3e12, 0.5)):.1f}", 4)
+    add(f"{math.log10(RL.predicted_envelope_onset(1.0, 3e12)):.1f}", 3)
+    for g0, b in ((1170.0, 1.0), (18.5, 0.6)):
+        assert RL.predicted_envelope_onset(b, g0) == pytest.approx(1e9, rel=0.05)
+    add("1170", 4)
+    add("18.5", 3)
+    add("5553908", 3)  # recomputed in test_the_reach_of_the_scan_on_the_prime_side
+    add("4845867")  # idem
+    add(f"{rws[(0.6, 10.0)]['envelope_first_y_model']:.1f}")
+    add(f"{RL.predicted_envelope_onset(0.6, 10.0):.0f}")
+    add(_sci(rws[(0.6, 30.0)]["envelope_first_y_model"]))
+    # the frontier
+    w1 = RS.one_sided_density_weight(RS.H_PLATT_TRUDGIAN)
+    reach = RS.unconditional_reach(w1)
+    add(f"{w1:.2e}", 2)
+    add(f"{reach['excess_over_c0_at_y_1e9']:.1e}", 3)
+    add(_sci(reach["y_where_excess_over_envelope_reaches_c0"]), 2)
+    add(_sci(reach["y_up_to_which_G_le_sqrt_y_is_guaranteed"]), 3)
+    add(_sci(reach["crude_y_where_2w1_y_reaches_c0_sqrt_y"]), 2)
+    add(_sci(reach["crude_y_where_2w1_y_reaches_sqrt_y"]), 2)
+    add(_sci((RS.RAMARE_SQRT_CONST / RS.RAMARE_LINEAR_CONST) ** 2), 5)
+    assert 2 * w1 == pytest.approx(3e-12, rel=0.02)  # the frozen "about 3e-12"
+    fr = _load("frontier.json")
+    chk42 = fr["ramare_lemma_4_2_check"]
+    r1000 = {r["T"]: r for r in chk42["rows"]}[1000.0]
+    add(str(r1000["n_listed_zeros_from_T"]))
+    for key in ("listed_sum_of_inverse_squares", "lemma_4_2_as_printed", "listed_sum_plus_tail_from_c0",
+                "density_leading_term"):
+        add(f"{r1000[key]:.3e}")
+    add(f"{chk42['printed_bound_at_T0']:.2e}")
+    add(f"{chk42['density_leading_term_at_T0']:.2e}")
+    add(f"{0.5 + I.LOG_2PI:.3f}")
+    add(f"{math.log(4 * math.pi) - 1:.3f}")
+    # rivals
+    r = _load("rivals.json")
+    zc, dh, ep = r["zeta_control"], r["davenport_heilbronn"], r["epstein_1_1_6"]
+    for f in (zc, dh, ep):
+        for key in ("count_nonzero", "count_nonzero_off_prime_powers", "count_negative"):
+            if f["coefficients"][key] >= 1000:
+                add(str(f["coefficients"][key]))
+        add(f"{f['coefficients']['decade_slopes_of_sum_abs_lambda'][-1]:.4f}", 2 if f is dh else 1)
+    slopes = [f"{s:.3f}" for s in dh["demod_slopes_at_known_zero"] + ep["demod_slopes_at_known_zero"] + zc["demod_slopes_at_gamma1"]]
+    for s in sorted(set(slopes)):
+        add(s, slopes.count(s) + (1 if s in (f"{dh['demod_slopes_at_known_zero'][-1]:.3f}", f"{ep['demod_slopes_at_known_zero'][-1]:.3f}") else 0))
+    for f in (dh, ep):
+        add(f"{f['known_zero']['beta']:.5f}", 2)
+        add(f"{f['known_zero']['gamma']:.5f}")
+    add(f"{dh['logderiv_at_1']['flint_re']:.12f}")
+    add(f"{ep['g0']['g0_kronecker']:.12f}")
+    add(f"{zc['recursion_reproduces_von_mangoldt_max_abs_diff']:.1e}")
+    add(f"{dh['recursion_vs_lab_mpmath_max_abs_diff_n_le_240']:.1e}")
+    add(f"{ep['g0']['abs_diff']:.0e}")  # "agreeing to 2e-25"
+    add(f"{r['battery_type_claim']['shifted_product_lambda_2_over_log_2']:.4f}", 2)
+    att = ep["onset_attribution"]
+    for row in att["rows"]:
+        add(f"{row['predicted_onset']:.0f}")
+        add(f"{row['observed_over_predicted']:.4f}")
+    add(str(att["rows"][1]["first_violation"]), 3)
+    add(str(att["rows"][2]["first_violation"]), 2)
+    r50, r55, r60 = att["rows"]
+    add(str(r50["n_violations_without_recorded_quadruple"]))
+    add(str(r50["n_violations"]))
+    add(f"{att['sup_rest_over_sqrt_n_ge_10']:.2f}")
+    add(str(att["sup_rest_over_sqrt_at"]))
+    add(f"{r55['predicted_onset'] / r55['first_violation']:.1f}")
+    add(f"{r55['quadruple_part_at_first']:.1f}")
+    add(f"{r55['rest_at_first']:.1f}")
+    add(f"{r55['threshold_at_first']:.1f}")
+    add(f"{r60['quadruple_part_at_first']:.1f}")
+    add(f"{r60['G_f_at_first']:.1f}")
+    add(f"{100 * abs(r60['observed_over_predicted'] - 1):.2f}")
+    add(str({x["theta"]: x for x in ep["interface"]}[0.6]["last_clean_window_start"]))
+    add(_sci(ep["predicted_first_violation"]["0.75"]))
+    add(f"{dh['predicted_first_violation_theta_0.6']:.1e}")
+    # decoy
+    dec = _load("decoy.json")
+    add(f"{dec['decoy_min_sup_abs_F_after_refit']:.1f}")
+    add(f"{dec['true_primes_sup_abs_F_n_ge_100']:.4f}")
+    add(f"{dec['decoy_max_fraction_inside_after_refit']:.2f}")
+    return out
+
+
+def _expected_tokens():
+    from collections import Counter
+
+    exp = Counter()
+    for s, k in _derived_tokens():
+        exp[s] += k
+    for s, k, _kind in _FROZEN:
+        exp[s] += k
+    return exp
+
+
+def test_every_number_in_results_is_accounted_for():
+    got, exp = _tokens(_text()), _expected_tokens()
+    missing = {k: (exp.get(k, 0), v) for k, v in got.items() if exp.get(k, 0) != v}
+    extra = {k: (v, got.get(k, 0)) for k, v in exp.items() if got.get(k, 0) != v}
+    assert not missing and not extra, (missing, extra)
+
+
+def test_a_changed_number_in_results_is_caught():
+    text, exp = _text(), _expected_tokens()
+    assert _tokens(text) == exp
+    n = 0
+    for m in _NUM_TOKEN.finditer(text):
+        tok = m.group(0)
+        i = m.start() + max(j for j, ch in enumerate(tok) if ch.isdigit() and not (tok[j - 1:j] == "e" or tok[j - 2:j] in ("e-", "e+")))
+        bumped = text[:i] + str((int(text[i]) + 1) % 10) + text[i + 1:]
+        assert _tokens(bumped) != exp, tok
+        n += 1
+    assert n == sum(exp.values())
 
 
 # ------------------------------------------------------------- hygiene of the hunt

@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 from flint import arb, ctx
 
-from hunts.grh_class_number import bounds, controls, search
+from hunts.grh_class_number import bounds, controls, lls_route, search, sweep
 from hunts.qrh_class_number import classno, explicit as ex, lbound as lb
 
 HERE = Path(__file__).resolve().parent
@@ -126,6 +126,73 @@ def test_arb_value_agrees_with_a_second_route():
         assert 0 < second - float(d['logL'].mid()) < 3e-4
 
 
+def test_the_cover_is_valid_but_stalled_below_log_49():
+    """Review finding: the cover warm-starts every cell from the previous
+    optimum and stays with y below 49 from q = 2.99 * 10^7 to 4 967 973 832.
+    A restart at a = 3.9 on the cell at 10^9 gives a larger Arb-enclosed
+    bound; the committed table stays valid (each cell's value is a true
+    lower bound) and is that much weaker there."""
+    cells = _load('dtable_grh.json')['intervals']
+    low = [c for c in cells if Fraction(c['a']) < Fraction(3892, 1000) and c['q_hi'] > 3 * 10**7]
+    assert len(low) == 514 and low[0]['q_lo'] == 29853308 and low[-1]['q_hi'] == 4967973832
+    c = next(c for c in cells if c['q_lo'] == 991098295)
+    assert c['a'] == '177/50' and c['b'] == '187/25'
+    again = ex.interval_bound(c['q_lo'], c['q_hi'],
+                              (Fraction(39, 10), Fraction(751, 100), Fraction(c['dx']), Fraction(c['dy'])),
+                              sigma0='1/2')
+    assert again['logL_lower'] - c['logL_lower'] == pytest.approx(0.005739, abs=2e-6)
+    assert again['L_lower'] == pytest.approx(0.126172, abs=1e-6)
+    # L_lower is not monotone: one jump up, and 76 cells beaten by a later one
+    L = [x['L_lower'] for x in cells]
+    ups = [i for i in range(1, len(L)) if L[i] > L[i - 1]]
+    assert [cells[i]['q_lo'] for i in ups] == [4967973832]
+    later = [max(L[i + 1:], default=0) for i in range(len(L))]
+    assert sum(1 for i in range(len(L)) if later[i] > L[i]) == 76
+    # and h_lower, which the table reads, is nondecreasing all the same
+    hl = [x['h_lower'] for x in cells]
+    assert hl == sorted(hl)
+
+
+def test_cell_ratios_as_stated():
+    dt = _load('dtable_grh.json')
+    assert 1.0198 < max(c['q_hi'] / c['q_lo'] for c in dt['intervals']) < 1.0199
+    assert max(math.log(c['q_hi']) / math.log(c['q_lo']) for c in dt['bridge_intervals']) < 1.02 + 1e-9
+    t = _load('theorem_a_grh.json')['intervals']
+    assert 1.0212 < max(math.log(c['q_hi']) / math.log(c['q_lo']) for c in t) < 1.0213
+    fail = [c for c in t if c['L_loglogq_lower'] < 1 / 3]
+    assert len(t) == 163 and len(fail) == 39 and fail[-1]['q_hi'] == 22786
+    assert all(c['q_lo'] >= 22786 for c in t if c not in fail)
+
+
+def test_rosser_schoenfeld_form_used_by_the_tail():
+    """S(t) < log log t + B + 1/(2 log^2 t) for t >= 286, checked at every
+    prime to 3 * 10^6 (the right side increases between primes, so primes
+    suffice); it fails at 283.  Float grade: a measurement of the cited
+    inequality, not a proof of it."""
+    import numpy as np
+    N = 3 * 10**6
+    s = np.ones(N + 1, bool)
+    s[:2] = False
+    for i in range(2, int(N**0.5) + 1):
+        if s[i]:
+            s[i * i::i] = False
+    p = np.nonzero(s)[0]
+    S = np.cumsum(1.0 / p)
+    lt = np.log(p.astype(float))
+    margin = np.log(lt) + 0.2614972128476428 + 1 / (2 * lt**2) - S
+    assert margin[p >= 286].min() > 0.0011
+    assert margin[p == 283][0] < 0
+
+
+def test_the_lls_route_door_is_measured_not_adopted():
+    """First door: the LLS route evaluated numerically at q = 10^10 beats
+    Theorem B's cell there by about 11% in L.  Float grade, not used."""
+    v = math.exp(lls_route.log_L_lower(1e10, 1374.0, 240.0))
+    cell = controls.cell_of(_load('dtable_grh.json')['intervals'], 10**10)
+    assert v == pytest.approx(0.13671, abs=2e-5)
+    assert 1.10 < v / cell['L_lower'] < 1.11
+
+
 def test_theorem_a_tail_and_cover():
     t = _load('theorem_a_grh.json')
     tl = t['tail']
@@ -192,6 +259,21 @@ def test_a_planted_sign_fault_turns_the_control_red():
     good = math.exp(controls.faulty_log_L(c['q_hi'], controls.cell_params(c), 'none'))
     bad = math.exp(controls.faulty_log_L(c['q_hi'], controls.cell_params(c), 'zero_sign'))
     assert good < L < bad                                   # green without the fault, red with it
+
+
+def test_control_a_cannot_see_a_fault_below_its_floor():
+    """Control (a) is blind to any error that raises the bound by less than
+    the factor 1.449 in L (2.1 in D): dropping the zero term altogether, or
+    halving it, stays green.  The size of the zero term is checked only by the
+    seven-character zero-term control and by the written proof."""
+    f = _load('controls_fault.json')
+    assert 1.449 < f['detection_floor_in_L'] < 1.4492
+    assert 2.10 < f['detection_floor_in_D'] < 2.11
+    o = f['other_plants']
+    assert not o['zero_dropped']['caught'] and 1.12 < o['zero_dropped']['min_ratio'] < 1.121
+    assert not o['zero_half']['caught'] and 1.28 < o['zero_half']['min_ratio'] < 1.282
+    assert o['none']['violations'] == 0
+    assert o['none']['min_ratio'] == pytest.approx(f['detection_floor_in_L'], rel=1e-9)
 
 
 # ------------------------------------------------------ class numbers
@@ -277,12 +359,93 @@ def test_lists_agree_with_every_published_table():
         assert s['cumulative_by_hundreds'][str(k)] == [cnt, mx]
 
 
-def test_a_planted_miscount_is_caught_by_the_cross_checks():
-    s = _load(f'search_H{H}.json')
+def _published_table_mismatches(counts, cumulative):
+    """Every comparison with a published table that a per-h count can fail."""
+    sib = _load('search_H1500.json', SIBLING)
+    w = _load('watkins.json', SIBLING)
     hk = _load('holmin_kurlberg_odd_5000.json')['count_by_odd_h']
+    bad = [('sibling', h) for h in range(1, 1501) if counts[str(h)] != sib['count_by_h'][str(h)]]
+    bad += [('watkins', h) for h in range(1, 101) if counts[str(h)] != w['count_by_h'][str(h)]]
+    bad += [('holmin_kurlberg', h) for h in range(1, H + 1, 2) if counts[str(h)] != hk[str(h)]]
+    bad += [('gglm', k) for k, (c, _) in controls.GGLM_TABLE1.items() if cumulative(counts, k) != c]
+    return bad
+
+
+def _cumulative(counts, k):
+    return sum(counts[str(h)] for h in range(1, k + 1))
+
+
+def test_an_odd_h_drop_is_caught_by_the_published_tables():
+    """Plant: one field with odd h = 4999 dropped.  Holmin-Kurlberg sees it."""
+    s = _load(f'search_H{H}.json')
+    assert _published_table_mismatches(s['count_by_h'], _cumulative) == []
     lost = dict(s['count_by_h'])
-    lost['4999'] -= 1                                       # one field dropped
-    assert any(lost[str(h)] != hk[str(h)] for h in range(1, H + 1, 2))
+    lost['4999'] -= 1
+    assert _published_table_mismatches(lost, _cumulative) == [('holmin_kurlberg', 4999)]
+
+
+@pytest.mark.parametrize('h_even', [2002, 3000, 4998])
+def test_an_even_h_drop_above_2000_escapes_every_published_table(h_even):
+    """Plant: one field with even h in (2000, 5000] dropped.  No published
+    table can see it (none exists for those h); only the full-range sweep of
+    controls_sweep.json and the field-level PARI checks can.  This test pins
+    the blindness, so that nobody reads the table comparisons as covering it."""
+    s = _load(f'search_H{H}.json')
+    lost = dict(s['count_by_h'])
+    lost[str(h_even)] -= 1
+    assert _published_table_mismatches(lost, _cumulative) == []
+
+
+def test_the_sweep_catches_an_even_h_drop_but_not_a_small_shift(tmp_path):
+    """The independent sweep (lsieve.c Euler products plus PARI) on a window
+    at 1.5 * 10^9, against cnx's list there.  Clean: nothing flagged.  Plant
+    1, one field with even h > 2000 dropped: reported missing.  Plant 2, a
+    listed class number moved by 2 (inside the 2.5% tolerance): NOT caught,
+    which is the sweep's documented blind spot (the field-level PARI checks
+    cover it only on samples)."""
+    lo, hi = 1_500_000_000, 1_500_200_000
+    rows = _cnx(tmp_path, H, [(lo, hi, 1, 0, 'w.txt')])['w.txt'][0]
+    Ln = [n for n, _ in rows]
+    Lh = [h for _, h in rows]
+    import numpy as np
+    Ln, Lh = np.array(Ln, dtype=np.int64), np.array(Lh, dtype=np.int64)
+    clean = sweep.sweep_window(lo, hi, Ln, Lh, 20000, 0.025, tmp_path / 'c.bin')
+    assert clean['MISSING'] == [] and clean['WRONG'] == [] and clean['listed'] > 200
+    k = next(i for i in range(len(Lh)) if Lh[i] > 2000 and Lh[i] % 2 == 0)
+    keep = np.arange(len(Ln)) != k
+    dropped = sweep.sweep_window(lo, hi, Ln[keep], Lh[keep], 20000, 0.025, tmp_path / 'd.bin')
+    assert dropped['MISSING'] == [(int(Ln[k]), int(Lh[k]))]
+    shifted = Lh.copy()
+    shifted[k] += 2
+    blind = sweep.sweep_window(lo, hi, Ln, shifted, 20000, 0.025, tmp_path / 's.bin')
+    assert blind['MISSING'] == [] and blind['WRONG'] == []
+
+
+def test_the_full_range_sweep_record():
+    """The reviewer's full-range sweep and the repair's rerun of part of it."""
+    c = _load('controls_sweep.json')
+    z = c['reviewer_run']['zones']
+    assert z['fullzone']['lo'] == 3 and z['fullzone']['hi'] + 1 == z['fullzone_b']['lo']
+    assert z['fullzone_b']['hi'] + 1 == z['filterzone']['lo'] and z['filterzone']['hi'] == 16396235837
+    for zone in z.values():
+        assert zone['missing'] == 0 and zone['wrong'] == 0 and zone['min_h_unlisted'] > H
+        ch = zone['chunks']
+        assert all(a['hi'] + 1 == b['lo'] for a, b in zip(ch, ch[1:]))
+    s = _load(f'search_H{H}.json')
+    assert sum(zone['listed'] for zone in z.values()) == s['found']
+    assert sum(zone['fundamental'] for zone in z.values()) == s['stats']['fundamental']
+    assert c['reviewer_run']['above_X_against_D_GRH_table']['violations'] == 0
+    assert c['missing_total'] == 0 and c['wrong_total'] == 0
+    for tag, r in c['rerun_reproduces_reviewer'].items():
+        assert r['rows'] > 0 and r['identical_rows'] == r['rows'], tag
+
+
+def test_the_list_equals_molteni_per_field_file_for_h_le_2000():
+    m = _load('controls_molteni.json')
+    assert m['sha256_matches_record'] and m['lines'] == 2000
+    assert m['h_with_different_sets'] == []
+    assert m['fields_in_file'] == m['fields_in_list_h_le_2000'] == 16453493
+    assert controls.GGLM_TABLE1[2000] == (16453493, 1062350083)
 
 
 def test_pari_agrees():

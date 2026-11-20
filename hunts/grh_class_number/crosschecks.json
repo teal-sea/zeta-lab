@@ -20,7 +20,7 @@
  "gglm_table1_h_le_2000": {
   "rows_compared": 20,
   "mismatches": [],
-  "provenance": "transcribed from the literature notes, not re-read"
+  "provenance": "transcribed from the literature notes; all 20 rows checked against the PDF by the computation reviewer, rows 500, 1000, 1500, 2000 re-read by the orchestrator (2026-11-20)"
  },
  "cremona_sutherland_h_le_1000": {
   "count_equal": true,
