@@ -5307,3 +5307,25 @@ backticked `.py` citations in `docs/` and failed on exactly one, `docs/15`'s
 `discovery/01_f1_geometry.py`. Pinned by `tests/test_f1_engine_controls.py`;
 `docs/15` carries the corrections, and `docs/37-methods.md` carries the guard.
 Nothing here is about zeta, so nothing here goes to the funnel or the battery.
+
+### Hunt #159: a sharded replay of the Alpöge archive on hosted runners (`alpoge_replay/`, opened 2026-11-20)
+
+On 2026-11-20 Levent Alpöge posted a note claiming the Riemann hypothesis and
+the generalized Riemann hypothesis for Dirichlet L-functions, and released
+only Lean: 175,187 files, 17.4 million lines, pinned to Lean 4.33.1 and
+Mathlib's `v4.33.1` tag. This hunt builds that archive and prints the axioms
+behind the five theorems of its `Main.lean`. It reads no proof. The archive is
+about sixty times the October replay (`docs/38` section 7) by module count and
+does not fit one six-hour job, so `replay_plan.py` cuts the import graph into
+rounds of independent shards and `.github/workflows/replay-alpoge-rh.yml` runs
+them on hosted runners, carrying Lake's outputs from round to round. The
+archive is outside data and is elaborated only there.
+
+**Status: opened, no verdict.** Text-level reading only so far, recorded in
+`MISSION.md`: the headline statement is Mathlib's own `RiemannHypothesis`, and
+no file contains `sorry`, `axiom` or `native_decide`. That is a reading and
+decides nothing. A pass would be the third rung for the five statements on one
+kernel, with the stated limit that outputs travel between runners; a failure
+would be the first module that does not elaborate. Estimates and every run:
+`RUNS.md`. Nothing here is evidence about RH until the axiom printout exists,
+and even then the build says nothing about the mathematics.

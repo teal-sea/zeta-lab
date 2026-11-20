@@ -1,0 +1,656 @@
+# Replay of the Lean archive Levent Alpöge posted on 2026-11-20 with the note
+# https://alpo.ge/remark.pdf, which claims the Riemann hypothesis and the
+# generalized Riemann hypothesis for Dirichlet L-functions as theorems of
+# Lean 4.33.1 over Mathlib v4.33.1. What this is for, what it can and cannot
+# say, and every allocation: hunts/alpoge_replay/MISSION.md and RUNS.md.
+#
+# The archive is one Lake package of 175,187 modules, 1.03 GB of source, and
+# its final theorem imports all of them. No hosted runner builds that in one
+# six-hour job, so the build is cut into rounds (hunts/alpoge_replay/
+# replay_plan.py). In a round every shard is a set of unbuilt modules whose
+# imports are either built already or in the same shard, so shards of a round
+# are independent and run on separate runners. Each shard uploads the Lake
+# outputs of the modules it finished; the round's merge job folds them into
+# one bundle and one state file, and, when `chain` is on, dispatches the next
+# round. When `Main` is built, the verdict mode restores everything on one
+# runner, asks Lake to confirm nothing is left to build, and prints the axioms
+# behind the five theorems of Main.lean.
+#
+# The archive is data from outside this repository. It is fetched from its
+# author's site, pinned by sha256, extracted outside the checkout, and built
+# only here, on runners that hold a read-only token. Nothing in it is run on a
+# laboratory machine.
+#
+# Nothing here is a claim until the logs say so, and a green round is not a
+# verdict: only the verdict mode's axiom printout is.
+name: replay-alpoge-rh
+
+on:
+  # A workflow that exists only on a feature branch cannot be dispatched by
+  # name until it has run once, so a push to this file runs the smallest
+  # pilot (round 0, four shards, six minutes of building, no chaining).
+  push:
+    branches: [claude/bold-ramanujan-x7z42m]
+    paths: ['.github/workflows/replay-alpoge-rh.yml']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: round (plan, build, merge) or verdict (restore everything, print axioms)
+        type: choice
+        options: [round, verdict]
+        default: round
+      epoch:
+        description: namespace for this campaign's artifacts; a new epoch starts from nothing
+        type: string
+        default: p1
+      round:
+        description: round number; 0 starts a campaign
+        type: string
+        default: "0"
+      state_id:
+        description: artifact id of the previous round's state (empty for round 0)
+        type: string
+        default: ""
+      shards:
+        description: runners per round
+        type: string
+        default: "4"
+      build_minutes:
+        description: wall-clock minutes of lake build per shard before it is stopped and packed
+        type: string
+        default: "6"
+      chain:
+        description: dispatch the next round (or the verdict) when this one is merged
+        type: boolean
+        default: false
+      max_round:
+        description: the chain stops after this round whatever happened
+        type: string
+        default: "60"
+      compress_fs:
+        description: keep build outputs on a zstd-compressed btrfs loop volume (for the late rounds, when they outgrow the disk)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: replay-alpoge-rh-${{ inputs.epoch || 'p1' }}
+  cancel-in-progress: false
+
+env:
+  ARCHIVE_SHA256: 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc
+  ARCHIVE_BYTES: "239275554"
+  ARCHIVE_URL_PREFIX: https://alpo.ge/lean.tar.gz.part
+  ARCHIVE_CACHE_KEY: alpoge-archive-9631b4f02019
+  MODE: ${{ inputs.mode || 'round' }}
+  EPOCH: ${{ inputs.epoch || 'p1' }}
+  ROUND: ${{ inputs.round || '0' }}
+  STATE_ID: ${{ inputs.state_id || '' }}
+  SHARDS: ${{ inputs.shards || '4' }}
+  BUILD_MINUTES: ${{ inputs.build_minutes || '6' }}
+  CHAIN: ${{ inputs.chain || 'false' }}
+  MAX_ROUND: ${{ inputs.max_round || '60' }}
+  COMPRESS_FS: ${{ inputs.compress_fs || 'false' }}
+  HUNT: hunts/alpoge_replay
+
+jobs:
+  # --------------------------------------------------------------------------
+  # plan: read the import graph, read the state, cut the next round
+  # --------------------------------------------------------------------------
+  plan:
+    if: (inputs.mode || 'round') == 'round'
+    name: plan round ${{ inputs.round || '0' }} (${{ inputs.epoch || 'p1' }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      n_shards: ${{ steps.plan.outputs.n_shards }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: restore the archive from this branch's cache
+        id: arc
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+
+      - name: fetch the archive from its author's site (cache miss only)
+        if: steps.arc.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/replay/parts" && cd "$HOME/replay/parts"
+          for i in 01 02 03 04 05 06 07 08 09 10 11 12 13 14; do
+            curl -sS -L --fail --retry 5 --retry-delay 5 --max-time 900 \
+              -o "lean.tar.gz.part$i" "${ARCHIVE_URL_PREFIX}$i"
+          done
+          cat lean.tar.gz.part?? > "$HOME/replay/lean.tar.gz"
+          rm -rf "$HOME/replay/parts"
+
+      - name: verify the archive against the pinned hash
+        run: |
+          set -euo pipefail
+          test "$(stat -c %s "$HOME/replay/lean.tar.gz")" = "$ARCHIVE_BYTES"
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c -
+
+      - name: save the archive to this branch's cache
+        if: steps.arc.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+
+      - name: extract the sources
+        run: |
+          set -euo pipefail
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+          find "$HOME/replay/lean/src" -name '*.lean' | wc -l
+
+      - name: fetch the previous round's state
+        if: env.STATE_ID != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          case "$STATE_ID" in *[!0-9]*) echo "::error::state_id must be a number"; exit 1;; esac
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$STATE_ID/zip" > state.zip
+          mkdir -p state-prev && unzip -o -q state.zip -d state-prev
+          test -f state-prev/state.json
+
+      - name: plan the round
+        id: plan
+        run: |
+          set -euo pipefail
+          python3 "$HUNT/replay_plan.py" dag --src "$HOME/replay/lean/src" --out dag.json
+          args=()
+          if [ -f state-prev/state.json ]; then args+=(--state state-prev/state.json); fi
+          # four cores for BUILD_MINUTES, planned ten percent over so a shard
+          # is cut by its deadline, not left idle
+          budget=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * 4 * 1.1))")
+          python3 "$HUNT/replay_plan.py" plan --dag dag.json "${args[@]}" \
+            --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --out plan | tee plan.txt
+          n=$(jq .n_shards plan/plan.json)
+          echo "n_shards=$n" >> "$GITHUB_OUTPUT"
+          echo "matrix=$(jq -c -n --argjson n "$n" '[range(0;$n)]')" >> "$GITHUB_OUTPUT"
+          cp dag.json plan/dag.json
+          if [ -f state-prev/state.json ]; then cp state-prev/state.json plan/state-prev.json; fi
+          {
+            echo "### plan, round $ROUND, epoch $EPOCH"
+            echo '```'
+            head -1 plan.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: publish the plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-plan-r${{ env.ROUND }}
+          path: plan
+          retention-days: 30
+          if-no-files-found: error
+
+  # --------------------------------------------------------------------------
+  # build: one runner per shard
+  # --------------------------------------------------------------------------
+  build:
+    needs: plan
+    if: needs.plan.outputs.n_shards != '0'
+    name: r${{ inputs.round || '0' }} shard ${{ matrix.shard }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      SHARD: ${{ matrix.shard }}
+      LEAN_DIR: /home/runner/replay/lean
+      OUT: /home/runner/replay/out
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: record the run and free the runner's disk
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT/evidence"
+          {
+            echo "zeta-lab commit: $GITHUB_SHA"
+            echo "epoch $EPOCH round $ROUND shard $SHARD build_minutes $BUILD_MINUTES"
+            echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+          } | tee "$OUT/evidence/run.txt"
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
+
+      - name: restore the archive from this branch's cache
+        id: arc
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+
+      - name: fetch the archive from its author's site (cache miss only)
+        if: steps.arc.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/replay/parts" && cd "$HOME/replay/parts"
+          for i in 01 02 03 04 05 06 07 08 09 10 11 12 13 14; do
+            curl -sS -L --fail --retry 5 --retry-delay 5 --max-time 900 \
+              -o "lean.tar.gz.part$i" "${ARCHIVE_URL_PREFIX}$i"
+          done
+          cat lean.tar.gz.part?? > "$HOME/replay/lean.tar.gz"
+          rm -rf "$HOME/replay/parts"
+
+      - name: verify and extract the archive
+        run: |
+          set -euo pipefail
+          test "$(stat -c %s "$HOME/replay/lean.tar.gz")" = "$ARCHIVE_BYTES"
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c -
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+          rm -f "$HOME/replay/lean.tar.gz"
+          cat "$LEAN_DIR/lean-toolchain" | tee -a "$OUT/evidence/run.txt"
+
+      - name: optional compressed volume for the build outputs
+        if: env.COMPRESS_FS == 'true'
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y -q btrfs-progs >/dev/null
+          img=/mnt/alpoge-build.img
+          if ! sudo test -d /mnt; then img="$HOME/alpoge-build.img"; fi
+          sudo truncate -s 600G "$img"
+          sudo mkfs.btrfs -q "$img"
+          mkdir -p "$LEAN_DIR/.lake/build"
+          sudo mount -o loop,compress-force=zstd:3,noatime "$img" "$LEAN_DIR/.lake/build"
+          sudo chown -R "$(id -u):$(id -g)" "$LEAN_DIR/.lake/build"
+          df -h "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
+
+      - name: install elan and the toolchain the archive names
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat "$LEAN_DIR/lean-toolchain")"
+          cd "$LEAN_DIR"
+          "$HOME/.elan/bin/lean" --version | tee -a "$OUT/evidence/run.txt"
+          "$HOME/.elan/bin/lake" --version | tee -a "$OUT/evidence/run.txt"
+
+      - name: fetch the pinned dependencies and the Mathlib olean cache
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -euo pipefail
+          start=$(date +%s)
+          lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
+          echo "cache get wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          echo "mathlib at $(git -C .lake/packages/mathlib rev-parse HEAD)" | tee -a "$OUT/evidence/run.txt"
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
+          df -h / | tee -a "$OUT/evidence/run.txt"
+
+      - name: fetch this round's plan
+        uses: actions/download-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-plan-r${{ env.ROUND }}
+          path: plan
+
+      - name: restore the modules this shard imports from earlier rounds
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          shard="plan/shard-$SHARD.json"
+          jq -r '.fetch | to_entries[] | .key' "$shard" > bundles.txt
+          start=$(date +%s)
+          while read -r id; do
+            [ -n "$id" ] || continue
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > bundle.zip
+            for member in $(jq -r --arg id "$id" '.fetch[$id][]' "$shard"); do
+              unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
+            done
+            rm -f bundle.zip
+          done < bundles.txt
+          echo "restore: $(wc -l < bundles.txt) bundles, wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          du -sh "$LEAN_DIR/.lake/build" 2>/dev/null | tee -a "$OUT/evidence/run.txt" || true
+          df -h / | tee -a "$OUT/evidence/run.txt"
+          python3 "$HUNT/replay_shard.py" check --lean-dir "$LEAN_DIR" --shard "$shard" | tee -a "$OUT/evidence/run.txt"
+
+      # No token is in the environment of this step. It is the only step that
+      # elaborates the archive's code.
+      - name: lake build the shard, under its deadline
+        run: |
+          set -uo pipefail
+          start=$(date +%s)
+          python3 "$HUNT/replay_shard.py" build --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
+            --minutes "$BUILD_MINUTES" --log "$OUT/build.log" | tee -a "$OUT/evidence/run.txt"
+          echo "build wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
+
+      - name: pack what finished
+        id: pack
+        run: |
+          set -euo pipefail
+          chunk="r${ROUND}-s${SHARD}"
+          python3 "$HUNT/replay_shard.py" pack --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
+            --log "$OUT/build.log" --chunk "$chunk" --filelist "$OUT/files.txt" \
+            --done "$OUT/done-$chunk.json" | tee "$OUT/evidence/pack.json"
+          mkdir -p "$OUT/chunk" "$OUT/done"
+          cp "$OUT/done-$chunk.json" "$OUT/done/"
+          if [ -s "$OUT/files.txt" ]; then
+            tar -C "$LEAN_DIR" -cf - -T "$OUT/files.txt" | zstd -T0 -6 -q -o "$OUT/chunk/chunk-$chunk.tar.zst"
+            ls -l "$OUT/chunk" | tee -a "$OUT/evidence/run.txt"
+            echo "have_chunk=true" >> "$GITHUB_OUTPUT"
+          fi
+          zstd -q -9 "$OUT/build.log" -o "$OUT/evidence/build.log.zst"
+          {
+            echo "### round $ROUND shard $SHARD"
+            echo '```'
+            jq -c '{planned, built, failed, crashed, rebuilt_outside_shard, sorry_warning_lines, raw_output_bytes, olean_bytes, build_status}' "$OUT/evidence/pack.json"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: publish the chunk
+        if: steps.pack.outputs.have_chunk == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-chunk-r${{ env.ROUND }}-s${{ matrix.shard }}
+          path: /home/runner/replay/out/chunk
+          compression-level: 0
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: publish the done record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-done-r${{ env.ROUND }}-s${{ matrix.shard }}
+          path: /home/runner/replay/out/done
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: preserve the evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-evidence-r${{ env.ROUND }}-s${{ matrix.shard }}
+          path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
+
+  # --------------------------------------------------------------------------
+  # merge: fold the round into the state, bundle its chunks, hand on
+  # --------------------------------------------------------------------------
+  merge:
+    needs: [plan, build]
+    if: always() && needs.plan.result == 'success'
+    name: merge round ${{ inputs.round || '0' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: free the runner's disk (the bundle step pulls every chunk of the round through it)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          df -h /
+
+      - name: fetch the plan and the done records of this round
+        uses: actions/download-artifact@v4
+        with:
+          pattern: alpoge-${{ env.EPOCH }}-{plan,done}-r${{ env.ROUND }}*
+          path: in
+
+      - name: fold the done records into the state (first pass, to count)
+        id: count
+        run: |
+          set -euo pipefail
+          ls in
+          plan="in/alpoge-${EPOCH}-plan-r${ROUND}"
+          args=()
+          if [ -f "$plan/state-prev.json" ]; then args+=(--state "$plan/state-prev.json"); fi
+          python3 "$HUNT/replay_shard.py" merge --dag "$plan/dag.json" "${args[@]}" \
+            --done-dir in --round "$ROUND" --out state-count.json --github-output "$GITHUB_OUTPUT" | tee merge.json
+
+      - name: bundle this round's chunks into one artifact
+        if: steps.count.outputs.built_this_round != '0'
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-bundle-r${{ env.ROUND }}
+          pattern: alpoge-${{ env.EPOCH }}-chunk-r${{ env.ROUND }}-s*
+          delete-merged: true
+          compression-level: 0
+          retention-days: 14
+
+      - name: write the state with the bundle's artifact id
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          plan="in/alpoge-${EPOCH}-plan-r${ROUND}"
+          args=()
+          if [ -f "$plan/state-prev.json" ]; then args+=(--state "$plan/state-prev.json"); fi
+          if [ "${{ steps.count.outputs.built_this_round }}" != "0" ]; then
+            bid=$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+              --jq ".artifacts[] | select(.name==\"alpoge-${EPOCH}-bundle-r${ROUND}\") | .id" | tail -1)
+            test -n "$bid"
+            echo "bundle artifact id: $bid"
+            args+=(--bundle-id "$bid")
+          fi
+          mkdir -p state
+          python3 "$HUNT/replay_shard.py" merge --dag "$plan/dag.json" "${args[@]}" \
+            --done-dir in --round "$ROUND" --out state/state.json | tee merge.json
+          cp merge.json state/merge.json
+          {
+            echo "### merge, round $ROUND, epoch $EPOCH"
+            echo '```'
+            jq -c 'del(.failed)' merge.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: publish the state
+        id: up
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-state-r${{ env.ROUND }}
+          path: state
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: hand on
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATE_ARTIFACT: ${{ steps.up.outputs.artifact-id }}
+          BUILT: ${{ steps.count.outputs.built_this_round }}
+          MAIN_BUILT: ${{ steps.count.outputs.main_built }}
+          N_FAILED: ${{ steps.count.outputs.n_failed }}
+          PERCENT: ${{ steps.count.outputs.percent }}
+        run: |
+          set -euo pipefail
+          echo "state artifact id: $STATE_ARTIFACT" | tee -a "$GITHUB_STEP_SUMMARY"
+          next=""
+          if [ "$MAIN_BUILT" = "true" ]; then
+            next=verdict
+            echo "Main is built. Next: verdict." | tee -a "$GITHUB_STEP_SUMMARY"
+          elif [ "$BUILT" = "0" ]; then
+            echo "::error::round $ROUND built nothing; the chain stops here. Failed modules so far: $N_FAILED"
+            echo "Stalled at ${PERCENT}% with $N_FAILED failed modules." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$ROUND" -ge "$MAX_ROUND" ]; then
+            echo "::warning::max_round reached; the chain stops here at ${PERCENT}%"
+          else
+            next=round
+            echo "Built $BUILT modules this round, ${PERCENT}% in all, $N_FAILED failed. Next: round $((ROUND + 1))." | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "$CHAIN" != "true" ] || [ -z "$next" ]; then
+            echo "chain is off or there is nothing to hand on to; stopping"
+            if [ "$BUILT" = "0" ] && [ "$MAIN_BUILT" != "true" ]; then exit 1; fi
+            exit 0
+          fi
+          gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
+            -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
+            -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
+            -f compress_fs="$COMPRESS_FS"
+
+  # --------------------------------------------------------------------------
+  # verdict: everything on one runner, nothing left to build, print the axioms
+  # --------------------------------------------------------------------------
+  verdict:
+    if: (inputs.mode || 'round') == 'verdict'
+    name: verdict (${{ inputs.epoch || 'p1' }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    env:
+      LEAN_DIR: /home/runner/replay/lean
+      OUT: /home/runner/replay/out
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: record the run and free the runner's disk
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT/evidence"
+          {
+            echo "zeta-lab commit: $GITHUB_SHA"
+            echo "epoch $EPOCH verdict from state artifact $STATE_ID"
+            echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+          } | tee "$OUT/evidence/run.txt"
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
+
+      - name: restore the archive from this branch's cache
+        id: arc
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+          fail-on-cache-miss: true
+
+      - name: verify and extract the archive
+        run: |
+          set -euo pipefail
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c - | tee -a "$OUT/evidence/run.txt"
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+          rm -f "$HOME/replay/lean.tar.gz"
+
+      - name: optional compressed volume for the build outputs
+        if: env.COMPRESS_FS == 'true'
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y -q btrfs-progs >/dev/null
+          img=/mnt/alpoge-build.img
+          if ! sudo test -d /mnt; then img="$HOME/alpoge-build.img"; fi
+          sudo truncate -s 600G "$img"
+          sudo mkfs.btrfs -q "$img"
+          mkdir -p "$LEAN_DIR/.lake/build"
+          sudo mount -o loop,compress-force=zstd:3,noatime "$img" "$LEAN_DIR/.lake/build"
+          sudo chown -R "$(id -u):$(id -g)" "$LEAN_DIR/.lake/build"
+
+      - name: install elan and the toolchain the archive names
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat "$LEAN_DIR/lean-toolchain")"
+          cd "$LEAN_DIR" && "$HOME/.elan/bin/lean" --version | tee -a "$OUT/evidence/run.txt"
+
+      - name: fetch the pinned dependencies and the Mathlib olean cache
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
+
+      - name: restore every module from every round
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          case "$STATE_ID" in ''|*[!0-9]*) echo "::error::verdict needs a numeric state_id"; exit 1;; esac
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$STATE_ID/zip" > state.zip
+          mkdir -p state && unzip -o -q state.zip -d state
+          jq -r '.bundles | to_entries[] | .value' state/state.json > bundles.txt
+          while read -r id; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > bundle.zip
+            for member in $(unzip -Z1 bundle.zip); do
+              unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
+            done
+            rm -f bundle.zip
+            df -h / | tail -1
+          done < bundles.txt
+          echo "olean files on disk: $(find "$LEAN_DIR/.lake/build/lib/lean" -name '*.olean' | wc -l)" | tee -a "$OUT/evidence/run.txt"
+          jq '{modules_built: (.where | length), failed: (.failed | length), rounds: (.history | length)}' state/state.json | tee -a "$OUT/evidence/run.txt"
+          cp state/state.json "$OUT/evidence/state.json"
+
+      # No token is in the environment of the steps below.
+      - name: lake build, every default target, which must find nothing left to do
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -uo pipefail
+          start=$(date +%s)
+          lake build --no-ansi 2>&1 | tee "$OUT/evidence/final-build.log" | tail -30
+          rc=${PIPESTATUS[0]}
+          echo "final lake build rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          echo "modules elaborated in this job: $(grep -c '^✔ .* Built ' "$OUT/evidence/final-build.log" || true)" | tee -a "$OUT/evidence/run.txt"
+          if grep -q "declaration uses 'sorry'" "$OUT/evidence/final-build.log"; then
+            echo "::error::the build log reports a declaration using sorry"; exit 1
+          fi
+          exit "$rc"
+
+      - name: print the axioms behind the five theorems of Main.lean
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/PrintAxioms.lean" <<'LEAN'
+          import Main
+          #check (riemannHypothesis : RiemannHypothesis)
+          #print RiemannHypothesis
+          #print axioms riemannHypothesis
+          #print axioms riemannZeta_eq_zero_re
+          #print axioms LFunction_ne_zero_of_half_lt_re
+          #print axioms LFunction_eq_zero_re
+          #print axioms LFunction_eq_zero_re_of_isPrimitive
+          LEAN
+          lake env lean "$RUNNER_TEMP/PrintAxioms.lean" 2>&1 | tee "$OUT/evidence/axioms.txt"
+          printed=$(grep -c 'depends on axioms' "$OUT/evidence/axioms.txt" || true)
+          echo "axiom lines printed: $printed" | tee -a "$OUT/evidence/run.txt"
+          if [ "$printed" -ne 5 ]; then
+            echo "::error::expected 5 'depends on axioms' lines, saw $printed; the guard is not reading what it thinks it is"
+            exit 1
+          fi
+          if grep -q 'sorryAx' "$OUT/evidence/axioms.txt"; then
+            echo "::error::sorryAx appears in the axiom set"; exit 1
+          fi
+          bad=$(grep 'depends on axioms' "$OUT/evidence/axioms.txt" \
+            | sed 's/.*depends on axioms: \[//; s/\]//' | tr ',' '\n' | tr -d ' ' \
+            | grep -v -x -e propext -e Classical.choice -e Quot.sound || true)
+          if [ -n "$bad" ]; then
+            echo "::error::non-standard axiom(s): $bad"; exit 1
+          fi
+          {
+            echo "### verdict, epoch $EPOCH"
+            echo '```'
+            cat "$OUT/evidence/axioms.txt"
+            echo '```'
+            echo "All five theorems of Main.lean depend only on propext, Classical.choice, Quot.sound."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: preserve the evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-verdict-${{ github.run_id }}
+          path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
