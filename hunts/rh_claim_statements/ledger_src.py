@@ -36,6 +36,8 @@ CONV = {
     "deriv": "deriv is the complex derivative (0 where the function is not differentiable)",
     "norm": "the double bars are the complex modulus (the real absolute value on R)",
     "abs": "the single bars are the absolute value of a real number",
+    "bigop": "the body of a big operator is parsed at precedence 67, so it extends over * and / but not over + and -: "
+             "`∑ x ∈ s, a - b` is `(∑ x ∈ s, a) - b` (Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean:181)",
     "icc": "Finset.Icc 1 M = {1, ..., M}, empty for M = 0; Finset.Ioc 0 N = {1, ..., N}; Finset.range n = {0, ..., n - 1}",
     "vM": "vonMangoldt n = log p if n = p^k with k >= 1 and 0 otherwise, so it is 0 at n = 0 and n = 1",
     "pi": "Nat.primeCounting n and Nat.count Nat.Prime (n + 1) both count the primes <= n",
@@ -255,12 +257,12 @@ claim(id="C05", name="norm_zeta_sub_le", path=_GI + "DifferentiableAtFractInt.le
 
 claim(id="C06", name="norm_zeta_sub_sum_le", path=_GI + "NormRiemannZetaSubPartialSumLe.lean", line=103, topic="zeta",
       math="For Re s > 0, s != 1 and every integer M >= 1: |zeta(s) - sum_{n=1}^{M} n^-s - M^(1-s)/(s-1)| <= (|s|/Re s) M^(-Re s).",
-      conv=["norm", "cpow", "rpow", "icc", "zeta1"],
+      conv=["norm", "bigop", "cpow", "rpow", "icc", "zeta1"],
       quant="all s in the open right half-plane except 1, all natural M >= 1 (unbounded in s and M)",
       domain="unbounded", grade="measured_range",
-      test=T("analytic.zeta_partial_sums", dict(Ms=[2, 3, 10, 100], c="1", sigma_hi="6", T=40),
-             fast=dict(Ms=[2, 10], c="1", sigma_hi="4", T=8),
-             route="as C05, for M in {2, 3, 10, 100}, through the entire function M^s f_M(s)"),
+      test=T("analytic.zeta_partial_sums", dict(Ms=[2, 3, 10], sample_Ms=[100, 1000], c="1", sigma_hi="6", T=40),
+             fast=dict(Ms=[2, 10], sample_Ms=[100], c="1", sigma_hi="4", T=8),
+             route="as C05 for M in {2, 3, 10}, through the entire function M^s f_M(s); 29 sample points for M = 100 and 1000"),
       mutants=[Mu("c", ("≤ ‖s‖ / s.re * (M : ℝ) ^ (-s.re)", "≤ 49 / 100 * (‖s‖ / s.re * (M : ℝ) ^ (-s.re))"), dict(c="49/100"),
                   "for every M the ratio tends to 1/2 as s -> 0+")],
       sharpness="factor 2 for every M tested: supremum 1/2, approached as s -> 0+")
@@ -446,7 +448,7 @@ claim(id="C25", name="inv_five_log_le_sum_inv_primes", path="Development/Abelian
 
 claim(id="C26", name="mertens_upper_psi_bound", path="Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mertensUpper.lean", line=31, topic="primes",
       math="For every integer N >= 1: psi(N) + 1 + log N <= 3N, with psi(N) = sum_{n <= N} Lambda(n).",
-      conv=["vM", "log", "icc"], quant="all natural N >= 1 (unbounded)", domain="unbounded", grade="measured_range",
+      conv=["vM", "bigop", "log", "icc"], quant="all natural N >= 1 (unbounded)", domain="unbounded", grade="measured_range",
       test=T("exact.chebyshev", dict(kind="psi_plus", K="3", N1=2000000), fast=dict(kind="psi_plus", K="3", N1=50000),
              route="own sieve; Arb for N <= 3000, float64 beyond where the margin exceeds N"),
       mutants=[Mu("K", ("≤ 3 * N", "≤ 13 / 10 * N"), dict(K="13/10", N1=50000), "at N = 5 the left side is 6.704 > 6.5")],

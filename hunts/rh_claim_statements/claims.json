@@ -759,8 +759,11 @@
      "Ms": [
       2,
       3,
-      10,
-      100
+      10
+     ],
+     "sample_Ms": [
+      100,
+      1000
      ],
      "c": "1",
      "sigma_hi": "6",
@@ -771,11 +774,14 @@
       2,
       10
      ],
+     "sample_Ms": [
+      100
+     ],
      "c": "1",
      "sigma_hi": "4",
      "T": 8
     },
-    "route": "as C05, for M in {2, 3, 10, 100}, through the entire function M^s f_M(s)"
+    "route": "as C05 for M in {2, 3, 10}, through the entire function M^s f_M(s); 29 sample points for M = 100 and 1000"
    },
    "mutants": [
     {

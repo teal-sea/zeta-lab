@@ -1024,8 +1024,8 @@ def thin_ptw(p):
 # ---------------------------------------------------------------------------
 
 def zeta_partial_sums(p):
-    """Z06 over a list of M; the worst case is reported."""
-    out, cases, worst = None, 0, None
+    """Z06 over a list of M (complete covers), plus sample points for larger M; the worst case is reported."""
+    cases, worst = 0, None
     per_M = {}
     for M in p["Ms"]:
         q = dict(p); q["M"] = M
@@ -1039,8 +1039,27 @@ def zeta_partial_sums(p):
             return r
         if worst is None or r["sup_ratio"][1] > worst["sup_ratio"][1]:
             worst = dict(r, M=M)
+    samples = {}
+    with ctx.workprec(C.bits(p, 128)):
+        for M in p.get("sample_Ms", []):
+            top = 0.0
+            for sg in ("1/64", "1/4", "1/2", "1", "2", "4"):
+                for t in ("0", "1/2", "3", "14", "40"):
+                    if sg == "1" and t == "0":
+                        continue
+                    s = acb(A(sg), A(t))
+                    ratio = _abs_ball(_hM_ball(s, M)) * (s.real / s.abs_lower()) / A(Q(p["c"]))
+                    cases += 1
+                    if ratio > 1:
+                        return result(False, cases, witness=dict(M=M, s=[sg, t], ratio_lower=lo(ratio)), per_M=per_M)
+                    if not (ratio < 1):
+                        return result(None, cases, notes=f"undecided at M={M}, s={sg}+{t}i")
+                    top = max(top, up(ratio))
+            samples[str(M)] = top
     worst = dict(worst); worst["cases"] = cases; worst["per_M"] = per_M
+    worst["largest_ratio_at_samples"] = samples
     worst["tightest"] = dict(worst["tightest"], M=worst["M"])
+    worst["tested_range"] = worst["tested_range"] + f"; complete covers for M in {list(p['Ms'])}, 29 sample points for M in {list(p.get('sample_Ms', []))}"
     return worst
 
 
