@@ -150,7 +150,11 @@ def test_precision_response():
         if isinstance(a.get("sup_ratio"), list):
             assert max(a["sup_ratio"][0], r["sup_ratio"][0]) <= min(a["sup_ratio"][1], r["sup_ratio"][1]) + 1e-9, r["id"]
         elif isinstance(a.get("margin"), (int, float)) and isinstance(r.get("margin"), (int, float)):
-            assert r["margin"] == pytest.approx(a["margin"], rel=1e-6, abs=1e-9), r["id"]
+            # C17 reports the largest branch-and-bound upper bound over 80 characters, each found to
+            # tolerance 5e-3; every other margin here is an enclosure endpoint or an exact number
+            # (C08's margin is an adaptive lower bound, which moves with the subdivision: 2e-7 here)
+            tol = 1.1e-2 if r["id"] == "C17" else 1e-5
+            assert r["margin"] == pytest.approx(a["margin"], rel=1e-6, abs=tol), r["id"]
 
 
 # ------------------------------------------------------------------ the instruments see red
@@ -164,9 +168,13 @@ def test_taylor_model_encloses_zeta_and_its_derivative():
             for _ in range(40):
                 pt = acb(x + r * rng.uniform(-1, 1), y + r * rng.uniform(-1, 1))
                 z = acb_series([pt, 1], prec=2).zeta()
-                assert val.overlaps(z[0]) and val.contains(z[0].mid() if False else acb(z[0].real.mid(), z[0].imag.mid()))
-                assert der.overlaps(z[1])
-            assert C.up(val.real.rad()) < 0.2          # and it is tight: plain ball evaluation gives about 1
+                assert val.contains(acb(z[0].real.mid(), z[0].imag.mid()))
+                assert der.contains(acb(z[1].real.mid(), z[1].imag.mid()))
+            # and it is tight to first order: the radius is about |zeta'(c)| (rx + ry), where plain
+            # ball evaluation is 3 to 50 times wider
+            d1 = acb_series([acb(x, y), 1], prec=2).zeta()[1]
+            assert C.up(val.real.rad()) <= 1.25 * C.up(d1.abs_upper()) * 2 * r, (x, y, r)
+            assert C.up(val.real.rad()) < 0.4 * C.lo(S.zeta().real.rad()), (x, y, r)
         assert ca._zeta_tb(acb(arb(1.0, 0.05), arb(0.1, 0.05))) is None       # a disc reaching the pole is refused
 
 

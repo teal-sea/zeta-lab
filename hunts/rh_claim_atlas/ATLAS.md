@@ -18,7 +18,8 @@ It unpacks to 175,187 `.lean` files under `lean/src`, pinned to Lean
 
 **What this atlas is.** The map a reader wants before opening a file: what is
 stated at the top, the chain of named terms from `Main.lean` down to the last
-step that mentions zeros, the one analytic interface, where arithmetic enters,
+step whose statement mentions zeros, the analytic interface, where arithmetic
+enters,
 how the author's 20 timeline items sit against the tree, how large the tree
 is, which directory names mislead, what else is stated along the way, and
 where an auditor should look first.
@@ -29,16 +30,29 @@ ladder.
 - *Text-level reading, quotes replayable.* A claim of the form "the archive
   states X at `path:line`". Each one rests on a citation recorded in
   `quotes.json` with the sha256 of the cited lines; `verify_quotes.py` replays
-  all of them against any unpacked copy. Plain-mathematics readings next to a
-  quote are this lab's reading of the quoted text and are marked as readings.
-- *Measured count.* A number produced by `recount.py` from file text (lines,
-  import lines, line-start keywords). Declaration counts are regex counts and
-  approximate.
+  all of them against any unpacked copy.
+- *Measured count.* A number produced by `recount.py` or `ledger_count.py`
+  from file text (lines, import lines, line-start keywords, fixed strings).
+  Declaration counts are regex counts and approximate.
+
+A third kind of sentence carries neither grade. A *reading* is this lab's
+own mathematics about a quoted text: what a statement says in plain terms,
+what follows from it, how it compares with the literature. Readings are
+marked as readings. They were not tested, and where they lean on the
+literature it is recalled, not searched.
 
 **Wording.** "The archive states" means a line of text says so. It never
-means the statement is proved: that is the kernel replay's question. Names in
-the archive are machine-generated and several are shown below to be
-misleading, so no reading here rests on a name.
+means the statement has been checked: that is the kernel replay's question.
+Names in the archive are machine-generated and several are shown below to be
+misleading, so a reading is meant to rest on a quoted statement and not on a
+name. Review found three places where the first version rested on a name or
+a letter after all; each is now either given its quote or marked (section 4,
+Layer 2; section 6, items 8 and 14).
+
+**"Uses" and "names".** Throughout, "the proof text names X" or "uses X"
+means the identifier X occurs in the text of a proof. A chain of such
+occurrences is a chain of names. Whether the kernel term of a theorem depends
+on X is decided by the replay and by nothing in this atlas.
 
 **Provenance.** Nine readers worked the archive this morning. Their notes
 were the starting point; every claim kept here was opened again in the archive
@@ -47,6 +61,16 @@ sharpened in the process, and three questions the readers left open were
 closed at text level; each is flagged where it occurs (sections 5, 6, 7, 9
 and 10). This atlas is original to the lab. It
 makes no novelty claim.
+
+**Review.** Two reviewers then attacked the first version, one for the
+faithfulness of the readings and one for the numbers and the rules. Twenty
+findings came back. Two sentences of the first version were wrong and are
+corrected in place, with the old wording kept beside the correction: that
+the functional equation plays no part below `EveryCharacter` (section 5),
+and that every ledger theorem but four ignores its hypothesis (S4). Several
+more were stronger than what had been read and are narrowed. Each change
+says so where it stands, and `RESULTS.md` lists all twenty with their
+dispositions.
 
 **Citations.** A citation is `path.lean:first-last`, relative to the
 directory that holds `Main.lean`. Long directory names are abbreviated:
@@ -83,7 +107,9 @@ theorem LFunction_eq_zero_re : DirichletLZerosOnLine := claimAll.2.1
 theorem LFunction_eq_zero_re_of_isPrimitive : PrimitiveDirichletLZerosOnLine := critAll
 ```
 
-Four of the five types are defined in a file that imports only Mathlib.
+Four of the five types are defined in a file that imports only Mathlib. Two
+are shown; the other two are pointed to, so that this atlas does not
+reproduce the file.
 
 `Statements.lean:3-8`
 ```lean
@@ -95,16 +121,11 @@ def DirichletLNonvanishingRightOfHalf : Prop :=
     1 / 2 < s.re → (χ ≠ 1 ∨ s ≠ 1) → DirichletCharacter.LFunction χ s ≠ 0
 ```
 
-`Statements.lean:10-16`
-```lean
-def DirichletLZerosOnLine : Prop :=
-  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (s : ℂ),
-    0 < s.re → s.re < 1 → DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2
-
-def PrimitiveDirichletLZerosOnLine : Prop :=
-  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive →
-    ∀ s : ℂ, 0 < s.re → s.re < 1 → DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2
-```
+`DirichletLZerosOnLine` (`Statements.lean:10-12`) says, for every modulus `N`,
+every Dirichlet character `χ` modulo `N` and every `s` with `0 < Re s < 1`:
+if `DirichletCharacter.LFunction χ s = 0` then `Re s = 1/2`.
+`PrimitiveDirichletLZerosOnLine` (`Statements.lean:14-16`) is the same
+sentence with the extra hypothesis `χ.IsPrimitive`.
 
 The fifth is Mathlib's own, at the pinned tag.
 
@@ -148,19 +169,18 @@ here.
 
 **S1. The four top-level terms.**
 
-`Supplements/Kernels/MainTheorems.lean:7-16`
+`Supplements/Kernels/MainTheorems.lean:7-9`
 ```lean
 theorem allChi : UpperTheory.EveryCharacter := UpperTheory.FinalTheorems.everyCharacter
 
 theorem rhOfAll : RiemannHypothesis := Formalism.VW.rh_of_every allChi
-
-theorem critAll (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ.IsPrimitive) (s : ℂ)
-    (h0 : 0 < s.re) (h1 : s.re < 1) (hz : LFunction χ s = 0) : s.re = 1 / 2 :=
-  Formalism.VW.critLine allChi N χ hχ s h0 h1 hz
-
-theorem claimAll : Claim.HalfPlane ∧ Claim.Strip ∧ Claim.Zeta :=
-  ⟨allChi, Claim.strip allChi, Claim.zeta allChi⟩
 ```
+
+The other two terms are `critAll`
+(`Supplements/Kernels/MainTheorems.lean:11-13`), which applies
+`Formalism.VW.critLine` to `allChi`, and `claimAll`
+(`Supplements/Kernels/MainTheorems.lean:15-16`), a triple whose components
+are `allChi`, `Claim.strip allChi` and `Claim.zeta allChi`.
 
 Reading: everything in `Main.lean` is obtained from one term, `allChi`, of
 one type, `UpperTheory.EveryCharacter`.
@@ -210,9 +230,23 @@ structure UpperTheory.LiteratureTheorems.OpenLiteratureStatements : Prop where
 This file has 814 lines, 208 imports and 195 theorems, every one of which
 takes `O : OpenLiteratureStatements` as an argument; 177 have
 `_of_literature` in their name. The theorem consumed by S3 is at
-`TPS/EveryCharacterOfLiteratureOfVWin.lean:810`. A field of `O` is written at
-four places only (lines 284, 286, 460, 618). Every other theorem in the file
-ignores `O` and names an in-archive term, for example
+`TPS/EveryCharacterOfLiteratureOfVWin.lean:810`. Counted by
+`ledger_count.py` on the text after the binder of `O`:
+
+| how the theorem's text treats `O` | theorems |
+|---|---|
+| reads a field of `O` (lines 284, 286, 460, 618) | 4 |
+| does not read a field, passes `O` on to other theorems of the file | 39 |
+| does not mention `O` | 152 |
+| reads a field, or names a theorem of the file that does, transitively | 13 |
+
+The first three rows add up to 195; the fourth overlaps the first two. The
+first version of this atlas said that every theorem but four ignores `O`.
+That was wrong: 39 pass it on, and the theorem S3 consumes (line 810) is one
+of the 13 that reach a field through other theorems of the file. All three
+fields are read: `localLanglandsExists` at line 284,
+`galoisRepOfPolarizedPairLit` at line 286, `caraianiLocalGlobalDual` at lines
+460 and 618. A theorem of the 152 looks like this:
 
 `TPS/EveryCharacterOfLiteratureOfVWin.lean:219-220`
 ```lean
@@ -220,10 +254,11 @@ theorem UpperTheory.LiteratureTheorems.logDerivOne (O : _root_.UpperTheory.Liter
   GlobalTheory.LogDerOneProof.logDerOne_holds
 ```
 
-Reading: the file is a ledger that re-exports about 190 results under names
-of published theorems (Linnik, Deligne-Ribet, Casselman-Wallach, Howe
-duality, Siegel-Weil, Kawamata-Viehweg, Bhatt-Scholze and so on). Whether each
-Prop states the theorem its name suggests was checked for none of them here.
+Reading: the file is a ledger that re-exports 195 results, most of them
+under names of published theorems (Linnik, Deligne-Ribet, Casselman-Wallach,
+Howe duality, Siegel-Weil, Kawamata-Viehweg, Bhatt-Scholze and so on). For
+152 of them the hypothesis `O` plays no part in the text. Whether each Prop
+states the theorem its name suggests was checked for none of them here.
 Three structures with hypothesis-style names are built in the same file from
 those theorems: `UnitaryGroupThirdPlaceHypotheses`
 (`TPS/EveryCharacterOfLiteratureOfVWin.lean:666`), `ThetaLocalInputs`
@@ -258,9 +293,21 @@ theorem UpperTheory.Top.every_character_of_green_v_win (hG : GlobalTheory.GLq.Gr
     (h : Nonempty (_root_.GlobalTheory.Fc.HypsAlt (fun 𝒞 => Closed 𝒞 fun Fm _ => LinkN Fm) _root_.GlobalTheory.Fc.DefiniteSideCondition)) : UpperTheory.EveryCharacter :=
 ```
 
-Reading: the window exponent is fixed here, `la = 3/2`. A twin of this pair
-with a different hypothesis structure sits at `CB/EveryCharacter.lean:8-11`;
-the chain from `Main.lean` uses the `TopPlug` version.
+Reading: the window exponent is fixed here, `la = 3/2`. The first theorem
+passes two arguments to `zeroFreeAll_of_topG` (S8). The first is a term of
+`TopG`, the geometric side. The second, `fun ψ => supplyChi ψ (hV ψ)`, is the
+supply of hosts, of type `∀ ψ, HostExW (3/2) (GChi ψ).req`. That second
+argument is where the classical analytic number theory of the archive is
+named (10.5).
+
+A twin of this pair with a different hypothesis structure, `plugWin` and
+`plugAll`, sits at `CB/EveryCharacter.lean:8-18`; the chain from `Main.lean`
+uses the `TopPlug` version. Outside import lines, `plugAll` is named at one
+place only: `everyE₂`
+(`Development/AutomorphicArithmetic/ThetaCorrespondence/FockModels/EveryCharacterE.lean:67-71`),
+a theorem with seven hypotheses that concludes `EveryCharacter` and whose own
+name occurs nowhere else in the tree. So the twin reads as a second route to
+the same Prop that nothing consumes (question 10).
 
 **S7. From imprimitive to primitive characters.**
 
@@ -393,8 +440,12 @@ be the order of the group. Reading, for `x ≥ 1` and `χ` of order `o`:
 
 where `(χ^k)*` is the primitive character inducing `χ^k`. `Gz` equals
 `An.G` and a third copy `Deduction.G` (`PC/GzEq.lean:6-7`). A remark derived
-here, not in the archive: for `n` coprime to the modulus the coefficient of
-`Λ(n)(x/n − 1)` in `Gm_χ` is `o·(3 + [χ(n) = 1])/(3o + 1)`, which is positive.
+here, not in the archive, and a reading in the sense of section 0: for `n`
+coprime to the modulus the coefficient of `Λ(n)(x/n − 1)` in `Gm_χ` is
+`o·(3 + [χ(n) = 1])/(3o + 1)`, which is positive. A reviewer re-derived it
+by hand and added the remaining case: for `n` not coprime to the modulus the
+coefficient is at least `1 − (o − 1)/(3o + 1)`, also positive. Neither
+derivation was checked by a test.
 
 **S11. The windowed Landau statement: the last step that mentions zeros.**
 
@@ -491,14 +542,24 @@ modules and 2,396 lines, all of them in
 Mathlib vocabulary (`DL/CharFamily.lean:1` imports only Mathlib). Whether a
 theorem of this windowed shape is in the literature was not searched here.
 
-Below S11 the zeros of the target L-functions are not mentioned again. The
-supply side does carry conditions on auxiliary L-functions (values of `L'/L`
-at `s = 1`, and a clause that may ask for zero-free boxes near `Re s = 1`):
-see 10.5.
+**What "the last step that mentions zeros" covers.** It is a statement about
+the spine as quoted: in S8 to S10 and in the interface theorem of section 3,
+zeros of the target L-functions occur in conclusions only. It is not a
+statement about the tree, and not even about those statements unfolded: the
+hypothesis `HostExW` of S8 unfolds to conditions on zeros of auxiliary
+L-functions. The first version of this atlas said here that below S11
+zeros are not mentioned again, and that the supply side carries only values
+of `L'/L` at `s = 1` and possibly zero-free boxes. Review found that this
+understates the text. The supply argument of S6 names a chain of classical
+theorems about zeros of Dirichlet L-functions: a truncated explicit formula
+with a sum over zeros, a count of zeros in windows, a zero-free region, a
+count of moduli with a zero in a box, and the functional equation. They are
+stated for the characters of the host field and are used at scales far above
+the window. Section 10.5 quotes the statements and gives the chain of names.
 
-## 3. The single analytic interface
+## 3. The analytic interface: one inequality, supplied under two hypotheses
 
-Three lines.
+One inequality is consumed by the Landau step. Three lines.
 
 1. **Object.** For a primitive character `χ` of order `o`:
    `Gm_χ(x) = Gz(x) + (3o + 1)^(−1) Σ_{k=1}^{o−1} Re g_{(χ^k)*}(x)` (S10).
@@ -510,6 +571,19 @@ Three lines.
    bound `Gm_χ(x) ≤ x^θ` on such windows forces `L(s, χ^k) ≠ 0` for
    `Re s > θ`, zeta included; `eps → 0` gives `Re s > 1/2`.
 
+"Single" needs two qualifications, both found in review. First, the
+inequality is the only thing the Landau step consumes, and no route to the
+top was found that avoids it, by name: `EveryCharacter` is the stated type
+of eight theorems (the six of S1, S3, S4, S5 and S6, and the twin `plugAll`
+with its one consumer `everyE₂`), each of which names another of the eight
+or applies `imprimitive` (S7) to a term of `ZeroFreeAll`; and `ZeroFreeAll`
+is the stated type of three theorems (`CB/ZeroFreeAllOfTopG.lean:26-29`,
+`CB/EveryCharacter.lean:8-18`, `TPS/TopPlug.lean:12-17`), of which the second
+and third apply the first. A theorem whose type is the same Prop written
+out, without either name, would escape this search. Second, the theorem that
+supplies the inequality takes two hypotheses, and both carry analytic
+conditions of their own.
+
 The statement that crosses the interface from below:
 
 `PC/CoreGm.lean:12-15`
@@ -520,14 +594,26 @@ theorem UpperTheory.Comparison₂.core_gm :
         Λ.Gm x ≤ x ^ ((1 : ℝ) / 2 + (eD + eL + 7) * eps) := by
 ```
 
-Reading: `EAtH` ties the level to a "host" abelian field and `CoreAtH`
-(`PC/CoreAtH.lean:29-40`) is the arithmetic and geometric inequality. The
-interface inequality is a statement about primes only. If GRH holds for the
-characters involved, each `G` is of size about `√x` (a standard
-explicit-formula heuristic, derived by the readers and not found in the
-archive text), so the inequality is then true with room and no finite
-computation can contradict it. The content is in how the upper bound is
-produced, not in the bound.
+Reading: `CoreAtH` (`PC/CoreAtH.lean:29-40`) is the arithmetic and geometric
+inequality; one of its conjuncts is `ThinScales`, a bound at much larger
+scales (section 4, end of Layer 2). `EAtH` (quoted in 10.5) has six fields.
+Four tie the level to a "host" abelian field (`o_eq`, `kept`, `ps`,
+`shares`). Two are analytic:
+`bdG`, a pointwise bound `‖g_χ(x)‖ ≤ x^(1/2 + eps)` of the same strength as
+the conclusion for the host characters that are not kept, and `bdL`, a bound
+on `L'/L(1, χ)` for the same characters. So `core_gm` does not turn pure
+geometry into the inequality: it turns geometry plus a bound of the same
+strength for other characters, at the one scale `x`, into the inequality for
+the kept ones. Where the archive states the supply of `bdG` is in 10.5.
+
+The interface inequality is a statement about primes only. If GRH holds for
+the characters involved, each `G` is of size about `√x`. That is a standard
+explicit-formula heuristic, derived by the readers; this builder did not
+look for it in the archive. (The archive does state a truncated explicit
+formula with a sum over zeros, and uses it on the supply side at much larger
+scales: 10.5.) Under GRH the inequality is then true with room, and no
+finite computation can contradict it. The content is in how the upper bound
+is produced, not in the bound.
 
 Numerics for this interface (the measured size of `Gz` and `Gm`, the
 calibration of the explicit formula, the rival comparisons) belong to hunt
@@ -554,13 +640,52 @@ theorem mellin_Gchi_of_ne_one {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ 
     χ.LSeries_twist_vonMangoldt_eq hs
 ```
 
-Reading: for `Re s > 1` the Mellin transform of `G_χ` is
+Reading: for `Re s > 1` and `χ ≠ 1` the Mellin transform of `G_χ` is
 `−(L'/L(s, χ) − s·L'/L(1, χ))/(s(s − 1))`. The arithmetic input is Mathlib's
 `DirichletCharacter.LSeries_twist_vonMangoldt_eq`, that is
 `−L'/L(s, χ) = Σ Λ(n) χ(n) n^(−s)`: the Euler product in
 logarithmic-derivative form, which Mathlib derives from the complete
-multiplicativity of `χ`. Together with non-vanishing on `Re s ≥ 1` this is
-the whole analytic input of S11 about each L-function.
+multiplicativity of `χ`.
+
+That theorem carries `hχ : χ ≠ 1`, so it does not cover the Riemann zeta
+function, the case in the title. The first version of this atlas cited it
+alone. The level-one character has its own file and its own Mathlib
+identity:
+
+`LT/mellinGchiModOne.lean:115-118`
+```lean
+theorem mellin_Gchi_modOne (χ : DirichletCharacter ℂ 1) (s : ℂ) (hs : 1 < s.re) :
+    ∫ y in Ioi (1 : ℝ), Gchi χ y * (y : ℂ) ^ (-s - 1) =
+      -(deriv riemannZeta s / riemannZeta s + 1 / (s - 1) + 1 - (1 + Real.eulerMascheroniConstant) * s) /
+        (s * (s - 1)) := by
+```
+
+whose proof text names
+`ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`
+(`LT/mellinGchiModOne.lean:191`), that is `−ζ'/ζ(s) = Σ Λ(n) n^(−s)`.
+
+What the 28 modules under `lemmaL` read from Mathlib about each L-function,
+as far as the text was followed:
+
+1. the von Mangoldt series identity, in the two forms above;
+2. Mathlib's analytic continuation: differentiability of zeta away from
+   `s = 1`, the simple pole of zeta at 1 with residue 1, and the constant
+   term `γ` there (`LT/poleData.lean:149-196`, which names
+   `differentiableAt_riemannZeta`, `riemannZeta_residue_one`,
+   `tendsto_riemannZeta_sub_one_div` and `riemannZeta_one_ne_zero`), and
+   differentiability of `L(s, χ)` everywhere for `χ ≠ 1`
+   (`LT/poleData.lean:231`);
+3. the conjugation symmetry `L(conj s, χ⁻¹) = conj L(s, χ)`
+   (`LT/LFunctionConj.lean:88-89`), which the archive derives from Mathlib's
+   Hurwitz zeta function;
+4. non-vanishing on `Re s ≥ 1`
+   (`LT/CharFamilyLFunctionNeZeroOfOneLeRe.lean:9`).
+
+This is a list of what was found, not a closed inventory. One negative
+count goes with it: no file under `DL` contains the strings
+`completedLFunction_one_sub`, `riemannZeta_one_sub` or `LFunction_one_sub`,
+so the functional equation is not named anywhere in the directory that holds
+the Landau step.
 
 **Layer 2: a Dirichlet character as a Galois character of a host field, and
 prime sums as Frobenius-class sums.**
@@ -583,6 +708,15 @@ This is where `χ` becomes a character of an abelian Galois group. The host
 record `HostRaw` (`TGC/ConjEMemHostFIff.lean:12-46`) carries the field, an
 embedding into a cyclotomic field and a map `art` from `(Z/N)^×` to the group,
 pinned to the action on roots of unity.
+
+`SWB/FirstPrimeNeSecondPrime.lean:38-42`
+```lean
+structure ArithData (H : Type) [AddCommGroup H] [Fintype H] [DecidableEq H] where
+  q1 : ℕ
+  d : ℕ
+  inertia : ℕ → AddSubgroup (E0 × H)
+  frob : ℕ → E0 × H
+```
 
 `SWB/FirstPrimeNeSecondPrime.lean:65-66`
 ```lean
@@ -615,8 +749,16 @@ def OrthoUnram : Prop :=
       = if i • D.frob p = g then 2 else 0
 ```
 
-Reading: `primVal` is a character value defined prime by prime from inertia
-groups and Frobenius elements: the Euler product written as Frobenius data.
+Reading: `ArithData` is an abstract record: two numbers, and for each
+natural number a subgroup named `inertia` and an element named `frob` of a
+finite abelian group. Nothing in the record says that these are inertia
+groups and Frobenius elements of a number field; that they behave like them
+is asked by the hypothesis `HostFacts`
+(`SWB/FirstPrimeNeSecondPrime.lean:47-59`: `inertia p` is trivial away from
+2, `q1` and `d`, and so on), and the record is instantiated at a host field
+in the bridge theorem below (`arith H.toHostRaw`). With that understood,
+`primVal` is a character value defined prime by prime from those fields: the
+Euler product written as Frobenius data.
 `ASK` is a sum of non-negative terms `2 log p · max(a/p^i − w, 0)` over
 primes `p` whose Frobenius lies outside a distinguished half `InPhi` of the
 group (`Formalism/ThickAverageLoss/PartnersToFactorsAt.lean:20`) and
@@ -638,14 +780,37 @@ theorem UpperTheory.Comparison₂.gmA_eq :
         GmA (arith H.toHostRaw) ell (keptA Λ H.toHostRaw) (3 * (Λ.o : ℝ) + 1)⁻¹ y = Λ.Gm y := by
 ```
 
-So an upper bound for `Gm` is obtained from an upper bound
-`ASK ≤ MAIN + error` for a count of prime powers by Frobenius class
-(`LT/ChTop.lean:37-44` and `LT/ChCore.lean:343-351`), and that bound is what
-the geometric side is asked for through `SizeData₂`
-(`SWB/SChain.lean:17-19`), a conjunct of `ChainTied`.
+So an upper bound for `Gm` is obtained from an upper bound for a count of
+prime powers by Frobenius class. The two theorems that carry it do not
+mention `ASK` or `MAIN` by name. They bound a quantity `gapA`:
 
-**What the standing rivals fail.** Read off the hypotheses above, not
-computed:
+`DL/SplitInertia.lean:50-52`
+```lean
+def gapA (D : ArithData H) (N : ℕ) (ell : AddChar (E0 × H) ℂ → ℂ) {m : ℕ} (TT : Finset H) (a : H → ℝ)
+    (w : H → Fin m → E0 × H → ℝ) (u0 : H) : ℝ :=
+  ∑ t ∈ TT, ∑ j : Fin m, (ASK D N (a t) t (w u0 j) - (MAIN ell (a t) (w u0 j)).re)
+```
+
+`ch_top` (`LT/ChTop.lean:37-44`) concludes `gapA ≤ x^(C·eps) · (error
+bracket)` from `SizeData₂` and four further hypotheses, and `ch_core`
+(`LT/ChCore.lean:343-351`) takes that bound on `gapA` as a hypothesis and
+concludes `GmA ≤ x^(1/2 + (C + 3)·eps) + SigA`. The shorthand
+`ASK ≤ MAIN + error` used below therefore means a bound on the double sum
+over `t` and `j` of `ASK − Re MAIN`, not a bound term by term. That bound is
+what the geometric side is asked for through `SizeData₂`
+(`SWB/SChain.lean:17-19`), a conjunct of `ChainTied`. `ch_core` has a second
+analytic hypothesis, `ThinScales`
+(`SWB/GrowthBoundGivesRiemannHypothesis.lean:55-56`): a bound
+`‖GPsi(y)‖ ≤ y·θ` for every character of the group and every `y ≥ X'/3`. It
+is also a conjunct of `CoreAtH`, and it has the shape of the classical bound
+of 10.5. The step between the two was not traced.
+
+**What the standing rivals fail.** This paragraph is a reading, in the sense
+of section 0, and nothing more: it is the lab's own mathematics about the
+Davenport-Heilbronn function and Epstein zeta functions, set against the
+hypotheses quoted above. Nothing in it was computed, no rival was run through
+`zeta.epstein.battery`, and the facts about the rivals are recalled from the
+literature, not rechecked today. It carries neither of the two grades.
 
 - *As typed*, S11 is a statement about a `CharFamily`, a family of Dirichlet
   characters with positive weights (`a_pos`). The Davenport-Heilbronn function
@@ -714,9 +879,34 @@ theorem Formalism.VW.critLine (h : UpperTheory.EveryCharacter) (N : ℕ) [NeZero
 with Mathlib's `IsPrimitive.completedLFunction_one_sub` at
 `Formalism/GammaFactorNonvanishing/CritLine.lean:22`.
 
-So the functional equation is used for one thing: to reflect a zero with
-`Re s < 1/2` to one with `Re s > 1/2`. It plays no part in the right
-half-plane statement `EveryCharacter`, which is where the whole claim lives.
+So in the three files that lead from `EveryCharacter` to RH (`RhOfRight`,
+`CritLine`, `ClaimStrip`) the functional equation is used for one thing: to
+reflect a zero with `Re s < 1/2` to one with `Re s > 1/2`.
+
+The first version of this atlas went further and said that the functional
+equation plays no part in the half-plane statement `EveryCharacter`. That
+sentence was asserted from those three files and never tested against the
+chain below, and review showed it false at this atlas's own standard of
+"names". Two things are true on the text:
+
+- No functional-equation lemma is named in the directory of the Landau step
+  (section 4, the negative count).
+- The supply argument of S6 names a chain that calls Mathlib's functional
+  equation twice. Once it reflects zeros of auxiliary L-functions inside a
+  sum over zeros: `IsPrimitive.completedLFunction_one_sub` at
+  `Development/AutomorphicArithmetic/MeanSquareBounds/PsiThin.lean:46-47`.
+  Once it is not a reflection of zeros at all but a growth bound for
+  `L(1 − w, χ)` in terms of `L(w, χ⁻¹)`: `ZMod.LFunction_one_sub` at
+  `Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/LGrowthFE.lean:62`.
+  The chain of names from S6 to both lines is written out in 10.5.
+
+Over the whole tree, outside import lines: `completedLFunction_one_sub`
+stands on 14 lines in 11 files and `riemannZeta_one_sub` on 6 lines in 5
+files; the string `LFunction_one_sub`, which includes the first of these and
+the `ZMod` form, on 16 lines in 13 files; and `rootNumber` on 78 lines in 16
+files. So the functional equation is called at a few dozen places in the
+tree, not at three. Whether the kernel term of `EveryCharacter` depends on
+either call of the chain is for the replay (question 16).
 
 The archive states RH from `EveryCharacter` three times, by three short
 routes (the readers reported two; the third was found on re-reading): `rh_of_every` above (the one `Main.lean` uses); `Claim.zeta`
@@ -750,13 +940,13 @@ evidence only. **0**: not located.
 | 5 | switch to `Σ_{n≤X} Λ(n)(X/n − 1) − X log X + (1+γ)X` (10/20) | Q | `Formalism/StatementOC.lean:11-13`, quoted in S10: this expression exactly. |
 | 6 | a one-sided inequality "gives `> 1 − η`" (10/8) | Q, in shape | `ZetaLandau`, quoted below: a one-sided `x^θ` bound on `Gz` gives zero-freeness for `Re s > θ`. The literal two-step test function of the note was not found. |
 | 7 | GGP periods, interlacing weights (10/14) | A | A definition named `Interlace` with interlacing inequalities at `Formalism/LocalRingCardinality/DataTheta.lean:529-530`. The link to Gan-Gross-Prasad is at the level of names ("GGP" occurs in 262 files). |
-| 8 | iterated theta lifts `U(X_0) → … → U(X_m)`, `m` like `√X` (11/15) | Q | `LiftChain`, quoted below, and the chain length: `x^(1/2 − ε) ≤ m` in `RestSize` (`SWB/SChain.lean:53-58`) against `m ≤ x^(1/2 + ε/2)` in `ch_core` (`LT/ChCore.lean:343-351`). |
+| 8 | iterated theta lifts `U(X_0) → … → U(X_m)`, `m` like `√X` (11/15) | Q, in shape | `LiftChain`, quoted below: a chain `G j = vth T μ j (G (j + 1))` for `j < D.R.m`. A chain length of order `√x` is stated for a number `m`: `x^(1/2 − ε) ≤ m` in `RestSize` (`SWB/SChain.lean:53-58`) against `m ≤ x^(1/2 + ε/2)` in `ch_core` (`LT/ChCore.lean:343-351`). Two links rest on a letter or a name and are not shown by a quote: that this `m`, an existential of `ChainTied` (`Formalism/SharpRestriction/GlobalSchurBounds/TieGlobal.lean:97-114`), is the `D.R.m` of `LiftChain`, and that `vth` is a theta lift. |
 | 9 | norms of the lifts, Chowla-Selberg, Weyl, Siegel mass (11/15) | A | `GroundTheory/HeightsAndTheta/Heights/ChowlaSelberg`, `Formalism/PeriodIntegrals/UnitaryGroupMassFormula` (3,615 files), and a period constant of Chowla-Selberg shape, `logOm` at `Formalism/RankGapBounds/MeanBoundSecondForm.lean:88`. |
 | 10 | lower bound on divisibility of the m-fold lift (11/15) | A | `DIV` at `Formalism/RankGapBounds/MeanBoundSecondForm.lean:118-121`, a conjunct of `SizeData₂`. That it encodes a divisibility bound is a reading. |
-| 11 | Iwasawa tower by analogy with pigeonhole (10/6) | Q | `PageN` at `CB/ExistsPageN.lean:39`: a 2-power tower with `2^e` between `x^(2+8·eps)` and twice that; `IsChiField` (section 4) requires `2^(e+2) ∣ N`. The string "Iwasawa" occurs in 14,698 files but in only 1,023 outside import lines: most hits are imports of modules under a directory named `IwasawaDecomposition` (section 8). |
+| 11 | Iwasawa tower by analogy with pigeonhole (10/6) | Q | `PageN`, quoted below: a power of 2 with `2^e` between `x^(2+8·eps)` and twice that; `IsChiField` (section 4) requires `2^(e+2) ∣ N`, so the host field sits in a 2-power cyclotomic tower. The string "Iwasawa" occurs in 14,698 files but in only 1,023 outside import lines: most hits are imports of modules under a directory named `IwasawaDecomposition` (section 8). |
 | 12 | seesaw, Bessel period independent of the Hecke characters, Rallis (11/15) | A | "seesaw" occurs in 3,248 files, 3,139 of them outside import lines; `RallisHyp` is defined at `Formalism/ThetaLiftIndependence/Statement.lean:232-235`. No statement was matched to the item. |
 | 13 | Bost slope inequality (10/6) | Q, in shape | `SlopeIneq`, quoted below. No identifier contains "Bost": the 7 files that match the letters do so only in import lines, across the words "…Bo" and "Statement" of a module name. That `SlopeIneq` is a numeric shadow of a Bost-type inequality is a reading. |
-| 14 | the cost of each lift, "stop at 2/3 a priori" (11/15) | 0 | Not located. A caution about names: the spine passes through a term named `boundAtTwoThree_linked_of_recT` (S5), which looks like the item and is not. Its family is about bounds at the primes 2 and 3 (`BoundAtTwoAndThreeForFamily`, `Development/AutomorphicArithmetic/ResidueCharacters/ClosedOfAll.lean:11`). |
+| 14 | the cost of each lift, "stop at 2/3 a priori" (11/15) | 0 | Not located. A caution about names: the proof term of S5 names `boundAtTwoThree_linked_of_recT`, and a sibling `boundAtTwoThree_family_of_prints` concludes `BoundAtTwoAndThreeForFamily` (`Development/AutomorphicArithmetic/ResidueCharacters/ClosedOfAll.lean:11`). These look like the item and are not: the definition `BoundAtTwoThree`, quoted below, is a bound at the indices `i` with `l i = 2`, or `l i = 3` under a side condition. The 2 and the 3 are primes, not the exponent 2/3. |
 | 15 | integral structure glued across Hecke characters, a "gcd" (11/15) | N | A directory `FND/GaloisRepresentations/IntegralStructures`, which holds the term of S3. |
 | 16 | relative trace formula, sixfold cover of `GL_5`, Poincaré series (10/14) | N | "sixfold" and "relative trace" occur in no file. A directory `Formalism/LocalToGlobal/GlobalTheory/GL5` (15 files) and Poincaré series statements (`Formalism/PeriodIntegrals/OrbitalBoundsConclusion/PoincareSeriesFinite.lean:5`) exist. |
 | 17 | a weakening of Vandiver for classes in `H¹(O_E[1/ℓ], Q_ℓ/Z_ℓ(−e))` (11/15) | Q | `VVle` and `VWin`, quoted below. "Vandiver" occurs in no file. |
@@ -767,17 +957,44 @@ evidence only. **0**: not located.
 String counts in this table are measured by `recount.py` (fixed strings,
 any letter case) and recorded in `stats.json`.
 
-Count: 9 located with a quoted statement (three of them in part or in shape),
+Count: 9 located with a quoted statement (four of them in part or in shape),
 6 by area only, 2 by name only, 3 not located.
 
-**Finding: the function-field toy of the note is not in the archive.** Item 3
-and footnote 3 of the note describe a weighted point count on a path quadric
-over a finite field, `qN = M^k + R`, and call it the setting in which the two
-ideas were first combined. The archive contains no trace of it: "Stepanov"
-occurs in no file, no identifier contains "SignOnly" or "sign_only", and the
-archive has no comments or docstrings in which prose could survive. What does
-exist is the classical unweighted count for a non-degenerate quadric, for
-example
+**Finding: the function-field toy of the note was not located in the
+archive.** Item 3 and footnote 3 of the note describe a weighted point count
+on a path quadric over a finite field, `qN = M^k + R`, and call it the
+setting in which the two ideas were first combined. It was not located under
+any notation searched. The first version of this atlas said "the archive
+contains no trace of it", which is more than a search can show. What was
+searched:
+
+- Fixed strings, any letter case, counted by `recount.py` (`stats.json`):
+  "Stepanov", "SignOnly", "sign_only", "Gabber" and "pathQ" occur in no
+  file. "tridiagonal" occurs in 5 files, in identifiers about a
+  Weil-Deligne representation and about generators of a module, not about
+  a quadric. "zeroMode" occurs in 30 files, the largest group under
+  `ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SquareIntegrability`,
+  where the theorem headers are about sections and fibre integrals; the
+  files outside that directory were not opened.
+- By a reviewer who tried to refute the absence, and not re-run by the
+  builder: sums of consecutive products `x i * x (i+1)` written with
+  `castSucc` and `succ` (no hit); identifiers combining path, chain or
+  tridiagonal with quadric or form (only theta-chain and cochain names);
+  iterated Parseval names (none).
+
+The archive has no comments or docstrings in which prose could survive.
+
+The nearest skeleton found is a weighted fibre count stated as a zero mode
+plus a remainder, `gauss_core`
+(`Formalism/FlagUnipotentLattices/MinkowskiFactorialBounds/SuperdiagonalAdditionInvariance.lean:592-600`):
+for a map `Q : U → T` into a finite abelian group of order `q^a` and a
+weight `f`, the sum of `f` over the fibre `Q = 0` differs from
+`(Σ f)/q^a` by at most `2·q^(1−ρ)·|U|/q^a`, given bounds on the twisted sums
+`Σ ψ(Q u) f(u)`. It is the function-field reader's item Z1, which the first
+version dropped without mention. It is a general lemma and not the toy.
+
+What also exists is the classical unweighted count for a non-degenerate
+quadric, for example
 
 `CompanionTheory/SpectralGeometry/LocalGlobalProofs/AdelicAnalysis/FiniteFieldQuadraticFormPointCount.lean:108-112`
 ```lean
@@ -836,6 +1053,11 @@ def LiftChain (T : ThetaX D) (μ : D.what₂.Tup) (F : D.what₂.Amb μ) (G : �
   ∀ j, j < D.R.m → ((G j : T.cusp (D.sp.Y j)) : T.AF (D.sp.Y j)) = vth T μ j (G (j + 1))
 ```
 
+Item 11, `CB/ExistsPageN.lean:39`
+```lean
+def PageN (eps x : ℝ) (e : ℕ) : Prop := x ^ (2 + 8 * eps) ≤ (2 : ℝ) ^ e ∧ (2 : ℝ) ^ e ≤ 2 * x ^ (2 + 8 * eps)
+```
+
 Item 13, `Formalism/RankGapBounds/MeanBoundSecondForm.lean:151-156`
 ```lean
 def SlopeIneq : Prop :=
@@ -844,6 +1066,12 @@ def SlopeIneq : Prop :=
     D.s u0 - Real.log (Fintype.card (W u0) : ℝ)
       - (1 - D.del u0)⁻¹ * (4 * D.uF u0 * Real.log (1 + D.HH u0 / D.uF u0)
           + (D.η u0 + 4 * Real.sqrt (D.e u0)) * D.HH u0) ≤ D.muCC u0
+```
+
+Item 14 (the caution), `AVT/Definitions/NonGaloisDescent/BoundAtTwoThreeFamily.lean:52-53`
+```lean
+def BoundAtTwoThree (L : SizeData₂ D) (ρ : FamilyRepresentationConstants.RhoFam D) (C : ℝ) : Prop :=
+  ∀ i, TwistedPlaces.TwLoc D i → (D.nd.l i = 2 ∨ (D.nd.l i = 3 ∧ D.nd.l i ∉ D.host.small)) → ∀ π ∈ D.nd.Zgood i, Bd ρ i π (midF L C)
 ```
 
 Item 17, `CB/ExistsPageN.lean:12-17`
@@ -881,9 +1109,12 @@ from the one Prop of S3.
 
 ## 7. Whole-tree statistics
 
-Grade: measured count. Tool: `recount.py`; tables: `stats.json`. All
+Grade: measured count. Tool: `recount.py`; tables: `stats.json`, which
+`build_stats.py` writes from the recount and from nothing else except the
+reader's figures it is compared against (`reader_values.json`). All
 directory rows at depth 1 and depth 2 were recomputed and agree with the
-reader's tables in files and lines.
+reader's tables in files and lines. Every number in this section, and every
+string count in sections 4, 5, 6, 8, 9 and 10, is a field of `stats.json`.
 
 | | |
 |---|---|
@@ -899,14 +1130,15 @@ reader's tables in files and lines.
 | import leaves (no import of an archive module) | 5,927, of which 5,920 import Mathlib only |
 | modules that nothing imports | 1 (`Main`) |
 | import lines naming Mathlib | 156,238 |
-| lines beginning a comment (`--`) or containing `/-` | 0 |
+| occurrences of `--` anywhere, or of `/-` | 0 |
 
 Nothing is dead by import: every module is reachable from `Main`. Import
 reachability is not use. Whether a given theorem is consumed by the five top
 theorems is not decided by these numbers.
 
-**The archive has no comments.** No line starts with `--` and no file
-contains `/-`: no docstrings, no module documentation, no attributions. Every
+**The archive has no comments.** The two characters `--` occur nowhere in
+the tree, at a line start or after code, and no file contains `/-`: no
+comments, no docstrings, no module documentation, no attributions. Every
 human-readable hint is an identifier, and the identifiers are
 machine-generated.
 
@@ -938,9 +1170,13 @@ The eight largest directories at depth 2:
 | `Formalism/PeriodIntegrals` | 4,350 | 451,856 |
 | `Formalism/SharpRestriction` | 3,093 | 709,436 |
 
+The import-leaf and depth-range columns of the first table were the
+reader's in the first version; `recount.py` now computes them, with the same
+values.
+
 One directory at depth 3, `Development/AbelianVarietyTheory/Proofs`, holds
-95,418 files and 7,436,698 lines: 54% of all files (reader's table, depth 3
-not recomputed).
+95,418 files and 7,436,698 lines, 54% of all files, in 36 sub-directories
+(recomputed; the first version copied it from the reader's table).
 
 Import depth (longest path from an import leaf), in bins of 25:
 
@@ -955,20 +1191,27 @@ attributes and modifiers):
 |---|---|---|---|---|---|---|---|---|
 | 784,092 | 34,663 | 212,819 | 13,202 | 8,286 | 7,598 | 4,662 | 121 | 43 |
 
-The recount agrees with the reader on every one of these except `instance`
-(7,598 here, 8,199 in the reader's table: the two regular expressions treat
-modifiers differently). The reader's import edge count is 753,569; the
-recount of distinct importer-imported pairs is 753,261, and the difference is explained: 753,569 is
-the number of import lines naming an archive module, 308 of which repeat an
-import the same module already makes.
+The `instance` figure in this table excludes `scoped instance` and
+`local instance`. With those two modifiers accepted the count is 8,199,
+which is the reader's figure; no other column changes. The first version
+recorded 7,598 against 8,199 as a disagreement "not reconciled". A reviewer
+reconciled it, the reader's count was the fuller one, and the table above
+undercounts instance declarations by 601.
+
+The reader's import edge count is 753,569; the recount of distinct
+importer-imported pairs is 753,261, and the difference is explained: 753,569
+is the number of import lines naming an archive module, 308 of which repeat
+an import the same module already makes.
 
 File shape: the median file has 58 lines, the mean is 99.2, and the largest
 has 17,981 (`Formalism/HermitianCurvature/HermitianCurvatureProofs/IsAdmissibleSplittingCharPairMulTwist.lean`).
-8,735 files have a line longer than 1,000 characters; the median over files
-of the longest line is 224 characters. `Formalism` has 107 sub-directories,
-86 of which contain a file whose name begins with `Statement`: there the
-claims are written as `def Name : Prop := …`, and those files are the
-readable interface of the archive.
+8,735 files have a line longer than 1,000 characters, and 11,594 have a line
+longer than 1,000 bytes: the second is the reader's figure, which the first
+version also left unreconciled. The median over files of the longest line is
+224 characters. `Formalism` has 107 sub-directories. In 86 of them a file
+whose name begins with `Statement` lies somewhere below, and in 82 it lies
+directly inside: there the claims are written as `def Name : Prop := …`, and
+those files are the readable interface of the archive.
 
 Sizes of some import closures inside the archive (modules, lines), measured:
 
@@ -1009,9 +1252,10 @@ hold, on the evidence cited.
 
 Identifiers mislead in the same way. `abelian₂` is the von Mangoldt function
 (`TGC/Analytic.lean:9`). `ChebyshevInequalityOnWindows` (S9) is not
-Chebyshev's inequality. Theorems named `*_of_literature` are not hypotheses
-taken from the literature: a field of the hypothesis structure is written at
-four places only, and the rest name in-archive terms (S4).
+Chebyshev's inequality. Theorems named `*_of_literature` are mostly not
+hypotheses taken from the literature: of the 195 theorems of the ledger, 152
+do not mention the hypothesis structure in their text, 4 read a field of it
+and 13 reach a field through other theorems of the file (S4).
 
 ## 9. By-products of independent interest
 
@@ -1121,8 +1365,18 @@ def Linnik : Prop :=
 Theorem site: `Development/AutomorphicArithmetic/ThetaCorrespondence/Linnik.lean:142`.
 
 *B9. The eventual one-sided Landau criterion for zeta* (`ZetaLandau`, section
-6, item 6). Closure: 18 modules, 2,338 lines. The live chain does not use it:
-it uses the windowed form S11.
+6, item 6). Closure: 18 modules, 2,338 lines. The spine of section 2 does
+not name it: it uses the windowed form S11. The first version said "the live
+chain does not use it", which was not checked and is withdrawn: the theorem
+`zetaLandau` has consumers. It is applied at
+`Formalism/SizeWindowBrackets/ChainSlopeWindows/RiemannHypothesisOfPowerBound.lean:11`
+and at
+`Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/LandauZeroFreeHalfPlane.lean:16`,
+in two theorems that are both named `landau_zero_free_half_plane`; a theorem
+of that name is applied in turn inside `chain_epsilon_half_plane`
+(`Formalism/SizeWindowBrackets/ChainSlopeWindows/PChain.lean:708-716`).
+Whether any of that reaches the five top theorems was not traced (question
+11).
 
 *B10. A Selmer bound of Vandiver type.*
 
@@ -1166,17 +1420,27 @@ never used.
 | `ForcedSumCM` | `Formalism/StatementCM.lean:35` |
 
 The four at the bottom are earlier forms of the analytic criterion (a
-lower-bound variant and a CM-type variant). They read as design layers that
-the live chain no longer uses. They remain precise statements that can be
-tested.
+lower-bound variant and a CM-type variant). Since each name occurs once,
+nothing in the tree asserts or consumes them by name. They remain precise
+statements that can be tested.
 
-The ledger of S4 names a much larger set. By this builder's rule, 445
-parameterless Props are defined in the namespace `GlobalTheory.Published` and
-its sub-namespaces, and a one-line theorem of exactly that type was found for
-181 of them (a reader's rule gave 419 and 177). Both are regular-expression
-counts and approximate. The other 264 are not shown to be open: multi-line
-theorem headers, structure fields and renamed copies are invisible to the
-rule.
+The ledger of S4 names a much larger set. How many parameterless Props are
+defined in the namespace `GlobalTheory.Published` and its sub-namespaces,
+and for how many a one-line theorem of exactly that type exists, depends on
+the regular expression. Three rules gave three answers:
+
+| rule | Props | with a one-line theorem |
+|---|---|---|
+| a reader's (not re-run) | 419 | 177 |
+| this builder's first rule (line-start `def`, namespaces only) | 445 | 181 |
+| a wider rule (indentation, attributes, `section` and `_root_.` handled) | 467 | 191 |
+
+The wider rule is a reviewer's; `recount.py` now implements both and
+reproduces both rows. The 445 names are a subset of the 467. So the honest
+figure is a range: 419 to 467 Props, 177 to 191 of them with a one-line
+theorem. The remaining 242 to 276 are not shown to be open: multi-line
+theorem headers, structure fields and renamed copies are invisible to all
+three rules.
 
 ## 10. Where an auditor should look first
 
@@ -1218,24 +1482,82 @@ elab "kexactB " e:term : tactic => withMainContext do
 ```
 
 `kexactB` elaborates a term with no expected type and assigns it to the
-goal. A second tactic, `kcopy`
-(`Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean:53-58`), copies a
-term across structures. An assigned term is checked by the kernel when the
-enclosing theorem is added, so a wrong assignment should fail there and not
-pass silently; that is what a replay will show. `kexactB` occurs on 234 lines in 50 files,
-counting a macro `kc%` that expands to it; `kcopy` is used at three places.
+goal. An assigned term is checked by the kernel when the enclosing theorem
+is added, so a wrong assignment should fail there and not pass silently;
+that is what a replay will show.
 
-Related text facts, all measured: no `sorry`, no `admit`, no `axiom`
-declaration, no `native_decide`, no `implemented_by`, no `@[extern`, no word
-`unsafe`. There are 5 `run_cmd` lines, all in `BuildAid/D1.lean` to `D5.lean`
-(`BuildAid/D1.lean:4`), each adding a namespace to a library-suggestion deny
-list. There are 88,139 `set_option` occurrences and 220 `open private` lines.
+How far the tactic reaches. The first version of this atlas gave one figure,
+"234 lines in 50 files, counting a macro `kc%`". That figure counts the
+token `kexactB` itself: the definition, the direct uses and the lines that
+define macros. It does not count the lines where a macro is used, so it
+under-sized the audit target. A reviewer found the rest, and `recount.py`
+now counts both:
+
+| token | lines | files | what it is |
+|---|---|---|---|
+| `kexactB` | 234 | 50 | the tactic, by name |
+| `kc%` | 182 | 32 | term macro, `(by kexactB e)`; seven definitions, one of them scoped (`AVT/Definitions/AutomorphicMembership/PlaceModelImp.lean:27`) |
+| `kq%` | 3 | 2 | the same macro under another name; one definition is in a directory of the spine (`TPS/ExistsSelectionPairLocalLanglands.lean:29`) |
+| `kd%` | 1 | 1 | the same again; the one line is its definition (`AVT/Proofs/TwistedOperators/TwoLeMOf.lean:72`) |
+| `tr_via` | 49 | 8 | tactic macro that ends in `kexactB` (`AVT/Definitions/AutomorphicMembership/GoodPartEq.lean:17`) |
+| `tr_clause` | 22 | 5 | tactic macro that ends in `kexactB` (`AVT/Definitions/AutomorphicMembership/RealIoX.lean:111`) |
+| any of the six | 469 | 72 | lines that reach the tactic by name or through a macro |
+
+Two further tactics act on a goal from meta-level code. `kcopy`
+(`Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean:53-58`) copies a
+term across structures; as a whole word it stands on 5 lines in 4 files, two
+in its own file and three uses. And `run_tac` blocks, on 32 lines in 16
+files, of which one assigns the goal directly, with no elaboration-time
+check at all:
+
+`AVT/Proofs/IwasawaDecomposition/ExistsGIs.lean:81-83`
+```lean
+  run_tac do
+    let m ← Lean.Elab.Tactic.getMainGoal
+    m.withContext do m.assign (← Lean.Meta.getFVarFromUserName `h)
+```
+
+Another `run_tac` block builds a proof term by hand at
+`AVT/Proofs/DivisorProofs/FramesTildeGammaValues.lean:70`; the other 14 files
+were not opened.
+
+Other meta-level code found: a `positivity` extension in a directory of the
+spine (`TGC/EvalFrameOrd.lean:7-16`), and the command of 10.1. This is a
+list of what was found, not of all meta-level code. As a size for the rest:
+91 lines in 67 files begin with `elab`, `macro` or `syntax`, and only the
+ones named in 10.1 and 10.2 were read.
+
+Related text facts, all measured by `recount.py`:
+
+- Zero occurrences: `sorry` as a word, and as a substring in any letter
+  case; `admit` as a word (it occurs inside longer identifiers); `axiom` as a
+  word, and as a declaration; `native_decide`; `implemented_by`; `@[extern`;
+  `unsafe` as a word.
+- `#print axioms` occurs 4 times and `#check` twice, in two files under
+  `Formalism/PeriodIntegrals/UnitaryGroupMassFormula`
+  (`Formalism/PeriodIntegrals/UnitaryGroupMassFormula/LocalUnimodularLattice/Transf.lean:100`;
+  `Formalism/PeriodIntegrals/UnitaryGroupMassFormula/UnitaryClassMass/UnitaryClassMass.lean:22-27`).
+  They are about four intermediate theorems, not about the five of
+  `Main.lean`, and their output will appear in the replay's build log.
+- `set_option allowUnsafeReducibility true` occurs 37 times in 33 files. It
+  is the only place the letters "unsafe" occur.
+- `partial def` occurs twice, both in meta-level helpers
+  (`Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean:41`,
+  `Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean:18`).
+- 5 `run_cmd` lines, all in `BuildAid/D1.lean` to `D5.lean`
+  (`BuildAid/D1.lean:4`), each adding a namespace to a library-suggestion
+  deny list.
+- 88,139 `set_option` occurrences and 220 `open private` lines.
+
 A grep is not an axiom audit: only `#print axioms` on the five theorems of
 `Main.lean` after a build shows what they depend on.
 
 **10.3 Structures named for hypotheses, and where they are given terms.**
 The tree has 106 `structure` declarations whose name contains "Hypothes",
-"Literature" or "Published". On the spine:
+"Literature" or "Published". That is a lower bound on hypothesis-style
+structures, not a census: the pattern misses `ThetaLocalInputs`, one of the
+three that S4 itself lists, and by the same kind of count 40 structures have
+"Input" in their name and 256 `def`s have "Hypothes". On the spine:
 
 - `OpenLiteratureStatements` (S4), three fields, filled at
   `CB/MainConclusion.lean:7-11` by `⟨h, recTExists, h⟩`.
@@ -1310,10 +1632,19 @@ structure-valued hypothesis in the ledger. The spine itself passes through
 one: `Nonempty (HypsAlt …)` in S6, obtained in S5. A systematic pass over
 these guards was not made.
 
-**10.5 A bound of GRH strength at one scale, whose supply was not traced.**
-The hypothesis `EAtH` of the interface theorem contains, for the characters
-of the host field other than the kept ones, a pointwise bound of the same
-strength as the conclusion, at the single scale `x`:
+**10.5 The supply side: a bound of GRH strength at one scale for auxiliary
+characters, and a classical chain about zeros.** The first version of this
+section was titled "whose supply was not traced" and said that the text read
+did not show the mechanism. Review traced it at the level of names and
+statements, and found on the way that the supply side holds the classical
+analytic number theory which the first version said was absent. Both are
+recorded here. Everything in this section is a chain of names in proof
+texts, in the sense of section 0.
+
+*(a) What is asked.* The hypothesis `EAtH` of the interface theorem
+contains, for the characters of the host field other than the kept ones, a
+pointwise bound of the same strength as the conclusion, at the single scale
+`x`:
 
 `TGC/ExplicitFormulaErrorOfHostConditions.lean:144-151`
 ```lean
@@ -1344,7 +1675,8 @@ theorem UpperTheory.Top.supplyChi :
     ∀ ψ : PChar, VWinAt ψ 401 → HostExW (3 / 2) (GChi ψ).req := by
 ```
 
-through `supplyOfAdm` (`CB/HostOfField.lean:17-23`) and the existence
+through `supplyOfAdm` (`CB/HostOfField.lean:17-23`), whose conclusion is
+`HostExW (3/2)` of the requirement `EAtH … ∧ VVle …`, and the existence
 statement `HostExW`
 (`AVT/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:120-123`). The
 auxiliary primes are very large compared with `x` (`WinPair`,
@@ -1353,20 +1685,210 @@ layer states the same shape as an existence statement over prime pairs
 (`ExistsSplitGoodPrimePair`,
 `SWB/SmoothedRemainderRealIntegralFormula.lean:50-60`). How a pointwise bound
 `‖g_χ(x)‖ ≤ x^(1/2 + eps)` is obtained for those characters, without assuming
-what is to be shown, is the most delicate analytic point on the spine. It was
-not traced. It is not circular on its face, since an existence statement over
-many auxiliary primes at one scale is weaker than a bound for a given
-character at all scales, but the text read here does not show the mechanism.
+what is to be shown, is the most delicate analytic point on the spine.
 
-The same existence statement carries further analytic conditions on the host
-(`HostGood`, same file). One clause, `BoxH`
-(`AVT/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:68-71`), asks a
-predicate named `GoodFor` of the real characters of the host field. Four
-definitions named `GoodFor` exist in the tree. The one read
-(`SWB/SmoothedRemainderRealIntegralFormula.lean:41-45`) asks for a primitive
-real character of bounded conductor with no zero in the box
-`Re s > 1 − 1/400`, `|Im s| ≤ Q`: a condition of classical strength. Which of
-the four `BoxH` refers to was not resolved.
+*(b) Where the archive states the supply of `bdG`.* The proof text of
+`supplyOfAdmOf` names two things
+(`Development/AutomorphicArithmetic/ShortNorms/supplyOfAdmOf.lean:29` and
+`Development/AutomorphicArithmetic/ShortNorms/supplyOfAdmOf.lean:125`): a
+term `QH.pairEx` of the Prop `PairEx`, and the theorem `boundedTw`.
+
+`CB/PairGood.lean:18-26`
+```lean
+structure PairGood (M : ℕ) (eps Y X : ℝ) (q d : ℕ) : Prop where
+  pair : WinPair eps Y q d
+  coprime : Nat.Coprime M (q * d)
+  bounds : ∀ (ξ : DirichletCharacter ℂ M) (i j : Fin 2), (i ≠ 0 ∨ j ≠ 0) →
+    ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), An.Induces χ (tw (fun a => ξ (a : ZMod M)) q d i j) (2 * M * q * d) →
+      ∀ y : ℝ, Y ≤ y → y ≤ X → ‖An.gChi χ y‖ ≤ y ^ ((1 : ℝ) / 2 + eps / 2) ∧ ‖An.logDerivativeAtOne χ‖ ≤ 4 * Real.log y
+  boxes : ∀ ρ : PChar, ρ.IsReal → ρ.N ∣ 8 * M → ∀ i j : Fin 2, (i ≠ 0 ∨ j ≠ 0) →
+    ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), An.Induces χ (tw ρ.val q d i j) (2 * M * q * d) →
+      ZeroBox (height M eps Y j) χ
+```
+
+`CB/PairGood.lean:28-30`
+```lean
+def PairEx : Prop :=
+  ∀ (M : ℕ), 0 < M → ∀ eps A : ℝ, 0 < eps → eps < 1 / 52 → 1 ≤ A →
+    ∃ Y1 : ℝ, ∀ Y ≥ Y1, ∃ q d : ℕ, PairGood M eps Y (Y ^ A) q d
+```
+
+Reading. `tw ξ q d i j` (`CB/PairGood.lean:9-10`) is the function
+`a ↦ ξ(a)·(a/q)^i·(a/d)^j` with Jacobi symbols. `PairGood M eps Y X q d` says
+that `q` and `d` are a pair of primes of the prescribed sizes (`WinPair`),
+coprime to `M`, and that, for every character `ξ` modulo `M` and every
+`(i, j) ≠ (0, 0)`, the primitive character inducing the twist satisfies
+`‖g_χ(y)‖ ≤ y^(1/2 + eps/2)` and `‖L'/L(1, χ)‖ ≤ 4 log y` for all `y` in
+`[Y, X]`; a fourth field asks zero-free boxes for the real ones. `PairEx`
+says that for every `M`, `eps` and `A` and every large `Y` such a pair exists
+with `X = Y^A`. So the bound of GRH strength is asked of the twists by the
+auxiliary primes, on a range of scales, for one well-chosen pair: it is an
+existence statement, as the first version guessed, and this is where it is
+written.
+
+`boundedTw` (`CB/BoundedTw.lean:45-49`) concludes `BoundedCharsPointwise`
+and the bound of `bdL` from `PairGood`; its key lemma
+(`CB/BoundedTw.lean:5-9`) says that every character in `Bounded` is induced
+by such a twist with `(i, j) ≠ (0, 0)` of a power of `ψ`. On this reading
+the kept characters are the untwisted powers of `ψ`, and the bound is asked
+only of the twisted ones. `PairEx` is given the term `QH.pairEx`
+(`Development/AutomorphicArithmetic/MeanSquareBounds/pairEx.lean:112-113`),
+whose proof text names `pair_exists`
+(`Development/AutomorphicArithmetic/MeanSquareBounds/PairExists.lean:9-12`).
+The directory `Development/AutomorphicArithmetic/MeanSquareBounds` (35 files,
+4,301 lines) states what kind of argument this is:
+
+`Development/AutomorphicArithmetic/MeanSquareBounds/PrimeSetTwoBounds.lean:26-27`
+```lean
+def MeanSq (C Z : ℝ) (P : Finset ℕ) (A : Set ℝ) : Prop :=
+  ∀ y ∈ A, ∀ κ : ℕ → ℂ, (∀ n, ‖κ n‖ ≤ 1) → ∑ q ∈ P, ‖S Z y q κ‖ ^ 2 ≤ C * y * Real.log y * P.card
+```
+
+a mean-square bound over a set `P` of auxiliary primes `q` for the sums `S`
+(`Development/AutomorphicArithmetic/MeanSquareBounds/PrimeSetTwoBounds.lean:13-14`:
+a sum over `n ≤ Z` of a weight `cN y n` times a bounded sequence times the
+Jacobi symbol `(n/q)`), stated as a theorem for primes in a progression
+(`meanSqK`,
+`Development/AutomorphicArithmetic/MeanSquareBounds/meanSqK.lean:51-54`),
+and a count of exceptional moduli: at most `C·Q^(1/4)` primes `q` can each
+carry a primitive character of modulus `f·q ≤ Q`, with `f` below a bound
+that `q` exceeds, that has a zero in the box (`count_bad`,
+`Development/AutomorphicArithmetic/MeanSquareBounds/CountBad.lean:9-12`).
+
+Reading: on the statements, the mechanism is an average over the auxiliary
+primes, of large-sieve type, from which one pair `(q, d)` is selected. A
+bound of GRH strength for some member of a family, on one range of scales,
+is the kind of conclusion a mean-value theorem gives without any hypothesis
+on zeros, so the step is not circular on its face. That is a reading of
+statements. The proof texts between `meanSqK` and `pair_exists` were not
+read, and whether the selection delivers the pointwise bound for every
+twist at once, as `PairGood` asks, is the thing to check there (question 3).
+
+*(c) The classical chain about zeros.* The existence statement `HostExW`
+asks more of a host than `EAtH`: its conjunct `HostGood`
+(`AVT/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:101-109`)
+includes `ThinOK` and `BoxW`.
+
+`AVT/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:61-63`
+```lean
+def ThinOK (s : Scale) (c : ℝ) (H : Host R) : Prop :=
+  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), IsCharH H χ →
+    ∀ y : ℝ, Real.exp (s.x ^ (s.eps / 3)) / 3 ≤ y → ‖GlobalTheoryTheory.gChi χ y‖ ≤ y * Real.exp (-(c * s.x ^ (s.eps / 8)))
+```
+
+`ThinOK` quantifies over every character of the host, kept ones included,
+and bounds `g_χ(y)` by `y·exp(−c·x^(eps/8))` at scales `y` above
+`exp(x^(eps/3))/3`: far above the window, where a bound of
+prime-number-theorem strength is enough. The archive states it as a theorem
+by this chain of names, each link read:
+
+1. S6: `fun ψ => supplyChi ψ (hV ψ)` (`TPS/TopPlug.lean:12-17`, line 15).
+2. `supplyChi` names `supplyOfAdm` (`CB/SupplyChi.lean:8-11`), which is
+   `supplyOfAdmOf hostOfField` (`CB/HostOfField.lean:17-23`), and
+   `hostOfField` is `hostOfFieldOf shortNorm smallOne`
+   (`CB/HostOfField.lean:8-15`).
+3. `hostOfFieldOf` names `QH.thinH` and uses it for the `ThinOK` conjunct
+   (`Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:169`,
+   `Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:247`).
+4. `thinH` names `thin`
+   (`Development/AutomorphicArithmetic/MeanSquareBounds/GaussSumFunctionEq.lean:55-60`),
+   and `thin` names `psi_thin`
+   (`Development/AutomorphicArithmetic/MeanSquareBounds/Thin.lean:15`). The
+   statement of `thin`:
+
+`Development/AutomorphicArithmetic/MeanSquareBounds/Thin.lean:10-13`
+```lean
+theorem thin :
+    ∀ ε A c c₀ : ℝ, 0 < ε → 0 < A → 0 < c → 0 < c₀ → ∃ x₀ : ℝ, ∀ x ≥ x₀, ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive →
+      Real.log N ≤ A * x ^ (ε / 5) * Real.log x ^ 2 → (χ ^ 2 = 1 → χ ≠ 1 → NoExc c₀ χ) →
+      ∀ y : ℝ, Real.exp (x ^ (ε / 3)) / 3 ≤ y → ‖G0 χ y‖ ≤ y * Real.exp (-(c * x ^ (ε / 8))) := by
+```
+
+5. `psi_thin`
+   (`Development/AutomorphicArithmetic/MeanSquareBounds/PsiThin.lean:385-392`)
+   names three classical inputs: `explicitFormula_closed`,
+   `zerosWindow_closed`, and, through `pt_zero_free`
+   (`Development/AutomorphicArithmetic/MeanSquareBounds/PsiThin.lean:353-357`),
+   the zero-free region `Formalism.ZeroFreeDirichlet.zFRDirichlet`. Further
+   down (`Development/AutomorphicArithmetic/MeanSquareBounds/PsiThin.lean:401`)
+   it names `pt_zero_symm`
+   (`Development/AutomorphicArithmetic/MeanSquareBounds/PsiThin.lean:27-29`),
+   the reflection `L(ρ, χ) = 0 ⇒ L(1 − ρ, χ⁻¹) = 0` for a zero in the strip,
+   whose proof text contains the first functional-equation call of
+   section 5.
+6. `explicitFormula_closed`
+   (`Formalism/PeriodIntegrals/ExplicitFormulaCounts/ExplicitFormula.lean:8-10`)
+   is `explicitFormula_of`
+   (`Formalism/PeriodIntegrals/OrbitalBoundsConclusion/ExplicitFormula.lean:8-10`),
+   which is `explicitFormula_main`. That names `localLemma_of_helpers`,
+   which names `lGrowth_of` (both at
+   `Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/LocalLemmaOfHelpers.lean:14-23`);
+   `lGrowth_of` names `L_nontriv_growth`
+   (`Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/LGrowthMain.lean:96`),
+   which names `norm_L_one_sub_le`
+   (`Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/LGrowthMain.lean:55`),
+   whose statement
+   (`Formalism/PeriodIntegrals/UnitaryGroupMassFormula/ExplicitFormula/LGrowthFE.lean:49-51`)
+   bounds `‖L(1 − w, χ)‖` by `6·N^5·‖w + 1‖^5·‖L(w, χ⁻¹)‖` for primitive `χ`
+   and `1/2 ≤ Re w ≤ 5`, and whose proof text contains the second
+   functional-equation call.
+
+The statement at the centre of the chain is a truncated explicit formula
+with a sum over zeros, for every primitive Dirichlet character:
+
+`Formalism/PeriodIntegrals/ExplicitFormula.lean:16-24`
+```lean
+def ExplicitFormulaWith (C : ℝ) : Prop :=
+  ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N), χ.IsPrimitive →
+    ∀ u T : ℝ, 2 ≤ T → T ≤ u →
+      (ZerosBelow χ T).Finite ∧
+      ‖psi0 χ u + ∑ᶠ ρ ∈ ZerosBelow χ T,
+          (analyticOrderNatAt (DirichletCharacter.LFunction χ) ρ : ℂ) * ((u : ℂ) ^ ρ / ρ)‖ ≤
+        C * (u * Real.log (N * u * T) ^ 2 / T + Real.log (N * u) +
+          ∑ᶠ ρ ∈ ZerosBelow χ 1,
+            (analyticOrderNatAt (DirichletCharacter.LFunction χ) ρ : ℝ) / ‖ρ‖)
+```
+
+with `psi0 χ u = Σ_{n ≤ u} Λ(n) χ(n) − [χ = 1]·u` and `ZerosBelow χ T` the
+zeros with `0 < Re ρ < 1`, `|Im ρ| < T`
+(`Formalism/PeriodIntegrals/ExplicitFormula.lean:9-14`). Beside it stands a
+count of zeros in unit windows, at most `C·log(N(|t| + 2))`
+(`ZerosWindowWith`, `Formalism/PeriodIntegrals/ZerosWindow.lean:10-14`).
+
+Reading: this is the prime number theorem for arithmetic progressions with a
+classical zero-free region, stated and given terms inside the archive in the
+classical way (explicit formula, zero count, zero-free region, functional
+equation), under the hypothesis that the real characters involved have no
+exceptional zero (`NoExc`,
+`Development/AutomorphicArithmetic/MeanSquareBounds/PrimeSetTwoBounds.lean:71-72`).
+It is ordinary analytic number theory: zeros enter through an explicit
+formula over all zeros of the strip and through a zero-free region near
+`Re s = 1`, and no statement of the chain, as far as read, assumes or
+concludes anything about `Re s = 1/2`. What the first version got
+wrong is the picture: the archive is not an argument that never looks at
+zeros below the Landau step. It contains a classical treatment of zeros,
+and the supply of hosts names it. Whether the kernel term of `EveryCharacter`
+depends on it is for the replay (question 16).
+
+*(d) The zero-free boxes.* The clause `BoxH`
+(`AVT/Definitions/GlobalTwisting/ThinScalesIffHostBound.lean:68-71`) asks a
+predicate written `GlobalTheoryTheory.GoodFor` of the real characters of the
+host field. Four definitions named `GoodFor` exist in the tree, and the
+first version read one and left open which is meant. On the text, only one
+of the four sits in a namespace whose last component is
+`GlobalTheoryTheory`
+(`Formalism/SharpRestriction/GlobalSchurBounds/GeneralLinearActions/FiltrationCocycleLiftCriterion.lean:42-44`,
+in `Formalism.MainNotions.GlobalTheoryTheory`, and the file of `BoxH` opens
+`Formalism.MainNotions`). It asks for a primitive real character of
+conductor at most `Q` with no zero in the box `Re s > 1 − 1/400`,
+`|Im s| ≤ Q`: a condition of classical strength, and the same content as
+the definition read first
+(`SWB/SmoothedRemainderRealIntegralFormula.lean:41-45`). Name resolution is
+the elaborator's business, so this is a text-level answer. The boxes are
+stated to come with the pair of primes: the field `boxes` of `PairGood`
+above, turned into `BoxH` and `RealBox` at
+`Development/AutomorphicArithmetic/ShortNorms/hostOfFieldOf.lean:135-136`,
+with `count_bad` as the statement that few moduli are bad.
 
 **10.6 Finite tables closed by `decide +kernel`.** 34 files contain
 `decide +kernel` (151 occurrences). These are kernel-evaluated decision
@@ -1380,7 +1902,8 @@ faithful.
 
 ## 11. Open questions
 
-Stated as questions. None is answered by a text-level reading.
+Stated as questions. Two were answered in part at text level during review
+and say so. The rest are not answered by a text-level reading.
 
 1. Does the archive compile at the pinned toolchain, and what does
    `#print axioms` report for the five theorems of `Main.lean`? (Owned by the
@@ -1388,12 +1911,18 @@ Stated as questions. None is answered by a text-level reading.
 2. Is the windowed one-sided Landau statement of S11 true as stated, and is
    it in the literature (Turán, Pintz, Knapowski-Turán, Kaczorowski)? Its
    closure is 28 modules: can it be re-derived or kernel-checked on its own?
-3. How is the pointwise bound `bdG` of 10.5 supplied for the characters that
-   are not kept? Is the mechanism an average over auxiliary primes, and where
-   is it stated?
-4. Which definition named `GoodFor` does the host clause `BoxH` refer to,
-   and are the zero-free boxes it asks for supplied by a zero-density
-   argument of classical strength?
+3. Answered in part at text level (10.5 b): the pointwise bound `bdG` is
+   stated to come from `PairGood`, an existence statement over pairs of
+   auxiliary primes, with a mean-square bound over the primes `q` behind it.
+   Still open: do the proof texts between `meanSqK` and `pair_exists`
+   deliver the bound for every twist at once, as `PairGood` asks, and is
+   the mean-square statement a known large-sieve inequality for real
+   characters or something new?
+4. Answered in part at text level (10.5 d): `BoxH` writes
+   `GlobalTheoryTheory.GoodFor`, and one of the four definitions is in a
+   namespace of that name. Still open: is `count_bad`, the bound
+   `C·Q^(1/4)` on the number of bad moduli, a zero-density estimate of
+   classical strength, and is it enough for the selection of the pair?
 5. Do `Row0b`, `PropsB`, `CuspSub`, `IsRegAlg` and `PolarizedPair` say what
    the theorem of Harris-Taylor, Shin, Chenevier-Harris and Caraiani says? Is
    `Row0b` inhabited for the reasons its term's name suggests ("of theta
@@ -1407,20 +1936,37 @@ Stated as questions. None is answered by a text-level reading.
 9. Below `ChainTied`: where do theta lifts, lattices and the chain of length
    about `√x` become actual objects, and where is `SizeData₂` (with `DIV`,
    `SlopeIneq` and the loss bounds) established for the families that exist?
-10. Is the twin plug at `CB/EveryCharacter.lean:8-11` equivalent to the
-   `TopPlug` pair of S6, or a remnant of an earlier design?
-11. Do the three alternative routes that read as earlier layers (the
-    eventual `ZetaLandau`, the lower-bound `OCStep`, the CM-type
-    `ForcedSumCM`) feed the live chain anywhere?
+10. Is the twin plug at `CB/EveryCharacter.lean:8-18` equivalent to the
+   `TopPlug` pair of S6, or a remnant of an earlier design? At text level
+   its only consumer is `everyE₂` (S6), a theorem with seven hypotheses that
+   nothing names. Does the kernel see either?
+11. Do the alternative routes that read as earlier layers feed the five top
+    theorems anywhere? `OCStep` and `ForcedSumCM` are named nowhere but at
+    their definitions. `ZetaLandau` is different: its theorem `zetaLandau`
+    has consumers (section 9, B9), and where they lead was not traced.
 12. What does `AV/LiteratureResults/KTheoryStability` state about K-groups,
     and does it bear on the note's footnote 6?
 13. Where, if anywhere, is the note's item 14 (the cost of each lift and the
     a priori exponent 2/3)?
 14. What does `cpt_copy_thms` copy when it runs, under what names, and do
     any of the five top theorems depend on a copied declaration?
-15. Why is the function-field toy absent, and does an independent
-    reconstruction of it (the function-field reader has one at float grade,
-    not part of this hunt) match what the note describes?
+15. Is the function-field toy really absent, or present under a notation
+    the searches of section 6 missed? If absent, why, and does an
+    independent reconstruction of it (the function-field reader has one at
+    float grade, not part of this hunt) match what the note describes?
+16. Does the kernel term of `EveryCharacter` depend on the classical chain
+    of 10.5 (c): the explicit formula, the zero count, the zero-free region
+    and the two functional-equation calls? The atlas shows a chain of names
+    from S6 to each of them. Only `#print axioms` and a dependency walk on
+    the built environment can say whether the chain is a dependency.
+17. Is the rival paragraph of section 4 right? It is a reading from
+    recalled literature. A battery comparison aimed at the step that
+    distinguishes (the bound on `gapA`, and now also `PairGood`) has not
+    been made.
+18. Which of the 91 line-start `elab`, `macro` and `syntax` declarations,
+    and of the 16 files with `run_tac`, act on a goal or on the environment
+    from meta-level code, and what do they do? Only the ones named in 10.1
+    and 10.2 were read.
 
 ## 12. How to replay this atlas
 
@@ -1432,10 +1978,28 @@ Anyone with the public tarball can check every citation above.
 last line, and the sha256 of exactly those lines. A citation followed by a
 `lean` block is a displayed quote and its text is stored; a bare citation is
 a pointer and only a short head of its first line is stored. The script
-exits non-zero on any mismatch. `recount.py` reproduces the counts of section
-7, and the string counts of sections 6, 8 and 10, in about two and a half
-minutes on one core. `RUNS.md` records the runs behind this
-file.
+exits non-zero on any mismatch.
+
+The counts replay in three steps, four to five minutes on one core:
+
+    python -I hunts/rh_claim_atlas/recount.py PATH/lean/src --out recount.json (arguments: stats.json, field recount_arguments)
+    python -I hunts/rh_claim_atlas/ledger_count.py PATH/lean/src --out ledger.json
+    python -I hunts/rh_claim_atlas/build_stats.py recount.json ledger.json --check
+
+`build_stats.py --check` rebuilds `stats.json` from the two outputs and from
+`reader_values.json`, and exits non-zero if the result differs from the
+committed file in anything but the timing. Every number in sections 2 (S4),
+4, 5, 6, 7, 8, 9 and 10 that is called a count is a field of `stats.json`.
+The test file checks the prose against those fields row by row.
+
+Read by hand, with no replay path: the three settings of `lakefile.toml`
+(section 7), which lies outside the source directory; the number of
+definitions of each macro in 10.2, read off one `rg` listing of line-start
+`macro` and `elab` lines; and what the identifiers containing "tridiagonal"
+and "zeroMode" are about (section 6).
 
 A pass of `verify_quotes.py` says that the cited text is what this atlas
-read. It says nothing about whether a kernel accepts the archive.
+read. A pass of the recount says that the counts are counts of that text.
+Neither says anything about whether a kernel accepts the archive, and a
+matching hash does not show that a quoted line supports the reading placed
+next to it: that is for a reader to judge.

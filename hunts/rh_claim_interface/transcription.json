@@ -19,7 +19,11 @@
   "Development/AutomorphicArithmetic/PrimitiveCosets/Imports.lean": "9d38c47879d3c02199f747433f009ba4cf6eb44d7480f031e5763a2ee271950e",
   "Development/AutomorphicArithmetic/PrimitiveCosets/LevelFamily.lean": "99ab2af08664a9d1cf3afbe5113894d2b56bb64eb052a378f62d027d0f74354e",
   "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean": "31f6e49936226cfc3d71b15685347bd2874db0aef384e5cf4fea7d09ba68dc71",
-  "Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean": "349d9eafe63952c2fa4ccb2055bef7de0144d442c552196183fe48f01958f033"
+  "Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean": "349d9eafe63952c2fa4ccb2055bef7de0144d442c552196183fe48f01958f033",
+  "Development/AutomorphicArithmetic/PrimitiveCosets/GzEq.lean": "f9d5098d865f17d235c3b87010fe1037028ddfe2d358809a4782c3a3221f2914",
+  "Development/AutomorphicArithmetic/PrimitiveCosets/GChiEq.lean": "223c3201417f68813b5529514fb16302df5436929b8c06c1a6bee543acee2679",
+  "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean": "4ce94b876b46e0a3b038c4bfe9ade933c7225170bf07421109ee862fd5941e3d",
+  "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/CharFamilyLFunctionNeZeroOfOneLeRe.lean": "bd25dd6f7b19d2683b3cb937b3cca4edfe798a492e3dcedeade371f0e3ff48b3"
  },
  "quotes": [
   {
@@ -108,12 +112,65 @@
    "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/mellinGchiOfNeOne.lean",
    "lines": "116-119",
    "text": "theorem mellin_Gchi_of_ne_one {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (hχ : χ ≠ 1) (s : ℂ) (hs : 1 < s.re) :\n    ∫ y in Ioi (1 : ℝ), Gchi χ y * (y : ℂ) ^ (-s - 1) =\n      -(deriv (DirichletCharacter.LFunction χ) s / DirichletCharacter.LFunction χ s -\n          s * (deriv (DirichletCharacter.LFunction χ) 1 / DirichletCharacter.LFunction χ 1)) / (s * (s - 1)) := by"
+  },
+  {
+   "id": "Deduction.ramp_Gchi",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean",
+   "lines": "10-19",
+   "text": "def ramp (f : ℕ → ℂ) (y : ℝ) : ℂ :=\n  ∑ n ∈ Finset.range (⌊y⌋₊ + 1), (Λ n : ℂ) * f n * ((max (y / n - 1) 0 : ℝ) : ℂ)\n\nopen Classical in\n\ndef Gchi {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (y : ℝ) : ℂ :=\n  if χ = 1 then\n    ramp (fun n => χ n) y - ((y * Real.log y : ℝ) : ℂ) + (((1 + Real.eulerMascheroniConstant) * y : ℝ) : ℂ)\n  else\n    ramp (fun n => χ n) y + (y : ℂ) * (deriv (DirichletCharacter.LFunction χ) 1 / DirichletCharacter.LFunction χ 1)",
+   "note": "added in the review round: the windowed lemma is stated for Deduction.Gm, which is built from this Gchi (sum over range(floor y + 1), principal branch included), not from An.gChi"
+  },
+  {
+   "id": "bridge.Gz_eq",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/GzEq.lean",
+   "lines": "6-7",
+   "text": "theorem UpperTheory.Comparison₂.Gz_eq :\n    ∀ y : ℝ, Formalism.Gz y = An.G y ∧ An.G y = Deduction.G y := by",
+   "note": "statement only; unverified archive text, no kernel was run"
+  },
+  {
+   "id": "bridge.gChi_eq",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/GChiEq.lean",
+   "lines": "16-17",
+   "text": "theorem UpperTheory.Comparison₂.gChi_eq :\n    ∀ (ψ : PChar) (y : ℝ), An.gChi ψ.χ y = Deduction.Gchi ψ.χ y := by",
+   "note": "statement only; unverified archive text, no kernel was run"
+  },
+  {
+   "id": "bridge.level_family",
+   "path": "Development/AutomorphicArithmetic/PrimitiveCosets/LevelFamily.lean",
+   "lines": "41-42",
+   "text": "theorem UpperTheory.Comparison₂.level_family :\n    ∀ Λ : Level, ∃ F : Deduction.CharFamily, (∀ y, Deduction.Gm F y = Λ.Gm y) ∧ ∀ θ, Deduction.ZeroFree F θ ↔ Λ.ZeroFreeAbove θ := by",
+   "note": "statement only; unverified archive text, no kernel was run"
+  },
+  {
+   "id": "level_of_tiedWin",
+   "path": "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/TopWin.lean",
+   "lines": "68-81",
+   "text": "theorem level_of_tiedWin {Λ : Level} {la : ℝ} (h112 : ChebyshevInequalityOnWindows @core @Tied Λ) (hB : Λ.FormBAt la)\n    (h : ChebyshevInequalityAtWindowScale @core @Tied la Λ) : Λ.ZeroFreeLevel := by\n  obtain ⟨eD, eL, ε₁, h1, h⟩ := h\n  intro ψ hψ s hs\n  have hm1 : min (s.re - 1 / 2) (1 / 2) ≤ s.re - 1 / 2 := min_le_left _ _\n  have hm2 : min (s.re - 1 / 2) (1 / 2) ≤ 1 / 2 := min_le_right _ _\n  have hm0 : 0 < min (s.re - 1 / 2) (1 / 2) := lt_min (by linarith) (by norm_num)\n  obtain ⟨ε, hε0, hεlt, hCe⟩ := exists_small_eps (eD + eL + 7) (half_pos hm0) h1\n  obtain ⟨Fm, hE, hW, hT⟩ := h ε hε0 hεlt\n  obtain ⟨x1, hx⟩ := h112 eD eL ε hε0 Fm hE hT\n  refine hB (1 / 2 + min (s.re - 1 / 2) (1 / 2) / 2) (by linarith) (by linarith)\n    (((windows_iff _ la).1 hW).mono (x0 := max x1 1) fun y hy hw => ?_) ψ hψ s (by linarith)\n  exact (hx y (le_of_max_le_left hy) hw).trans\n    (Real.rpow_le_rpow_of_exponent_le (le_of_max_le_right hy) (by linarith))",
+   "note": "where theta is chosen: FormBAt is applied with theta = 1/2 + min(Re s - 1/2, 1/2)/2, after eps is chosen with (eD + eL + 7) eps at most half of that minimum"
+  },
+  {
+   "id": "lemmaL",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/lemmaL.lean",
+   "lines": "13-19",
+   "text": "theorem lemmaL (F : CharFamily) {θ δ : ℝ} (hθ : 0 < θ) (hθ1 : θ < 1) (hδ : 0 < δ) (h : WindowHyp F θ δ) :\n    ZeroFree F θ := by\n  intro i s hs hzero\n  obtain ⟨Φ, hP⟩ := poleData F\n  have hZ := landau_window hP hθ hθ1 hδ (windowHypU_of_windowHyp F hδ h)\n  by_cases h1 : 1 ≤ s.re\n  · exact charFamily_LFunction_ne_zero_of_one_le_re F i s h1 hzero",
+   "note": "first seven lines of the archive's proof text: nonvanishing on Re s >= 1 is called inside the proof, it is not a hypothesis of the windowed statement"
+  },
+  {
+   "id": "nonvanishing_on_the_closed_half_plane",
+   "path": "Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/CharFamilyLFunctionNeZeroOfOneLeRe.lean",
+   "lines": "9-10",
+   "text": "theorem charFamily_LFunction_ne_zero_of_one_le_re (F : CharFamily) (i : F.ι) (s : ℂ) (hs : 1 ≤ s.re) :\n    DirichletCharacter.LFunction (F.χ i) s ≠ 0 := by",
+   "note": "statement only; a property of the members of a CharFamily that the archive states as a theorem"
   }
  ],
  "plain_mathematics": {
   "G": "G(y) = sum_{n<=y} Lambda(n)(y/n - 1) - y log y + (1 + gamma) y",
   "Gchi": "Gchi(y) = sum_{n<=y} Lambda(n) chi(n)(y/n - 1) + y L'/L(1, chi), chi nontrivial",
   "Gm": "for psi primitive of order o: Gm(y) = G(y) + (3o+1)^-1 sum_{k=1}^{o-1} Re Gchi_{(psi^k)*}(y), (psi^k)* the primitive character inducing psi^k",
-  "window_statement": "the archive states: if for arbitrarily large Y, Gm(y) <= C y^theta for all y in [Y, Y^(1+delta)], then no L-function of the family vanishes at any s with Re s > theta; the top of the archive uses C = 1, 1 + delta = 3/2 and theta = 1/2 + (eD + eL + 7) eps"
- }
+  "window_statement": "the archive states: if for arbitrarily large Y, Gm(y) <= C y^theta for all y in [Y, Y^(1+delta)], then no L-function of the family vanishes at any s with Re s > theta (any real C, 0 < theta < 1, delta > 0); the top of the archive uses C = 1 and 1 + delta = 3/2",
+  "theta_at_the_top": "for a point s with Re s > 1/2 the top applies the windowed statement with theta = 1/2 + min(Re s - 1/2, 1/2)/2 (level_of_tiedWin). The expression 1/2 + (eD + eL + 7) eps is the exponent of the bound that is supplied, with eps chosen so that (eD + eL + 7) eps is at most half of that minimum; it is not the theta of the windowed statement. The first version of this file had the two confused.",
+  "sign_of_eD_eL": "in ChebyshevInequalityOnWindows the reals eD and eL are universally quantified with no sign condition, and in ChebyshevInequalityAtWindowScale they are existentially quantified with none either, so the supplied exponent 1/2 + (eD + eL + 7) eps is not constrained by the text to be at least 1/2",
+  "identification_of_the_two_Gm": "the windowed statement is about Deduction.Gm (built from Deduction.Gchi and ramp); the scanned quantity is Level.Gm (built from Formalism.Gz and An.gChi). The archive states their equality through Gz_eq, gChi_eq and level_family, quoted above as statements. This hunt checked the identification by reading the definitions (ramp sums over n = 0..floor(y) with Lambda(0) = 0, the others over n = 1..floor(y)); it did not check the archive's proofs of the three lemmas."
+ },
+ "review_round": "2026-11-20: seven quotes, four file hashes and three glosses added after two independent reviews; no earlier quote was changed"
 }

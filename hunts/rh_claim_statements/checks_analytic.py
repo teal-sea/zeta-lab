@@ -593,6 +593,7 @@ def l_zero_at_origin(p):
     if bad is not None:
         return result(False, n, witness=bad)
     return result(True, n, margin=min_d, tightest=where, min_abs_derivative=min_d,
+                  tested_range=f"every primitive non-principal {p['parity']} character of conductor <= {p['N_max']}",
                   notes="L(0,chi) = 0 by exact arithmetic in the cyclotomic integers; order exactly 1 "
                         "because the Arb enclosure of L'(0,chi) excludes 0")
 
@@ -1013,6 +1014,7 @@ def thin_ptw(p):
                         worst = (lo(D), dict(c=c, log_v=lv, lam=lam_kind))
     return result(True if red else None, n, margin=0.0, tightest=dict(v=1, lam=1, c="any", kind="equality"),
                   sharp=4.0, slack=float(K) / 4.0, reduction_holds=red,
+                  tested_range="63 points: c in {1/1000, 1, 1000}, log v in {0, 1e-6, 1, 7, 30, 100, 400}, lam in {v^e, v^e/2, 1/1000}",
                   least_positive_margin_on_grid=worst,
                   notes="exact reduction: the statement for every c > 0 is equivalent to K >= 4 and "
                         "e_lam <= 1 - e_rhs (with e_lam >= 1/2), compared as rationals; the literal "

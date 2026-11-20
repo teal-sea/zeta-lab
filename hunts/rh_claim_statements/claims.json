@@ -407,7 +407,7 @@
    "quantifiers": "all real t with |t| > 2, all sigma in (1, 6/5] (unbounded in t)",
    "domain": "unbounded",
    "grade_if_it_holds": "measured_range",
-   "sharpness": "very loose: on the tested range the constant could be about 0.17 in place of 840",
+   "sharpness": "very loose: on the tested range the constant could be about 0.22 in place of 840",
    "test": {
     "fn": "analytic.zeta_logderiv",
     "params": {
@@ -744,6 +744,7 @@
    "math": "For Re s > 0, s != 1 and every integer M >= 1: |zeta(s) - sum_{n=1}^{M} n^-s - M^(1-s)/(s-1)| <= (|s|/Re s) M^(-Re s).",
    "conventions": [
     "the double bars are the complex modulus (the real absolute value on R)",
+    "the body of a big operator is parsed at precedence 67, so it extends over * and / but not over + and -: `∑ x ∈ s, a - b` is `(∑ x ∈ s, a) - b` (Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean:181)",
     "(n : C) ^ s is Complex.cpow: exp(s log n) for n != 0",
     "x ^ (y : R) is Real.rpow: exp(y log x) for x > 0, and 0 ^ y = 0 for y != 0",
     "Finset.Icc 1 M = {1, ..., M}, empty for M = 0; Finset.Ioc 0 N = {1, ..., N}; Finset.range n = {0, ..., n - 1}",
@@ -1902,7 +1903,7 @@
    "quantifiers": "all moduli, all characters (principal included), all real t (unbounded)",
    "domain": "unbounded",
    "grade_if_it_holds": "measured_range",
-   "sharpness": "theoretical slack 1.60 (the infimum over all characters and t is zeta(52/25)/zeta(26/25) = 0.0616); no finite search of this size comes near it, so no mutant near 26 can be rejected numerically",
+   "sharpness": "theoretical slack 1.60 (the infimum over all characters and t is zeta(52/25)/zeta(26/25) = 0.0616); the smallest value on the tested range is 0.318, so no mutant near 26 can be rejected by a search of this size",
    "test": {
     "fn": "analytic.l_inverse_line",
     "params": {
@@ -2884,6 +2885,7 @@
    "math": "For every integer N >= 1: psi(N) + 1 + log N <= 3N, with psi(N) = sum_{n <= N} Lambda(n).",
    "conventions": [
     "vonMangoldt n = log p if n = p^k with k >= 1 and 0 otherwise, so it is 0 at n = 0 and n = 1",
+    "the body of a big operator is parsed at precedence 67, so it extends over * and / but not over + and -: `∑ x ∈ s, a - b` is `(∑ x ∈ s, a) - b` (Mathlib/Algebra/BigOperators/Group/Finset/Defs.lean:181)",
     "Real.log x = log|x| for x != 0 and Real.log 0 = 0 (Mathlib/Analysis/SpecialFunctions/Log/Basic.lean:44)",
     "Finset.Icc 1 M = {1, ..., M}, empty for M = 0; Finset.Ioc 0 N = {1, ..., N}; Finset.range n = {0, ..., n - 1}"
    ],
@@ -7598,7 +7600,7 @@
    ],
    "quantifiers": "all real c > 0, v >= 1, lam in (0, v^0.61] (unbounded)",
    "domain": "unbounded",
-   "grade_if_it_holds": "complete_cover",
+   "grade_if_it_holds": "measured_range",
    "sharpness": "sharp in both constants: equality at v = lam = 1 for every c, and 0.61 + 0.39 = 1 exactly",
    "test": {
     "fn": "analytic.thin_ptw",
@@ -7612,7 +7614,7 @@
      "e_lam": "61/100",
      "e_rhs": "39/100"
     },
-    "route": "exact reduction: the statement for every c > 0 is equivalent to (v + lam)^2 <= 4 v^2 and lam + sqrt v <= 2 v^0.61, which hold iff 4 >= 4 and 61/100 <= 1 - 39/100 (rationals); the literal inequality is evaluated in Arb on a 63-point grid up to v = e^400"
+    "route": "the literal inequality in Arb (128 bits) on a 63-point grid up to v = e^400, the equality point v = lam = 1 handled exactly; an ordinary derivation (self-reviewed, not an enclosure) reduces the statement for every c > 0 to (v + lam)^2 <= 4 v^2 and lam + sqrt v <= 2 v^0.61, that is to 4 >= 4 and 61/100 <= 1 - 39/100, which is why both constants are sharp"
    },
    "mutants": [
     {

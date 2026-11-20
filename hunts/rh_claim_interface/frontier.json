@@ -1,0 +1,76 @@
+{
+ "bound": "|G(y) - log 2pi - T(y)| <= c0 sqrt(y) + w1 (y + 3 sqrt(y)), w1 = sum over zeros with gamma > H of 1/gamma^2, H a height below which every zero is on the line",
+ "elapsed_s": 0.0,
+ "ramare_lemma_4_2_check": {
+  "density_leading_term_at_T0": 1.8058308252614223e-12,
+  "printed": "sum_{gamma >= T} 1/gamma^2 <= log(T/2pi)/(2 pi T) + 0.67 (2 log(T/2pi) + 1/2)/T^2 for T >= 1000 (author copy)",
+  "printed_bound_at_T0": 1.7406033895740851e-12,
+  "rows": [
+   {
+    "T": 1000.0,
+    "density_leading_term": 0.0009660511214967581,
+    "lemma_4_2_as_printed": 0.0008140248152097104,
+    "listed_sum_alone_exceeds_printed_bound": true,
+    "listed_sum_of_inverse_squares": 0.0008866245705755284,
+    "listed_sum_plus_tail_from_c0": 0.0009656674792371653,
+    "n_listed_zeros_from_T": 19351
+   },
+   {
+    "T": 5000.0,
+    "density_leading_term": 0.0002444402241720292,
+    "lemma_4_2_as_printed": 0.00021298064689795053,
+    "listed_sum_alone_exceeds_printed_bound": false,
+    "listed_sum_of_inverse_squares": 0.00016541056686248328,
+    "listed_sum_plus_tail_from_c0": 0.0002444534755241202,
+    "n_listed_zeros_from_T": 15480
+   },
+   {
+    "T": 10000.0,
+    "density_leading_term": 0.0001332518920936472,
+    "lemma_4_2_as_printed": 0.00011743853879275226,
+    "listed_sum_alone_exceeds_printed_bound": false,
+    "listed_sum_of_inverse_squares": 5.4218637131493636e-05,
+    "listed_sum_plus_tail_from_c0": 0.00013326154579313055,
+    "n_listed_zeros_from_T": 9858
+   }
+  ]
+ },
+ "ramare_theorem_1_1": {
+  "bound_on_abs_F_at_y_1e9_from_its_proof": 0.047000055339859056,
+  "in_these_units": "|G(x)| <= sqrt(x)/2 + 1.75e-12 x for x >= 8950",
+  "linear_const": 1.75e-12,
+  "source": "O. Ramare, Acta Arith. 159 (2013), 113-122, Theorem 1.1 (the 2023 corrigendum says it needs no change); read, not re-proved",
+  "sqrt_const": 0.5,
+  "x_min": 8950,
+  "y_up_to_which_G_le_sqrt_y_follows": 8.163265306122448e+22
+ },
+ "reach": {
+  "H_2.44e12": {
+   "crude_y_where_2w1_y_reaches_c0_sqrt_y": 1.6357181488720085e+20,
+   "crude_y_where_2w1_y_reaches_sqrt_y": 7.666301311426776e+22,
+   "excess_over_c0_at_y_1e9": 5.711080226015202e-08,
+   "w1": 1.8058308252614223e-12,
+   "y_up_to_which_G_le_sqrt_y_is_guaranteed": 2.7897695348176648e+23,
+   "y_where_excess_over_envelope_reaches_c0": 6.542872593953292e+20
+  },
+  "H_3e12": {
+   "crude_y_where_2w1_y_reaches_c0_sqrt_y": 2.4362010025168958e+20,
+   "crude_y_where_2w1_y_reaches_sqrt_y": 1.1418012909726483e+23,
+   "excess_over_c0_at_y_1e9": 4.679677646793607e-08,
+   "w1": 1.4797036309124044e-12,
+   "y_up_to_which_G_le_sqrt_y_is_guaranteed": 4.155018602822015e+23,
+   "y_where_excess_over_envelope_reaches_c0": 9.744804008194583e+20
+  }
+ },
+ "single_quadruple_onsets_at_3e12_for_comparison": "RESULTS.md section 6: 10^46.6 (envelope) and 10^49.3 (G <= sqrt(y)); a single planted quadruple, not this bound",
+ "sources": {
+  "note": "author copies read; the journal versions were not consulted",
+  "ramare_2013": "O. Ramare, Explicit estimates for the summatory function of Lambda(n)/n from the one of Lambda(n), Acta Arith. 159 (2013), 113-122",
+  "ramare_2013_author_copy_sha256": "a4de9b736c7d942563a15b8141c3244add6878d1730482a518e1cdc0cba9d2a9",
+  "ramare_2023": "O. Ramare, Corrigendum to the above, Acta Arith. 211 (2023), 93-96, DOI 10.4064/aa220605-11-10 (journal reference from the publisher's listing)",
+  "ramare_2023_author_copy_sha256": "ec315280a24bd5b5d2170aeb145b29a7abae6d00ea1304f78b4a2f3fbd9a6b5e"
+ },
+ "tail_one_sided_from_c0_above_table": 7.904290866163691e-05,
+ "what": "what is known about G(y) without RH, in this hunt's units; float grade, nothing here is an enclosure",
+ "zero_table_height": 18046.464296239203
+}

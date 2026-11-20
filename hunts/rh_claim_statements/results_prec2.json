@@ -1,0 +1,853 @@
+{
+ "meta": {
+  "level": "full",
+  "prec_scale": 2,
+  "started": "2026-11-20T17:59:28+0000",
+  "finished": "2026-11-20T18:04:24+0000",
+  "environment": {
+   "python": "3.13.18",
+   "python_flint": "0.9.0",
+   "numpy": "2.5.5",
+   "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39",
+   "pari": "(2, 17, 2)",
+   "zeta_rigor_backend": "python-flint"
+  },
+  "archive_tarball_sha256": "9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc"
+ },
+ "summary": {
+  "claims": 36,
+  "tested": 36,
+  "hold": 36,
+  "fail": [],
+  "undecided": [],
+  "by_grade": {
+   "complete_cover": 9,
+   "exact_finite": 5,
+   "measured_range": 22
+  },
+  "mutants": 0,
+  "mutants_rejected": 0,
+  "mutants_not_rejected": [],
+  "seconds": 295.8
+ },
+ "claims": [
+  {
+   "id": "C01",
+   "name": "zeta_norm_le_on_circle",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 264,
+   "margin": 0.8956799046961752,
+   "tightest": {
+    "theta_turns": 0.4998779296875,
+    "s": [
+     0.5000004412056767,
+     0.0011504854781143616
+    ]
+   },
+   "sharp_constant": [
+    1.4603526182451332,
+    1.4604813342535465
+   ],
+   "slack": [
+    9.585880813160419,
+    9.586725716165338
+   ],
+   "notes": "the whole circle is covered by arcs; sup |zeta| on it is K times sup_ratio",
+   "sup_ratio": [
+    0.10431090130322379,
+    0.10432009530382476
+   ],
+   "tight": true,
+   "witness": null,
+   "seconds": 0.214
+  },
+  {
+   "id": "C02",
+   "name": "re_ge_and_norm_zeta_le_of_near_eleven_tenths",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 6486,
+   "margin": 0.9600595296471056,
+   "tightest": {
+    "z": [
+     1.41875,
+     1.493375
+    ]
+   },
+   "sharp_constant": [
+    0.23674038754582366,
+    0.23964282211736643
+   ],
+   "slack": [
+    25.037261483515103,
+    25.34421803647101
+   ],
+   "notes": "Re z >= 1/2 and z != 1 are exact (Re z = 1/2 is attained: the radius is sharp); the zeta bound is a complete cover of the union of discs for t up to T, each z taken with its smallest admissible |t|",
+   "sup_ratio": [
+    0.039456731257637274,
+    0.03994047035289441
+   ],
+   "tight": true,
+   "tested_range": "2.0 < |t| <= 200 (t < 0 by conjugation)",
+   "re_margin": 0.0,
+   "witness": null,
+   "seconds": 9.435
+  },
+  {
+   "id": "C03",
+   "name": "zeta_log_deriv_landau_bound",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 5520,
+   "margin": 0.9997397082420321,
+   "tightest": {
+    "s": [
+     1.003125,
+     171.6341796875
+    ]
+   },
+   "sharp_constant": [
+    0.21024795308026495,
+    0.21864507669306513
+   ],
+   "slack": [
+    3841.8427375760007,
+    3995.282654092327
+   ],
+   "notes": "closed rectangle (closure of the stated strip), complete cover",
+   "sup_ratio": [
+    0.00025029518223841066,
+    0.0002602917579679347
+   ],
+   "tight": true,
+   "witness": null,
+   "tested_range": "1.0 <= sigma <= 1.2, 2.0 <= t <= 200 (t < 0 by conjugation)",
+   "seconds": 9.421
+  },
+  {
+   "id": "C04",
+   "name": "zeta_one_sub_le",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 8306,
+   "margin": 0.9780395296693314,
+   "tightest": {
+    "w": [
+     0.500274658203125,
+     0.01708984375
+    ]
+   },
+   "sharp_constant": [
+    0.13133032332479905,
+    0.13176282198401196
+   ],
+   "slack": [
+    45.536365339291514,
+    45.68632626572558
+   ],
+   "notes": "cover of the quotient zeta(1-w)/zeta(w) written by the functional equation; the literal inequality is evaluated at sample points, where the functional equation's relative defect is also measured",
+   "sup_ratio": [
+    0.021888387220799842,
+    0.02196047033066866
+   ],
+   "tight": true,
+   "witness": null,
+   "fe_defect_at_samples": 8.195438311765494e-30,
+   "direct_samples": 20,
+   "tested_range": "0.5 <= Re w <= 5.0, |Im w| <= 100",
+   "seconds": 0.303
+  },
+  {
+   "id": "C05",
+   "name": "norm_zeta_sub_le",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 25610,
+   "margin": 0.4999522958475886,
+   "tightest": {
+    "s": [
+     0.015625,
+     0.0
+    ]
+   },
+   "sharp_constant": [
+    0.4987341935039679,
+    0.5000477041524114
+   ],
+   "slack": [
+    1.999809201594107,
+    2.005076076645713
+   ],
+   "notes": "complete cover of the closed rectangle, the removable singularity at s = 1 included (deflated zeta); the supremum 1/2 is approached as s -> 0+ and is not attained",
+   "sup_ratio": [
+    0.4987341935039679,
+    0.5000477041524114
+   ],
+   "tight": true,
+   "witness": null,
+   "tested_range": "0 < Re s <= 16.0, |Im s| <= 100 (Im < 0 by conjugation)",
+   "seconds": 31.973
+  },
+  {
+   "id": "C06",
+   "name": "norm_zeta_sub_sum_le",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 12420,
+   "margin": 0.49852483555422455,
+   "tightest": {
+    "s": [
+     0.0625,
+     0.0
+    ],
+    "M": 10
+   },
+   "sharp_constant": [
+    0.4994793563336698,
+    0.5014751644457754
+   ],
+   "slack": [
+    1.9941166998871986,
+    2.0020847454843853
+   ],
+   "notes": "complete cover of the closed rectangle, the removable singularity at s = 1 included (deflated zeta); the supremum 1/2 is approached as s -> 0+ and is not attained",
+   "sup_ratio": [
+    0.4994793563336698,
+    0.5014751644457754
+   ],
+   "tight": true,
+   "witness": null,
+   "tested_range": "0 < Re s <= 6.0, |Im s| <= 40 (Im < 0 by conjugation); complete covers for M in [2, 3, 10], 29 sample points for M in [100, 1000]",
+   "M": 10,
+   "per_M": {
+    "2": [
+     0.49870857411392633,
+     0.5001646482483441
+    ],
+    "3": [
+     0.49827071962804614,
+     0.5001525641851116
+    ],
+    "10": [
+     0.4994793563336698,
+     0.5014751644457754
+    ]
+   },
+   "largest_ratio_at_samples": {
+    "100": 0.4999869792110917,
+    "1000": 0.4999986979167121
+   },
+   "seconds": 20.016
+  },
+  {
+   "id": "C07",
+   "name": "le_norm_zeta₁",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 2028,
+   "margin": 0.8723079909104852,
+   "tightest": {
+    "t": 0.00390625
+   },
+   "sharp_constant": [
+    1.3052239357423667,
+    1.3061891196985274
+   ],
+   "slack": [
+    7.831343614454201,
+    7.837134718191164
+   ],
+   "notes": "every t: the elementary floor (a-1) zeta(2a)/zeta(a) = 0.230070 is at least c",
+   "sup_ratio": [
+    0.12759765347389654,
+    0.12769200908951486
+   ],
+   "tail_covered": true,
+   "witness": null,
+   "tested_range": "|t| <= 200 by cover; all t by the Euler-product floor",
+   "seconds": 0.301
+  },
+  {
+   "id": "C08",
+   "name": "riemannZeta_ne_zero_of_mem_Ioo",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 5564,
+   "margin": 0.49991841323932373,
+   "tightest": {
+    "interval": [
+     0.0,
+     0.01171875
+    ]
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "sign enclosure on (a, 3/4]; on |s - 1| <= 5/16 the entire function (s-1)f(s) stays within distance < 1 of its value 1 at s = 1 (maximum principle on the circle), so f has no zero there; the infimum of |f| is approached at the left end",
+   "inf_abs_value_lower": 0.49991841323932373,
+   "near_one_sup_of_h_minus_1": 0.1973384112831708,
+   "seconds": 0.443
+  },
+  {
+   "id": "C09",
+   "name": "no_real_zero",
+   "topic": "L",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 5639,
+   "margin": 0.0,
+   "tightest": {
+    "sigma": "-> 0+ for chi_8"
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "first conjunct as in riemannZeta_ne_zero_of_mem_Ioo; second: L(0, chi) = 0 exactly, so inf |L| over sigma > 0 is 0 and the hypothesis 0 < sigma is sharp; L' > 0 on [0, 1/8], sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond",
+   "zeta_inf_abs_lower": 0.49991841323932373,
+   "chi8": {
+    "inf_on_delta_2": 0.061978289228755375,
+    "derivative_lower_near_0": 0.8097722056105593
+   },
+   "seconds": 0.78
+  },
+  {
+   "id": "C10",
+   "name": "zeta_neg_odd_ne_zero",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 3001,
+   "margin": 0.003968253968253968,
+   "tightest": {
+    "m": 2,
+    "value": "-1/252"
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "exact Bernoulli numbers (FLINT, checked against an own recurrence to index 60 and against Arb's zeta at the first points)",
+   "tested_range": "0 <= m <= 3000",
+   "seconds": 4.739
+  },
+  {
+   "id": "C11",
+   "name": "riemannZeta_six",
+   "topic": "zeta",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 2000,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "945",
+   "slack": 1.0,
+   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "bracket_width": 1.5601589816430868e-20,
+   "exact_coefficient": "1/945",
+   "seconds": 0.001
+  },
+  {
+   "id": "C12",
+   "name": "zeta_logderiv_limit",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 20,
+   "margin": 1.875462328403656e-17,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "a limit is measured, not enclosed: the distance to the claimed limit shrinks linearly with the radius",
+   "errors_by_radius": {
+    "1e-2": 0.001877054083927407,
+    "1e-4": 1.8754783005201815e-05,
+    "1e-8": 1.8754623300009226e-09,
+    "1e-12": 1.8754623284038157e-13,
+    "1e-16": 1.875462328403656e-17
+   },
+   "witness": null,
+   "tested_range": "radii 1e-2 .. 1e-16, four directions",
+   "seconds": 0.008
+  },
+  {
+   "id": "C13",
+   "name": "norm_sq_Gamma_half",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 9,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "an identity cannot be decided by enclosures; both sides agree to the stated relative width at every sample (it is the reflection formula at s = 1/2 + it)",
+   "max_relative_width": 5.862786717983378e-153,
+   "tested_range": "nine values of t in [0, 60]",
+   "seconds": 0.001
+  },
+  {
+   "id": "C14",
+   "name": "half_line",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 13616,
+   "margin": 0.16445724178966648,
+   "tightest": {
+    "t": "-> infinity"
+   },
+   "sharp_constant": 2.5066282746310007,
+   "slack": 1.196826841204298,
+   "notes": "|Gamma(1/2+it)|^2 e^(pi|t|) = 2 pi/(1 + e^(-2 pi |t|)) < 2 pi (reflection formula), so the supremum sqrt(2 pi) is approached and not attained",
+   "sup_ratio_on_range": [
+    0.8355427582103319,
+    0.8356427252294165
+   ],
+   "tested_range": "direct Gamma cover |t| <= 200; every t by the closed form",
+   "seconds": 0.608
+  },
+  {
+   "id": "C15",
+   "name": "Gamma_decay",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 24010,
+   "margin": 0.16622980125248266,
+   "tightest": {
+    "w": [
+     5.499847412109375,
+     199.999755859375
+    ]
+   },
+   "sharp_constant": [
+    2.4992893830225507,
+    2.501310596242552
+   ],
+   "slack": [
+    1.1993712434219785,
+    1.2003411931322285
+   ],
+   "notes": "complete cover of the rectangle in mean value form; on Re w = sigma_hi the ratio tends to sqrt(2 pi)/K as Im w grows when sigma_hi - 1/2 = E",
+   "sup_ratio": [
+    0.8330964610075169,
+    0.8337701987475173
+   ],
+   "tight": true,
+   "limit_ratio_at_edge": 0.8355427582103335,
+   "witness": null,
+   "tested_range": "0.5 <= Re w <= 5.5, |Im w| <= 200 (Im < 0 by conjugation)",
+   "seconds": 1.04
+  },
+  {
+   "id": "C16",
+   "name": "lfunction_one_lower_bound",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 8394,
+   "margin": 47.36798304624571,
+   "tightest": {
+    "q": 3,
+    "d": -3,
+    "L": 0.6045997880780726
+   },
+   "sharp_constant": 0.4134966715663449,
+   "slack": 48.36798304624571,
+   "notes": "L(1,chi) by the digamma formula for the primitive character times exact Euler factors; the enumeration and the values agree with Arb's Dirichlet characters for small q",
+   "tested_range": "every real non-principal character mod q for 3 <= q <= 2000",
+   "seconds": 8.52
+  },
+  {
+   "id": "C17",
+   "name": "dhl_inv",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 17450,
+   "margin": 0.8790253490442408,
+   "tightest": {
+    "M": 13,
+    "conrey": 6,
+    "t": 35.5625,
+    "lo": 0.12047866934919053
+   },
+   "sharp_constant": 3.14534092484974,
+   "slack": 8.266194546539364,
+   "notes": "the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product), approached only when chi(p) p^-it is near -1 for many primes at once; no finite search of this size comes near it",
+   "theoretical_sharp": 16.23287621244304,
+   "tested_range": "every character mod M <= 16, 0 <= t <= 40 (t < 0 via the conjugate character)",
+   "seconds": 189.396
+  },
+  {
+   "id": "C18",
+   "name": "norm_L_one_sub_le",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 1511,
+   "margin": 0.9780521262002743,
+   "tightest": {
+    "N": 1,
+    "conrey": 1,
+    "w": [
+     0.5,
+     0.0
+    ]
+   },
+   "sharp_constant": 0.13168724279835417,
+   "slack": 45.56249999999991,
+   "notes": "samples only, both sides evaluated directly; no functional equation assumed",
+   "tested_range": "every primitive character of conductor <= 30 at nine sample points",
+   "seconds": 3.993
+  },
+  {
+   "id": "C19",
+   "name": "LFunction_legendreCharacter_seven_one_ne_zero",
+   "topic": "L",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 3,
+   "margin": 1.1874104117237234,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "three routes: Arb's Dirichlet L, the digamma formula, the class number formula",
+   "value": 1.1874104117237259,
+   "routes_agree": true,
+   "seconds": 0.0
+  },
+  {
+   "id": "C20",
+   "name": "mult_zero_of_even",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 600,
+   "margin": 0.4812118250596025,
+   "tightest": {
+    "N": 5,
+    "conrey": 4
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "L(0,chi) = 0 by exact arithmetic in the cyclotomic integers; order exactly 1 because the Arb enclosure of L'(0,chi) excludes 0",
+   "min_abs_derivative": 0.4812118250596025,
+   "tested_range": "every primitive non-principal even character of conductor <= 80",
+   "seconds": 1.332
+  },
+  {
+   "id": "C21",
+   "name": "small_nat",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 131071,
+   "margin": 0.004941287067517841,
+   "tightest": {
+    "m": 113,
+    "pi": 30
+   },
+   "sharp_constant": 1.2550587129324822,
+   "slack": 1.0039370963418695,
+   "notes": "every integer of the stated range, each strict inequality decided by an Arb enclosure of log m",
+   "seconds": 0.161
+  },
+  {
+   "id": "C25",
+   "name": "inv_five_log_le_sum_inv_primes",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 9999901,
+   "margin": 1.939586579987457,
+   "tightest": {
+    "N": 226
+   },
+   "sharp_constant": 1.700919453789769,
+   "slack": 2.939586579987457,
+   "notes": "the 64 tightest N by exact rational sums against Arb; the rest by float64 prefix sums, whose rounding error (< 1e-9) is far below their margin",
+   "tested_range": "100 <= N <= 10000000",
+   "seconds": 0.983
+  },
+  {
+   "id": "C26",
+   "name": "mertens_upper_psi_bound",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 2000000,
+   "margin": 1.6592435050687597,
+   "tightest": {
+    "N": 5,
+    "statistic": 1.3407564949312403
+   },
+   "sharp_constant": 1.3407564949312403,
+   "slack": 2.2375427688335403,
+   "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
+   "tested_range": "1 <= N <= 2000000",
+   "seconds": 0.093
+  },
+  {
+   "id": "C27",
+   "name": "mertens_upper_nat",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 2000000,
+   "margin": 2.0,
+   "tightest": {
+    "N": 1,
+    "statistic": 0.0
+   },
+   "sharp_constant": 0.0,
+   "slack": 2.0,
+   "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
+   "tested_range": "1 <= N <= 2000000",
+   "seconds": 0.099
+  },
+  {
+   "id": "C28",
+   "name": "prime_sum_le",
+   "topic": "primes",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 10000000,
+   "margin": 0.006407278824443308,
+   "tightest": {
+    "set": "all primes"
+   },
+   "sharp_constant": [
+    0.4930910093659896,
+    0.4930927211755567
+   ],
+   "slack": [
+    1.0129940649076468,
+    1.0129975816071985
+   ],
+   "notes": "complete: the terms are positive, so the supremum over finite sets is the full series, enclosed between the partial sum to P and that plus (log P + 1)/P",
+   "seconds": 0.671
+  },
+  {
+   "id": "C29",
+   "name": "primeLogSum_small",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": 0.08398743183060296,
+   "tightest": {
+    "point": "the single instance"
+   },
+   "sharp_constant": 0.7240890001942897,
+   "slack": 1.1159904815679664,
+   "notes": "one inequality between two explicit real numbers, decided by Arb at 128 bits",
+   "seconds": 0.0
+  },
+  {
+   "id": "C30",
+   "name": "sum_log_primes_le_mul_log_four",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 2000001,
+   "margin": 0.38671076225942913,
+   "tightest": {
+    "N": 1513751,
+    "statistic": 0.9995835988604614
+   },
+   "sharp_constant": 0.9995835988604614,
+   "slack": 1.3868718561411817,
+   "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
+   "tested_range": "0 <= N <= 2000000",
+   "seconds": 0.1
+  },
+  {
+   "id": "C31",
+   "name": "sum_div_mul_log_le_log_factorial",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 5001,
+   "margin": 0.0,
+   "tightest": {
+    "equal_at": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   "sharp_constant": "equality",
+   "slack": 1.0,
+   "notes": "log n! = sum_p v_p(n!) log p, so the comparison is exact in the integer coefficients (Arb only if signs are mixed); equality exactly when n < 4",
+   "tested_range": "0 <= n <= 5000",
+   "seconds": 0.173
+  },
+  {
+   "id": "C62",
+   "name": "exp_ge_quad",
+   "topic": "elementary",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 142,
+   "margin": 0.0,
+   "tightest": {
+    "z": 0,
+    "kind": "double zero"
+   },
+   "sharp_constant": 0.36787944117144233,
+   "slack": 1.103638323514327,
+   "notes": "complete: convexity on [-1/4, 1/4] with g(0) = g'(0) = 0, sign enclosure elsewhere; the largest admissible coefficient is (e^-R - 1 + R)/R^2",
+   "min_away_from_0": 0.00022775360654724624,
+   "seconds": 0.0
+  },
+  {
+   "id": "C63",
+   "name": "classC_const",
+   "topic": "elementary",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 10840,
+   "margin": 0.0,
+   "tightest": {
+    "n": 1,
+    "r": 0
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "r = 0 exact; r >= 1 by Arb on the logarithm; equality at (n, r) = (1, 0)",
+   "tested_range": "1 <= n <= 5000",
+   "seconds": 8.442
+  },
+  {
+   "id": "C65",
+   "name": "thin_ptw",
+   "topic": "elementary",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 63,
+   "margin": 0.0,
+   "tightest": {
+    "v": 1,
+    "lam": 1,
+    "c": "any",
+    "kind": "equality"
+   },
+   "sharp_constant": 4.0,
+   "slack": 1.0,
+   "notes": "exact reduction: the statement for every c > 0 is equivalent to K >= 4 and e_lam <= 1 - e_rhs (with e_lam >= 1/2), compared as rationals; the literal inequality is evaluated in Arb on a grid reaching v = e^400",
+   "reduction_holds": true,
+   "tested_range": "63 points: c in {1/1000, 1, 1000}, log v in {0, 1e-6, 1, 7, 30, 100, 400}, lam in {v^e, v^e/2, 1/1000}",
+   "least_positive_margin_on_grid": [
+    3.900274619857242e-07,
+    {
+     "c": "1/1000",
+     "log_v": "1/1000000",
+     "lam": "top"
+    }
+   ],
+   "seconds": 0.001
+  },
+  {
+   "id": "C69",
+   "name": "card_tuples_le",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 18000,
+   "margin": 0.0,
+   "tightest": {
+    "n": 0,
+    "M": 1
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact counts by recursion on floor(M/a); equality for n = 0 and for M = 1",
+   "tested_range": "0 <= n <= 5, 1 <= M <= 3000",
+   "seconds": 0.241
+  },
+  {
+   "id": "C71",
+   "name": "harm_le",
+   "topic": "elementary",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 1000001,
+   "margin": 0.0,
+   "tightest": {
+    "equality_at": [
+     1
+    ],
+    "next_smallest_margin": 0.19314718055994493,
+    "at": 2
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "N = 0, 1 exact (log 0 = log 1 = 0); N >= 2 by Arb; equality at N = 1",
+   "tested_range": "0 <= N <= 1000000",
+   "seconds": 1.895
+  },
+  {
+   "id": "C72",
+   "name": "exp_sqrt_le",
+   "topic": "elementary",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 11590,
+   "margin": 0.8046321854002375,
+   "tightest": {
+    "t": 4.000001907348633
+   },
+   "sharp_constant": 4.68880355551595,
+   "slack": 5.118576565607273,
+   "notes": "complete: cover of [0, T] and t^E e^-t is decreasing beyond t = E <= T; the smallest admissible constant is (E/e)^E",
+   "sup_ratio": [
+    0.19536681481307536,
+    0.1953678145997625
+   ],
+   "seconds": 0.05
+  },
+  {
+   "id": "C73",
+   "name": "exp_neg_le_div_pow_four",
+   "topic": "elementary",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 11570,
+   "margin": 0.8046321854002375,
+   "tightest": {
+    "t": 4.000001907348633
+   },
+   "sharp_constant": 4.68880355551595,
+   "slack": 5.118576565607273,
+   "notes": "complete: cover of [0, T] and t^E e^-t is decreasing beyond t = E <= T; the smallest admissible constant is (E/e)^E",
+   "sup_ratio": [
+    0.19536681481307536,
+    0.1953678145997625
+   ],
+   "seconds": 0.049
+  },
+  {
+   "id": "C79",
+   "name": "hasSum_inv_succ_sq",
+   "topic": "zeta",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1000000,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "6",
+   "slack": 1.0,
+   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "bracket_width": 9.99999000001002e-13,
+   "exact_coefficient": "1/6",
+   "seconds": 0.334
+  }
+ ]
+}

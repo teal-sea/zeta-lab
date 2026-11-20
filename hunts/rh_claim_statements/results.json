@@ -1,0 +1,3523 @@
+{
+ "meta": {
+  "level": "full",
+  "prec_scale": 1,
+  "started": "2026-11-20T17:56:06+0000",
+  "finished": "2026-11-20T17:59:27+0000",
+  "environment": {
+   "python": "3.13.18",
+   "python_flint": "0.9.0",
+   "numpy": "2.5.5",
+   "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39",
+   "pari": "(2, 17, 2)",
+   "zeta_rigor_backend": "python-flint"
+  },
+  "archive_tarball_sha256": "9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc"
+ },
+ "summary": {
+  "claims": 79,
+  "tested": 79,
+  "hold": 79,
+  "fail": [],
+  "undecided": [],
+  "by_grade": {
+   "complete_cover": 9,
+   "exact_finite": 17,
+   "measured_range": 53
+  },
+  "mutants": 98,
+  "mutants_rejected": 98,
+  "mutants_not_rejected": [],
+  "seconds": 200.7
+ },
+ "claims": [
+  {
+   "id": "C01",
+   "name": "zeta_norm_le_on_circle",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 264,
+   "margin": 0.8956799047034707,
+   "tightest": {
+    "theta_turns": 0.5001220703125,
+    "s": [
+     0.5000004412056767,
+     -0.001150485478113994
+    ]
+   },
+   "sharp_constant": [
+    1.4603526182451332,
+    1.46048133415141
+   ],
+   "slack": [
+    9.585880813830792,
+    9.586725716165338
+   ],
+   "notes": "the whole circle is covered by arcs; sup |zeta| on it is K times sup_ratio",
+   "sup_ratio": [
+    0.10431090130322379,
+    0.10432009529652929
+   ],
+   "tight": true,
+   "witness": null,
+   "seconds": 0.105,
+   "mutants": [
+    {
+     "id": "C01-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": [
+       0.5000282370760982,
+       0.009203826973732197
+      ],
+      "ratio_lower": 1.0001599559430754
+     },
+     "seconds": 0.047
+    }
+   ]
+  },
+  {
+   "id": "C02",
+   "name": "re_ge_and_norm_zeta_le_of_near_eleven_tenths",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 6486,
+   "margin": 0.9600595452299548,
+   "tightest": {
+    "z": [
+     1.41875,
+     1.493375
+    ]
+   },
+   "sharp_constant": [
+    0.23674038754582366,
+    0.23964272862027067
+   ],
+   "slack": [
+    25.03727125185336,
+    25.34421803647101
+   ],
+   "notes": "Re z >= 1/2 and z != 1 are exact (Re z = 1/2 is attained: the radius is sharp); the zeta bound is a complete cover of the union of discs for t up to T, each z taken with its smallest admissible |t|",
+   "sup_ratio": [
+    0.039456731257637274,
+    0.03994045477004511
+   ],
+   "tight": true,
+   "tested_range": "2.0 < |t| <= 200 (t < 0 by conjugation)",
+   "re_margin": 0.0,
+   "witness": null,
+   "seconds": 6.006,
+   "mutants": [
+    {
+     "id": "C02-m1",
+     "tag": "radius",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "z": [
+       0.49,
+       3.0
+      ],
+      "t": 3.0,
+      "why": "Re z = a - r < h, exact rationals"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C02-m2",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "z": [
+       1.475,
+       1.5867499999999999
+      ],
+      "ratio_lower": 1.0060460670799571
+     },
+     "seconds": 5.981
+    }
+   ]
+  },
+  {
+   "id": "C03",
+   "name": "zeta_log_deriv_landau_bound",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 5432,
+   "margin": 0.9997397075510435,
+   "tightest": {
+    "s": [
+     1.003125,
+     171.6341796875
+    ]
+   },
+   "sharp_constant": [
+    0.21024795308026495,
+    0.2186456571234888
+   ],
+   "slack": [
+    3841.8325387802083,
+    3995.282654092327
+   ],
+   "notes": "closed rectangle (closure of the stated strip), complete cover",
+   "sup_ratio": [
+    0.00025029518223841066,
+    0.0002602924489565343
+   ],
+   "tight": true,
+   "witness": null,
+   "tested_range": "1.0 <= sigma <= 1.2, 2.0 <= t <= 200 (t < 0 by conjugation)",
+   "seconds": 5.914,
+   "mutants": [
+    {
+     "id": "C03-m1",
+     "tag": "sigma",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": [
+       0.49970703125,
+       25.010732421874998
+      ],
+      "ratio_lower": 1.0427543261670305
+     },
+     "seconds": 7.272
+    },
+    {
+     "id": "C03-m2",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": [
+       1.05,
+       171.5375
+      ],
+      "ratio_lower": 1.3310281353996207
+     },
+     "seconds": 0.777
+    }
+   ]
+  },
+  {
+   "id": "C04",
+   "name": "zeta_one_sub_le",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 8306,
+   "margin": 0.9780395296693314,
+   "tightest": {
+    "w": [
+     0.500274658203125,
+     0.01708984375
+    ]
+   },
+   "sharp_constant": [
+    0.13133032332479905,
+    0.13176282198401196
+   ],
+   "slack": [
+    45.536365339291514,
+    45.68632626572558
+   ],
+   "notes": "cover of the quotient zeta(1-w)/zeta(w) written by the functional equation; the literal inequality is evaluated at sample points, where the functional equation's relative defect is also measured",
+   "sup_ratio": [
+    0.021888387220799842,
+    0.02196047033066866
+   ],
+   "tight": true,
+   "witness": null,
+   "fe_defect_at_samples": 8.064518683431899e-11,
+   "direct_samples": 20,
+   "tested_range": "0.5 <= Re w <= 5.0, |Im w| <= 100",
+   "seconds": 0.154,
+   "mutants": [
+    {
+     "id": "C04-m1",
+     "tag": "strip",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "w": [
+       11.28125,
+       99.9375
+      ],
+      "ratio_lower": 147.9651869053666
+     },
+     "seconds": 0.121
+    },
+    {
+     "id": "C04-m2",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "w": [
+       0.5010986328125,
+       0.052734375
+      ],
+      "ratio_lower": 1.0002978709380945
+     },
+     "seconds": 0.183
+    }
+   ]
+  },
+  {
+   "id": "C05",
+   "name": "norm_zeta_sub_le",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 25610,
+   "margin": 0.4999571194157745,
+   "tightest": {
+    "s": [
+     0.015625,
+     0.0
+    ]
+   },
+   "sharp_constant": [
+    0.4987341935039679,
+    0.5000428805842255
+   ],
+   "slack": [
+    1.9998284923717924,
+    2.005076076645713
+   ],
+   "notes": "complete cover of the closed rectangle, the removable singularity at s = 1 included (deflated zeta); the supremum 1/2 is approached as s -> 0+ and is not attained",
+   "sup_ratio": [
+    0.4987341935039679,
+    0.5000428805842255
+   ],
+   "tight": true,
+   "witness": null,
+   "tested_range": "0 < Re s <= 16.0, |Im s| <= 100 (Im < 0 by conjugation)",
+   "seconds": 16.427,
+   "mutants": [
+    {
+     "id": "C05-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": [
+       0.0625,
+       0.0
+      ],
+      "ratio_lower": 1.010094414563862
+     },
+     "seconds": 16.942
+    }
+   ]
+  },
+  {
+   "id": "C06",
+   "name": "norm_zeta_sub_sum_le",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 12422,
+   "margin": 0.49871422820190525,
+   "tightest": {
+    "s": [
+     0.0625,
+     0.0
+    ],
+    "M": 10
+   },
+   "sharp_constant": [
+    0.4994793563336698,
+    0.5012857717980947
+   ],
+   "slack": [
+    1.9948701045573956,
+    2.0020847454843853
+   ],
+   "notes": "complete cover of the closed rectangle, the removable singularity at s = 1 included (deflated zeta); the supremum 1/2 is approached as s -> 0+ and is not attained",
+   "sup_ratio": [
+    0.4994793563336698,
+    0.5012857717980947
+   ],
+   "tight": true,
+   "witness": null,
+   "tested_range": "0 < Re s <= 6.0, |Im s| <= 40 (Im < 0 by conjugation); complete covers for M in [2, 3, 10], 29 sample points for M in [100, 1000]",
+   "M": 10,
+   "per_M": {
+    "2": [
+     0.49870857411392633,
+     0.5001569087635916
+    ],
+    "3": [
+     0.49827071962804614,
+     0.5000966750023751
+    ],
+    "10": [
+     0.4994793563336698,
+     0.5012857717980947
+    ]
+   },
+   "largest_ratio_at_samples": {
+    "100": 0.4999869792110917,
+    "1000": 0.4999986979167121
+   },
+   "seconds": 9.09,
+   "mutants": [
+    {
+     "id": "C06-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": [
+       0.125,
+       0.0
+      ],
+      "ratio_lower": 1.0098778722824038,
+      "M": 2
+     },
+     "seconds": 2.542
+    }
+   ]
+  },
+  {
+   "id": "C07",
+   "name": "le_norm_zeta₁",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 2014,
+   "margin": 0.8723049336113033,
+   "tightest": {
+    "t": 0.00390625
+   },
+   "sharp_constant": [
+    1.3051926858265814,
+    1.3061891196985274
+   ],
+   "slack": [
+    7.83115611495949,
+    7.837134718191164
+   ],
+   "notes": "every t: the elementary floor (a-1) zeta(2a)/zeta(a) = 0.230070 is at least c",
+   "sup_ratio": [
+    0.12759765347389654,
+    0.12769506638869668
+   ],
+   "tail_covered": true,
+   "witness": null,
+   "tested_range": "|t| <= 200 by cover; all t by the Euler-product floor",
+   "seconds": 0.171,
+   "mutants": [
+    {
+     "id": "C07-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "t": 0.0625
+     },
+     "seconds": 0.151
+    }
+   ]
+  },
+  {
+   "id": "C08",
+   "name": "riemannZeta_ne_zero_of_mem_Ioo",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 4908,
+   "margin": 0.4999186156710165,
+   "tightest": {
+    "interval": [
+     0.0,
+     0.01171875
+    ]
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "sign enclosure on (a, 3/4]; on |s - 1| <= 5/16 the entire function (s-1)f(s) stays within distance < 1 of its value 1 at s = 1 (maximum principle on the circle), so f has no zero there; the infimum of |f| is approached at the left end",
+   "inf_abs_value_lower": 0.4999186156710165,
+   "near_one_sup_of_h_minus_1": 0.19733921651865108,
+   "seconds": 0.188,
+   "mutants": [
+    {
+     "id": "C08-m1",
+     "tag": "interval",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "bracket": [
+       -2.000244140625,
+       -1.9984130859375
+      ],
+      "why": "opposite strict signs at the two ends: a zero by continuity"
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C09",
+   "name": "no_real_zero",
+   "topic": "L",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 4983,
+   "margin": 0.0,
+   "tightest": {
+    "sigma": "-> 0+ for chi_8"
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "first conjunct as in riemannZeta_ne_zero_of_mem_Ioo; second: L(0, chi) = 0 exactly, so inf |L| over sigma > 0 is 0 and the hypothesis 0 < sigma is sharp; L' > 0 on [0, 1/8], sign enclosure on [1/8, 2], |L - 1| <= zeta(2) - 1 beyond",
+   "zeta_inf_abs_lower": 0.4999186156710165,
+   "chi8": {
+    "inf_on_delta_2": 0.06197447610427654,
+    "derivative_lower_near_0": 0.8111764784686127
+   },
+   "seconds": 0.287,
+   "mutants": [
+    {
+     "id": "C09-m1",
+     "tag": "closed",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "sigma": 0,
+      "why": "L(1-k, chi) = -B_{k,chi}/k = 0 by exact rational arithmetic"
+     },
+     "seconds": 0.189
+    }
+   ]
+  },
+  {
+   "id": "C10",
+   "name": "zeta_neg_odd_ne_zero",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 3001,
+   "margin": 0.003968253968253968,
+   "tightest": {
+    "m": 2,
+    "value": "-1/252"
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "exact Bernoulli numbers (FLINT, checked against an own recurrence to index 60 and against Arb's zeta at the first points)",
+   "tested_range": "0 <= m <= 3000",
+   "seconds": 3.32,
+   "mutants": [
+    {
+     "id": "C10-m1",
+     "tag": "parity",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "m": 0,
+      "point": -2,
+      "why": "zeta(-n) = (-1)^n B_{n+1}/(n+1) = 0 exactly"
+     },
+     "seconds": 0.002
+    }
+   ]
+  },
+  {
+   "id": "C11",
+   "name": "riemannZeta_six",
+   "topic": "zeta",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 2000,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "945",
+   "slack": 1.0,
+   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "bracket_width": 1.5601589816430868e-20,
+   "exact_coefficient": "1/945",
+   "seconds": 0.001,
+   "mutants": [
+    {
+     "id": "C11-m1",
+     "tag": "D",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "why": "the claimed value lies outside the partial-sum bracket",
+      "bracket_width": 1.5601589816430868e-20,
+      "exact_coefficient": "1/945"
+     },
+     "seconds": 0.001
+    }
+   ]
+  },
+  {
+   "id": "C12",
+   "name": "zeta_logderiv_limit",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 20,
+   "margin": 1.875462328403656e-17,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "a limit is measured, not enclosed: the distance to the claimed limit shrinks linearly with the radius",
+   "errors_by_radius": {
+    "1e-2": 0.001877054083927407,
+    "1e-4": 1.8754783005201815e-05,
+    "1e-8": 1.8754623300009226e-09,
+    "1e-12": 1.8754623284038157e-13,
+    "1e-16": 1.875462328403656e-17
+   },
+   "witness": null,
+   "tested_range": "radii 1e-2 .. 1e-16, four directions",
+   "seconds": 0.003,
+   "mutants": [
+    {
+     "id": "C12-m1",
+     "tag": "sign",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "why": "at radius 1e-16 the value stays at distance > 1e-3 from the claimed limit",
+      "distance_lower": 1.1544313298030635
+     },
+     "seconds": 0.003
+    }
+   ]
+  },
+  {
+   "id": "C13",
+   "name": "norm_sq_Gamma_half",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 9,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "an identity cannot be decided by enclosures; both sides agree to the stated relative width at every sample (it is the reflection formula at s = 1/2 + it)",
+   "max_relative_width": 6.034349541969138e-76,
+   "tested_range": "nine values of t in [0, 60]",
+   "seconds": 0.0,
+   "mutants": [
+    {
+     "id": "C13-m1",
+     "tag": "argument",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "t": "1/7",
+      "lhs": 2.849744440284611,
+      "rhs": 3.1098059360310044,
+      "why": "the two enclosures are disjoint"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C14",
+   "name": "half_line",
+   "topic": "zeta",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 5488,
+   "margin": 0.16445724178966648,
+   "tightest": {
+    "t": "-> infinity"
+   },
+   "sharp_constant": 2.5066282746310007,
+   "slack": 1.196826841204298,
+   "notes": "|Gamma(1/2+it)|^2 e^(pi|t|) = 2 pi/(1 + e^(-2 pi |t|)) < 2 pi (reflection formula), so the supremum sqrt(2 pi) is approached and not attained",
+   "sup_ratio_on_range": [
+    0.8355427582103319,
+    0.835642743855868
+   ],
+   "tested_range": "direct Gamma cover |t| <= 200; every t by the closed form",
+   "seconds": 0.126,
+   "mutants": [
+    {
+     "id": "C14-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "t": 5.875,
+      "ratio_lower": 1.0026513098523981
+     },
+     "seconds": 0.014
+    }
+   ]
+  },
+  {
+   "id": "C15",
+   "name": "Gamma_decay",
+   "topic": "zeta",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 6094,
+   "margin": 0.16622980125248266,
+   "tightest": {
+    "w": [
+     5.499847412109375,
+     199.999755859375
+    ]
+   },
+   "sharp_constant": [
+    2.49928938302255,
+    2.501310596242552
+   ],
+   "slack": [
+    1.1993712434219785,
+    1.2003411931322288
+   ],
+   "notes": "complete cover of the rectangle in mean value form; on Re w = sigma_hi the ratio tends to sqrt(2 pi)/K as Im w grows when sigma_hi - 1/2 = E",
+   "sup_ratio": [
+    0.8330964610075168,
+    0.8337701987475173
+   ],
+   "tight": true,
+   "limit_ratio_at_edge": 0.8355427582103335,
+   "witness": null,
+   "tested_range": "0.5 <= Re w <= 5.5, |Im w| <= 200 (Im < 0 by conjugation)",
+   "seconds": 0.14,
+   "mutants": [
+    {
+     "id": "C15-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "w": [
+       5.4951171875,
+       199.9921875
+      ],
+      "ratio_lower": 1.0155982753316726
+     },
+     "seconds": 0.133
+    },
+    {
+     "id": "C15-m2",
+     "tag": "strip",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "w": [
+       5.65625,
+       199.75
+      ],
+      "ratio_lower": 1.9074848413252985
+     },
+     "seconds": 0.06
+    }
+   ]
+  },
+  {
+   "id": "C16",
+   "name": "lfunction_one_lower_bound",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 8394,
+   "margin": 47.36798304624571,
+   "tightest": {
+    "q": 3,
+    "d": -3,
+    "L": 0.6045997880780726
+   },
+   "sharp_constant": 0.4134966715663449,
+   "slack": 48.36798304624571,
+   "notes": "L(1,chi) by the digamma formula for the primitive character times exact Euler factors; the enumeration and the values agree with Arb's Dirichlet characters for small q",
+   "tested_range": "every real non-principal character mod q for 3 <= q <= 2000",
+   "seconds": 3.745,
+   "mutants": [
+    {
+     "id": "C16-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 3,
+      "d": -3,
+      "K_times_qplus1_times_L": 0.9673596609249162
+     },
+     "seconds": 1.882
+    }
+   ]
+  },
+  {
+   "id": "C17",
+   "name": "dhl_inv",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 14602,
+   "margin": 0.879056478035636,
+   "tightest": {
+    "M": 13,
+    "conrey": 6,
+    "t": 35.5625,
+    "lo": 0.12047866934919053
+   },
+   "sharp_constant": 3.144531571073464,
+   "slack": 8.268322137126534,
+   "notes": "the infimum over all characters and t is zeta(2 sigma)/zeta(sigma) (Euler product), approached only when chi(p) p^-it is near -1 for many primes at once; no finite search of this size comes near it",
+   "theoretical_sharp": 16.23287621244304,
+   "tested_range": "every character mod M <= 16, 0 <= t <= 40 (t < 0 via the conjugate character)",
+   "seconds": 73.202,
+   "mutants": [
+    {
+     "id": "C17-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "M": 1,
+      "conrey": 1,
+      "t": 14.25,
+      "ratio_lower": 1.1192033787002753
+     },
+     "seconds": 0.044
+    },
+    {
+     "id": "C17-m2",
+     "tag": "abscissa",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "M": 1,
+      "conrey": 1,
+      "t": 14.125,
+      "ratio_lower": 4.990199203708073
+     },
+     "seconds": 0.047
+    }
+   ]
+  },
+  {
+   "id": "C18",
+   "name": "norm_L_one_sub_le",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 1511,
+   "margin": 0.9780521262002743,
+   "tightest": {
+    "N": 1,
+    "conrey": 1,
+    "w": [
+     0.5,
+     0.0
+    ]
+   },
+   "sharp_constant": 0.13168724279835417,
+   "slack": 45.56249999999991,
+   "notes": "samples only, both sides evaluated directly; no functional equation assumed",
+   "tested_range": "every primitive character of conductor <= 30 at nine sample points",
+   "seconds": 1.914,
+   "mutants": [
+    {
+     "id": "C18-m1",
+     "tag": "N-power",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 15,
+      "conrey": 2,
+      "w": [
+       5.0,
+       10.0
+      ],
+      "lhs": 1863540.5096562055,
+      "rhs": 1318610.4127317674
+     },
+     "seconds": 0.211
+    }
+   ]
+  },
+  {
+   "id": "C19",
+   "name": "LFunction_legendreCharacter_seven_one_ne_zero",
+   "topic": "L",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 3,
+   "margin": 1.1874104117237234,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "three routes: Arb's Dirichlet L, the digamma formula, the class number formula",
+   "value": 1.1874104117237259,
+   "routes_agree": true,
+   "seconds": 0.0,
+   "mutants": [
+    {
+     "id": "C19-m1",
+     "tag": "point",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": -1,
+      "why": "L(1-k, chi) = -B_{k,chi}/k = 0 exactly"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C20",
+   "name": "mult_zero_of_even",
+   "topic": "L",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 600,
+   "margin": 0.4812118250596025,
+   "tightest": {
+    "N": 5,
+    "conrey": 4
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "L(0,chi) = 0 by exact arithmetic in the cyclotomic integers; order exactly 1 because the Arb enclosure of L'(0,chi) excludes 0",
+   "min_abs_derivative": 0.4812118250596025,
+   "tested_range": "every primitive non-principal even character of conductor <= 80",
+   "seconds": 0.726,
+   "mutants": [
+    {
+     "id": "C20-m1",
+     "tag": "parity",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 3,
+      "conrey": 2,
+      "L0": [
+       0.3333333333333333,
+       0.0
+      ],
+      "why": "sum chi(b) b is nonzero in Z[zeta], exact reduction mod the cyclotomic polynomial"
+     },
+     "seconds": 0.667
+    }
+   ]
+  },
+  {
+   "id": "C21",
+   "name": "small_nat",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 131071,
+   "margin": 0.004941287067517841,
+   "tightest": {
+    "m": 113,
+    "pi": 30
+   },
+   "sharp_constant": 1.2550587129324822,
+   "slack": 1.0039370963418695,
+   "notes": "every integer of the stated range, each strict inequality decided by an Arb enclosure of log m",
+   "seconds": 0.121,
+   "mutants": [
+    {
+     "id": "C21-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "m": 113,
+      "pi": 30,
+      "lhs": 141.82163456137022,
+      "rhs": 141.815
+     },
+     "seconds": 0.001
+    }
+   ]
+  },
+  {
+   "id": "C22",
+   "name": "three_mul_primeCounting_le",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 9999995,
+   "margin": 4,
+   "tightest": {
+    "s": 7,
+    "pi": 4
+   },
+   "sharp_constant": 5,
+   "slack": 4,
+   "notes": "exact integers; the additive constant could be lowered by `slack` on this range",
+   "tested_range": "6 <= s <= 10000000",
+   "seconds": 0.22,
+   "mutants": [
+    {
+     "id": "C22-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": 7,
+      "pi": 4,
+      "lhs": 12,
+      "rhs": 11
+     },
+     "seconds": 0.147
+    }
+   ]
+  },
+  {
+   "id": "C23",
+   "name": "primeCounting_le",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 9999995,
+   "margin": 4,
+   "tightest": {
+    "s": 7,
+    "pi": 4
+   },
+   "sharp_constant": 5,
+   "slack": 4,
+   "notes": "exact integers; the additive constant could be lowered by `slack` on this range",
+   "tested_range": "6 <= s <= 10000000",
+   "seconds": 0.144,
+   "mutants": [
+    {
+     "id": "C23-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "s": 7,
+      "pi": 4,
+      "lhs": 12,
+      "rhs": 11
+     },
+     "seconds": 0.004
+    }
+   ]
+  },
+  {
+   "id": "C24",
+   "name": "centralBinom_le_pow_primeCounting",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 3998,
+   "margin": 5,
+   "tightest": {
+    "n": 3
+   },
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "exact big integers; margin is the difference of bit lengths",
+   "tested_range": "3 <= n <= 4000",
+   "seconds": 1.454,
+   "mutants": [
+    {
+     "id": "C24-m1",
+     "tag": "exponent",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 48,
+      "log2_lhs": 93,
+      "log2_rhs": 92
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C25",
+   "name": "inv_five_log_le_sum_inv_primes",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 9999901,
+   "margin": 1.939586579987457,
+   "tightest": {
+    "N": 226
+   },
+   "sharp_constant": 1.700919453789769,
+   "slack": 2.939586579987457,
+   "notes": "the 64 tightest N by exact rational sums against Arb; the rest by float64 prefix sums, whose rounding error (< 1e-9) is far below their margin",
+   "tested_range": "100 <= N <= 10000000",
+   "seconds": 0.8,
+   "mutants": [
+    {
+     "id": "C25-m1",
+     "tag": "threshold",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 7,
+      "sum_times_K_logN": 0.0,
+      "why": "exact rational sum against an Arb enclosure of 1/(K log N)"
+     },
+     "seconds": 0.005
+    },
+    {
+     "id": "C25-m2",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 226,
+      "sum_times_K_logN": 0.9406677055959863,
+      "why": "exact rational sum against an Arb enclosure of 1/(K log N)"
+     },
+     "seconds": 0.004
+    }
+   ]
+  },
+  {
+   "id": "C26",
+   "name": "mertens_upper_psi_bound",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 2000000,
+   "margin": 1.6592435050687597,
+   "tightest": {
+    "N": 5,
+    "statistic": 1.3407564949312403
+   },
+   "sharp_constant": 1.3407564949312403,
+   "slack": 2.2375427688335403,
+   "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
+   "tested_range": "1 <= N <= 2000000",
+   "seconds": 0.087,
+   "mutants": [
+    {
+     "id": "C26-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 5,
+      "lhs": 6.703782474656201,
+      "rhs": 6.5
+     },
+     "seconds": 0.002
+    }
+   ]
+  },
+  {
+   "id": "C27",
+   "name": "mertens_upper_nat",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 2000000,
+   "margin": 2.0,
+   "tightest": {
+    "N": 1,
+    "statistic": 0.0
+   },
+   "sharp_constant": 0.0,
+   "slack": 2.0,
+   "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
+   "tested_range": "1 <= N <= 2000000",
+   "seconds": 0.092,
+   "mutants": [
+    {
+     "id": "C27-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 1,
+      "lhs": 0.0,
+      "rhs": -0.1
+     },
+     "seconds": 0.002
+    }
+   ]
+  },
+  {
+   "id": "C28",
+   "name": "prime_sum_le",
+   "topic": "primes",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 10000000,
+   "margin": 0.006407278824443308,
+   "tightest": {
+    "set": "all primes"
+   },
+   "sharp_constant": [
+    0.4930910093659896,
+    0.4930927211755567
+   ],
+   "slack": [
+    1.0129940649076468,
+    1.0129975816071985
+   ],
+   "notes": "complete: the terms are positive, so the supremum over finite sets is the full series, enclosed between the partial sum to P and that plus (log P + 1)/P",
+   "seconds": 0.451,
+   "mutants": [
+    {
+     "id": "C28-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "set": "all primes <= 10000000",
+      "sum_lower": 0.4930910093659896,
+      "K": 0.493
+     },
+     "seconds": 0.41
+    }
+   ]
+  },
+  {
+   "id": "C29",
+   "name": "primeLogSum_small",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": 0.08398743183060296,
+   "tightest": {
+    "point": "the single instance"
+   },
+   "sharp_constant": 0.7240890001942897,
+   "slack": 1.1159904815679664,
+   "notes": "one inequality between two explicit real numbers, decided by Arb at 128 bits",
+   "seconds": 0.0,
+   "mutants": [
+    {
+     "id": "C29-m1",
+     "tag": "numerator",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "lhs": 0.7240890001942897,
+      "rhs": 0.6925519019315686
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C30",
+   "name": "sum_log_primes_le_mul_log_four",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 2000001,
+   "margin": 0.38671076225942913,
+   "tightest": {
+    "N": 1513751,
+    "statistic": 0.9995835988604614
+   },
+   "sharp_constant": 0.9995835988604614,
+   "slack": 1.3868718561411817,
+   "notes": "Arb for N <= 3000; float64 with a 1e-6 relative allowance beyond, where the margin is far larger",
+   "tested_range": "0 <= N <= 2000000",
+   "seconds": 0.096,
+   "mutants": [
+    {
+     "id": "C30-m1",
+     "tag": "base",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 7,
+      "lhs": 5.3471075307174685,
+      "rhs": 4.852030263919617
+     },
+     "seconds": 0.002
+    }
+   ]
+  },
+  {
+   "id": "C31",
+   "name": "sum_div_mul_log_le_log_factorial",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 5001,
+   "margin": 0.0,
+   "tightest": {
+    "equal_at": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   "sharp_constant": "equality",
+   "slack": 1.0,
+   "notes": "log n! = sum_p v_p(n!) log p, so the comparison is exact in the integer coefficients (Arb only if signs are mixed); equality exactly when n < 4",
+   "tested_range": "0 <= n <= 5000",
+   "seconds": 0.166,
+   "mutants": [
+    {
+     "id": "C31-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 0,
+      "why": "both sides are equal, coefficient by coefficient"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C31-m2",
+     "tag": "shift",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 3,
+      "lhs_minus_rhs": 0.693147180559944
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C32",
+   "name": "foundations_prime_fact_ter",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 8,
+   "seconds": 0.02,
+   "mutants": [
+    {
+     "id": "C32-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 19,
+      "small_factor": 19
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C33",
+   "name": "prime_128860109809",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 12,
+   "seconds": 0.01,
+   "mutants": [
+    {
+     "id": "C33-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C34",
+   "name": "foundations_prime_fact",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 9,
+   "seconds": 0.009,
+   "mutants": [
+    {
+     "id": "C34-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C35",
+   "name": "foundations_prime_fact_bis",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 10,
+   "seconds": 0.009,
+   "mutants": [
+    {
+     "id": "C35-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C36",
+   "name": "siteGood_prime_torsion",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_lucas_n_minus_1": true
+   },
+   "digits": 94,
+   "seconds": 0.039,
+   "mutants": [
+    {
+     "id": "C36-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.01
+    }
+   ]
+  },
+  {
+   "id": "C37",
+   "name": "siteGood_prime_torsion",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 9,
+   "seconds": 0.009,
+   "mutants": [
+    {
+     "id": "C37-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C38",
+   "name": "prime_fourteen_billion_example",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 11,
+   "seconds": 0.009,
+   "mutants": [
+    {
+     "id": "C38-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C39",
+   "name": "prime_seven_hundred_trillion_example",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 15,
+   "seconds": 0.18,
+   "mutants": [
+    {
+     "id": "C39-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.044
+    }
+   ]
+  },
+  {
+   "id": "C40",
+   "name": "gA_prime",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 12,
+   "seconds": 0.01,
+   "mutants": [
+    {
+     "id": "C40-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.01
+    }
+   ]
+  },
+  {
+   "id": "C41",
+   "name": "gB_prime",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_trial_division_to_sqrt": true
+   },
+   "digits": 12,
+   "seconds": 0.01,
+   "mutants": [
+    {
+     "id": "C41-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.01
+    }
+   ]
+  },
+  {
+   "id": "C42",
+   "name": "prime_large",
+   "topic": "primes",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": null,
+   "tightest": null,
+   "sharp_constant": null,
+   "slack": null,
+   "notes": "PARI isprime is a proof at these sizes (BPSW below 2^64, where it is exhaustively verified; APRCL or the n-1 test above); the own routes share no code with it",
+   "routes": {
+    "pari_isprime": true,
+    "own_miller_rabin_12_bases": true,
+    "own_lucas_n_minus_1": true
+   },
+   "digits": 116,
+   "seconds": 0.157,
+   "mutants": [
+    {
+     "id": "C42-m1",
+     "tag": "offset",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "miller_rabin_witness": 3,
+      "small_factor": 3
+     },
+     "seconds": 0.013
+    }
+   ]
+  },
+  {
+   "id": "C43",
+   "name": "log_abs_eval_one_cyclotomic_eq_vonMangoldt",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 5999,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact integers: Phi_m(1) is p when m is a power of the prime p and 1 otherwise; polynomial route to M_poly, divisor-product route beyond",
+   "tested_range": "2 <= m <= 6000",
+   "seconds": 0.719,
+   "mutants": [
+    {
+     "id": "C43-m1",
+     "tag": "point",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "m": 2,
+      "abs_value": 0,
+      "vonMangoldt": "log 2"
+     },
+     "seconds": 0.003
+    }
+   ]
+  },
+  {
+   "id": "C44",
+   "name": "weight_sum",
+   "topic": "primes",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 29805,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact rational coefficients of log p on both sides",
+   "tested_range": "1 <= N <= 4000, every m | N",
+   "seconds": 0.296,
+   "mutants": [
+    {
+     "id": "C44-m1",
+     "tag": "m=1",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 2,
+      "m": 1,
+      "lhs_coefficients": "{2: 1}",
+      "rhs_coefficients": "{}",
+      "why": "coefficients of log p differ; logs of distinct primes are linearly independent over Q"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C45",
+   "name": "sq_le_totient",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 9999999,
+   "margin": 0.0,
+   "tightest": {
+    "N": 2
+   },
+   "sharp_constant": 4.0,
+   "slack": 1.0,
+   "notes": "exact int64 sieve",
+   "tested_range": "2 <= N <= 10000000",
+   "seconds": 2.374,
+   "mutants": [
+    {
+     "id": "C45-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 2,
+      "lhs": 4,
+      "rhs": 3,
+      "omega": 1,
+      "phi": 1
+     },
+     "seconds": 0.044
+    },
+    {
+     "id": "C45-m2",
+     "tag": "threshold",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 1,
+      "lhs": 1,
+      "rhs": 0,
+      "omega": 0,
+      "phi": 1
+     },
+     "seconds": 0.043
+    }
+   ]
+  },
+  {
+   "id": "C46",
+   "name": "two_n_N_lt",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 151852,
+   "margin": 3.0,
+   "tightest": {
+    "p": 71,
+    "n": 2
+   },
+   "sharp_constant": 3.25,
+   "slack": 4.923076923076923,
+   "notes": "phi(p^n - 1) from PARI, cross-checked by an own factorisation below 1e9; `sharp` is the largest p/n^2 at which the conclusion fails with the hypothesis dropped",
+   "largest_p_over_n2_among_failures": {
+    "value": 3.25,
+    "at": [
+     13,
+     2
+    ]
+   },
+   "tested_range": "n = 2: p <= 2000000; 3 <= n <= 7: p <= 5000",
+   "seconds": 1.551,
+   "mutants": [
+    {
+     "id": "C46-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 13,
+      "n": 2,
+      "lhs": 672,
+      "rhs": 576
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C47",
+   "name": "le_totient_sq",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 10000001,
+   "margin": 0,
+   "tightest": {
+    "equality_at": [
+     0,
+     1,
+     2
+    ]
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact int64 sieve; equality at the listed n",
+   "tested_range": "0 <= n <= 10000000",
+   "seconds": 1.475,
+   "mutants": [
+    {
+     "id": "C47-m1",
+     "tag": "c",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 2,
+      "phi": 1,
+      "which": "first conjunct"
+     },
+     "seconds": 0.028
+    }
+   ]
+  },
+  {
+   "id": "C48",
+   "name": "dvd_twelve_of_totient_le_two",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 10000000,
+   "margin": 0,
+   "tightest": {
+    "k_with_small_totient": [
+     1,
+     2,
+     3,
+     4,
+     6
+    ]
+   },
+   "sharp_constant": "exact",
+   "slack": 1.0,
+   "notes": "exact; the list of k with phi(k) <= b is complete on the range",
+   "tested_range": "1 <= k <= 10000000",
+   "seconds": 1.192,
+   "mutants": [
+    {
+     "id": "C48-m1",
+     "tag": "D",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "k": 4,
+      "phi": 2
+     },
+     "seconds": 0.025
+    },
+    {
+     "id": "C48-m2",
+     "tag": "b",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "k": 5,
+      "phi": 4
+     },
+     "seconds": 0.025
+    }
+   ]
+  },
+  {
+   "id": "C49",
+   "name": "totient_mul_sigma_pow_le_pow_succ",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 35000,
+   "margin": 0,
+   "tightest": {
+    "equality_at": [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ],
+     [
+      1,
+      6
+     ]
+    ]
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact integers",
+   "tested_range": "1 <= n <= 5000, 0 <= K <= 6",
+   "seconds": 0.053,
+   "mutants": [
+    {
+     "id": "C49-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 1,
+      "K": 0,
+      "lhs": 1,
+      "rhs": 1
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C49-m2",
+     "tag": "sigma",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 2,
+      "K": 1,
+      "lhs": 5,
+      "rhs": 4
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C50",
+   "name": "sum_inv_le_mul_sum_squarefree_inv_totient",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 84210,
+   "margin": 0.0,
+   "tightest": {
+    "Q": 1,
+    "q": 1
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact rationals",
+   "tested_range": "0 <= Q <= 400, 1 <= q <= 210",
+   "seconds": 0.272,
+   "mutants": [
+    {
+     "id": "C50-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "Q": 0,
+      "q": 1,
+      "lhs": "0",
+      "rhs": "0"
+     },
+     "seconds": 0.001
+    }
+   ]
+  },
+  {
+   "id": "C51",
+   "name": "card_quadric_even",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 44213,
+   "margin": 0.07692307692307687,
+   "tightest": {
+    "q": 13,
+    "M": 1,
+    "s": 0,
+    "deviation": 12
+   },
+   "sharp_constant": 0.9230769230769231,
+   "slack": 1.0833333333333333,
+   "notes": "exact enumeration of F_q^(2M); every symmetric B with det != 0 when there are at most `limit` of them, else a seeded random sample",
+   "tested_range": "(q, M, number of matrices tried): [[3, 1, 400], [5, 1, 400], [7, 1, 400], [11, 1, 2000], [13, 1, 3000], [3, 2, 600], [5, 2, 120], [7, 2, 30], [3, 3, 60]]",
+   "seconds": 0.131,
+   "mutants": [
+    {
+     "id": "C51-m1",
+     "tag": "bound",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 3,
+      "M": 1,
+      "B": [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "s": 0,
+      "count": 5,
+      "deviation": 2,
+      "bound": "3/2"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C52",
+   "name": "card_quadric_sub_sq_le",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 126881,
+   "margin": 0.11418685121107264,
+   "tightest": {
+    "q": 17,
+    "n": 2,
+    "beta": 0,
+    "lhs": 256
+   },
+   "sharp_constant": 0.8858131487889274,
+   "slack": 1.12890625,
+   "notes": "exact enumeration; the ratio (1 - 1/q)^2 at beta = 0 on a hyperbolic plane tends to 1 with q",
+   "tested_range": "(q, n, number of matrices tried): [[3, 1, 100], [3, 2, 100], [3, 3, 800], [5, 1, 10], [5, 2, 200], [5, 3, 600], [7, 1, 10], [7, 2, 400], [7, 3, 200], [11, 2, 2000], [13, 2, 3000], [17, 2, 5000], [3, 4, 400], [3, 5, 60], [5, 4, 40]]",
+   "seconds": 0.334,
+   "mutants": [
+    {
+     "id": "C52-m1",
+     "tag": "bound",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 5,
+      "n": 2,
+      "S": [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "beta": 0,
+      "count": 9,
+      "lhs": 16,
+      "rhs": "25/2"
+     },
+     "seconds": 0.009
+    }
+   ]
+  },
+  {
+   "id": "C53",
+   "name": "sharp",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 40014,
+   "margin": 0.0,
+   "tightest": {
+    "q": 3,
+    "M": 1,
+    "s": 1,
+    "deviation": 1
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact enumeration of F_q^(2M); every symmetric B with det != 0 when there are at most `limit` of them, else a seeded random sample",
+   "tested_range": "(q, M, number of matrices tried): [[3, 1, 400], [5, 1, 400], [7, 1, 400], [11, 1, 2000], [13, 1, 3000], [3, 2, 600], [5, 2, 120], [7, 2, 30], [3, 3, 60]]",
+   "seconds": 0.13,
+   "mutants": [
+    {
+     "id": "C53-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 3,
+      "M": 1,
+      "B": [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "s": 1,
+      "count": 2,
+      "deviation": 1,
+      "bound": "1"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C53-m2",
+     "tag": "s=0",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 3,
+      "M": 1,
+      "B": [
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "s": 0,
+      "count": 5,
+      "deviation": 2,
+      "bound": "1"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C54",
+   "name": "card_herm_norm_eq",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 70,
+   "margin": 0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact: the norm x * x^q tabulated on the field, then convolved M times over its additive group",
+   "tested_range": "(p, e, M up to): [[2, 1, 6], [3, 1, 5], [5, 1, 4], [7, 1, 3], [11, 1, 2]], q = p^e, field of q^2 elements",
+   "seconds": 0.058,
+   "mutants": [
+    {
+     "id": "C54-m1",
+     "tag": "sign",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 2,
+      "M": 1,
+      "c": 1,
+      "count": 3,
+      "formula": 1
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C55",
+   "name": "card_dot_eq",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 279,
+   "margin": 0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact, characteristic 2 included",
+   "tested_range": "(p, e, M up to): [[2, 1, 6], [3, 1, 5], [2, 2, 4], [5, 1, 4], [7, 1, 4], [2, 3, 3], [3, 2, 3], [11, 1, 3], [13, 1, 3], [5, 2, 2], [3, 3, 2]]",
+   "seconds": 0.007,
+   "mutants": [
+    {
+     "id": "C55-m1",
+     "tag": "sign",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 2,
+      "M": 1,
+      "c": 1,
+      "count": 1,
+      "formula": 3
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C56",
+   "name": "card_unitary_fin",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 13,
+   "margin": 0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact enumeration of all m x m matrices over the field of q^2 elements",
+   "counts": [
+    [
+     2,
+     0,
+     1
+    ],
+    [
+     2,
+     1,
+     3
+    ],
+    [
+     2,
+     2,
+     18
+    ],
+    [
+     2,
+     3,
+     648
+    ],
+    [
+     3,
+     0,
+     1
+    ],
+    [
+     3,
+     1,
+     4
+    ],
+    [
+     3,
+     2,
+     96
+    ],
+    [
+     5,
+     0,
+     1
+    ],
+    [
+     5,
+     1,
+     6
+    ],
+    [
+     5,
+     2,
+     720
+    ],
+    [
+     7,
+     0,
+     1
+    ],
+    [
+     7,
+     1,
+     8
+    ],
+    [
+     7,
+     2,
+     2688
+    ]
+   ],
+   "tested_range": "(p, e, m up to): [[2, 1, 3], [3, 1, 2], [5, 1, 2], [7, 1, 2]]",
+   "seconds": 1.342,
+   "mutants": [
+    {
+     "id": "C56-m1",
+     "tag": "sign",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "q": 2,
+      "m": 1,
+      "count": 3,
+      "formula": "1"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C57",
+   "name": "card_proper_subfield_elements_lt",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 2640,
+   "margin": 0.5,
+   "tightest": {
+    "g": 5,
+    "d": 2,
+    "lhs": 16,
+    "rhs": 24
+   },
+   "sharp_constant": 0.6666666666666666,
+   "slack": 1.5,
+   "notes": "the count is the necklace formula, validated by Frobenius-orbit enumeration on ten explicit fields",
+   "brute_force_fields": 10,
+   "tested_range": "primes 5 <= g <= 200, 1 <= d <= 60",
+   "seconds": 0.76,
+   "mutants": [
+    {
+     "id": "C57-m1",
+     "tag": "g",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "g": 3,
+      "d": 2,
+      "lhs": 8,
+      "rhs": 8
+     },
+     "seconds": 0.747
+    }
+   ]
+  },
+  {
+   "id": "C58",
+   "name": "hda_card_qc",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 4522,
+   "margin": 0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact enumeration of squares",
+   "tested_range": "primes 3 <= p <= 20000",
+   "seconds": 1.158,
+   "mutants": [
+    {
+     "id": "C58-m1",
+     "tag": "p=2",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 2,
+      "e": 1,
+      "count": 1,
+      "lhs": 2,
+      "rhs": 1
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C59",
+   "name": "card_pow_eq_one_le_of_isCyclic_units",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 11700,
+   "margin": 0.0,
+   "tightest": {
+    "n": 1,
+    "d": 1,
+    "count": 1
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact enumeration",
+   "tested_range": "195 moduli, 1 <= d <= 60",
+   "seconds": 0.659,
+   "mutants": [
+    {
+     "id": "C59-m1",
+     "tag": "cyclic",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 8,
+      "d": 2,
+      "count": 4,
+      "bound": 2
+     },
+     "seconds": 0.012
+    }
+   ]
+  },
+  {
+   "id": "C60",
+   "name": "card_pow_eq_one_two_pow_le",
+   "topic": "finite_field",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 896,
+   "margin": 0.0,
+   "tightest": {
+    "n": 8,
+    "d": 2,
+    "count": 4
+   },
+   "sharp_constant": 2.0,
+   "slack": 1.0,
+   "notes": "exact enumeration",
+   "tested_range": "14 moduli, 1 <= d <= 64",
+   "seconds": 0.288,
+   "mutants": [
+    {
+     "id": "C60-m1",
+     "tag": "factor",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 8,
+      "d": 2,
+      "count": 4,
+      "bound": 2
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C61",
+   "name": "card_GL_le",
+   "topic": "finite_field",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1,
+   "margin": 16128,
+   "tightest": {
+    "count": 4608
+   },
+   "sharp_constant": 4608,
+   "slack": 4.5,
+   "notes": "exact enumeration of the 2 x 2 matrices over ZMod n with unit determinant",
+   "seconds": 0.001,
+   "mutants": [
+    {
+     "id": "C61-m1",
+     "tag": "bound",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "count": 4608,
+      "bound": 4607
+     },
+     "seconds": 0.001
+    }
+   ]
+  },
+  {
+   "id": "C62",
+   "name": "exp_ge_quad",
+   "topic": "elementary",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 142,
+   "margin": 0.0,
+   "tightest": {
+    "z": 0,
+    "kind": "double zero"
+   },
+   "sharp_constant": 0.36787944117144233,
+   "slack": 1.103638323514327,
+   "notes": "complete: convexity on [-1/4, 1/4] with g(0) = g'(0) = 0, sign enclosure elsewhere; the largest admissible coefficient is (e^-R - 1 + R)/R^2",
+   "min_away_from_0": 0.00022775360654724624,
+   "seconds": 0.0,
+   "mutants": [
+    {
+     "id": "C62-m1",
+     "tag": "coefficient",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "z": -1.0,
+      "value_upper": -0.007120558828557664
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C62-m2",
+     "tag": "range",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "z": -1.5,
+      "value_upper": -0.02686983985157012
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C63",
+   "name": "classC_const",
+   "topic": "elementary",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 10840,
+   "margin": 0.0,
+   "tightest": {
+    "n": 1,
+    "r": 0
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "r = 0 exact; r >= 1 by Arb on the logarithm; equality at (n, r) = (1, 0)",
+   "tested_range": "1 <= n <= 5000",
+   "seconds": 8.059,
+   "mutants": [
+    {
+     "id": "C63-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 1,
+      "r": 0,
+      "value": "1",
+      "why": "exact rational"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C63-m2",
+     "tag": "r",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 1,
+      "r": 1,
+      "log_lhs": 0.24156447527048996
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C64",
+   "name": "classC_fact",
+   "topic": "elementary",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 3001,
+   "margin": 0,
+   "tightest": {
+    "equality_at": [
+     0,
+     1
+    ]
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact integers",
+   "tested_range": "0 <= n <= 3000",
+   "seconds": 0.389,
+   "mutants": [
+    {
+     "id": "C64-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 0,
+      "lhs": "1",
+      "rhs": "1"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C65",
+   "name": "thin_ptw",
+   "topic": "elementary",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 63,
+   "margin": 0.0,
+   "tightest": {
+    "v": 1,
+    "lam": 1,
+    "c": "any",
+    "kind": "equality"
+   },
+   "sharp_constant": 4.0,
+   "slack": 1.0,
+   "notes": "exact reduction: the statement for every c > 0 is equivalent to K >= 4 and e_lam <= 1 - e_rhs (with e_lam >= 1/2), compared as rationals; the literal inequality is evaluated in Arb on a grid reaching v = e^400",
+   "reduction_holds": true,
+   "tested_range": "63 points: c in {1/1000, 1, 1000}, log v in {0, 1e-6, 1, 7, 30, 100, 400}, lam in {v^e, v^e/2, 1/1000}",
+   "least_positive_margin_on_grid": [
+    3.900274619857242e-07,
+    {
+     "c": "1/1000",
+     "log_v": "1/1000000",
+     "lam": "top"
+    }
+   ],
+   "seconds": 0.001,
+   "mutants": [
+    {
+     "id": "C65-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "c": "1/1000",
+      "v": 1,
+      "lam": 1,
+      "why": "4 exp(-c/2) > K exp(-c/2), exact"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C65-m2",
+     "tag": "exponent",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "c": "1/1000",
+      "log_v": "100",
+      "lam": "top",
+      "log_rhs_over_lhs": -31100679227424.54
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C66",
+   "name": "legendre'",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 1600008,
+   "margin": 0,
+   "tightest": {
+    "equality_at": [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      7
+     ],
+     [
+      2,
+      15
+     ],
+     [
+      2,
+      31
+     ],
+     [
+      2,
+      63
+     ],
+     [
+      2,
+      127
+     ],
+     [
+      2,
+      255
+     ],
+     [
+      2,
+      511
+     ],
+     [
+      2,
+      1023
+     ],
+     [
+      2,
+      2047
+     ],
+     [
+      2,
+      4095
+     ]
+    ]
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact rationals; equality at n = p^k - 1 (all digits p - 1)",
+   "tested_range": "p in [2, 3, 5, 7, 11, 13, 47, 101], 0 <= n <= 200000",
+   "seconds": 3.841,
+   "mutants": [
+    {
+     "id": "C66-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 2,
+      "n": 1,
+      "lhs": "1",
+      "rhs": "1"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C66-m2",
+     "tag": "add",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 2,
+      "n": 1,
+      "lhs": "1",
+      "rhs": "9/10"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C67",
+   "name": "vchoose_le",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 1092618,
+   "margin": 0,
+   "tightest": {
+    "equality_at": [
+     [
+      2,
+      2,
+      1
+     ],
+     [
+      2,
+      4,
+      1
+     ],
+     [
+      2,
+      4,
+      3
+     ],
+     [
+      2,
+      6,
+      3
+     ],
+     [
+      2,
+      8,
+      1
+     ],
+     [
+      2,
+      8,
+      3
+     ],
+     [
+      2,
+      8,
+      5
+     ],
+     [
+      2,
+      8,
+      7
+     ]
+    ]
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact integers",
+   "tested_range": "p in [2, 3, 5, 7, 11, 13], 0 <= n <= 600, 0 <= k <= n + 2",
+   "seconds": 3.006,
+   "mutants": [
+    {
+     "id": "C67-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 2,
+      "n": 0,
+      "k": 0,
+      "v": 0,
+      "nat_log": 0
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C68",
+   "name": "padicValNat_factorial_le_sub_one_div",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 1600000,
+   "margin": 0,
+   "tightest": {
+    "equality_at": [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      8
+     ],
+     [
+      2,
+      16
+     ],
+     [
+      2,
+      32
+     ],
+     [
+      2,
+      64
+     ],
+     [
+      2,
+      128
+     ],
+     [
+      2,
+      256
+     ],
+     [
+      2,
+      512
+     ],
+     [
+      2,
+      1024
+     ],
+     [
+      2,
+      2048
+     ]
+    ]
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact rationals; equality at k = l^j",
+   "tested_range": "l in [2, 3, 5, 7, 11, 13, 47, 101], 1 <= k <= 200000",
+   "seconds": 1.384,
+   "mutants": [
+    {
+     "id": "C68-m1",
+     "tag": "k=0",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "l": 2,
+      "k": 0,
+      "v": 0,
+      "rhs": "-1"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C68-m2",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "l": 2,
+      "k": 1,
+      "v": 0,
+      "rhs": "0"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C69",
+   "name": "card_tuples_le",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 18000,
+   "margin": 0.0,
+   "tightest": {
+    "n": 0,
+    "M": 1
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "exact counts by recursion on floor(M/a); equality for n = 0 and for M = 1",
+   "tested_range": "0 <= n <= 5, 1 <= M <= 3000",
+   "seconds": 0.201,
+   "mutants": [
+    {
+     "id": "C69-m1",
+     "tag": "add",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 1,
+      "M": 1,
+      "count": 1,
+      "rhs": "9/10",
+      "why": "exact"
+     },
+     "seconds": 0.003
+    },
+    {
+     "id": "C69-m2",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "n": 0,
+      "M": 1,
+      "count": 1,
+      "rhs": "1",
+      "why": "exact"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C70",
+   "name": "sum_min_le_div",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 35875,
+   "margin": 9.094947017729282e-13,
+   "tightest": {
+    "p": 2,
+    "x": "1/8",
+    "N": 40
+   },
+   "sharp_constant": 1.999999999998181,
+   "slack": 1.0000000000009095,
+   "notes": "exact rationals; the ratio tends to 1 for p = 2, x <= 2, N -> infinity and is not attained",
+   "tested_range": "p in {2,3,5,7,11}, N <= 40, x on a rational grid in [0, 2048]",
+   "seconds": 0.151,
+   "mutants": [
+    {
+     "id": "C70-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 2,
+      "x": "1/8",
+      "N": 8,
+      "lhs": "255/2048",
+      "rhs": "199/1600"
+     },
+     "seconds": 0.0
+    },
+    {
+     "id": "C70-m2",
+     "tag": "x<0",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 2,
+      "x": "-1/8",
+      "N": 0,
+      "lhs": "0",
+      "rhs": "-1/8"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C71",
+   "name": "harm_le",
+   "topic": "elementary",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 1000001,
+   "margin": 0.0,
+   "tightest": {
+    "equality_at": [
+     1
+    ],
+    "next_smallest_margin": 0.19314718055994493,
+    "at": 2
+   },
+   "sharp_constant": 1.0,
+   "slack": 1.0,
+   "notes": "N = 0, 1 exact (log 0 = log 1 = 0); N >= 2 by Arb; equality at N = 1",
+   "tested_range": "0 <= N <= 1000000",
+   "seconds": 1.384,
+   "mutants": [
+    {
+     "id": "C71-m1",
+     "tag": "strict",
+     "kind": "inequality",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "N": 1,
+      "lhs": "1",
+      "rhs": "1",
+      "why": "exact"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C72",
+   "name": "exp_sqrt_le",
+   "topic": "elementary",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 11590,
+   "margin": 0.8046321854002269,
+   "tightest": {
+    "t": 4.000001907348633
+   },
+   "sharp_constant": 4.68880355551595,
+   "slack": 5.118576565607273,
+   "notes": "complete: cover of [0, T] and t^E e^-t is decreasing beyond t = E <= T; the smallest admissible constant is (E/e)^E",
+   "sup_ratio": [
+    0.19536681481307536,
+    0.19536781459977315
+   ],
+   "seconds": 0.045,
+   "mutants": [
+    {
+     "id": "C72-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "c": "4",
+      "x": "2718281828/1000000000"
+     },
+     "seconds": 0.001
+    }
+   ]
+  },
+  {
+   "id": "C73",
+   "name": "exp_neg_le_div_pow_four",
+   "topic": "elementary",
+   "grade": "complete_cover",
+   "holds": true,
+   "cases": 11570,
+   "margin": 0.8046321854002269,
+   "tightest": {
+    "t": 4.000001907348633
+   },
+   "sharp_constant": 4.68880355551595,
+   "slack": 5.118576565607273,
+   "notes": "complete: cover of [0, T] and t^E e^-t is decreasing beyond t = E <= T; the smallest admissible constant is (E/e)^E",
+   "sup_ratio": [
+    0.19536681481307536,
+    0.19536781459977315
+   ],
+   "seconds": 0.046,
+   "mutants": [
+    {
+     "id": "C73-m1",
+     "tag": "K",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "t": 4.03125,
+      "ratio_lower": 1.0191813456684913
+     },
+     "seconds": 0.001
+    }
+   ]
+  },
+  {
+   "id": "C74",
+   "name": "nok_exponent",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 369600,
+   "margin": 0.0,
+   "tightest": {
+    "l": 3,
+    "g": 0,
+    "h": 6,
+    "j": 1,
+    "sigma": 4
+   },
+   "sharp_constant": 1.75,
+   "slack": 0.0,
+   "notes": "exact rationals, sigNOK unfolded; `slack` is how far the additive constant could drop",
+   "tested_range": "3 <= l <= 13, g <= 13, h <= 49, j <= 4, three ell, four (r, kappa, R, K)",
+   "seconds": 3.598,
+   "mutants": [
+    {
+     "id": "C74-m1",
+     "tag": "const",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "l": 3,
+      "g": 0,
+      "h": 6,
+      "j": 1,
+      "ell": 0,
+      "r": "0",
+      "kappa": "0",
+      "R": "0",
+      "K": "0",
+      "sigma": 4,
+      "lhs": "32",
+      "rhs": "94/3"
+     },
+     "seconds": 0.003
+    },
+    {
+     "id": "C74-m2",
+     "tag": "l",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "l": 2,
+      "g": 0,
+      "h": 0,
+      "j": 1,
+      "ell": 0,
+      "r": "0",
+      "kappa": "0",
+      "R": "0",
+      "K": "0",
+      "sigma": 3,
+      "lhs": "24",
+      "rhs": "14"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C75",
+   "name": "sigma_exponent_le_real",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 30800,
+   "margin": 0.25,
+   "tightest": {
+    "l": 3,
+    "g": 0,
+    "h": 4,
+    "j": 1,
+    "sigE": 4
+   },
+   "sharp_constant": 2.5,
+   "slack": 0.25,
+   "notes": "exact rationals, sigE and Mpar unfolded",
+   "tested_range": "3 <= l <= 13, g <= 13, h <= 49, j <= 4",
+   "seconds": 0.272,
+   "mutants": [
+    {
+     "id": "C75-m1",
+     "tag": "const",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "l": 3,
+      "g": 0,
+      "h": 4,
+      "j": 1,
+      "sigE": 4,
+      "bound": "39/10"
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C76",
+   "name": "four_padicValNat_le",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 3000000,
+   "margin": 1,
+   "tightest": {
+    "p": 5,
+    "s": 1
+   },
+   "sharp_constant": 3,
+   "slack": 1,
+   "notes": "exact integers",
+   "tested_range": "primes 5 <= p < 60, 1 <= s <= 200000",
+   "seconds": 0.386,
+   "mutants": [
+    {
+     "id": "C76-m1",
+     "tag": "add",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "p": 5,
+      "s": 1,
+      "lhs": 4,
+      "rhs": 3
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C77",
+   "name": "coef_nat",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 10200,
+   "margin": 0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact integers with truncated subtraction as Lean reads it",
+   "tested_range": "0 <= A, o, s, j <= 14",
+   "seconds": 0.006,
+   "mutants": [
+    {
+     "id": "C77-m1",
+     "tag": "hyp",
+     "kind": "hypothesis",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "A": 0,
+      "o": 0,
+      "s": 0,
+      "j": 1,
+      "lhs": 1,
+      "rhs": 0
+     },
+     "seconds": 0.0
+    }
+   ]
+  },
+  {
+   "id": "C78",
+   "name": "altVand",
+   "topic": "arithmetic",
+   "grade": "measured_range",
+   "holds": true,
+   "cases": 15625,
+   "margin": 0,
+   "tightest": null,
+   "sharp_constant": "identity",
+   "slack": 1.0,
+   "notes": "exact integers",
+   "tested_range": "0 <= B, z, l <= 24",
+   "seconds": 0.026,
+   "mutants": [
+    {
+     "id": "C78-m1",
+     "tag": "sign",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "B": 1,
+      "z": 0,
+      "l": 1,
+      "lhs": 3,
+      "rhs": 1
+     },
+     "seconds": 0.001
+    }
+   ]
+  },
+  {
+   "id": "C79",
+   "name": "hasSum_inv_succ_sq",
+   "topic": "zeta",
+   "grade": "exact_finite",
+   "holds": true,
+   "cases": 1000000,
+   "margin": 0.0,
+   "tightest": null,
+   "sharp_constant": "6",
+   "slack": 1.0,
+   "notes": "an identity: the rational coefficient is exact under Euler's formula for zeta(2k); independently the value lies in a partial-sum bracket of the stated width",
+   "bracket_width": 9.99999000001002e-13,
+   "exact_coefficient": "1/6",
+   "seconds": 0.289,
+   "mutants": [
+    {
+     "id": "C79-m1",
+     "tag": "D",
+     "kind": "constant",
+     "rejected": true,
+     "holds": false,
+     "witness": {
+      "why": "the claimed value lies outside the partial-sum bracket",
+      "bracket_width": 9.99999000001002e-13,
+      "exact_coefficient": "1/6"
+     },
+     "seconds": 0.301
+    }
+   ]
+  }
+ ],
+ "decoys": {
+  "hurwitz_real_zeros": {
+   "decoy": "Hurwitz zeta(sigma, a) on (0, 1)",
+   "by_parameter": {
+    "1/4": {
+     "holds": false,
+     "witness": {
+      "bracket": [
+       0.6104736328125,
+       0.61083984375
+      ],
+      "why": "opposite strict signs at the two ends: a zero by continuity"
+     }
+    },
+    "1/3": {
+     "holds": false,
+     "witness": {
+      "bracket": [
+       0.4310302734375,
+       0.431396484375
+      ],
+      "why": "opposite strict signs at the two ends: a zero by continuity"
+     }
+    },
+    "2/3": {
+     "holds": true,
+     "witness": null
+    },
+    "3/4": {
+     "holds": true,
+     "witness": null
+    }
+   },
+   "reading": "zeta(0, a) = 1/2 - a is positive for a < 1/2 while zeta(sigma, a) -> -oo at 1-, so the statement fails for a = 1/4 and 1/3 and the test says so; it holds for a = 2/3 and 3/4"
+  },
+  "random_sequences_l1": {
+   "decoy": "random +-1 sequences of period q with zero mean, L(1, a) = sum a(n)/n",
+   "samples": 2000,
+   "seed": 20261120,
+   "by_period": {
+    "8": {
+     "fraction_violating": 0.5275,
+     "fraction_negative": 0.5275
+    },
+    "12": {
+     "fraction_violating": 0.4905,
+     "fraction_negative": 0.4905
+    },
+    "20": {
+     "fraction_violating": 0.507,
+     "fraction_negative": 0.507
+    },
+    "30": {
+     "fraction_violating": 0.489,
+     "fraction_negative": 0.489
+    },
+    "60": {
+     "fraction_violating": 0.5085,
+     "fraction_negative": 0.508
+    }
+   },
+   "reading": "about half of the random sequences have L(1, a) < 0: the lower bound is a statement about characters, not about mean-zero periodic sequences, although its constant is loose"
+  },
+  "cramer_prime_count": {
+   "decoy": "Cramer random sets: n >= 3 is kept with probability 1/log n, independently",
+   "samples": 200,
+   "seed": 20261120,
+   "fraction_violating": 0.975,
+   "fraction_violating_beyond_1000": 0.495,
+   "median_max_ratio": 1.6603385520718232,
+   "reading": "a density-matched random set fails the bound in most samples (through its fluctuations at small m), so the constant 1.26 is specific to the actual primes; beyond m = 1000 the random sets fail it less often"
+  }
+ }
+}

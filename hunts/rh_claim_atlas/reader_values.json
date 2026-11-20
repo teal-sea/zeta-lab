@@ -1,0 +1,191 @@
+{
+ "what": "figures of the readers' tables of 2026-11-20 that recount.py is compared against; a frozen copy, because the tables themselves were session scratch and are not committed",
+ "how_made": "one scratch script over the statistical reader's JSON table; nothing here is a recount",
+ "lean_files": 175187,
+ "total_lines": 17374215,
+ "total_bytes": 1030531854,
+ "dir_depth1": {
+  "(root)": [
+   2,
+   28
+  ],
+  "BuildAid": [
+   5,
+   20
+  ],
+  "CompanionTheory": [
+   2027,
+   194218
+  ],
+  "Development": [
+   141928,
+   12232663
+  ],
+  "Formalism": [
+   18254,
+   3200748
+  ],
+  "GroundTheory": [
+   8507,
+   1119138
+  ],
+  "Lemmata": [
+   167,
+   9232
+  ],
+  "PositivityTheory": [
+   449,
+   55130
+  ],
+  "ReciprocityTheory": [
+   3845,
+   563016
+  ],
+  "Supplements": [
+   3,
+   22
+  ]
+ },
+ "dir_depth1_dag": {
+  "(root)": {
+   "import_leaves": 1,
+   "import_leaves_mathlib_only": 1,
+   "depth_min": 0,
+   "depth_max": 202
+  },
+  "BuildAid": {
+   "import_leaves": 5,
+   "import_leaves_mathlib_only": 0,
+   "depth_min": 0,
+   "depth_max": 0
+  },
+  "CompanionTheory": {
+   "import_leaves": 35,
+   "import_leaves_mathlib_only": 35,
+   "depth_min": 0,
+   "depth_max": 114
+  },
+  "Development": {
+   "import_leaves": 4265,
+   "import_leaves_mathlib_only": 4265,
+   "depth_min": 0,
+   "depth_max": 198
+  },
+  "Formalism": {
+   "import_leaves": 766,
+   "import_leaves_mathlib_only": 764,
+   "depth_min": 0,
+   "depth_max": 93
+  },
+  "GroundTheory": {
+   "import_leaves": 448,
+   "import_leaves_mathlib_only": 448,
+   "depth_min": 0,
+   "depth_max": 68
+  },
+  "Lemmata": {
+   "import_leaves": 145,
+   "import_leaves_mathlib_only": 145,
+   "depth_min": 0,
+   "depth_max": 17
+  },
+  "PositivityTheory": {
+   "import_leaves": 6,
+   "import_leaves_mathlib_only": 6,
+   "depth_min": 0,
+   "depth_max": 111
+  },
+  "ReciprocityTheory": {
+   "import_leaves": 256,
+   "import_leaves_mathlib_only": 256,
+   "depth_min": 0,
+   "depth_max": 76
+  },
+  "Supplements": {
+   "import_leaves": 0,
+   "import_leaves_mathlib_only": 0,
+   "depth_min": 199,
+   "depth_max": 201
+  }
+ },
+ "dir_depth2_rows": 330,
+ "dir_depth2_sha256": "e50508cee8cccb76ff399922e3af7af23cbded5ddf9711b93c3e512032c626e6",
+ "dir_depth2_sha256_rule": "sha256 of the JSON object {directory: [files, lines]} dumped with sorted keys, separators ',' and ':', no ASCII escaping, UTF-8",
+ "dir_depth3": {
+  "Development/AbelianVarietyTheory/Proofs": [
+   95418,
+   7436698
+  ]
+ },
+ "max_dag_depth": 202,
+ "dag_depth_histogram_bin25": {
+  "0": 61596,
+  "25": 42070,
+  "50": 30679,
+  "75": 26053,
+  "100": 12209,
+  "125": 2225,
+  "150": 273,
+  "175": 79,
+  "200": 3
+ },
+ "modules_fan_in_zero": 1,
+ "modules_not_reachable_from_Main": 0,
+ "import_edges_as_the_reader_counted_them": 753569,
+ "declarations_approx": {
+  "theorem": 784092,
+  "def": 212819,
+  "structure": 8286,
+  "instance": 8199,
+  "lemma": 34663,
+  "abbrev": 13202,
+  "example": 4662,
+  "inductive": 121,
+  "class": 43
+ },
+ "median_lines": 58,
+ "max_lines": 17981,
+ "files_with_a_line_over_1000": 11594,
+ "longest_chain_directory_sequence": [
+  [
+   "(root)",
+   1
+  ],
+  [
+   "Supplements/Kernels",
+   3
+  ],
+  [
+   "Development/AutomorphicArithmetic",
+   9
+  ],
+  [
+   "Development/AbelianVarietyTheory",
+   93
+  ],
+  [
+   "CompanionTheory/AutomorphicTheory",
+   1
+  ],
+  [
+   "Development/WeilBound",
+   1
+  ],
+  [
+   "Development/AutomorphicSpectrum",
+   4
+  ],
+  [
+   "Development/AbelianVarietyTheory",
+   63
+  ],
+  [
+   "ReciprocityTheory/ReductiveGroups",
+   28
+  ]
+ ],
+ "published_namespace_by_the_by_products_reader": {
+  "prop_defs": 419,
+  "with_one_line_theorem_of_that_type": 177
+ }
+}

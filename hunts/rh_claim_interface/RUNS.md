@@ -16,9 +16,22 @@ zero table, the scan checkpoints and the logs, and is not committed. The zero
 table is identified by its sha256 in `zeros.json`.
 
 All times are UTC on 2026-11-20. Total heavy computation: about 13 CPU-minutes
-of the 45 allowed.
+of the 45 allowed in the first round, and under 3 more in the review round.
 
-## Unit timings and estimates, written before the scaled runs
+## Unit timings and estimates of the first round
+
+A correction from the review round. This heading used to read "Unit timings
+and estimates, written before the scaled runs". That is not evidenced. Only
+the scan units have a manifest and a log line. The other units below were
+timed by hand between the chained runs and left no log, the chains ran back to
+back (`SCRATCH/log_chain1.txt`: explicit, enclose, three character stages,
+lesion and decoy from 17:01:30 to 17:07:18 with no gap), and this file was
+written at 17:26, after every run of the first round. Read the estimates below
+as recollection, not as a record made in advance. Three stages had no unit at
+all: `lseries` (no estimate; measured 46.4 s), `decoy` (no estimate; measured
+1.3 s) and `lesion` (estimated from its parts, as stated below). None of this
+put the budget at risk: the longest run was 147.9 s. The review-round runs
+further down were estimated in a time-stamped log line before they started.
 
 **Float scan.** Units: `2 <= n <= 10^7` in 1.4 s, `10^8` in 13.1 s (the second
 is the timed unit). The cost per integer rises slowly with the sieve. Estimate
@@ -118,7 +131,7 @@ finished: 2026-11-20T17:02:48+00:00
 ran:
   - .venv/bin/python -m hunts.rh_claim_interface.run_scan explicit SCRATCH
   - .venv/bin/python -m hunts.rh_claim_interface.run_scan enclose SCRATCH 1e9
-outcome: the explicit formula holds within 0.082 of the exact tail budget at 256 points; Arb values at the 18 decade extremes agree with the float scan to 4.0e-12 and are identical at 128 and 192 bits
+outcome: the explicit formula holds within 0.082 of the exact tail budget at 255 points with y > 1 (the 256th, y = 1, cannot fail); Arb values at the 18 decade extremes agree with the float scan to 4.0e-12; in this run only the 9 minima were repeated at 192 bits, and the first version of this line said all 18 were, which the review-round rerun below makes true
 artifacts:
   - hunts/rh_claim_interface/explicit_zeta.json
   - hunts/rh_claim_interface/scan_1e9_enclosed.json
@@ -199,10 +212,87 @@ artifacts:
   - hunts/rh_claim_interface/lseries.json
 ```
 
+## Review round (after two independent reviews)
+
+Estimates, written to `SCRATCH/log_review_round.txt` at 18:07:06, before any
+run of this round:
+
+- **Enclosure rerun** (maxima at the second precision too). Unit: the first
+  enclosure run, 41.7 s for two passes. The change adds 27 evaluations and no
+  pass. Estimate: 40 to 60 s. Measured: 43.0 s.
+- **Rival rerun** at `10^7` with the onset attribution and the battery record.
+  Unit: the three earlier runs, 30.4 to 38.1 s; the additions timed in scratch
+  at 0.7 s and 0.2 s. Estimate: 35 to 50 s. Measured: 46.5 s, then 54.1 s for
+  the second run. The second is above the estimate; the machine load was near
+  3 throughout.
+- **Frontier stage.** Reads the cached zero table. Estimate: under 2 s.
+  Measured: under 0.1 s.
+- **Lesion reach check** (three plants on the prime side to `10^7`). Timed in
+  scratch: 2.6 s for all three. It now runs inside the test suite.
+
+Two faults of this round, recorded. The first rival rerun (18:09:49) had a
+wrong bound in the new battery claim: it compared `|Lambda_f(p^k)|` with `p`
+instead of `log p`, so the shifted product came out as passing while its
+recorded `Lambda_f(2)/log 2` was 2.03. The bound was fixed and the stage rerun
+(18:10:53); the committed `rivals.json` is from the second run, and the first
+output is kept in `SCRATCH/rivals_review_first_buggy_type_claim.json`. The
+frontier stage was run twice (18:09:17 and 18:16:23); the second run added the
+block of sources and changed no number.
+
+Both reruns reproduced every field of the first round exactly, apart from the
+elapsed time and the new fields (compared key by key against copies taken
+before the round, `SCRATCH/scan_1e9_enclosed_before_review.json` and
+`SCRATCH/rivals_before_review.json`).
+
+```runmanifest
+id: rh_claim_interface-2026-11-20-review-enclosures
+hunt: rh_claim_interface
+started: 2026-11-20T18:07:33+00:00
+finished: 2026-11-20T18:08:16+00:00
+ran:
+  - OMP_NUM_THREADS=1 .venv/bin/python -m hunts.rh_claim_interface.run_scan enclose SCRATCH 1e9
+outcome: all 36 per-decade values (minimum, integer maximum, interior maximum, maximum of G over sqrt n) enclosed at 128 and at 192 bits in 43.0 s; the two enclosures overlap everywhere and Arb decides that F is inside plus or minus c0 at all 27 values of F at both precisions; every field of the first run reproduced
+artifacts:
+  - hunts/rh_claim_interface/scan_1e9_enclosed.json
+```
+
+```runmanifest
+id: rh_claim_interface-2026-11-20-review-rivals
+hunt: rh_claim_interface
+started: 2026-11-20T18:09:49+00:00
+finished: 2026-11-20T18:11:48+00:00
+ran:
+  - OMP_NUM_THREADS=1 .venv/bin/python -m hunts.rh_claim_interface.run_rivals 1e7 (superseded, wrong bound in the battery claim)
+  - OMP_NUM_THREADS=1 .venv/bin/python -m hunts.rh_claim_interface.run_rivals 1e7
+outcome: the standing battery on the type claim gives zeta true, Davenport-Heilbronn, Epstein (1,1,6) and the shifted product false, Epstein (2,1,3) undefined; with the recorded quadruple subtracted the Epstein function still breaks the bound at theta 0.5 (first at 89) and no longer breaks it at 0.55 or 0.6; every field of the first round reproduced
+artifacts:
+  - hunts/rh_claim_interface/rivals.json
+```
+
+```runmanifest
+id: rh_claim_interface-2026-11-20-review-frontier
+hunt: rh_claim_interface
+started: 2026-11-20T18:09:17+00:00
+finished: 2026-11-20T18:16:23+00:00
+ran:
+  - OMP_NUM_THREADS=1 .venv/bin/python -m hunts.rh_claim_interface.run_scan frontier SCRATCH
+  - OMP_NUM_THREADS=1 .venv/bin/python -m hunts.rh_claim_interface.run_scan frontier SCRATCH (again, with the sources block)
+outcome: without RH the weight above height 3e12 is 1.48e-12 by the zero density and G(y) <= sqrt(y) is guaranteed to about 4.2e23 (8.2e22 from the published theorem); the printed Lemma 4.2 of the 2013 paper is exceeded at T = 1000 by the listed zeros alone, 8.866e-04 against 8.140e-04
+artifacts:
+  - hunts/rh_claim_interface/frontier.json
+```
+
+REVIEW_TESTS_MANIFEST
+
 ## What was not run
 
 - The level scan for conductor at most 20 beyond `10^7`: about 15 minutes per
   further decade.
 - A zero table beyond 20000: about 10 minutes for 10^5.
-- The shifted-product rival: derivation only, see RESULTS.md section 7.
+- The smoothed sum of the shifted-product rival. Its log-derivative
+  coefficients went through the battery in the review round; the rest is
+  derivation only, see RESULTS.md section 7.
+- The Arb spot checks of the explicit formula with all 20000 zeros (about
+  80 s per point at 128 bits by the 2000-zero unit of 8.6 s): the coarse
+  resolution of the 2000-zero check is stated instead.
 - Any Lean or Lake command, on the archive or otherwise.

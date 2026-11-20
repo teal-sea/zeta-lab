@@ -33,6 +33,7 @@ from pathlib import Path
 import numpy as np
 
 from . import instrument as I
+from . import run_lesion as RL
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -311,6 +312,95 @@ def interface_windows(g: np.ndarray, theta: float, y_lo: int = 10, window: float
     }
 
 
+TYPE_CLAIM_N = 60
+
+
+def type_claim(iface) -> bool:
+    """A necessary condition for -f'/f = sum Lambda(n) chi(n) n^-s with chi a Dirichlet character.
+
+    For n <= TYPE_CLAIM_N the coefficient Lambda_f(n) vanishes off the prime
+    powers and |Lambda_f(p^k)| <= log p.  Raises on a function with a_1 = 0;
+    the battery records that as undefined.
+    """
+    from zeta.epstein import log_derivative_coefficients as lab_ldc
+
+    lam = lab_ldc(iface["coefficient"], TYPE_CLAIM_N, dps=20)
+    pp = {pk: math.log(prime) for pk, prime in I.prime_powers_upto(TYPE_CLAIM_N)}
+    for m in range(2, TYPE_CLAIM_N + 1):
+        x = abs(complex(lam[m]))
+        if m in pp:
+            if x > pp[m] * (1 + 1e-12):
+                return False
+        elif x > 1e-12:
+            return False
+    return True
+
+
+def battery_record() -> dict:
+    """The standing battery of zeta.epstein on `type_claim`: every rival, the undefined one included."""
+    from zeta.epstein import battery, shifted_interface
+    from zeta.epstein import log_derivative_coefficients as lab_ldc
+
+    v = battery(type_claim, dps=20)
+    lam_shift = lab_ldc(shifted_interface(dps=20)["coefficient"], 4, dps=20)
+    return {
+        "claim": "for n <= %d, Lambda_f(n) = 0 off the prime powers and |Lambda_f(p^k)| <= log p" % TYPE_CLAIM_N,
+        "riemann_zeta": v["riemann_zeta"],
+        "davenport_heilbronn": v["davenport_heilbronn"],
+        "epstein_2_1_3": v["epstein_2_1_3"],
+        "epstein_1_1_6": v["epstein_1_1_6"],
+        "shifted_product": v["shifted_product"],
+        "distinguishes": v["distinguishes"],
+        "shared_with": list(v["shared_with"]),
+        "undefined_for": list(v["undefined_for"]),
+        "undefined_reasons": dict(v["undefined_reasons"]),
+        "shifted_product_lambda_2_over_log_2": float(lam_shift[2]) / math.log(2),
+    }
+
+
+def epstein_attribution(g_e: np.ndarray, beta: float, gamma: float, thetas=(0.5, 0.55, 0.6)) -> dict:
+    """How much of each first violation of G_f <= n^theta is the recorded off-line quadruple.
+
+    The quadruple rho, conj(rho), 1 - rho, 1 - conj(rho) enters G_f through
+    the residue formula (`run_lesion.lesion_delta`).  Subtracting it leaves
+    everything else: the on-line zeros, any other off-line zeros and the
+    non-oscillating part.  The onset law of section 6 ignores that rest.
+    """
+    n_max = len(g_e) - 1
+    n = np.arange(n_max + 1, dtype=np.float64)
+    n[0] = 1.0
+    quad = RL.lesion_delta(np.log(n), beta, gamma)
+    rest = g_e - quad
+    rho = complex(beta, gamma)
+    rows = []
+    for th in thetas:
+        w = interface_windows(g_e, th)
+        w2 = interface_windows(rest, th)
+        pred = (abs(rho * (1 - rho)) / 2) ** (1 / (beta - th))
+        m = w["first_violation"]
+        rows.append(
+            {
+                "theta": th,
+                "first_violation": m,
+                "predicted_onset": pred,
+                "observed_over_predicted": None if m is None else m / pred,
+                "first_violation_without_recorded_quadruple": w2["first_violation"],
+                "n_violations": w["n_violations"],
+                "n_violations_without_recorded_quadruple": w2["n_violations"],
+                "G_f_at_first": None if m is None else float(g_e[m]),
+                "quadruple_part_at_first": None if m is None else float(quad[m]),
+                "rest_at_first": None if m is None else float(rest[m]),
+                "threshold_at_first": None if m is None else float(m**th),
+            }
+        )
+    k = int(np.argmax(rest[10:] / np.sqrt(n[10:]))) + 10
+    return {
+        "rows": rows,
+        "sup_rest_over_sqrt_n_ge_10": float(rest[k] / math.sqrt(k)),
+        "sup_rest_over_sqrt_at": k,
+    }
+
+
 def stage_rivals(n_max: int) -> None:
     t0 = time.time()
     ppm = prime_power_mask(n_max)
@@ -427,7 +517,9 @@ def stage_rivals(n_max: int) -> None:
         "amplitude_from_residue_1_over_abs_rho_1_minus_rho": amp_true,
         "interface": [interface_windows(g_e, th) for th in (0.5, 0.55, 0.6, 0.75)],
         "predicted_first_violation": {str(th): (abs(rho * (1 - rho)) / 2) ** (1 / (beta - th)) for th in (0.5, 0.55, 0.6, 0.75)},
+        "onset_attribution": epstein_attribution(g_e, beta, gamma),
     }
+    out["battery_type_claim"] = battery_record()
     out["zeta_control"]["interface"] = [interface_windows(g_z, th) for th in (0.5, 0.55, 0.6, 0.75)]
     out["elapsed_s"] = round(time.time() - t0, 1)
     _dump("rivals.json", out)
@@ -444,6 +536,8 @@ def stage_rivals(n_max: int) -> None:
     print("EPS   decoy freq", e["demod_at_gamma_minus_8"], e["demod_at_gamma_plus_8"], "amp", e["amplitude_hat_top_decade"], e["amplitude_from_residue_1_over_abs_rho_1_minus_rho"])
     print("EPS   interface", e["interface"], e["predicted_first_violation"])
     print("zeta  interface", z["interface"])
+    print("EPS   attribution", json.dumps(e["onset_attribution"], indent=1))
+    print("battery", json.dumps(out["battery_type_claim"], indent=1))
     print("elapsed", out["elapsed_s"])
 
 

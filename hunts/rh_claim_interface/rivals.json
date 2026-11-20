@@ -1,4 +1,21 @@
 {
+ "battery_type_claim": {
+  "claim": "for n <= 60, Lambda_f(n) = 0 off the prime powers and |Lambda_f(p^k)| <= log p",
+  "davenport_heilbronn": false,
+  "distinguishes": false,
+  "epstein_1_1_6": false,
+  "epstein_2_1_3": false,
+  "riemann_zeta": true,
+  "shared_with": [],
+  "shifted_product": false,
+  "shifted_product_lambda_2_over_log_2": 2.0301035302564356,
+  "undefined_for": [
+   "epstein_2_1_3"
+  ],
+  "undefined_reasons": {
+   "epstein_2_1_3": "ValueError: a_1 = 0: this function has no log-derivative Dirichlet series in the normalisation a_1 = 1"
+  }
+ },
  "davenport_heilbronn": {
   "amplitude_from_residue_1_over_abs_rho_1_minus_rho": 0.00013615216407003111,
   "amplitude_hat_top_decade": 0.00013616444637011527,
@@ -115,7 +132,7 @@
   "predicted_first_violation_theta_0.6": 1.2492541676303613e+17,
   "recursion_vs_lab_mpmath_max_abs_diff_n_le_240": 1.1449174941446927e-15
  },
- "elapsed_s": 38.1,
+ "elapsed_s": 54.1,
  "epstein_1_1_6": {
   "a_2_a_3_a_6": [
    0.0,
@@ -237,6 +254,51 @@
   },
   "lambda_6": 3.58351893845611,
   "lambda_6_closed_form_2log6": 3.58351893845611,
+  "onset_attribution": {
+   "rows": [
+    {
+     "G_f_at_first": 8.625498148067727,
+     "first_violation": 72,
+     "first_violation_without_recorded_quadruple": 89,
+     "n_violations": 4169350,
+     "n_violations_without_recorded_quadruple": 678135,
+     "observed_over_predicted": 0.001486753126463849,
+     "predicted_onset": 48427.67687413416,
+     "quadruple_part_at_first": 0.37205736260305544,
+     "rest_at_first": 8.253440785464672,
+     "theta": 0.5,
+     "threshold_at_first": 8.48528137423857
+    },
+    {
+     "G_f_at_first": 245.35226743812584,
+     "first_violation": 22132,
+     "first_violation_without_recorded_quadruple": null,
+     "n_violations": 3583144,
+     "n_violations_without_recorded_quadruple": 0,
+     "observed_over_predicted": 0.11995693458990679,
+     "predicted_onset": 184499.54623850645,
+     "quadruple_part_at_first": 98.79601928140357,
+     "rest_at_first": 146.55624815672226,
+     "theta": 0.55,
+     "threshold_at_first": 245.33604726226514
+    },
+    {
+     "G_f_at_first": 4042.4825727516454,
+     "first_violation": 1025840,
+     "first_violation_without_recorded_quadruple": null,
+     "n_violations": 2478643,
+     "n_violations_without_recorded_quadruple": 0,
+     "observed_over_predicted": 0.9994075371079996,
+     "predicted_onset": 1026448.1324290273,
+     "quadruple_part_at_first": 3178.3187226958867,
+     "rest_at_first": 864.1638500557588,
+     "theta": 0.6,
+     "threshold_at_first": 4042.479047083659
+    }
+   ],
+   "sup_rest_over_sqrt_at": 1888692,
+   "sup_rest_over_sqrt_n_ge_10": 1.5422450067332805
+  },
   "predicted_first_violation": {
    "0.5": 48427.67687413416,
    "0.55": 184499.54623850645,

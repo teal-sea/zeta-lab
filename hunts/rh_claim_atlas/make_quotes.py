@@ -13,12 +13,19 @@ lines (rule in verify_quotes.py). A displayed quote also stores its text; a
 bare citation stores only a head, the first 96 characters of its first line,
 so that a reader of quotes.json can see what the pointer points at.
 
+quotes.json also records, for every archive file with a displayed quote, how
+many of its content lines (not blank, not an import) are displayed in total,
+so that the tests can see a file being reproduced piece by piece.
+
 Usage:
 
-    python -I make_quotes.py SRC_DIR --mathlib MATHLIB_DIR [--check]
+    python -I make_quotes.py SRC_DIR --mathlib MATHLIB_DIR [--check] [--fill]
 
 `--check` writes nothing and exits non-zero if quotes.json is stale.
-Standard library only; the archive is read as text and nothing in it is run.
+`--fill` first rewrites ATLAS.md, replacing every `lean` block whose only
+line is `@@` by the lines its citation names, so that no quoted text is
+typed by hand. Standard library only; the archive is read as text and
+nothing in it is run.
 """
 from __future__ import annotations
 
@@ -47,6 +54,8 @@ ABBREVIATIONS = {
 #: A displayed quote is short: this many lines at most.
 MAX_QUOTE_LINES = 12
 HEAD_CHARS = 96
+#: A `lean` block holding only this line is filled from the cited lines.
+PLACEHOLDER = "@@"
 
 CITATION = re.compile(r"`([^\s`:]+\.lean):(\d+)(?:-(\d+))?`")
 
@@ -143,6 +152,53 @@ def parse_atlas(text: str) -> tuple[list[dict], list[str]]:
     return list(found.values()), problems
 
 
+def fill(text: str, roots: dict[str, str | None]) -> tuple[str, list[str]]:
+    """The atlas text with every placeholder block replaced by its cited lines."""
+    vq = _verifier()
+    problems: list[str] = []
+    lines = text.split("\n")
+    out: list[str] = []
+    last_text_line = ""
+    in_block = False
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if (not in_block and line.startswith("```lean") and i + 2 < len(lines)
+                and lines[i + 1] == PLACEHOLDER and lines[i + 2].startswith("```")):
+            cites = CITATION.findall(last_text_line)
+            if len(cites) != 1:
+                problems.append(f"line {i + 1}: a placeholder block needs exactly one citation above it")
+                out.extend(lines[i:i + 3])
+            else:
+                tree, path = expand(cites[0][0])
+                first, last = int(cites[0][1]), int(cites[0][2] or cites[0][1])
+                root = roots.get(tree)
+                try:
+                    if root is None:
+                        raise ValueError(f"no {tree} tree given")
+                    got = vq.read_lines(os.path.join(root, *path.split("/")), first, last)
+                except ValueError as exc:
+                    problems.append(f"line {i + 1}: {exc}")
+                    got = [PLACEHOLDER]
+                out.append(line)
+                out.extend(got)
+                out.append(lines[i + 2])
+            i += 3
+            continue
+        if line.startswith("```"):
+            in_block = not in_block
+        elif not in_block and line.strip():
+            last_text_line = line
+        out.append(line)
+        i += 1
+    return "\n".join(out), problems
+
+
+def content_lines(lines: list[str]) -> int:
+    """Lines of a file that are neither blank nor an import."""
+    return sum(1 for x in lines if x.strip() and not x.startswith("import "))
+
+
 def build(atlas_text: str, roots: dict[str, str]) -> tuple[dict, list[str]]:
     vq = _verifier()
     citations, problems = parse_atlas(atlas_text)
@@ -177,6 +233,22 @@ def build(atlas_text: str, roots: dict[str, str]) -> tuple[dict, list[str]]:
             entry["kind"] = "pointer"
             entry["head"] = got[0].strip()[:HEAD_CHARS]
         entries.append(entry)
+    shown: dict[str, set[int]] = {}
+    for e in entries:
+        if e["kind"] == "quote" and e["tree"] == "archive":
+            shown.setdefault(e["path"], set()).update(range(e["first"], e["last"] + 1))
+    quoted_files = {}
+    for path in sorted(shown):
+        try:
+            with open(os.path.join(roots["archive"], *path.split("/")), encoding="utf-8") as fh:
+                whole = fh.read().split("\n")
+        except OSError as exc:
+            problems.append(f"{path}: cannot read file ({exc.strerror})")
+            continue
+        quoted_files[path] = {
+            "content_lines": content_lines(whole),
+            "displayed_content_lines": content_lines([whole[n - 1] for n in sorted(shown[path]) if n <= len(whole)]),
+        }
     data = {
         "schema": 1,
         "what": "every path:line cited in ATLAS.md, with the sha256 of exactly those lines",
@@ -188,6 +260,11 @@ def build(atlas_text: str, roots: dict[str, str]) -> tuple[dict, list[str]]:
         "mathlib": MATHLIB,
         "abbreviations": ABBREVIATIONS,
         "max_quote_lines": MAX_QUOTE_LINES,
+        "quoted_files_rule": (
+            "for each archive file with a displayed quote: its content lines (not blank, not an "
+            "import) and how many of them the displayed quotes show in total"
+        ),
+        "quoted_files": quoted_files,
         "entries": entries,
     }
     return data, problems
@@ -198,6 +275,7 @@ def main(argv: list[str]) -> int:
     src = os.environ.get(vq.ENV_ARCHIVE)
     mathlib = os.environ.get(vq.ENV_MATHLIB)
     check = False
+    do_fill = False
     args = argv[1:]
     while args:
         arg = args.pop(0)
@@ -205,6 +283,8 @@ def main(argv: list[str]) -> int:
             mathlib = args.pop(0)
         elif arg == "--check":
             check = True
+        elif arg == "--fill":
+            do_fill = True
         elif arg.startswith("--"):
             print(f"unknown or incomplete option {arg!r}\n\n{__doc__}")
             return 2
@@ -216,6 +296,17 @@ def main(argv: list[str]) -> int:
         return 2
     with open(os.path.join(HERE, "ATLAS.md"), encoding="utf-8") as fh:
         atlas = fh.read()
+    if do_fill and not check:
+        filled, problems = fill(atlas, {"archive": resolved, "mathlib": mathlib})
+        for p in problems:
+            print("problem:", p)
+        if problems:
+            return 1
+        if filled != atlas:
+            with open(os.path.join(HERE, "ATLAS.md"), "w", encoding="utf-8") as fh:
+                fh.write(filled)
+            print(f"filled {atlas.count(chr(10) + PLACEHOLDER + chr(10))} placeholder blocks in ATLAS.md")
+            atlas = filled
     data, problems = build(atlas, {"archive": resolved, "mathlib": mathlib})
     for p in problems:
         print("problem:", p)

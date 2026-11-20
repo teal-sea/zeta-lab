@@ -1,10 +1,115 @@
 {
- "schema": 1,
- "what": "whole-tree statistics of the archive behind ATLAS.md section 7",
+ "schema": 2,
+ "what": "every count behind ATLAS.md: whole-tree statistics, string counts, and the ledger file",
  "grade": "measured count: text of the unpacked tree only, no Lean run; declaration counts are regex counts and approximate",
  "sources": {
-  "recount": "hunts/rh_claim_atlas/recount.py, run on the unpacked tree (RUNS.md)",
-  "reader_tables": "the statistical reader's tables of 2026-11-20 (session scratch, not committed); copied only where marked"
+  "recount": "hunts/rh_claim_atlas/recount.py, run on the unpacked tree with recount_arguments",
+  "ledger": "hunts/rh_claim_atlas/ledger_count.py, run on the unpacked tree",
+  "reader": "hunts/rh_claim_atlas/reader_values.json, used only under the keys reader_value, reader_only and published_namespace_reader_rule",
+  "writer": "hunts/rh_claim_atlas/build_stats.py"
+ },
+ "recount_arguments": {
+  "closure": [
+   "Development.AutomorphicArithmetic.CharacterBoxes.ClaimStrip",
+   "Development.AutomorphicArithmetic.CharacterBoxes.ZeroFreeAllOfTopG",
+   "Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.lemmaL",
+   "Development.AutomorphicArithmetic.PrimitiveCosets.Imports",
+   "Formalism.GammaFactorNonvanishing.RhOfRight",
+   "Formalism.SuccessiveMinima.MinkowskiIIUpper",
+   "Formalism.ZetaNonvanishing.ZetaLandau",
+   "ReciprocityTheory.Chebotarev.StatementHolds"
+  ],
+  "decl-names": [
+   "riemannZeta",
+   "RiemannHypothesis",
+   "completedRiemannZeta",
+   "vonMangoldt",
+   "LFunction",
+   "GoodFor"
+  ],
+  "dirs": [
+   "Development/AbelianVarietyTheory/Proofs",
+   "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition",
+   "Formalism/PeriodIntegrals/UnitaryGroupMassFormula",
+   "Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability",
+   "Formalism/LocalToGlobal/GlobalTheory/GL5",
+   "Development/EtaleCohomology/WeilConjectures",
+   "Development/WeilBound",
+   "Development/WeilBound/CoreStatements",
+   "Development/WeilBound/RepresentationTheoryGL",
+   "Development/WeilBound/ThetaLifts",
+   "PositivityTheory",
+   "PositivityTheory/AutomorphicForms/PublishedInputs",
+   "PositivityTheory/PublishedTheorems",
+   "Development/AutomorphicArithmetic/DedekindLFunctions",
+   "Development/AutomorphicArithmetic/MeanSquareBounds",
+   "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers",
+   "Formalism/ProductFormula",
+   "Formalism/BehrendSets",
+   "Formalism/ArtinHasse",
+   "Formalism/GammaFactorNonvanishing",
+   "ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SquareIntegrability"
+  ],
+  "strings": [
+   "Behrend",
+   "Bost",
+   "GGP",
+   "Guinand",
+   "Iwasawa",
+   "Lichtenbaum",
+   "Nonempty (LocTied",
+   "Quillen",
+   "SignOnly",
+   "SlopeIneq",
+   "Stepanov",
+   "Vandiver",
+   "WeierstrassCurve",
+   "cpt_copy_thms",
+   "kcopy",
+   "kexactB",
+   "relative trace",
+   "riemannZeta",
+   "seesaw",
+   "sign_only",
+   "sixfold",
+   "slopeInequality",
+   "slope_inequality",
+   "vonMangoldt",
+   "weil_functional",
+   "dedekindZeta",
+   "completedLFunction_one_sub",
+   "riemannZeta_one_sub",
+   "LFunction_one_sub",
+   "rootNumber",
+   "explicitFormula",
+   "explicit_formula",
+   "Gabber",
+   "pathQ",
+   "zeroMode",
+   "tridiagonal"
+  ],
+  "words": [
+   "BehrendBound",
+   "MinkowskiIILower",
+   "ArtinHasseIntegral",
+   "KummerZp",
+   "LocalExistence",
+   "GlobalExistence",
+   "RayClassFieldExistence",
+   "ChebotarevDensity'",
+   "FermatCount",
+   "OCStep",
+   "RiemannHypothesisOfLowerBounds",
+   "RHofG",
+   "ForcedSumCM",
+   "everyE₂",
+   "kcopy",
+   "cpt_copy_thms",
+   "plugAll",
+   "ZeroFreeAll",
+   "EveryCharacter",
+   "zetaLandau"
+  ]
  },
  "totals": {
   "lean_files": 175187,
@@ -16,85 +121,84 @@
   "(root)": {
    "files": 2,
    "lines": 28,
-   "import_leaves": 1,
-   "import_leaves_mathlib_only": 1,
+   "depth_max": 202,
    "depth_min": 0,
-   "depth_max": 202
+   "import_leaves": 1,
+   "import_leaves_mathlib_only": 1
   },
   "BuildAid": {
    "files": 5,
    "lines": 20,
-   "import_leaves": 5,
-   "import_leaves_mathlib_only": 0,
+   "depth_max": 0,
    "depth_min": 0,
-   "depth_max": 0
+   "import_leaves": 5,
+   "import_leaves_mathlib_only": 0
   },
   "CompanionTheory": {
    "files": 2027,
    "lines": 194218,
-   "import_leaves": 35,
-   "import_leaves_mathlib_only": 35,
+   "depth_max": 114,
    "depth_min": 0,
-   "depth_max": 114
+   "import_leaves": 35,
+   "import_leaves_mathlib_only": 35
   },
   "Development": {
    "files": 141928,
    "lines": 12232663,
-   "import_leaves": 4265,
-   "import_leaves_mathlib_only": 4265,
+   "depth_max": 198,
    "depth_min": 0,
-   "depth_max": 198
+   "import_leaves": 4265,
+   "import_leaves_mathlib_only": 4265
   },
   "Formalism": {
    "files": 18254,
    "lines": 3200748,
-   "import_leaves": 766,
-   "import_leaves_mathlib_only": 764,
+   "depth_max": 93,
    "depth_min": 0,
-   "depth_max": 93
+   "import_leaves": 766,
+   "import_leaves_mathlib_only": 764
   },
   "GroundTheory": {
    "files": 8507,
    "lines": 1119138,
-   "import_leaves": 448,
-   "import_leaves_mathlib_only": 448,
+   "depth_max": 68,
    "depth_min": 0,
-   "depth_max": 68
+   "import_leaves": 448,
+   "import_leaves_mathlib_only": 448
   },
   "Lemmata": {
    "files": 167,
    "lines": 9232,
-   "import_leaves": 145,
-   "import_leaves_mathlib_only": 145,
+   "depth_max": 17,
    "depth_min": 0,
-   "depth_max": 17
+   "import_leaves": 145,
+   "import_leaves_mathlib_only": 145
   },
   "PositivityTheory": {
    "files": 449,
    "lines": 55130,
-   "import_leaves": 6,
-   "import_leaves_mathlib_only": 6,
+   "depth_max": 111,
    "depth_min": 0,
-   "depth_max": 111
+   "import_leaves": 6,
+   "import_leaves_mathlib_only": 6
   },
   "ReciprocityTheory": {
    "files": 3845,
    "lines": 563016,
-   "import_leaves": 256,
-   "import_leaves_mathlib_only": 256,
+   "depth_max": 76,
    "depth_min": 0,
-   "depth_max": 76
+   "import_leaves": 256,
+   "import_leaves_mathlib_only": 256
   },
   "Supplements": {
    "files": 3,
    "lines": 22,
-   "import_leaves": 0,
-   "import_leaves_mathlib_only": 0,
+   "depth_max": 201,
    "depth_min": 199,
-   "depth_max": 201
+   "import_leaves": 0,
+   "import_leaves_mathlib_only": 0
   }
  },
- "dir_depth1_note": "files and lines recomputed; import_leaves and depth range per directory are the reader's, with the leaf totals recomputed",
  "dir_depth2": {
   "(root)": {
    "files": 2,
@@ -1417,10 +1521,373 @@
    "lines": 22
   }
  },
- "dir_depth3_reader_only": {
+ "directories": {
   "Development/AbelianVarietyTheory/Proofs": {
    "files": 95418,
-   "lines": 7436698
+   "files_containing": {
+    "Bost": 7,
+    "GGP": 124,
+    "Iwasawa": 11967,
+    "LFunction_one_sub": 2,
+    "Nonempty (LocTied": 71,
+    "SlopeIneq": 4,
+    "WeierstrassCurve": 265,
+    "completedLFunction_one_sub": 2,
+    "dedekindZeta": 37,
+    "explicitFormula": 17,
+    "explicit_formula": 14,
+    "kcopy": 5,
+    "kexactB": 35,
+    "riemannZeta": 37,
+    "rootNumber": 4,
+    "seesaw": 2586,
+    "slopeInequality": 3,
+    "tridiagonal": 2,
+    "vonMangoldt": 39,
+    "weil_functional": 9,
+    "zeroMode": 2
+   },
+   "files_containing_outside_import_lines": {
+    "GGP": 124,
+    "Iwasawa": 387,
+    "LFunction_one_sub": 2,
+    "Nonempty (LocTied": 71,
+    "SlopeIneq": 4,
+    "WeierstrassCurve": 258,
+    "completedLFunction_one_sub": 2,
+    "dedekindZeta": 26,
+    "explicitFormula": 8,
+    "explicit_formula": 14,
+    "kcopy": 5,
+    "kexactB": 35,
+    "riemannZeta": 36,
+    "rootNumber": 2,
+    "seesaw": 2535,
+    "slopeInequality": 3,
+    "tridiagonal": 2,
+    "vonMangoldt": 39,
+    "weil_functional": 9,
+    "zeroMode": 2
+   },
+   "files_directly_inside": 0,
+   "lines": 7436698,
+   "subdirectories": 36
+  },
+  "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition": {
+   "files": 7769,
+   "files_containing": {
+    "Iwasawa": 6563,
+    "LFunction_one_sub": 1,
+    "Nonempty (LocTied": 2,
+    "WeierstrassCurve": 11,
+    "completedLFunction_one_sub": 1,
+    "dedekindZeta": 6,
+    "explicitFormula": 4,
+    "explicit_formula": 4,
+    "kcopy": 5,
+    "kexactB": 26,
+    "riemannZeta": 2,
+    "rootNumber": 1,
+    "seesaw": 13,
+    "vonMangoldt": 6
+   },
+   "files_containing_outside_import_lines": {
+    "Iwasawa": 21,
+    "LFunction_one_sub": 1,
+    "Nonempty (LocTied": 2,
+    "WeierstrassCurve": 11,
+    "completedLFunction_one_sub": 1,
+    "dedekindZeta": 2,
+    "explicit_formula": 4,
+    "kcopy": 5,
+    "kexactB": 26,
+    "riemannZeta": 1,
+    "rootNumber": 1,
+    "seesaw": 13,
+    "vonMangoldt": 6
+   },
+   "files_directly_inside": 7769,
+   "lines": 600348,
+   "subdirectories": 0
+  },
+  "Development/AutomorphicArithmetic/AutomorphicVarieties/LiteratureResults/KTheoryStability": {
+   "files": 286,
+   "files_containing": {
+    "Quillen": 5
+   },
+   "files_containing_outside_import_lines": {
+    "Quillen": 4
+   },
+   "files_directly_inside": 0,
+   "lines": 34368,
+   "subdirectories": 3
+  },
+  "Development/AutomorphicArithmetic/AutomorphicVarieties/SmallClassNumbers": {
+   "files": 4,
+   "files_containing": {},
+   "files_containing_outside_import_lines": {},
+   "files_directly_inside": 4,
+   "lines": 280,
+   "subdirectories": 0
+  },
+  "Development/AutomorphicArithmetic/DedekindLFunctions": {
+   "files": 36,
+   "files_containing": {
+    "riemannZeta": 4,
+    "vonMangoldt": 8
+   },
+   "files_containing_outside_import_lines": {
+    "riemannZeta": 4,
+    "vonMangoldt": 8
+   },
+   "files_directly_inside": 4,
+   "lines": 3719,
+   "subdirectories": 1
+  },
+  "Development/AutomorphicArithmetic/MeanSquareBounds": {
+   "files": 35,
+   "files_containing": {
+    "LFunction_one_sub": 1,
+    "completedLFunction_one_sub": 1,
+    "explicitFormula": 2,
+    "vonMangoldt": 9
+   },
+   "files_containing_outside_import_lines": {
+    "LFunction_one_sub": 1,
+    "completedLFunction_one_sub": 1,
+    "explicitFormula": 1,
+    "vonMangoldt": 8
+   },
+   "files_directly_inside": 35,
+   "lines": 4301,
+   "subdirectories": 0
+  },
+  "Development/EtaleCohomology/WeilConjectures": {
+   "files": 24,
+   "files_containing": {},
+   "files_containing_outside_import_lines": {},
+   "files_directly_inside": 24,
+   "lines": 1809,
+   "subdirectories": 0
+  },
+  "Development/WeilBound": {
+   "files": 7051,
+   "files_containing": {
+    "GGP": 4,
+    "Iwasawa": 298,
+    "Nonempty (LocTied": 9,
+    "dedekindZeta": 5,
+    "explicitFormula": 1,
+    "riemannZeta": 1,
+    "rootNumber": 4,
+    "seesaw": 7
+   },
+   "files_containing_outside_import_lines": {
+    "GGP": 4,
+    "Iwasawa": 85,
+    "Nonempty (LocTied": 9,
+    "dedekindZeta": 5,
+    "rootNumber": 1,
+    "seesaw": 5
+   },
+   "files_directly_inside": 0,
+   "lines": 848547,
+   "subdirectories": 10
+  },
+  "Development/WeilBound/CoreStatements": {
+   "files": 3746,
+   "files_containing": {
+    "GGP": 2,
+    "Iwasawa": 180,
+    "Nonempty (LocTied": 9,
+    "dedekindZeta": 4,
+    "explicitFormula": 1,
+    "riemannZeta": 1,
+    "rootNumber": 3
+   },
+   "files_containing_outside_import_lines": {
+    "GGP": 2,
+    "Iwasawa": 36,
+    "Nonempty (LocTied": 9,
+    "dedekindZeta": 4
+   },
+   "files_directly_inside": 0,
+   "lines": 455457,
+   "subdirectories": 51
+  },
+  "Development/WeilBound/RepresentationTheoryGL": {
+   "files": 2486,
+   "files_containing": {
+    "GGP": 1,
+    "Iwasawa": 102,
+    "seesaw": 4
+   },
+   "files_containing_outside_import_lines": {
+    "GGP": 1,
+    "Iwasawa": 41,
+    "seesaw": 2
+   },
+   "files_directly_inside": 0,
+   "lines": 274147,
+   "subdirectories": 22
+  },
+  "Development/WeilBound/ThetaLifts": {
+   "files": 788,
+   "files_containing": {
+    "Iwasawa": 15,
+    "dedekindZeta": 1,
+    "rootNumber": 1,
+    "seesaw": 3
+   },
+   "files_containing_outside_import_lines": {
+    "Iwasawa": 8,
+    "dedekindZeta": 1,
+    "rootNumber": 1,
+    "seesaw": 3
+   },
+   "files_directly_inside": 2,
+   "lines": 115848,
+   "subdirectories": 15
+  },
+  "Formalism/ArtinHasse": {
+   "files": 2,
+   "files_containing": {},
+   "files_containing_outside_import_lines": {},
+   "files_directly_inside": 1,
+   "lines": 513,
+   "subdirectories": 1
+  },
+  "Formalism/BehrendSets": {
+   "files": 14,
+   "files_containing": {
+    "Behrend": 14
+   },
+   "files_containing_outside_import_lines": {
+    "Behrend": 14
+   },
+   "files_directly_inside": 4,
+   "lines": 1074,
+   "subdirectories": 1
+  },
+  "Formalism/GammaFactorNonvanishing": {
+   "files": 2,
+   "files_containing": {
+    "LFunction_one_sub": 1,
+    "completedLFunction_one_sub": 1,
+    "riemannZeta": 1,
+    "riemannZeta_one_sub": 1
+   },
+   "files_containing_outside_import_lines": {
+    "LFunction_one_sub": 1,
+    "completedLFunction_one_sub": 1,
+    "riemannZeta": 1,
+    "riemannZeta_one_sub": 1
+   },
+   "files_directly_inside": 2,
+   "lines": 94,
+   "subdirectories": 0
+  },
+  "Formalism/LocalToGlobal/GlobalTheory/GL5": {
+   "files": 15,
+   "files_containing": {
+    "Iwasawa": 1
+   },
+   "files_containing_outside_import_lines": {},
+   "files_directly_inside": 15,
+   "lines": 3172,
+   "subdirectories": 0
+  },
+  "Formalism/PeriodIntegrals/UnitaryGroupMassFormula": {
+   "files": 3615,
+   "files_containing": {
+    "GGP": 2,
+    "Iwasawa": 51,
+    "LFunction_one_sub": 3,
+    "SlopeIneq": 2,
+    "WeierstrassCurve": 21,
+    "completedLFunction_one_sub": 2,
+    "dedekindZeta": 8,
+    "explicitFormula": 29,
+    "riemannZeta": 6,
+    "rootNumber": 1,
+    "vonMangoldt": 7
+   },
+   "files_containing_outside_import_lines": {
+    "GGP": 2,
+    "Iwasawa": 4,
+    "LFunction_one_sub": 3,
+    "SlopeIneq": 2,
+    "WeierstrassCurve": 21,
+    "completedLFunction_one_sub": 2,
+    "dedekindZeta": 4,
+    "explicitFormula": 3,
+    "riemannZeta": 6,
+    "rootNumber": 1,
+    "vonMangoldt": 7
+   },
+   "files_directly_inside": 1,
+   "lines": 430489,
+   "subdirectories": 501
+  },
+  "Formalism/ProductFormula": {
+   "files": 1,
+   "files_containing": {
+    "riemannZeta": 1
+   },
+   "files_containing_outside_import_lines": {
+    "riemannZeta": 1
+   },
+   "files_directly_inside": 1,
+   "lines": 162,
+   "subdirectories": 0
+  },
+  "PositivityTheory": {
+   "files": 449,
+   "files_containing": {
+    "Iwasawa": 29,
+    "explicitFormula": 1,
+    "rootNumber": 4
+   },
+   "files_containing_outside_import_lines": {
+    "Iwasawa": 8
+   },
+   "files_directly_inside": 0,
+   "lines": 55130,
+   "subdirectories": 3
+  },
+  "PositivityTheory/AutomorphicForms/PublishedInputs": {
+   "files": 445,
+   "files_containing": {
+    "Iwasawa": 29,
+    "explicitFormula": 1,
+    "rootNumber": 4
+   },
+   "files_containing_outside_import_lines": {
+    "Iwasawa": 8
+   },
+   "files_directly_inside": 0,
+   "lines": 54970,
+   "subdirectories": 8
+  },
+  "PositivityTheory/PublishedTheorems": {
+   "files": 3,
+   "files_containing": {},
+   "files_containing_outside_import_lines": {},
+   "files_directly_inside": 0,
+   "lines": 105,
+   "subdirectories": 3
+  },
+  "ReciprocityTheory/ReductiveGroups/ArithmeticGeometry/SquareIntegrability": {
+   "files": 136,
+   "files_containing": {
+    "zeroMode": 20
+   },
+   "files_containing_outside_import_lines": {
+    "zeroMode": 17
+   },
+   "files_directly_inside": 120,
+   "lines": 23339,
+   "subdirectories": 2
   }
  },
  "dag": {
@@ -1449,45 +1916,7 @@
    "Batteries": 3,
    "Lean": 12,
    "Mathlib": 156238
-  },
-  "longest_chain_directory_sequence_reader_only": [
-   [
-    "(root)",
-    1
-   ],
-   [
-    "Supplements/Kernels",
-    3
-   ],
-   [
-    "Development/AutomorphicArithmetic",
-    9
-   ],
-   [
-    "Development/AbelianVarietyTheory",
-    93
-   ],
-   [
-    "CompanionTheory/AutomorphicTheory",
-    1
-   ],
-   [
-    "Development/WeilBound",
-    1
-   ],
-   [
-    "Development/AutomorphicSpectrum",
-    4
-   ],
-   [
-    "Development/AbelianVarietyTheory",
-    63
-   ],
-   [
-    "ReciprocityTheory/ReductiveGroups",
-    28
-   ]
-  ]
+  }
  },
  "declarations_approx": {
   "abbrev": 13202,
@@ -1496,6 +1925,17 @@
   "example": 4662,
   "inductive": 121,
   "instance": 7598,
+  "lemma": 34663,
+  "structure": 8286,
+  "theorem": 784092
+ },
+ "declarations_scoped_and_local_included_approx": {
+  "abbrev": 13202,
+  "class": 43,
+  "def": 212819,
+  "example": 4662,
+  "inductive": 121,
+  "instance": 8199,
   "lemma": 34663,
   "structure": 8286,
   "theorem": 784092
@@ -1579,34 +2019,88 @@
   }
  },
  "text_markers": {
-  "zero_hits": [
-   "sorry",
+  "scanned": [
+   "addDecl",
    "admit",
-   "native_decide",
-   "axiom declaration",
+   "allowUnsafeReducibility",
+   "axiom_decl",
+   "axiom_word",
+   "block_comment_open",
+   "decide_plus_kernel",
+   "double_dash_anywhere",
+   "elab_macro_syntax_line_start",
+   "extern_attr",
+   "hash_check",
    "implemented_by",
-   "@[extern",
-   "word unsafe",
-   "line starting a comment (--)",
-   "block comment opener (/-)"
+   "line_comment_at_line_start",
+   "native_decide",
+   "open_private",
+   "partial_def",
+   "print_axioms",
+   "run_cmd",
+   "run_tac",
+   "set_option",
+   "sorry",
+   "sorry_substring_any_case",
+   "unsafe_substring_any_case",
+   "unsafe_word"
+  ],
+  "zero_hits": [
+   "admit",
+   "axiom_decl",
+   "axiom_word",
+   "block_comment_open",
+   "double_dash_anywhere",
+   "extern_attr",
+   "implemented_by",
+   "line_comment_at_line_start",
+   "native_decide",
+   "sorry",
+   "sorry_substring_any_case",
+   "unsafe_word"
   ],
   "hits": {
    "addDecl": 2,
+   "allowUnsafeReducibility": 37,
    "decide_plus_kernel": 151,
    "elab_macro_syntax_line_start": 91,
+   "hash_check": 2,
    "open_private": 220,
+   "partial_def": 2,
+   "print_axioms": 4,
    "run_cmd": 5,
-   "set_option": 88139
+   "run_tac": 32,
+   "set_option": 88139,
+   "unsafe_substring_any_case": 37
   },
   "files": {
    "addDecl": 1,
+   "allowUnsafeReducibility": 33,
    "decide_plus_kernel": 34,
    "elab_macro_syntax_line_start": 67,
+   "hash_check": 1,
    "open_private": 157,
+   "partial_def": 2,
+   "print_axioms": 2,
    "run_cmd": 5,
-   "set_option": 75197
+   "run_tac": 16,
+   "set_option": 75197,
+   "unsafe_substring_any_case": 33
   },
   "first_files_in_tree_order": {
+   "addDecl": [
+    "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean"
+   ],
+   "allowUnsafeReducibility": [
+    "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/IsCrisP.lean",
+    "Development/AbelianVarietyTheory/Proofs/HeightProofs/ExistsFormFamilyHypothesesChangedSecondNorm.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AlgClosureTensorBcrisToBdRInjective.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BcrisOneSubFrobeniusSurjective.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BcrisRegularSurjectionsOfFontaineTheorem.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsFinExt.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsPowNorm.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FrobeniusEigenFilOneIsUnitExactDegree.lean"
+   ],
    "decide_plus_kernel": [
     "Development/AbelianVarietyTheory/BlockTheory/TwistedDiscreteSeries/LoweredSignatureVanishing.lean",
     "Development/AbelianVarietyTheory/BlockTheory/TwistedDiscreteSeries/MinorOrderedEntries.lean",
@@ -1617,8 +2111,36 @@
     "Development/AbelianVarietyTheory/Definitions/Foundations/StrictInterlaceIffDescEnum.lean",
     "Development/AbelianVarietyTheory/Definitions/Foundations/UnitarySixTwoHarishChandraParameter.lean"
    ],
-   "addDecl": [
-    "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean"
+   "elab_macro_syntax_line_start": [
+    "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/GoodPartEq.lean",
+    "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/PlaceModelImp.lean",
+    "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/RealIoX.lean",
+    "Development/AbelianVarietyTheory/Definitions/GaloisGeometry/NegOnePowBoundaryTermsCancel.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsDlogAddCoboundaryAbLocus.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsMeasY.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsCechOneCoboundaryOfRefinement.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsProperOfFiniteType.lean"
+   ],
+   "hash_check": [
+    "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/UnitaryClassMass/UnitaryClassMass.lean"
+   ],
+   "open_private": [
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/AdmissibleFamilyValuationPlaces.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/SymplecticGroupGeneratedLeviLowerUnipotentWeyl.lean",
+    "Development/AbelianVarietyTheory/Proofs/FlagMeasures/CmEulerProductDiscrUnramified.lean",
+    "Development/AbelianVarietyTheory/Proofs/FlagMeasures/LValEtaBounds.lean",
+    "Development/AbelianVarietyTheory/Proofs/FoundationProofs/ExistsIsSymplecticBasisToMatrixOffDiagDvd.lean",
+    "Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/HasProdQuadExtLocalEulerFactorInvInv.lean",
+    "Development/AbelianVarietyTheory/Proofs/GlobalInterpolation/MultipliableEulerFac.lean",
+    "Development/AbelianVarietyTheory/Proofs/SiegelThetaTransformation/SymplecticEqParabolicJParabolicJParabolic.lean"
+   ],
+   "partial_def": [
+    "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean",
+    "Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean"
+   ],
+   "print_axioms": [
+    "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/LocalUnimodularLattice/Transf.lean",
+    "Formalism/PeriodIntegrals/UnitaryGroupMassFormula/UnitaryClassMass/UnitaryClassMass.lean"
    ],
    "run_cmd": [
     "BuildAid/D1.lean",
@@ -1626,11 +2148,152 @@
     "BuildAid/D3.lean",
     "BuildAid/D4.lean",
     "BuildAid/D5.lean"
+   ],
+   "run_tac": [
+    "Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ExistsBoundAbsLocalLatticeCompletionEntries.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/BoundedPowerSeriesEvaluationDivisibility.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsJetExtensionSquareZero.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/FramesTildeGammaValues.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsRootMapMinpolyIffExistsRingHomExtension.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/LocalizationPreservesRingPullbackSquare.lean",
+    "Development/AbelianVarietyTheory/Proofs/DivisorProofs/MatchedDiffsInvariantSubspace.lean",
+    "Development/AbelianVarietyTheory/Proofs/FlagMeasures/BasedFlagPairLatticeContainment.lean"
+   ],
+   "set_option": [
+    "CompanionTheory/AutomorphicTheory/BesselWaveGrids/PowFourLeRpowNineHalves.lean",
+    "CompanionTheory/AutomorphicTheory/BesselWaveGrids/ProductMoment.lean",
+    "CompanionTheory/AutomorphicTheory/BesselWaveGrids/WaveBallEstimateWeightedDualAlt.lean",
+    "CompanionTheory/AutomorphicTheory/BesselWaveGrids/WeightedUniformRotatedOfExpansion.lean",
+    "CompanionTheory/AutomorphicTheory/KrullDimension/TopologicalKrullDimModel.lean",
+    "CompanionTheory/AutomorphicTheory/LocalBesselUniqueness/HatCap.lean",
+    "CompanionTheory/AutomorphicTheory/LocalBesselUniqueness/HatProd.lean",
+    "CompanionTheory/AutomorphicTheory/LocalBesselUniqueness/OpLocal.lean"
+   ],
+   "unsafe_substring_any_case": [
+    "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/IsCrisP.lean",
+    "Development/AbelianVarietyTheory/Proofs/HeightProofs/ExistsFormFamilyHypothesesChangedSecondNorm.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/AlgClosureTensorBcrisToBdRInjective.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BcrisOneSubFrobeniusSurjective.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/BcrisRegularSurjectionsOfFontaineTheorem.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsFinExt.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/ExistsPowNorm.lean",
+    "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/FrobeniusEigenFilOneIsUnitExactDegree.lean"
    ]
   },
-  "structures_named_hypothes_literature_published": 106
+  "line_tokens": {
+   "kc%": {
+    "files": 32,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/GoodPartEq.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/NonzeroPlacesOverPrimesOfLifts.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/PlaceModelImp.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ReplacementValuesBaseLevelTypePartsEq.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ValTransOfEq.lean",
+     "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/LiftSetupOverExtendedDataIntegralFormsEq.lean",
+     "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/RatCopyIff.lean",
+     "Development/AbelianVarietyTheory/Proofs/InertiaEigenvalues/TieMove.lean"
+    ],
+    "lines": 182
+   },
+   "kcopy": {
+    "files": 4,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsKeptChoiceUpperLattice.lean",
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/FormsRe.lean",
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/HermRe.lean",
+     "Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean"
+    ],
+    "lines": 5
+   },
+   "kd%": {
+    "files": 1,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Proofs/TwistedOperators/TwoLeMOf.lean"
+    ],
+    "lines": 1
+   },
+   "kexactB": {
+    "files": 50,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ECure.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/GoodPartEq.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/NonzeroPlacesOverPrimesOfLifts.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OmPinsTr.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/PlaceModelImp.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/RealIoX.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ValTransOfEq.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/WeakCharInertPartRealAdelicDataTransport.lean"
+    ],
+    "lines": 234
+   },
+   "kq%": {
+    "files": 2,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsSelectedRealization.lean",
+     "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/ExistsSelectionPairLocalLanglands.lean"
+    ],
+    "lines": 3
+   },
+   "reach_kexactB_by_name_or_macro": {
+    "files": 72,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ECure.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/FinTypRepCast.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/GoodPartEq.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/NonzeroPlacesOverPrimesOfLifts.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OmPinsTr.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/PlaceModelImp.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/RealIoX.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/ReplacementValuesBaseLevelTypePartsEq.lean"
+    ],
+    "lines": 469
+   },
+   "run_tac": {
+    "files": 16,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Proofs/DecoratedLatticeProofs/ExistsBoundAbsLocalLatticeCompletionEntries.lean",
+     "Development/AbelianVarietyTheory/Proofs/DivisorProofs/BoundedPowerSeriesEvaluationDivisibility.lean",
+     "Development/AbelianVarietyTheory/Proofs/DivisorProofs/ExistsJetExtensionSquareZero.lean",
+     "Development/AbelianVarietyTheory/Proofs/DivisorProofs/FramesTildeGammaValues.lean",
+     "Development/AbelianVarietyTheory/Proofs/DivisorProofs/IsRootMapMinpolyIffExistsRingHomExtension.lean",
+     "Development/AbelianVarietyTheory/Proofs/DivisorProofs/LocalizationPreservesRingPullbackSquare.lean",
+     "Development/AbelianVarietyTheory/Proofs/DivisorProofs/MatchedDiffsInvariantSubspace.lean",
+     "Development/AbelianVarietyTheory/Proofs/FlagMeasures/BasedFlagPairLatticeContainment.lean"
+    ],
+    "lines": 32
+   },
+   "tr_clause": {
+    "files": 5,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/GoodPartEq.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/RealIoX.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/WeakCharInertPartRealAdelicDataTransport.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/Wp3ApplyEqSqMulSubSqMul.lean",
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/SetupLGood.lean"
+    ],
+    "lines": 22
+   },
+   "tr_via": {
+    "files": 8,
+    "first_files_in_tree_order": [
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/FinTypRepCast.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/GoodPartEq.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/WeakCharInertPartRealAdelicDataTransport.lean",
+     "Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/Wp3ApplyEqSqMulSubSqMul.lean",
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/CopyLIntegral.lean",
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsMovedRowLiftDataToFittingStages.lean",
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/HoldsLOfCopy.lean",
+     "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/RowBasisCongruenceLengthsOtherLaterStages.lean"
+    ],
+    "lines": 49
+   }
+  },
+  "structures_named_hypothes_literature_published": 106,
+  "structures_named_input": 40,
+  "defs_named_hypothes": 256
  },
  "file_shape": {
+  "files_with_a_line_over_1000_bytes": 11594,
   "files_with_a_line_over_1000_characters": 8735,
   "max_lines": 17981,
   "max_lines_file": "Formalism/HermitianCurvature/HermitianCurvatureProofs/IsAdmissibleSplittingCharPairMulTwist.lean",
@@ -1638,325 +2301,569 @@
   "median_lines": 58,
   "median_longest_line_characters": 224,
   "formalism_subdirectories": 107,
-  "formalism_subdirectories_with_statement_files": 86
+  "formalism_subdirectories_with_statement_files": 86,
+  "formalism_subdirectories_with_statement_files_directly_inside": 82
  },
  "published_namespace": {
   "prop_defs": 445,
   "rule": "parameterless one-line `def X : Prop :=` inside namespace GlobalTheory.Published or a sub-namespace; closed means a one-line `theorem name : T :=` exists whose T is X, Published.X or GlobalTheory.Published.X",
   "with_one_line_theorem_of_that_type": 181
  },
+ "published_namespace_wide_rule": {
+  "narrow_rule_names_missing_here": 0,
+  "prop_defs": 467,
+  "rule": "the same count with indentation and attributes tolerated, `section` tracked, any `end` closing the innermost scope and `_root_.` names honoured",
+  "with_one_line_theorem_of_that_type": 191
+ },
+ "published_namespace_reader_rule": {
+  "prop_defs": 419,
+  "with_one_line_theorem_of_that_type": 177
+ },
  "strings_rule": "fixed strings matched without regard to case; files = files containing the string anywhere",
  "strings": {
   "Behrend": {
    "files": 17,
    "files_outside_import_lines": 16,
-   "lines_outside_import_lines": 90,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 90
   },
   "Bost": {
    "files": 7,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "GGP": {
    "files": 262,
    "files_outside_import_lines": 262,
-   "lines_outside_import_lines": 840,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 4,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 840
+  },
+  "Gabber": {
+   "files": 0,
+   "files_outside_import_lines": 0,
+   "lines_outside_import_lines": 0
   },
   "Guinand": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "Iwasawa": {
    "files": 14698,
    "files_outside_import_lines": 1023,
-   "lines_outside_import_lines": 2935,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 85,
-    "PositivityTheory/AutomorphicForms": 8,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 2935
+  },
+  "LFunction_one_sub": {
+   "files": 13,
+   "files_outside_import_lines": 13,
+   "lines_outside_import_lines": 16
   },
   "Lichtenbaum": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "Nonempty (LocTied": {
    "files": 190,
    "files_outside_import_lines": 190,
-   "lines_outside_import_lines": 251,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 9,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 251
   },
   "Quillen": {
    "files": 5,
    "files_outside_import_lines": 4,
-   "lines_outside_import_lines": 4,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 4
   },
   "SignOnly": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "SlopeIneq": {
    "files": 53,
    "files_outside_import_lines": 37,
-   "lines_outside_import_lines": 65,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 65
   },
   "Stepanov": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "Vandiver": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "WeierstrassCurve": {
    "files": 681,
    "files_outside_import_lines": 674,
-   "lines_outside_import_lines": 3984,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 3984
+  },
+  "completedLFunction_one_sub": {
+   "files": 11,
+   "files_outside_import_lines": 11,
+   "lines_outside_import_lines": 14
   },
   "cpt_copy_thms": {
    "files": 2,
    "files_outside_import_lines": 2,
-   "lines_outside_import_lines": 2,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 2
+  },
+  "dedekindZeta": {
+   "files": 102,
+   "files_outside_import_lines": 79,
+   "lines_outside_import_lines": 402
+  },
+  "explicitFormula": {
+   "files": 105,
+   "files_outside_import_lines": 23,
+   "lines_outside_import_lines": 48
+  },
+  "explicit_formula": {
+   "files": 26,
+   "files_outside_import_lines": 26,
+   "lines_outside_import_lines": 44
   },
   "kcopy": {
    "files": 7,
    "files_outside_import_lines": 7,
-   "lines_outside_import_lines": 17,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 17
   },
   "kexactB": {
    "files": 50,
    "files_outside_import_lines": 50,
-   "lines_outside_import_lines": 234,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 234
+  },
+  "pathQ": {
+   "files": 0,
+   "files_outside_import_lines": 0,
+   "lines_outside_import_lines": 0
   },
   "relative trace": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "riemannZeta": {
    "files": 162,
    "files_outside_import_lines": 159,
-   "lines_outside_import_lines": 794,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 794
+  },
+  "riemannZeta_one_sub": {
+   "files": 5,
+   "files_outside_import_lines": 5,
+   "lines_outside_import_lines": 6
+  },
+  "rootNumber": {
+   "files": 77,
+   "files_outside_import_lines": 16,
+   "lines_outside_import_lines": 78
   },
   "seesaw": {
    "files": 3248,
    "files_outside_import_lines": 3139,
-   "lines_outside_import_lines": 4634,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 5,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 4634
   },
   "sign_only": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "sixfold": {
    "files": 0,
    "files_outside_import_lines": 0,
-   "lines_outside_import_lines": 0,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 0
   },
   "slopeInequality": {
    "files": 19,
    "files_outside_import_lines": 10,
-   "lines_outside_import_lines": 14,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 14
   },
   "slope_inequality": {
    "files": 14,
    "files_outside_import_lines": 14,
-   "lines_outside_import_lines": 24,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 24
+  },
+  "tridiagonal": {
+   "files": 5,
+   "files_outside_import_lines": 4,
+   "lines_outside_import_lines": 5
   },
   "vonMangoldt": {
    "files": 133,
    "files_outside_import_lines": 129,
-   "lines_outside_import_lines": 690,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 690
   },
   "weil_functional": {
    "files": 9,
    "files_outside_import_lines": 9,
-   "lines_outside_import_lines": 18,
-   "files_outside_import_lines_in": {
-    "Development/WeilBound": 0,
-    "PositivityTheory/AutomorphicForms": 0,
-    "PositivityTheory/PublishedTheorems": 0,
-    "PositivityTheory/Representations": 0
-   }
+   "lines_outside_import_lines": 18
+  },
+  "zeroMode": {
+   "files": 30,
+   "files_outside_import_lines": 27,
+   "lines_outside_import_lines": 55
   }
  },
- "recount_seconds": 152.9,
+ "whole_words_rule": "case-sensitive whole words on lines that are not import lines; first 16 places listed",
+ "whole_words": {
+  "ArtinHasseIntegral": {
+   "at": [
+    "Formalism/ArtinHasse/Statement.lean:53"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "BehrendBound": {
+   "at": [
+    "Formalism/BehrendSets/Statement.lean:54"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "ChebotarevDensity'": {
+   "at": [
+    "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean:306"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "EveryCharacter": {
+   "at": [
+    "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:13",
+    "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:17",
+    "Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:7",
+    "Development/AutomorphicArithmetic/CharacterBoxes/MainConclusion.lean:10",
+    "Development/AutomorphicArithmetic/CharacterBoxes/RiemannHypothesisOfEveryCharacter.lean:211",
+    "Development/AutomorphicArithmetic/CharacterBoxes/RiemannHypothesisOfEveryCharacter.lean:215",
+    "Development/AutomorphicArithmetic/ThetaCorrespondence/FockModels/EveryCharacterE.lean:69",
+    "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean:810",
+    "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean:71",
+    "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean:17",
+    "Formalism/GammaFactorNonvanishing/CritLine.lean:11",
+    "Formalism/GammaFactorNonvanishing/CritLine.lean:29",
+    "Supplements/Kernels/MainTheorems.lean:7"
+   ],
+   "lines_outside_import_lines": 13
+  },
+  "FermatCount": {
+   "at": [
+    "Development/EtaleCohomology/WeilConjectures/FermatCount.lean:170"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "ForcedSumCM": {
+   "at": [
+    "Formalism/StatementCM.lean:35"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "GlobalExistence": {
+   "at": [
+    "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean:150"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "KummerZp": {
+   "at": [
+    "Formalism/ArtinHasse/Statement.lean:59"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "LocalExistence": {
+   "at": [
+    "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean:91"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "MinkowskiIILower": {
+   "at": [
+    "Formalism/SuccessiveMinima/StatementMink.lean:26"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "OCStep": {
+   "at": [
+    "Formalism/StatementOC.lean:23"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "RHofG": {
+   "at": [
+    "Formalism/Statement.lean:46"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "RayClassFieldExistence": {
+   "at": [
+    "ReciprocityTheory/NeutralLocalFields/Reciprocity.lean:242"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "RiemannHypothesisOfLowerBounds": {
+   "at": [
+    "Formalism/StatementOC.lean:65"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "ZeroFreeAll": {
+   "at": [
+    "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:9",
+    "Development/AutomorphicArithmetic/CharacterBoxes/Imprimitive.lean:6",
+    "Development/AutomorphicArithmetic/CharacterBoxes/ZeroFreeAllOfTopG.lean:26",
+    "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/TopPlug.lean:13",
+    "Formalism/SharpRestriction/RamificationFrobenius/TotientGaloisClasses/ExplicitFormulaErrorOfHostConditions.lean:18"
+   ],
+   "lines_outside_import_lines": 5
+  },
+  "cpt_copy_thms": {
+   "at": [
+    "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutCptCopy.lean:87",
+    "Formalism/HermitianCurvature/HermitianCurvatureProofs/CutMainCpt.lean:945"
+   ],
+   "lines_outside_import_lines": 2
+  },
+  "everyE₂": {
+   "at": [
+    "Development/AutomorphicArithmetic/ThetaCorrespondence/FockModels/EveryCharacterE.lean:67"
+   ],
+   "lines_outside_import_lines": 1
+  },
+  "kcopy": {
+   "at": [
+    "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/ExistsKeptChoiceUpperLattice.lean:26",
+    "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/FormsRe.lean:20",
+    "Development/AbelianVarietyTheory/Proofs/IwasawaDecomposition/HermRe.lean:19",
+    "Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean:38",
+    "Formalism/LocalToGlobal/NumberFieldFamilies/OwnStruct.lean:53"
+   ],
+   "lines_outside_import_lines": 5
+  },
+  "plugAll": {
+   "at": [
+    "Development/AutomorphicArithmetic/CharacterBoxes/EveryCharacter.lean:16",
+    "Development/AutomorphicArithmetic/ThetaCorrespondence/FockModels/EveryCharacterE.lean:70"
+   ],
+   "lines_outside_import_lines": 2
+  },
+  "zetaLandau": {
+   "at": [
+    "Formalism/SharpRestriction/GlobalSchurBounds/GlobalRankLatticeProofs/LandauZeroFreeHalfPlane.lean:16",
+    "Formalism/SizeWindowBrackets/ChainSlopeWindows/RiemannHypothesisOfPowerBound.lean:11",
+    "Formalism/ZetaNonvanishing/ZetaLandau.lean:258",
+    "Formalism/ZetaNonvanishing/ZetaLandau.lean:298"
+   ],
+   "lines_outside_import_lines": 4
+  }
+ },
+ "declarations_named": {
+  "GoodFor": {
+   "at": [
+    "Formalism/GL3MeanSquares/SecondEstimateOfIntervalHypothesis.lean:47",
+    "Formalism/GL3MeanSquares/SmoothedRemainderRealIntegralFormula.lean:74",
+    "Formalism/SharpRestriction/GlobalSchurBounds/GeneralLinearActions/FiltrationCocycleLiftCriterion.lean:42",
+    "Formalism/SizeWindowBrackets/SmoothedRemainderRealIntegralFormula.lean:44"
+   ],
+   "count": 4
+  },
+  "LFunction": {
+   "at": [
+    "GroundTheory/AutomorphicForms/GL2/GJLocalZeta.lean:431",
+    "GroundTheory/GlobalFields/TateThesis/HeckeLFunction.lean:363"
+   ],
+   "count": 2
+  },
+  "RiemannHypothesis": {
+   "at": [],
+   "count": 0
+  },
+  "completedRiemannZeta": {
+   "at": [],
+   "count": 0
+  },
+  "riemannZeta": {
+   "at": [],
+   "count": 0
+  },
+  "vonMangoldt": {
+   "at": [],
+   "count": 0
+  }
+ },
  "import_closures": {
   "Development.AutomorphicArithmetic.CharacterBoxes.ClaimStrip": {
-   "modules": 2,
-   "lines": 114
+   "by_depth3_dir": {
+    "Development/AutomorphicArithmetic/CharacterBoxes": 2
+   },
+   "lines": 114,
+   "modules": 2
   },
   "Development.AutomorphicArithmetic.CharacterBoxes.ZeroFreeAllOfTopG": {
-   "modules": 754,
-   "lines": 128349
+   "by_depth3_dir": {
+    "Development/AutomorphicArithmetic/DedekindLFunctions": 35,
+    "Development/AutomorphicArithmetic/IntegralCasts": 16,
+    "Development/AutomorphicArithmetic/PrimitiveCosets": 19,
+    "Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs": 24,
+    "Formalism/GradedWeylDivisibility/FockSpaceTableaux": 90,
+    "Formalism/HarderNarasimhan/HarderNarasimhanProofs": 32,
+    "Formalism/HermitianLattices/HermitianLatticesProofs": 28,
+    "Formalism/LatticeSlopes/LatticeSlopesProofs": 15,
+    "Formalism/LatticeTheta/LatticeThetaProofs": 11,
+    "Formalism/RealPlaceAnalysis/RealPlaceTaylor": 30,
+    "Formalism/SatakeDualWeyl/AdelicIwasawaHecke": 74,
+    "Formalism/SharpRestriction/RamificationFrobenius": 13
+   },
+   "lines": 128349,
+   "modules": 754
   },
   "Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.lemmaL": {
-   "modules": 28,
-   "lines": 2396
+   "by_depth3_dir": {
+    "Development/AutomorphicArithmetic/DedekindLFunctions": 28
+   },
+   "lines": 2396,
+   "modules": 28
   },
   "Development.AutomorphicArithmetic.PrimitiveCosets.Imports": {
-   "modules": 132,
-   "lines": 23723
+   "by_depth3_dir": {
+    "Development/AutomorphicArithmetic/DedekindLFunctions": 32,
+    "Development/AutomorphicArithmetic/PrimitiveCosets": 6,
+    "Formalism/DefsOC": 1,
+    "Formalism/FrobeniusOrbits/FrobeniusOrbitsProofs": 12,
+    "Formalism/FrobeniusOrbits/HostOrbitCountSg": 1,
+    "Formalism/FrobeniusOrbits/HostOrbitsPlaces": 1,
+    "Formalism/RankGapBounds/RankGapProofs": 2,
+    "Formalism/SharpRestriction/RamificationFrobenius": 8,
+    "Formalism/SizeWindowBrackets/ChainSlopeWindows": 7,
+    "Formalism/TameInertiaTowers/CentralOrderTwo": 10,
+    "Formalism/ThickAverageLoss/Statement": 1,
+    "Formalism/ThickAverageLoss/ThickAverageProofs": 2
+   },
+   "lines": 23723,
+   "modules": 132
   },
   "Formalism.GammaFactorNonvanishing.RhOfRight": {
-   "modules": 1,
-   "lines": 62
+   "by_depth3_dir": {
+    "Formalism/GammaFactorNonvanishing/RhOfRight": 1
+   },
+   "lines": 62,
+   "modules": 1
   },
   "Formalism.SuccessiveMinima.MinkowskiIIUpper": {
-   "modules": 15,
-   "lines": 1693
+   "by_depth3_dir": {
+    "Formalism/SuccessiveMinima/DefsMink": 1,
+    "Formalism/SuccessiveMinima/DefsNP": 1,
+    "Formalism/SuccessiveMinima/MinkowskiIIUpper": 1,
+    "Formalism/SuccessiveMinima/StatementMink": 1,
+    "Formalism/SuccessiveMinima/StatementNP": 1,
+    "Formalism/SuccessiveMinima/SuccessiveMinimaProofs": 10
+   },
+   "lines": 1693,
+   "modules": 15
   },
   "Formalism.ZetaNonvanishing.ZetaLandau": {
-   "modules": 18,
-   "lines": 2338
+   "by_depth3_dir": {
+    "Formalism/DefsOC": 1,
+    "Formalism/StatementOC": 1,
+    "Formalism/StatementU": 1,
+    "Formalism/ZetaNonvanishing/Assembly": 1,
+    "Formalism/ZetaNonvanishing/LandauLemma": 1,
+    "Formalism/ZetaNonvanishing/MellinDeriv": 1,
+    "Formalism/ZetaNonvanishing/MellinElem": 1,
+    "Formalism/ZetaNonvanishing/MellinSAux": 1,
+    "Formalism/ZetaNonvanishing/OfRealNeOfRealOfLt": 1,
+    "Formalism/ZetaNonvanishing/RiemannZetaOneNeZeroOfRealMemIoo": 1,
+    "Formalism/ZetaNonvanishing/ZetaLandau": 1,
+    "Formalism/ZetaRealNonvanish": 1
+   },
+   "lines": 2338,
+   "modules": 18
   },
   "ReciprocityTheory.Chebotarev.StatementHolds": {
-   "modules": 47,
-   "lines": 4382
+   "by_depth3_dir": {
+    "ReciprocityTheory/Chebotarev/CrossRes": 1,
+    "ReciprocityTheory/Chebotarev/EulerFac": 1,
+    "ReciprocityTheory/Chebotarev/LatSum": 1,
+    "ReciprocityTheory/Chebotarev/PowerSeriesDiagonalLinear": 1,
+    "ReciprocityTheory/Chebotarev/PrimeCont": 1,
+    "ReciprocityTheory/Chebotarev/RpowNegFinrankSubOne": 1,
+    "ReciprocityTheory/Chebotarev/SplitA": 1,
+    "ReciprocityTheory/Chebotarev/SplitC": 1,
+    "ReciprocityTheory/Chebotarev/SplitDef": 1,
+    "ReciprocityTheory/Chebotarev/SplitEA": 1,
+    "ReciprocityTheory/Chebotarev/Support": 1,
+    "ReciprocityTheory/Chebotarev/TendstoLogOneDivSubOne": 1
+   },
+   "lines": 4382,
+   "modules": 47
   }
+ },
+ "ledger": {
+  "blocks_depending_on_a_field_transitively": 13,
+  "blocks_not_mentioning_O": 152,
+  "blocks_passing_O_on_without_reading_a_field": 39,
+  "blocks_reading_a_field_of_O": 4,
+  "file": "Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+  "import_lines": 208,
+  "lines": 814,
+  "lines_reading_a_field_of_O": [
+   284,
+   286,
+   460,
+   618
+  ],
+  "names_depending_on_a_field_transitively": [
+   "carU_above_l_of_literature",
+   "carU_local_global_of_literature",
+   "cusp_u_of_literature",
+   "every_character_of_literature_of_vWin",
+   "hecke_l_adic_character_above_of_literature",
+   "hecke_l_adic_character_crystalline_of_literature",
+   "literature_automorphy",
+   "literature_local",
+   "literature_nonexistence",
+   "local_langlands_gl_recT_exists_of_literature",
+   "local_langlands_recT_exists_of_literature",
+   "pair_u_of_literature",
+   "published_results_eigen"
+  ],
+  "theorem_names_with_of_literature": 177,
+  "theorems": 195,
+  "theorems_taking_O": 195,
+  "tool": "hunts/rh_claim_atlas/ledger_count.py"
+ },
+ "reader_only": {
+  "longest_chain_directory_sequence": [
+   [
+    "(root)",
+    1
+   ],
+   [
+    "Supplements/Kernels",
+    3
+   ],
+   [
+    "Development/AutomorphicArithmetic",
+    9
+   ],
+   [
+    "Development/AbelianVarietyTheory",
+    93
+   ],
+   [
+    "CompanionTheory/AutomorphicTheory",
+    1
+   ],
+   [
+    "Development/WeilBound",
+    1
+   ],
+   [
+    "Development/AutomorphicSpectrum",
+    4
+   ],
+   [
+    "Development/AbelianVarietyTheory",
+    63
+   ],
+   [
+    "ReciprocityTheory/ReductiveGroups",
+    28
+   ]
+  ]
  },
  "spot_checks": [
   {
@@ -2066,9 +2973,149 @@
    "match": true
   },
   {
-   "name": "all 330 depth-2 rows (files, lines)",
-   "reader_value": "330 rows",
-   "recount_value": "330 rows, 0 differ",
+   "name": "all 10 depth-1 rows (import leaves, leaves importing Mathlib only, depth range)",
+   "reader_value": {
+    "(root)": {
+     "import_leaves": 1,
+     "import_leaves_mathlib_only": 1,
+     "depth_min": 0,
+     "depth_max": 202
+    },
+    "BuildAid": {
+     "import_leaves": 5,
+     "import_leaves_mathlib_only": 0,
+     "depth_min": 0,
+     "depth_max": 0
+    },
+    "CompanionTheory": {
+     "import_leaves": 35,
+     "import_leaves_mathlib_only": 35,
+     "depth_min": 0,
+     "depth_max": 114
+    },
+    "Development": {
+     "import_leaves": 4265,
+     "import_leaves_mathlib_only": 4265,
+     "depth_min": 0,
+     "depth_max": 198
+    },
+    "Formalism": {
+     "import_leaves": 766,
+     "import_leaves_mathlib_only": 764,
+     "depth_min": 0,
+     "depth_max": 93
+    },
+    "GroundTheory": {
+     "import_leaves": 448,
+     "import_leaves_mathlib_only": 448,
+     "depth_min": 0,
+     "depth_max": 68
+    },
+    "Lemmata": {
+     "import_leaves": 145,
+     "import_leaves_mathlib_only": 145,
+     "depth_min": 0,
+     "depth_max": 17
+    },
+    "PositivityTheory": {
+     "import_leaves": 6,
+     "import_leaves_mathlib_only": 6,
+     "depth_min": 0,
+     "depth_max": 111
+    },
+    "ReciprocityTheory": {
+     "import_leaves": 256,
+     "import_leaves_mathlib_only": 256,
+     "depth_min": 0,
+     "depth_max": 76
+    },
+    "Supplements": {
+     "import_leaves": 0,
+     "import_leaves_mathlib_only": 0,
+     "depth_min": 199,
+     "depth_max": 201
+    }
+   },
+   "recount_value": {
+    "(root)": {
+     "depth_max": 202,
+     "depth_min": 0,
+     "import_leaves": 1,
+     "import_leaves_mathlib_only": 1
+    },
+    "BuildAid": {
+     "depth_max": 0,
+     "depth_min": 0,
+     "import_leaves": 5,
+     "import_leaves_mathlib_only": 0
+    },
+    "CompanionTheory": {
+     "depth_max": 114,
+     "depth_min": 0,
+     "import_leaves": 35,
+     "import_leaves_mathlib_only": 35
+    },
+    "Development": {
+     "depth_max": 198,
+     "depth_min": 0,
+     "import_leaves": 4265,
+     "import_leaves_mathlib_only": 4265
+    },
+    "Formalism": {
+     "depth_max": 93,
+     "depth_min": 0,
+     "import_leaves": 766,
+     "import_leaves_mathlib_only": 764
+    },
+    "GroundTheory": {
+     "depth_max": 68,
+     "depth_min": 0,
+     "import_leaves": 448,
+     "import_leaves_mathlib_only": 448
+    },
+    "Lemmata": {
+     "depth_max": 17,
+     "depth_min": 0,
+     "import_leaves": 145,
+     "import_leaves_mathlib_only": 145
+    },
+    "PositivityTheory": {
+     "depth_max": 111,
+     "depth_min": 0,
+     "import_leaves": 6,
+     "import_leaves_mathlib_only": 6
+    },
+    "ReciprocityTheory": {
+     "depth_max": 76,
+     "depth_min": 0,
+     "import_leaves": 256,
+     "import_leaves_mathlib_only": 256
+    },
+    "Supplements": {
+     "depth_max": 201,
+     "depth_min": 199,
+     "import_leaves": 0,
+     "import_leaves_mathlib_only": 0
+    }
+   },
+   "match": true
+  },
+  {
+   "name": "all 330 depth-2 rows (files, lines), as a sha256 of the table",
+   "reader_value": "e50508cee8cccb76ff399922e3af7af23cbded5ddf9711b93c3e512032c626e6",
+   "recount_value": "e50508cee8cccb76ff399922e3af7af23cbded5ddf9711b93c3e512032c626e6",
+   "match": true
+  },
+  {
+   "name": "depth-3 row Development/AbelianVarietyTheory/Proofs (files, lines)",
+   "reader_value": [
+    95418,
+    7436698
+   ],
+   "recount_value": [
+    95418,
+    7436698
+   ],
    "match": true
   },
   {
@@ -2101,18 +3148,6 @@
     "50": 30679,
     "75": 26053
    },
-   "match": true
-  },
-  {
-   "name": "import leaves, total over directories",
-   "reader_value": 5927,
-   "recount_value": 5927,
-   "match": true
-  },
-  {
-   "name": "import leaves importing Mathlib only",
-   "reader_value": 5920,
-   "recount_value": 5920,
    "match": true
   },
   {
@@ -2180,14 +3215,20 @@
    "reader_value": 8199,
    "recount_value": 7598,
    "match": false,
-   "note": "the two regular expressions treat modifiers before `instance` differently; not reconciled"
+   "note": "first recorded as not reconciled; reconciled in review: the reader's pattern accepts `scoped instance` and `local instance`, the recount's first pattern does not; see the next row"
+  },
+  {
+   "name": "declaration regex count: instance, with scoped and local accepted",
+   "reader_value": 8199,
+   "recount_value": 8199,
+   "match": true
   },
   {
    "name": "import edges between archive modules",
    "reader_value": 753569,
    "recount_value": 753261,
    "match": false,
-   "note": "the reader counted import lines naming an archive module (753569, recomputed and equal); the recount counts distinct importer-imported pairs; 308 import lines repeat an import"
+   "note": "the reader counted import lines naming an archive module (see the next row); the recount counts distinct importer-imported pairs; the difference is the import lines that repeat an import"
   },
   {
    "name": "import lines naming an archive module, duplicates included",
@@ -2212,7 +3253,14 @@
    "reader_value": 11594,
    "recount_value": 8735,
    "match": false,
-   "note": "the recount measures characters; the reader's figure is presumably bytes; not reconciled"
+   "note": "first recorded as not reconciled; reconciled in review: the recount's figure is in characters and the reader's is in bytes; see the next row"
+  },
+  {
+   "name": "files with a line over 1000 bytes",
+   "reader_value": 11594,
+   "recount_value": 11594,
+   "match": true
   }
- ]
+ ],
+ "recount_seconds": 304.7
 }

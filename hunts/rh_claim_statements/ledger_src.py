@@ -229,7 +229,7 @@ claim(id="C03", name="zeta_log_deriv_landau_bound", path=_Z + "ZetaLogDerivLanda
       mutants=[Mu("sigma", ("(hσ : 1 < σ)", "(hσ : 49 / 100 < σ)"), dict(sigma_lo="49/100"),
                   "left of a zero 1/2 + i gamma the quantity is about (1/2 - sigma)/|s - rho|^2, unbounded", kind="hypothesis"),
                Mu("K", ("840 * Real.log", "3 / 20 * Real.log"), dict(K="3/20"), "the ratio to log(|t|+2) reaches 0.16 on the tested range")],
-      sharpness="very loose: on the tested range the constant could be about 0.17 in place of 840")
+      sharpness="very loose: on the tested range the constant could be about 0.22 in place of 840")
 
 claim(id="C04", name="zeta_one_sub_le", path=_EF + "LGrowthZeta.lean", line=12, topic="zeta",
       math="For complex w with 1/2 <= Re w <= 5 and w != 1: |zeta(1 - w)| <= 6 |w + 1|^5 |zeta(w)|.",
@@ -368,7 +368,7 @@ claim(id="C17", name="dhl_inv", path=_JC + "PNTDHLocalB.lean", line=66, topic="L
       mutants=[Mu("K", ("1 ≤ 26 *", "1 ≤ 5 / 2 *"), dict(K="5/2"), "|zeta(26/25 + 14.1i)| = 0.336 < 0.4"),
                Mu("abscissa", ("(26 / 25 : ℂ)", "(1 / 2 : ℂ)"), dict(sigma="1/2"), "zeta vanishes on the line 1/2")],
       sharpness="theoretical slack 1.60 (the infimum over all characters and t is zeta(52/25)/zeta(26/25) = 0.0616); "
-                "no finite search of this size comes near it, so no mutant near 26 can be rejected numerically")
+                "the smallest value on the tested range is 0.318, so no mutant near 26 can be rejected by a search of this size")
 
 claim(id="C18", name="norm_L_one_sub_le", path=_EF + "LGrowthFE.lean", line=49, topic="L",
       math="For N >= 1, chi a primitive Dirichlet character mod N, and w with 1/2 <= Re w <= 5 (and w != 1 when N = 1): |L(1 - w, chi)| <= 6 N^5 |w + 1|^5 |L(w, chi^-1)|.",
@@ -725,10 +725,11 @@ claim(id="C64", name="classC_fact", path=_ID + "ClassC.lean", line=8, topic="ele
 claim(id="C65", name="thin_ptw", path="Development/AutomorphicArithmetic/MeanSquareBounds/IntThin.lean", line=16, topic="elementary",
       math="For real c > 0, v >= 1, 0 < lam <= v^0.61: (v + lam)^2 exp(-c v/(lam + sqrt v)) <= 4 v^2 exp(-(c/2) v^0.39).",
       conv=["rpow", "sqrt", "cast"], extra_conv=["`-c * v / (lam + Real.sqrt v)` is (-(c v))/(lam + sqrt v); `v ^ (2 : ℝ)` is rpow, equal to v^2 for v > 0"],
-      quant="all real c > 0, v >= 1, lam in (0, v^0.61] (unbounded)", domain="unbounded", grade="complete_cover",
+      quant="all real c > 0, v >= 1, lam in (0, v^0.61] (unbounded)", domain="unbounded", grade="measured_range",
       test=T("analytic.thin_ptw", dict(K="4", e_lam="61/100", e_rhs="39/100"),
-             route="exact reduction: the statement for every c > 0 is equivalent to (v + lam)^2 <= 4 v^2 and lam + sqrt v <= 2 v^0.61, which hold iff 4 >= 4 and "
-                   "61/100 <= 1 - 39/100 (rationals); the literal inequality is evaluated in Arb on a 63-point grid up to v = e^400"),
+             route="the literal inequality in Arb (128 bits) on a 63-point grid up to v = e^400, the equality point v = lam = 1 handled exactly; "
+                   "an ordinary derivation (self-reviewed, not an enclosure) reduces the statement for every c > 0 to (v + lam)^2 <= 4 v^2 and "
+                   "lam + sqrt v <= 2 v^0.61, that is to 4 >= 4 and 61/100 <= 1 - 39/100, which is why both constants are sharp"),
       mutants=[Mu("K", ("4 * (v ^ (2 : ℝ)", "399 / 100 * (v ^ (2 : ℝ)"), dict(K="399/100"), "at v = lam = 1 both sides are a multiple of exp(-c/2), and 4 > 3.99"),
                Mu("exponent", ("v ^ (39 / 100 : ℝ)", "v ^ (40 / 100 : ℝ)"), dict(e_rhs="40/100"), "0.61 + 0.40 > 1: fails for large v")],
       sharpness="sharp in both constants: equality at v = lam = 1 for every c, and 0.61 + 0.39 = 1 exactly")

@@ -77,7 +77,7 @@ proposed_attack: transcribe each statement with Lean's conventions explicit, tes
 dead_routes:
   - Running lean or lake on the archive from this hunt, which a separate session owns
   - Float sampling as a verdict, which is where the morning's readers stopped
-  - Direct Arb evaluation of zeta on wide balls, whose term-by-term radius is about 60 times the true variation
+  - Direct Arb evaluation of zeta on wide balls, whose term-by-term radius is 5 to 50 times the true variation
 required_oracles:
   - Exact integer and rational arithmetic, with numpy int64 sieves checked against PARI on small ranges
   - Arb ball arithmetic through python-flint, as complete covers on compact domains

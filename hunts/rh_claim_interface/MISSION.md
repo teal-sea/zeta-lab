@@ -3,6 +3,14 @@
 Hunt #161. Base commit `c6fbf9fb`. Opened 2026-11-20.
 Status: measurement of an interface. Nothing here evaluates the posted proof.
 
+Revised on 2026-11-20 after two independent reviews (verdicts "holds", twelve
+findings, all reproduced). What changed in this file: the frontier line and the
+first dead route of the block at the end, the gloss on `theta` below, and the
+paragraph on the derivation. The first version's frontier line said "the
+identity for G is equivalent to Ramare 2013 Lemma 2.2". That was false for the
+lemma as printed, and the corrected lemma had been in print since 2023. The
+full record is in `RESULTS.md`, section "Review findings and dispositions".
+
 ## Question and scope
 
 On 2026-11-20 a Lean 4 source tree was posted with a stated proof of RH and of
@@ -62,12 +70,23 @@ for `psi` primitive of order `o`, `(psi^k)*` the primitive character inducing
 `psi^k`. The archive states: if for arbitrarily large `Y` the bound
 `Gm(y) <= C y^theta` holds on the whole window `[Y, Y^(1+delta)]`, then no
 L-function of the family has a zero with `Re s > theta`. The top uses the window
-exponent 3/2 and `theta = 1/2 + (eD + eL + 7) eps`
-(`.../TotientGaloisClasses/TopWin.lean:26-28`).
+exponent 3/2 and `C = 1`. To exclude a zero at `s` it takes
+`theta = 1/2 + min(Re s - 1/2, 1/2)/2`
+(`.../TotientGaloisClasses/TopWin.lean:68-81`), and the bound it is supplied
+with has the exponent `1/2 + (eD + eL + 7) eps`
+(`.../TotientGaloisClasses/TopWin.lean:26-28`), where `eD` and `eL` are reals
+with no sign condition. The first version of this file gave that exponent as
+the `theta`. The windowed statement is about `Deduction.Gm`
+(`Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean:10-39`);
+the archive states its equality with the `Gm` above through three lemmas
+whose proofs this hunt did not examine.
 
 ## The derivation this hunt checks
 
-It was handed to the hunt as "to check, not to trust". For `y >= 1`,
+It was handed to the hunt as "to check, not to trust". It turned out to be a
+published lemma: Lemma 2.1 of O. Ramare's corrigendum, Acta Arith. 211 (2023),
+93-96, multiplied by `y`. The check below is therefore a recalibration of a
+known identity, not a test of a new one. For `y >= 1`,
 
     G(y) = sum_rho y^rho / (rho (1 - rho)) + log(2 pi) + T(y),
     T(y) = (y/2) int_y^infty log(1 - t^-2) t^-2 dt,   T(1) = log 2 - 1,
@@ -94,10 +113,10 @@ written after the first scan and the first explicit-formula check had printed.
 ```huntspec
 id: rh_claim_interface
 question: Is the one-sided bound Gm(y) <= y^theta on windows, the single inequality the posted archive rests on, correctly transcribed and computable here, and what does it measure against the RH and GRH envelopes, a planted off-line zero and the rival battery?
-frontier: RH verified to height 3*10^12 (Platt and Trudgian 2021, quoted not recomputed); the identity for G is equivalent to Ramare 2013 Lemma 2.2; no kernel has checked the archive; this lab had no instrument for G, Gchi or Gm before this hunt
+frontier: RH verified to height 3*10^12 (Platt and Trudgian 2021, quoted not recomputed); the identity for G is Lemma 2.1 of Ramare's corrigendum (Acta Arith. 211 (2023), 93-96), the corrected form of Lemma 2.2 of his 2013 paper, with zero delta; Theorem 1.1 of the 2013 paper gives abs(G(y)) <= sqrt(y)/2 + 1.75e-12 y for y >= 8950, so G(y) <= sqrt(y) is a published theorem up to about 8.2 * 10^22 (read, not re-proved); no kernel has checked the archive; this lab had no instrument for G, Gchi or Gm before this hunt
 proposed_attack: transcribe with file hashes, compute by a float scan and an Arb route, calibrate an explicit formula against Arb-isolated zeros with an exact tail budget, then lesion and rivals
 dead_routes:
-  - Using a finite scan of G as evidence about RH above verified heights: by the closed-form onset a planted quadruple at height 3*10^12 first breaks the RH envelope near y = 10^46.6 and the interface bound near 10^49.3, far outside any scan
+  - Using a finite scan of G as evidence about RH above verified heights: without RH, G(y) <= sqrt(y) is already a theorem up to about 10^23, and a single planted quadruple at height 3*10^12 would first break the RH envelope near y = 10^46.6 and the interface bound near 10^49.3 (closed form for one quadruple, not the frontier of what is known); every feasible scan sits far inside both
   - Using a rival that fails a hypothesis of the interface to say anything about the posted proof
 required_oracles:
   - Arb ball arithmetic (python-flint) at stated precision for every reported value of G, Gchi, Gm, L'/L(1,chi) and the constants

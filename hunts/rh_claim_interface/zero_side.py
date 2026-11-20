@@ -113,12 +113,13 @@ def zeta_zero_side(y, gammas: np.ndarray) -> np.ndarray:
     return zeta_zero_sum(y, gammas) + I.LOG_2PI + I.T_float(y)
 
 
-def zeta_zero_side_arb(y, n_zeros: int, prec: int = 128):
-    """Arb enclosure of the truncated zero side at an exact y, plus the tail budget.
+def zeta_zero_side_arb_parts(y, n_zeros: int, prec: int = 128) -> dict:
+    """The pieces of the truncated zero side at an exact y, each an arb.
 
-    Returns (truncated value, tail budget), both arb.  The true zero side lies
-    within tail*sqrt(y) of the truncated value if the unlisted zeros are on
-    the line.
+    Keys: `zero_sum` (sum over the first n_zeros pairs of y^rho/(rho(1-rho))),
+    `log_2pi`, `T` (the trivial-zero term), `tail` (c0 minus the partial sum)
+    and `sqrt_y`.  Returned separately so that a test can put a fault into one
+    piece and watch the Arb comparison fail.
     """
     from flint import acb, arb, ctx
 
@@ -139,8 +140,32 @@ def zeta_zero_side_arb(y, n_zeros: int, prec: int = 128):
                 part += w
             done += m
         c0 = 2 + arb.const_euler() - (4 * arb.pi()).log()
-        val = ya.sqrt() * acc + (2 * arb.pi()).log() + I.T_arb(ya)
-        return val, c0 - part
+        return {
+            "zero_sum": ya.sqrt() * acc,
+            "log_2pi": (2 * arb.pi()).log(),
+            "T": I.T_arb(ya),
+            "tail": c0 - part,
+            "sqrt_y": ya.sqrt(),
+        }
+    finally:
+        ctx.prec = old
+
+
+def zeta_zero_side_arb(y, n_zeros: int, prec: int = 128):
+    """Arb enclosure of the truncated zero side at an exact y, plus the tail budget.
+
+    Returns (truncated value, tail budget), both arb.  The true zero side lies
+    within tail*sqrt(y) of the truncated value if the unlisted zeros are on
+    the line.  The comparison this supports is coarse: it resolves an error
+    larger than tail*sqrt(y) and nothing smaller.
+    """
+    from flint import ctx
+
+    parts = zeta_zero_side_arb_parts(y, n_zeros, prec=prec)
+    old = ctx.prec
+    ctx.prec = prec
+    try:
+        return parts["zero_sum"] + parts["log_2pi"] + parts["T"], parts["tail"]
     finally:
         ctx.prec = old
 

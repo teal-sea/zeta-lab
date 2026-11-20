@@ -68,6 +68,7 @@ WORDS = {
     "implemented_by": re.compile(r"implemented_by"),
     "extern_attr": re.compile(r"@\[extern"),
     "unsafe_word": re.compile(r"\bunsafe\b"),
+    "unsafe_substring_any_case": re.compile(r"unsafe", re.I),
     "allowUnsafeReducibility": re.compile(r"allowUnsafeReducibility"),
     "decide_plus_kernel": re.compile(r"decide \+kernel"),
     "run_cmd": re.compile(r"\brun_cmd\b"),
@@ -505,7 +506,7 @@ def main(argv: list[str]) -> int:
             for d, st in dir_stat.items()
         },
         "whole_words": {
-            w: {"lines_outside_import_lines": len(v), "at": v[:8]} for w, v in word_hits.items()
+            w: {"lines_outside_import_lines": len(v), "at": v[:16]} for w, v in word_hits.items()
         },
         "declarations_named": {n: {"count": len(v), "at": v[:8]} for n, v in named.items()},
         "closures": {},
@@ -517,10 +518,12 @@ def main(argv: list[str]) -> int:
             continue
         c = closure(root)
         by_dir = Counter("/".join(m.split(".")[:3]) for m in c)
+        # ties broken by name: `most_common` follows set order, which changes from run to run
+        largest_dirs = sorted(by_dir.items(), key=lambda kv: (-kv[1], kv[0]))[:12]
         result["closures"][root] = {
             "modules": len(c),
             "lines": sum(lines_of[m] for m in c),
-            "by_depth3_dir": dict(by_dir.most_common(12)),
+            "by_depth3_dir": dict(largest_dirs),
         }
     result["seconds"] = round(time.time() - t0, 1)
     blob = json.dumps(result, indent=1, sort_keys=True, ensure_ascii=False)
