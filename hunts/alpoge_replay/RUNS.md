@@ -135,3 +135,22 @@ verdict job instead. Rounds are appended below as they merge.
 | 0 | 44775351495 | 16:53 | 491 | 491 | 0.28 | 0 | 0 | 0 | 9.96 | pilot, 4 shards x 6 min |
 | 1 | 44778953944 | 17:13 | 532 | 1,023 | 0.58 | 0 | 0 | 0 | 9.70 | pilot |
 | 2 | 44781165276 | 17:25 | 539 | 1,562 | 0.89 | 0 | 0 | 0 | 9.00 | pilot |
+| 3 | 44783691856 | 18:38 | 21,121 | 22,683 | 12.95 | 0 | 0 | 0 | 7.68 | first full round, 12 shards x 60 min, 22,522 planned |
+| 4 | 44794657912 | 19:48 | 16,552 | 39,235 | 22.40 | 0 | 0 | 0 | 8.39 | 17,263 planned; state artifact 14662502720 |
+
+**After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
+1,030 MB of source, have elaborated with no failure, no crash, no
+`declaration uses 'sorry'` line, and no module rebuilt outside its shard. A
+round takes about 70 minutes end to end and dispatches the next by itself.
+
+The condition the estimate hung on is now partly measured. Mean seconds per
+module over 39,035 timed modules, by level in the import graph: 6.9 at levels
+1 to 2, 7.4 at 3 to 5, 8.2 at 6 to 10, 9.3 at 11 to 20, 9.3 at 21 to 40, and
+8.7 at level 41 and above (1,144 modules). Cost does not grow with depth over
+the bottom fifth of the graph. Median 6.4 s, 99th percentile 31 s, slowest
+509 s (`BCrisGalois`, 5.5 KB of source).
+
+Re-simulated from this state with the refit rate (0.656 s per KB plus 4 s):
+295 CPU-hours left, 13 more rounds at twelve shards, so `Main` builds at
+about 11:30Z on 2026-11-21 if nothing above costs more than what is below.
+Sixteen or eighteen shards would save one round, so the chain stays at twelve.
