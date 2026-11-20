@@ -26,12 +26,10 @@
 name: replay-alpoge-rh
 
 on:
-  # A workflow that exists only on a feature branch cannot be dispatched by
-  # name until it has run once, so a push to this file runs the smallest
-  # pilot (round 0, four shards, six minutes of building, no chaining).
-  push:
-    branches: [claude/bold-ramanujan-x7z42m]
-    paths: ['.github/workflows/replay-alpoge-rh.yml']
+  # Dispatch only. A workflow that exists only on a feature branch cannot be
+  # dispatched by name until it has run once; the first commit of this file
+  # carried a push trigger for that reason and ran the pilot as run
+  # 44775351495. The trigger is gone so that later edits do not rerun it.
   workflow_dispatch:
     inputs:
       mode:
@@ -308,7 +306,7 @@ jobs:
           start=$(date +%s)
           while read -r id; do
             [ -n "$id" ] || continue
-            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > bundle.zip
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > bundle.zip
             for member in $(jq -r --arg id "$id" '.fetch[$id][]' "$shard"); do
               unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
             done
@@ -582,7 +580,7 @@ jobs:
           mkdir -p state && unzip -o -q state.zip -d state
           jq -r '.bundles | to_entries[] | .value' state/state.json > bundles.txt
           while read -r id; do
-            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > bundle.zip
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > bundle.zip
             for member in $(unzip -Z1 bundle.zip); do
               unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
             done
