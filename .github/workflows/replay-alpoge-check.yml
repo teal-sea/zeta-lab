@@ -1,0 +1,388 @@
+# Second pass of the Alpöge replay: kernel replay of every module the first
+# pass built. What it is for and what it can say: hunts/alpoge_replay/
+# MISSION.md, "The second pass". Allocations and outcomes: RUNS.md there.
+#
+# The first pass (replay-alpoge-rh.yml) elaborates the archive in shards and
+# carries the compiled outputs between runners. A clean build with a clean
+# axiom printout does not show that every declaration went through the kernel
+# (hunts/alpoge_replay/test_replay_check.py builds the counterexample). This
+# pass restores the built .olean files on fresh runners and sends every
+# constant of every module through the kernel again with
+# hunts/alpoge_replay/ReplayDriver.lean, a list-driven front end to the
+# function behind Lean's own `leanchecker`. It executes none of the archive's
+# code. It can run while the first pass is still building: it replays whatever
+# the newest build state holds.
+#
+# A module that fails here is a finding and is reported by name with the
+# kernel's message. A clean pass here says that the declarations in the
+# stored .olean files type-check, each against its imports. It is still one
+# kernel, and still says nothing about the mathematics.
+name: replay-alpoge-check
+run-name: alpoge check ${{ inputs.epoch || 'p1' }} c${{ inputs.round || '0' }} build-state ${{ inputs.state_id || 'latest' }} check-state ${{ inputs.check_state_id || 'none' }} (${{ inputs.shards || '1' }}x${{ inputs.check_minutes || '8' }}min)
+
+on:
+  # Registers the workflow: a file that exists only on a feature branch cannot
+  # be dispatched by name until it has run once. The push runs the smallest
+  # pilot (one shard, eight minutes) and is removed in the next commit.
+  push:
+    branches: [claude/bold-ramanujan-x7z42m]
+    paths: ['.github/workflows/replay-alpoge-check.yml']
+  workflow_dispatch:
+    inputs:
+      epoch:
+        description: namespace of the build campaign whose outputs are replayed
+        type: string
+        default: p1
+      round:
+        description: check round number; 0 starts
+        type: string
+        default: "0"
+      state_id:
+        description: artifact id of the build state to replay, or "latest" for the state the newest build round started from
+        type: string
+        default: latest
+      check_state_id:
+        description: artifact id of the previous check state (empty for round 0)
+        type: string
+        default: ""
+      shards:
+        description: runners
+        type: string
+        default: "1"
+      check_minutes:
+        description: wall-clock minutes of replay per shard
+        type: string
+        default: "8"
+      procs:
+        description: replay processes side by side on one runner
+        type: string
+        default: "4"
+      chain:
+        description: dispatch the next check round when this one is merged and modules are left
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: replay-alpoge-check-${{ inputs.epoch || 'p1' }}
+  cancel-in-progress: false
+
+env:
+  ARCHIVE_SHA256: 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc
+  ARCHIVE_BYTES: "239275554"
+  ARCHIVE_CACHE_KEY: alpoge-archive-9631b4f02019
+  EPOCH: ${{ inputs.epoch || 'p1' }}
+  ROUND: ${{ inputs.round || '0' }}
+  STATE_ID_IN: ${{ inputs.state_id || 'latest' }}
+  CHECK_STATE_ID: ${{ inputs.check_state_id || '' }}
+  SHARDS: ${{ inputs.shards || '1' }}
+  CHECK_MINUTES: ${{ inputs.check_minutes || '8' }}
+  PROCS: ${{ inputs.procs || '4' }}
+  CHAIN: ${{ inputs.chain || 'false' }}
+  HUNT: hunts/alpoge_replay
+
+jobs:
+  plan:
+    name: plan check c${{ inputs.round || '0' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      n_shards: ${{ steps.plan.outputs.n_shards }}
+      state_id: ${{ steps.state.outputs.state_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: restore the archive from this branch's cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+          fail-on-cache-miss: true
+
+      - name: verify the archive and extract the sources
+        run: |
+          set -euo pipefail
+          test "$(stat -c %s "$HOME/replay/lean.tar.gz")" = "$ARCHIVE_BYTES"
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c -
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+
+      - name: fetch the build state and the previous check state
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sid="$STATE_ID_IN"
+          if [ "$sid" = "latest" ]; then
+            # The newest build round is titled "... from state <id> ...":
+            # that id is everything merged before it.
+            sid=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/replay-alpoge-rh.yml/runs?per_page=10" \
+              --jq '.workflow_runs[].display_title' < /dev/null \
+              | sed -n 's/.* from state \([0-9][0-9]*\) .*/\1/p' | head -1)
+          fi
+          case "$sid" in ''|*[!0-9]*) echo "::error::could not resolve a build state id (got '$sid')"; exit 1;; esac
+          echo "state_id=$sid" >> "$GITHUB_OUTPUT"
+          echo "build state artifact: $sid" | tee -a "$GITHUB_STEP_SUMMARY"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$sid/zip" < /dev/null > state.zip
+          mkdir -p state && unzip -o -q state.zip -d state && test -f state/state.json
+          if [ -n "$CHECK_STATE_ID" ]; then
+            case "$CHECK_STATE_ID" in *[!0-9]*) echo "::error::check_state_id must be a number"; exit 1;; esac
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$CHECK_STATE_ID/zip" < /dev/null > cstate.zip
+            mkdir -p cstate && unzip -o -q cstate.zip -d cstate && test -f cstate/checkstate.json
+          fi
+
+      - name: plan the check round
+        id: plan
+        run: |
+          set -euo pipefail
+          python3 "$HUNT/replay_plan.py" dag --src "$HOME/replay/lean/src" --out dag.json
+          args=()
+          if [ -f cstate/checkstate.json ]; then args+=(--check-state cstate/checkstate.json); fi
+          budget=$(python3 -c "print(int(float('$CHECK_MINUTES') * 60 * int('$PROCS') * 0.9))")
+          python3 "$HUNT/replay_check.py" plan --dag dag.json --state state/state.json "${args[@]}" \
+            --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --out plan | tee plan.txt
+          n=$(jq .n_shards plan/plan.json)
+          echo "n_shards=$n" >> "$GITHUB_OUTPUT"
+          echo "matrix=$(jq -c -n --argjson n "$n" '[range(0;$n)]')" >> "$GITHUB_OUTPUT"
+          cp dag.json state/state.json plan/
+          if [ -f cstate/checkstate.json ]; then cp cstate/checkstate.json plan/checkstate-prev.json; fi
+          {
+            echo "### check plan, round $ROUND"
+            echo '```'
+            head -1 plan.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: publish the plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-checkplan-c${{ env.ROUND }}
+          path: plan
+          retention-days: 30
+          if-no-files-found: error
+
+  check:
+    needs: plan
+    if: needs.plan.outputs.n_shards != '0'
+    name: c${{ inputs.round || '0' }} shard ${{ matrix.shard }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      SHARD: ${{ matrix.shard }}
+      LEAN_DIR: /home/runner/replay/lean
+      OUT: /home/runner/replay/out
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: record the run and free the runner's disk
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT/evidence" "$OUT/done"
+          {
+            echo "zeta-lab commit: $GITHUB_SHA"
+            echo "epoch $EPOCH check round $ROUND shard $SHARD check_minutes $CHECK_MINUTES procs $PROCS"
+            echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+          } | tee "$OUT/evidence/run.txt"
+          nohup sudo sh -c 'rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; docker image prune --all --force' >/dev/null 2>&1 &
+          sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
+
+      - name: restore the archive from this branch's cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+          fail-on-cache-miss: true
+
+      - name: verify and extract the archive
+        run: |
+          set -euo pipefail
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c -
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+          rm -f "$HOME/replay/lean.tar.gz"
+
+      - name: compressed volume for the restored outputs
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y -q btrfs-progs >/dev/null
+          img=/mnt/alpoge-build.img
+          if ! sudo test -d /mnt; then img="$HOME/alpoge-build.img"; fi
+          sudo truncate -s 600G "$img"
+          sudo mkfs.btrfs -q "$img"
+          mkdir -p "$LEAN_DIR/.lake/build"
+          sudo mount -o loop,compress-force=zstd:3,noatime "$img" "$LEAN_DIR/.lake/build"
+          sudo chown -R "$(id -u):$(id -g)" "$LEAN_DIR/.lake/build"
+
+      - name: install elan and the toolchain the archive names
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat "$LEAN_DIR/lean-toolchain")"
+          cd "$LEAN_DIR" && "$HOME/.elan/bin/lean" --version | tee -a "$OUT/evidence/run.txt"
+
+      - name: fetch the pinned dependencies and the Mathlib olean cache
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
+
+      - name: fetch this round's plan
+        uses: actions/download-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-checkplan-c${{ env.ROUND }}
+          path: plan
+
+      - name: restore the modules of this shard and everything they import
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          shard="plan/shard-$SHARD.json"
+          jq -r '.fetch | to_entries[] | .key' "$shard" > bundles.txt
+          start=$(date +%s)
+          while read -r id; do
+            [ -n "$id" ] || continue
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > bundle.zip
+            for member in $(jq -r --arg id "$id" '.fetch[$id][]' "$shard"); do
+              # the replay reads .olean files only
+              unzip -p bundle.zip "$member" | zstd -dc | tar -x -f - -C "$LEAN_DIR" --wildcards '*.olean'
+            done
+            rm -f bundle.zip
+          done < bundles.txt
+          echo "restore: $(wc -l < bundles.txt) bundles, wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
+
+      # No token is in the environment of this step, and it runs no code of
+      # the archive: the driver reads .olean files and calls the kernel.
+      - name: replay the shard through the kernel, under its deadline
+        run: |
+          set -uo pipefail
+          start=$(date +%s)
+          python3 "$HUNT/replay_check.py" run --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
+            --minutes "$CHECK_MINUTES" --procs "$PROCS" --driver "$HUNT/ReplayDriver.lean" \
+            --out "$OUT/run" --done "$OUT/done/checkdone-c${ROUND}-s${SHARD}.json" | tee "$OUT/evidence/run.json"
+          rc=${PIPESTATUS[0]}
+          echo "replay rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          cat "$OUT"/run/driver-*.out 2>/dev/null | zstd -q -9 -o "$OUT/evidence/driver-out.tsv.zst" || true
+          tail -c 4000 "$OUT"/run/driver-*.err 2>/dev/null > "$OUT/evidence/driver-err-tail.txt" || true
+          {
+            echo "### check round $ROUND shard $SHARD"
+            echo '```'
+            head -1 "$OUT/evidence/run.json"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+
+      - name: publish the done record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-checkdone-c${{ env.ROUND }}-s${{ matrix.shard }}
+          path: /home/runner/replay/out/done
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: preserve the evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-checkevidence-c${{ env.ROUND }}-s${{ matrix.shard }}
+          path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
+
+  merge:
+    needs: [plan, check]
+    if: always() && needs.plan.result == 'success'
+    name: merge check c${{ inputs.round || '0' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: write
+    env:
+      BUILD_STATE_ID: ${{ needs.plan.outputs.state_id }}
+      N_SHARDS: ${{ needs.plan.outputs.n_shards }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: fetch the plan and the done records of this round
+        uses: actions/download-artifact@v4
+        with:
+          pattern: alpoge-${{ env.EPOCH }}-check{plan,done}-c${{ env.ROUND }}*
+          path: in
+
+      - name: fold the round into the check state
+        id: fold
+        run: |
+          set -euo pipefail
+          plan="in/alpoge-${EPOCH}-checkplan-c${ROUND}"
+          args=()
+          if [ -f "$plan/checkstate-prev.json" ]; then args+=(--check-state "$plan/checkstate-prev.json"); fi
+          mkdir -p cstate
+          python3 "$HUNT/replay_check.py" merge --dag "$plan/dag.json" --state "$plan/state.json" "${args[@]}" \
+            --done-dir in --round "$ROUND" --build-state-id "$BUILD_STATE_ID" \
+            --out cstate/checkstate.json --github-output "$GITHUB_OUTPUT" | tee cstate/merge.json
+          {
+            echo "### check merge, round $ROUND, build state $BUILD_STATE_ID"
+            echo '```'
+            jq -c 'del(.round_summary)' cstate/merge.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: publish the check state
+        id: up
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-checkstate-c${{ env.ROUND }}
+          path: cstate
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: hand on
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHECK_STATE_ARTIFACT: ${{ steps.up.outputs.artifact-id }}
+          REPLAYED_NOW: ${{ steps.fold.outputs.replayed_this_round }}
+          N_FAILED: ${{ steps.fold.outputs.n_failed }}
+          ALL_REPLAYED: ${{ steps.fold.outputs.all_replayed }}
+          PERCENT: ${{ steps.fold.outputs.percent_of_archive }}
+        run: |
+          set -euo pipefail
+          echo "check state artifact id: $CHECK_STATE_ARTIFACT" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$N_FAILED" != "0" ]; then
+            echo "::error::$N_FAILED module(s) failed the kernel replay; see the check state's \"failed\" map"
+          fi
+          if [ "$ALL_REPLAYED" = "true" ]; then
+            echo "Every module of the archive has been replayed through the kernel. Failed: $N_FAILED." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$N_SHARDS" = "0" ]; then
+            echo "Nothing to replay in build state $BUILD_STATE_ID that is not already replayed (${PERCENT}% of the archive done). Waiting for the build." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$REPLAYED_NOW" = "0" ]; then
+            echo "::error::check round $ROUND replayed nothing; the chain stops here"
+            exit 1
+          fi
+          echo "Replayed $REPLAYED_NOW modules this round, ${PERCENT}% of the archive in all, $N_FAILED failed." | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$CHAIN" != "true" ]; then exit 0; fi
+          gh workflow run replay-alpoge-check.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
+            -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id=latest \
+            -f check_state_id="$CHECK_STATE_ARTIFACT" -f shards="$SHARDS" \
+            -f check_minutes="$CHECK_MINUTES" -f procs="$PROCS" -f chain=true

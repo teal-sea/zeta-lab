@@ -77,6 +77,38 @@ The archive is never built on a laboratory machine or in an assistant's
 container. It is data from outside this repository and is elaborated only on
 hosted runners that hold a read-only token.
 
+## The second pass
+
+A clean build with a clean axiom printout does not show that every
+declaration went through the kernel. `test_replay_check.py` builds the
+counterexample on a toy package: one theorem sets `debug.skipKernelTC` and
+closes `1 = 2` with a term of the wrong type, a second derives `False` from
+it, `lake build` accepts both without a warning, and `#print axioms` on the
+proof of `False` answers "does not depend on any axioms". The archive
+contains no such option at text level. Text is not the check, and limit 2
+above, outputs carried between runners, is the same gap seen from the other
+side.
+
+So every built module is replayed. `ReplayDriver.lean` reads a module's
+`.olean`, imports its imports, and sends each of its constants through the
+kernel again. Its replay function is copied verbatim from the `leanchecker`
+that ships with Lean 4.33.1; only the front end is new, because `leanchecker`
+selects modules by name prefix and walks the whole search path once per
+target, and this archive keeps 42,424 modules in one directory. On the toy
+package the driver and the `leanchecker` binary reject the same module with
+the same kernel message. `replay_check.py` cuts the built modules into shards
+by level, and `.github/workflows/replay-alpoge-check.yml` runs them on fresh
+runners. This pass executes none of the archive's code, and it can run while
+the first pass is still building.
+
+What it adds if it passes: the declarations stored in the `.olean` files
+that the build and the verdict job used type-check in the kernel, each
+against its imports, on runners that never elaborated the archive. Limit 2
+then reduces to trusting GitHub's artifact store to return the bytes it was
+given. What it does not add: a second kernel. `leanchecker`'s own source says
+it "is not an external verifier". Mathlib's `.olean` files come from
+Mathlib's cache and are not replayed here.
+
 ## HuntSpec
 
 ```huntspec
@@ -110,7 +142,8 @@ agents_may_not:
 
 ## What this hunt may touch
 
-`hunts/alpoge_replay/` and `.github/workflows/replay-alpoge-rh.yml`, on branch
+`hunts/alpoge_replay/`, `.github/workflows/replay-alpoge-rh.yml` and
+`.github/workflows/replay-alpoge-check.yml`, on branch
 `claude/bold-ramanujan-x7z42m`. Not `zeta/`, `lean/`, `docs/`, `README.md` or
 `ROADMAP.md`. A lab record of the outcome is a `docs/` page and is not written
 from here.
