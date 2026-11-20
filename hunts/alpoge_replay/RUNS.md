@@ -154,3 +154,48 @@ Re-simulated from this state with the refit rate (0.656 s per KB plus 4 s):
 295 CPU-hours left, 13 more rounds at twelve shards, so `Main` builds at
 about 11:30Z on 2026-11-21 if nothing above costs more than what is below.
 Sixteen or eighteen shards would save one round, so the chain stays at twelve.
+
+## Second pass: kernel replay
+
+What it is and why it exists: `MISSION.md`, "The second pass". Compute is the
+same hosted runners, under `.github/workflows/replay-alpoge-check.yml`.
+
+### Estimate before spending, 2026-11-20
+
+Nothing was known about the cost of a replay on this archive. The unit was
+timed first, on one runner, before any chain was dispatched.
+
+### Replay pilot, 2026-11-20, run 44810043854
+
+Started 20:17:45Z by the push that registered the workflow, merged 20:31Z.
+One shard, eight minutes allowed, four driver processes side by side, build
+state 14662502720 (39,235 modules built).
+
+| | |
+| --- | --- |
+| planned / replayed | 288 / 288, the lowest modules of the import graph; all four driver processes exited 0 |
+| kernel rejections | 0 |
+| processes that died | 0 |
+| cost | 1,324 s of process time, 4.6 s per module: median 3.35 s, 90th percentile 4.24 s, slowest 86.7 s |
+| against the build | the same modules took 10.67 s each to elaborate, so the replay costs 0.43 of the build on this sample |
+| restore | 258 s for five bundles, `.olean` files only |
+| check state | artifact 14667945776 |
+
+**Estimate from the unit.** At 4.6 s per module the whole archive is about
+224 process-hours, 56 runner-hours at four processes per runner: fourteen
+hours on four runners, under five on twelve. The sample is the bottom of the
+graph, where a module imports little beyond Mathlib; a module near the top
+imports tens of thousands of archive modules before its replay starts, and
+that cost is not measured.
+
+### The replay chain, launched 2026-11-20 20:36Z
+
+From check round 1 and check state 14667945776: four shards, one hundred
+minutes each, four processes per runner, chained, always against the newest
+build state. Four runners beside the build's twelve keeps the account at
+sixteen of twenty. When a round finds nothing unreplayed it stops and waits
+for the build; it is raised to twelve shards once the build has finished.
+
+| check round | run | merged (UTC) | replayed | total | % of archive | kernel rejections | struck | mean s per module | note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | 44810043854 | 20:31 | 288 | 288 | 0.16 | 0 | 0 | 4.60 | pilot, 1 shard x 8 min |
