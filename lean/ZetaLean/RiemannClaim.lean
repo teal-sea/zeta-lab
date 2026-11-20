@@ -37,8 +37,9 @@ endorsement of it.
   reading Mathlib's and Lean's source at this arm's pin, not by running Lean.  The root
   build then accepted the module unchanged: `lake build` in `lean/`, the `lean` job of
   `full.yml`, run 44786911196 on 2026-11-20 at commit `a00d7e68`, with the arm's scan
-  for unfinished proofs green.  The module declares no axiom.  `#print axioms` has not been run on its
-  theorems, so "standard axioms only" is read off the source, not printed.
+  for unfinished proofs green.  The module declares no axiom.  `#print axioms` has not
+  been run on its theorems, so "standard axioms only" is read off the source, not
+  printed.
 * **Discharge.**  If the five statements become theorems at this arm's pin, each
   conditional theorem below is discharged by one application:
 
