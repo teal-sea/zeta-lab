@@ -33,10 +33,12 @@ endorsement of it.
   this repository consumes: it is a theorem about an implication, and it says nothing
   about whether its hypothesis holds.  When this module was written the lab had seen
   no kernel accept the archive.
-* **Written without a compiler.**  The proofs below were checked by reading Mathlib's
-  and Lean's source at this arm's pin, not by running Lean.  Until a root build that
-  includes this module has passed (`lake build` in `lean/`), its theorems are stated,
-  not kernel-checked.
+* **Written without a compiler, then built in CI.**  The proofs below were written by
+  reading Mathlib's and Lean's source at this arm's pin, not by running Lean.  The root
+  build then accepted the module unchanged: `lake build` in `lean/`, the `lean` job of
+  `full.yml`, run 44786911196 on 2026-11-20 at commit `a00d7e68`, with the arm's sorry
+  scan green.  The module declares no axiom.  `#print axioms` has not been run on its
+  theorems, so "standard axioms only" is read off the source, not printed.
 * **Discharge.**  If the five statements become theorems at this arm's pin, each
   conditional theorem below is discharged by one application:
 

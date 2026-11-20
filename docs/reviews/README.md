@@ -67,3 +67,20 @@ digests of the evidence that already existed at freeze time, so contamination
 and criteria drift are derived from artifacts rather than read off a
 declaration. That is the mechanism these documents should be frozen with, and
 the commit that lands them is the timestamp.
+
+## The 2026-11-20 claim
+
+Two documents from the day a Lean proof of RH and of GRH for Dirichlet
+L-functions was posted. Unlike the rest of this directory they were written
+inside a working session, by agents, not by an outside party. They are kept
+here because they are recommendations and reading notes, not results, and this
+directory's contract is the one that fits them. Each opens with a landing note
+saying what was changed on the way in.
+
+| File | What it is |
+|---|---|
+| `2026-11-20-rh-claim-regrade-board.md` | what changes in this tree if the claim is accepted by a kernel: 79 rows in seven effect classes, the corrections owed to the public record whatever happens, and candidate successor targets. A reading, attacked once, revision unreviewed |
+| `2026-11-20-rh-claim-literature-notes.md` | what is already published under GRH and RH against which this laboratory's conditional results must state their delta, each item labelled as read that day, read second-hand, or recalled |
+
+The record page for that day is in the numbered course, under the title
+"The Riemann claim, day one".
