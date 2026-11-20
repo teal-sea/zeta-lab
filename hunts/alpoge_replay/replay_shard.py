@@ -25,7 +25,9 @@ import subprocess
 import sys
 import time
 
-BUILT_RE = re.compile(r"^✔ \[\d+/\d+\] Built (\S+) \(([\d.]+)(ms|s|m)\)")
+# Lake prints one line per finished module: a tick, or a warning or info sign
+# when the module logged something. All three are successes.
+BUILT_RE = re.compile(r"^[✔⚠ℹ] \[\d+/\d+\] Built (\S+) \(([\d.]+)(ms|s|m)\)")
 FAIL_RE = re.compile(r"^✖ \[\d+/\d+\] Building (\S+)")
 EXIT_RE = re.compile(r"^error: Lean exited with code (\d+)")
 SORRY = "declaration uses 'sorry'"
@@ -51,11 +53,19 @@ def is_built(lean_dir: str, module: str) -> bool:
 
 
 def output_files(lean_dir: str, module: str) -> list[str]:
-    """Every regular file Lake wrote for this module, relative to lean_dir."""
+    """The files of this module that a later runner needs, relative to lean_dir.
+
+    Everything Lake wrote except `<module>.setup.json`. That file is the
+    argument list Lake hands to `lean`, naming every transitive import; for a
+    module that imports Mathlib it is about 6 MB, and Lake does not read it
+    back to decide that a module is up to date (checked on a toy package:
+    restoring without it rebuilds nothing, restoring without the `.c` file
+    rebuilds everything).
+    """
     out = []
     for base in (lib_path(lean_dir, module), ir_path(lean_dir, module)):
         for f in glob.glob(glob.escape(base) + ".*"):
-            if os.path.isfile(f):
+            if os.path.isfile(f) and not f.endswith(".setup.json"):
                 out.append(os.path.relpath(f, lean_dir))
     return sorted(out)
 
@@ -161,8 +171,12 @@ def cmd_pack(a) -> None:
         files.extend(output_files(a.lean_dir, m))
     with open(a.filelist, "w", encoding="utf-8") as fh:
         fh.write("\n".join(files) + ("\n" if files else ""))
-    raw = sum(os.path.getsize(os.path.join(a.lean_dir, f)) for f in files)
-    olean = sum(os.path.getsize(os.path.join(a.lean_dir, f)) for f in files if f.endswith(".olean"))
+    by_kind: dict[str, int] = {}
+    for f in files:
+        kind = "hash" if f.endswith(".hash") else f.rsplit(".", 1)[-1]
+        by_kind[kind] = by_kind.get(kind, 0) + os.path.getsize(os.path.join(a.lean_dir, f))
+    raw = sum(by_kind.values())
+    olean = by_kind.get("olean", 0)
     rebuilt_outside = sorted(m for m in seconds if m not in inside)
     # a real elaboration error is exit code 1; anything else is a crash to retry
     hard = {m: v for m, v in failed.items() if v["exit"] == 1 and m in inside}
@@ -181,7 +195,7 @@ def cmd_pack(a) -> None:
         "sorry_warning_lines": sorry_lines,
         "raw_output_bytes": raw,
         "olean_bytes": olean,
-        "source_bytes_built": None,
+        "bytes_by_kind": by_kind,
         "build_status": status,
     }
     json.dump(rec, open(a.done, "w"))
@@ -197,7 +211,7 @@ def cmd_merge(a) -> None:
     if a.state and os.path.exists(a.state):
         state = json.load(open(a.state))
     before = len(state["where"])
-    rnd = {"round": a.round, "shards": 0, "planned": 0, "built": 0, "raw_output_bytes": 0,
+    rnd = {"round": a.round, "shards": 0, "planned": 0, "built": 0, "bytes_by_kind": {}, "raw_output_bytes": 0,
            "olean_bytes": 0, "seconds_sum": 0.0, "source_bytes": 0, "rebuilt_outside_shard": 0,
            "sorry_warning_lines": 0, "timed_out_shards": 0, "failed": 0, "crashed": 0}
     for f in sorted(glob.glob(os.path.join(a.done_dir, "**", "done-*.json"), recursive=True)):
@@ -221,6 +235,8 @@ def cmd_merge(a) -> None:
                 state["crashed"][m] = state["crashed"].get(m, 0) + 1
         for k in ("raw_output_bytes", "olean_bytes", "rebuilt_outside_shard", "sorry_warning_lines"):
             rnd[k] += rec.get(k, 0) or 0
+        for k, v in (rec.get("bytes_by_kind") or {}).items():
+            rnd["bytes_by_kind"][k] = rnd["bytes_by_kind"].get(k, 0) + v
         if (rec.get("build_status") or {}).get("timed_out"):
             rnd["timed_out_shards"] += 1
     rnd["failed"] = len(state["failed"])

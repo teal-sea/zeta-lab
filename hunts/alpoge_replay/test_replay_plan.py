@@ -174,11 +174,33 @@ def test_the_build_log_parser_reads_lake_s_own_lines(tmp_path: Path) -> None:
         "✖ [6/9] Building Lib.Big (90s)\n"
         "error: Lean exited with code 137\n"
         "warning: src/Lib/W.lean:1:0: declaration uses 'sorry'\n"
-        "✔ [7/9] Built Lib.D (1.2m)\n",
+        "✔ [7/9] Built Lib.D (1.2m)\n"
+        "⚠ [8/9] Built Lib.Warned (3.0s)\n"
+        "warning: src/Lib/Warned.lean:4:2: unused variable\n"
+        "ℹ [9/9] Built Lib.Info (4.0s)\n",
         encoding="utf-8",
     )
     seconds, failed, sorry_lines = rs.parse_log(str(log))
-    assert seconds == {"Lib.A": pytest.approx(0.198), "Lib.Sub.C₂": 2.5, "Lib.D": pytest.approx(72.0)}
+    # the pilot (run 44775351495) lost 200 of 491 timings by matching the tick only
+    assert seconds == {"Lib.A": pytest.approx(0.198), "Lib.Sub.C₂": 2.5, "Lib.D": pytest.approx(72.0),
+                       "Lib.Warned": 3.0, "Lib.Info": 4.0}
     assert failed["Lib.B"]["exit"] == 1 and "Not a definitional equality" in failed["Lib.B"]["excerpt"][0]
     assert failed["Lib.Big"]["exit"] == 137
     assert sorry_lines == 1
+
+
+def test_the_setup_file_is_not_packed(tmp_path: Path) -> None:
+    lib = tmp_path / ".lake" / "build" / "lib" / "lean" / "A"
+    ir = tmp_path / ".lake" / "build" / "ir" / "A"
+    lib.mkdir(parents=True)
+    ir.mkdir(parents=True)
+    for d, names in ((lib, ["B.olean", "B.olean.hash", "B.ilean", "B.ilean.hash", "B.trace"]),
+                     (ir, ["B.c", "B.c.hash", "B.setup.json"])):
+        for n in names:
+            (d / n).write_text("{}")
+    (lib / "B").mkdir()  # a module that is also a directory
+    (lib / "B" / "C.olean").write_text("x")
+    (lib / "BX.olean").write_text("x")  # a sibling sharing the prefix
+    got = rs.output_files(str(tmp_path), "A.B")
+    assert [Path(f).name for f in got] == ["B.c", "B.c.hash", "B.ilean", "B.ilean.hash", "B.olean",
+                                           "B.olean.hash", "B.trace"]

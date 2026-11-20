@@ -223,8 +223,13 @@ jobs:
             echo "epoch $EPOCH round $ROUND shard $SHARD build_minutes $BUILD_MINUTES"
             echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
           } | tee "$OUT/evidence/run.txt"
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
-          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          # The cleanup took 96 to 135 s in the pilot, so it runs behind the
+          # setup steps; it is done long before the disk is needed.
+          nohup sudo sh -c 'rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; docker image prune --all --force' >/dev/null 2>&1 &
+          # A module high in the graph maps tens of thousands of .olean files;
+          # the default limit of 65530 mappings would make Lean read them into
+          # memory instead.
+          sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
           df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
 
       - name: restore the archive from this branch's cache
@@ -323,8 +328,17 @@ jobs:
         run: |
           set -uo pipefail
           start=$(date +%s)
+          # Lake writes a setup file per module it starts, about 6 MB each
+          # when the module imports Mathlib, and `lean` reads it once at
+          # startup. Nothing reads it again, so the ones older than twenty
+          # minutes go, or a long shard would fill the disk with them.
+          ( while sleep 120; do
+              find "$LEAN_DIR/.lake/build/ir" -name '*.setup.json' -mmin +20 -delete 2>/dev/null
+            done ) &
+          pruner=$!
           python3 "$HUNT/replay_shard.py" build --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --minutes "$BUILD_MINUTES" --log "$OUT/build.log" | tee -a "$OUT/evidence/run.txt"
+          kill "$pruner" 2>/dev/null || true
           echo "build wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
 
@@ -347,7 +361,7 @@ jobs:
           {
             echo "### round $ROUND shard $SHARD"
             echo '```'
-            jq -c '{planned, built, failed, crashed, rebuilt_outside_shard, sorry_warning_lines, raw_output_bytes, olean_bytes, build_status}' "$OUT/evidence/pack.json"
+            jq -c '{planned, built, failed, crashed, rebuilt_outside_shard, sorry_warning_lines, raw_output_bytes, bytes_by_kind, build_status}' "$OUT/evidence/pack.json"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -532,6 +546,7 @@ jobs:
           } | tee "$OUT/evidence/run.txt"
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
           sudo docker image prune --all --force >/dev/null 2>&1 || true
+          sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
           df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
 
       - name: restore the archive from this branch's cache
