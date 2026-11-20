@@ -21,12 +21,9 @@ name: replay-alpoge-check
 run-name: alpoge check ${{ inputs.epoch || 'p1' }} c${{ inputs.round || '0' }} build-state ${{ inputs.state_id || 'latest' }} check-state ${{ inputs.check_state_id || 'none' }} (${{ inputs.shards || '1' }}x${{ inputs.check_minutes || '8' }}min)
 
 on:
-  # Registers the workflow: a file that exists only on a feature branch cannot
-  # be dispatched by name until it has run once. The push runs the smallest
-  # pilot (one shard, eight minutes) and is removed in the next commit.
-  push:
-    branches: [claude/bold-ramanujan-x7z42m]
-    paths: ['.github/workflows/replay-alpoge-check.yml']
+  # Dispatch only. The commit that added this file (ab1874fb) carried a push
+  # trigger so that the workflow would run once and become dispatchable by
+  # name; that run was the pilot.
   workflow_dispatch:
     inputs:
       epoch:
