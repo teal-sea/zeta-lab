@@ -83,3 +83,29 @@ already holds Mathlib. So the late rounds and the verdict job run with
 `compress_fs` on, and round 1 of the pilot exercises it. The setup files are
 not carried at all from `3cf772a8` on; at 6 MB each they alone would have been
 a terabyte.
+
+### Pilot round 1, 2026-11-20, run 44778953944
+
+Epoch `p1`, four shards, six build minutes, `compress_fs` on, chained with
+`max_round=2`. Dispatched 17:00:10Z from state artifact 14648714591, merged
+17:13Z. This round exists to test three things, and all three held.
+
+| | |
+| --- | --- |
+| restore across runners | shard 1 needed 75 modules built in round 0 on other runners, found all 75 on disk, and Lake rebuilt none of them: 0 modules rebuilt outside their shard in the whole round |
+| the compressed volume | btrfs with zstd on a loop file mounted over `.lake/build` on every runner; the runner's root disk is 145 GB with 88 GB free before cleanup and 101 GB after |
+| the chain | the merge job dispatched round 2 by itself (run 44781165276, started by `github-actions[bot]` at 17:13:16Z) |
+| planned / built | 618 / 532 modules; 1,023 of 175,187 in all (0.58%) |
+| failures | 0 failed, 0 crashed, 0 `declaration uses 'sorry'` lines |
+| timings | all 532 timed: 5,160 s, mean 9.70 s per module; 9.79 s over the 823 timed so far |
+| outputs per module | `.olean` 611 KB, `.ilean` 32 KB, `.c` 6 KB, `.trace` 4.6 KB; 87 times the source in all, with the setup files no longer carried |
+| bundle | 103.5 MB for 532 modules, artifact 14651982496; state artifact 14652177405 |
+
+**Estimate, refit.** At 87 times the source the carried outputs of the whole
+archive are 90 to 115 GB unpacked and, at the 3.3 to 1 the chunks compress,
+about 34 GB as bundles. On the compressed volume that fits one runner.
+Re-simulated with the measured cost (5.47 s + 0.583 s per KB, 433 CPU-hours):
+14 rounds at twelve shards and sixty build minutes, the same at sixteen
+shards, so the chain runs at twelve. With about fifteen minutes of setup,
+restore and merge per round that is about 17.5 hours, if modules higher in
+the graph cost what leaves cost. That last condition is not measured.

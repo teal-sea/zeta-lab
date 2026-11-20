@@ -69,6 +69,10 @@ on:
         description: keep build outputs on a zstd-compressed btrfs loop volume (for the late rounds, when they outgrow the disk)
         type: boolean
         default: false
+      lean_threads:
+        description: LEAN_NUM_THREADS for lake build, which caps how many modules compile at once; empty means one per core
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -92,6 +96,7 @@ env:
   CHAIN: ${{ inputs.chain || 'false' }}
   MAX_ROUND: ${{ inputs.max_round || '60' }}
   COMPRESS_FS: ${{ inputs.compress_fs || 'false' }}
+  LEAN_THREADS: ${{ inputs.lean_threads || '' }}
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -336,6 +341,14 @@ jobs:
               find "$LEAN_DIR/.lake/build/ir" -name '*.setup.json' -mmin +20 -delete 2>/dev/null
             done ) &
           pruner=$!
+          # Lake compiles one module per worker thread. Fewer threads is the
+          # remedy when modules high in the graph exhaust the runner's memory
+          # (measured on a toy package: 8 modules take 20 s at the default,
+          # 43 s at two threads, 79 s at one).
+          if [ -n "$LEAN_THREADS" ]; then
+            export LEAN_NUM_THREADS="$LEAN_THREADS"
+            echo "LEAN_NUM_THREADS=$LEAN_NUM_THREADS" | tee -a "$OUT/evidence/run.txt"
+          fi
           python3 "$HUNT/replay_shard.py" build --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --minutes "$BUILD_MINUTES" --log "$OUT/build.log" | tee -a "$OUT/evidence/run.txt"
           kill "$pruner" 2>/dev/null || true
@@ -487,6 +500,7 @@ jobs:
           N_FAILED: ${{ steps.count.outputs.n_failed }}
           PERCENT: ${{ steps.count.outputs.percent }}
           TIMED_OUT: ${{ steps.count.outputs.timed_out_shards }}
+          CRASHED_NOW: ${{ steps.count.outputs.crashed_this_round }}
         run: |
           set -euo pipefail
           echo "state artifact id: $STATE_ARTIFACT" | tee -a "$GITHUB_STEP_SUMMARY"
@@ -509,6 +523,17 @@ jobs:
             next=round
             echo "Built $BUILT modules this round, ${PERCENT}% in all, $N_FAILED failed. Next: round $((ROUND + 1))." | tee -a "$GITHUB_STEP_SUMMARY"
           fi
+          # A module whose lean process died without an elaboration error
+          # (killed for memory, most likely) is retried with fewer modules
+          # compiling at once: four, then two, then one. Three crashes of the
+          # same module block it in the planner.
+          if [ "${CRASHED_NOW:-0}" != "0" ]; then
+            case "$LEAN_THREADS" in
+              ''|4|3) LEAN_THREADS=2 ;;
+              2) LEAN_THREADS=1 ;;
+            esac
+            echo "$CRASHED_NOW modules crashed this round; next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
           if [ "$CHAIN" != "true" ] || [ -z "$next" ]; then
             echo "chain is off or there is nothing to hand on to; stopping"
             if [ "$BUILT" = "0" ] && [ "$MAIN_BUILT" != "true" ]; then exit 1; fi
@@ -517,7 +542,7 @@ jobs:
           gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
             -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
-            -f compress_fs="$COMPRESS_FS"
+            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS"
 
   # --------------------------------------------------------------------------
   # verdict: everything on one runner, nothing left to build, print the axioms

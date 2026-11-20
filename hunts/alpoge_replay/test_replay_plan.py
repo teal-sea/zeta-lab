@@ -160,6 +160,7 @@ def test_merge_counts_only_known_modules_and_keeps_the_bundle_id(tmp_path: Path)
     assert st["bundles"] == {"0": 4242}
     assert st["crashed"] == {"B": 1}
     assert st["history"][0]["timed_out_shards"] == 1
+    assert st["history"][0]["crashed_this_round"] == 1
 
 
 def test_the_build_log_parser_reads_lake_s_own_lines(tmp_path: Path) -> None:

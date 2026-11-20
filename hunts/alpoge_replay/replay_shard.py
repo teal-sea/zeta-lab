@@ -233,6 +233,7 @@ def cmd_merge(a) -> None:
         for m in rec.get("crashed", {}):
             if m in known:
                 state["crashed"][m] = state["crashed"].get(m, 0) + 1
+                rnd["crashed_this_round"] = rnd.get("crashed_this_round", 0) + 1
         for k in ("raw_output_bytes", "olean_bytes", "rebuilt_outside_shard", "sorry_warning_lines"):
             rnd[k] += rec.get(k, 0) or 0
         for k, v in (rec.get("bytes_by_kind") or {}).items():
@@ -259,13 +260,14 @@ def cmd_merge(a) -> None:
         "failed": sorted(state["failed"])[:20],
         "n_failed": len(state["failed"]),
         "timed_out_shards": rnd["timed_out_shards"],
+        "crashed_this_round": rnd.get("crashed_this_round", 0),
         "round_summary": rnd,
     }
     print(json.dumps(out))
     if a.github_output:
         with open(a.github_output, "a") as fh:
             for k in ("built_this_round", "modules_built", "main_built", "complete", "n_failed", "percent",
-                      "timed_out_shards"):
+                      "timed_out_shards", "crashed_this_round"):
                 v = out[k]
                 fh.write(f"{k}={str(v).lower() if isinstance(v, bool) else v}\n")
 
