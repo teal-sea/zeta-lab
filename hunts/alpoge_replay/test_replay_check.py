@@ -147,3 +147,38 @@ def test_a_theorem_that_skipped_the_kernel_builds_clean_and_fails_the_replay(tmp
     assert lines == {"Lib.Honest": "OK", "Lib.Cheat": "FAIL", "Lib.UsesCheat": "OK"}, replay.stdout
     assert "declaration type mismatch" in replay.stdout
     assert replay.returncode == 1
+
+
+@pytest.mark.slow
+@pytest.mark.skipif(shutil.which("lake") is None, reason="needs a Lean toolchain on PATH")
+def test_the_cone_counts_what_a_theorem_uses_and_leaves_out_what_it_does_not(tmp_path: Path) -> None:
+    """Five modules, one theorem that uses two of them."""
+    pkg = tmp_path / "toy"
+    (pkg / "src" / "Lib").mkdir(parents=True)
+    (pkg / "lean-toolchain").write_text("leanprover/lean4:v4.33.1\n")
+    (pkg / "lakefile.toml").write_text('name = "toy"\nsrcDir = "src"\n\n[[lean_lib]]\nname = "Lib"\nglobs = ["Lib.+"]\n')
+    (pkg / "src" / "Lib" / "Used.lean").write_text("theorem used : 2 + 2 = 4 := rfl\n")
+    (pkg / "src" / "Lib" / "Unused.lean").write_text("theorem unused : 3 + 3 = 6 := rfl\n")
+    (pkg / "src" / "Lib" / "AlsoUnused.lean").write_text("import Lib.Unused\ntheorem alsoUnused : True := trivial\n")
+    (pkg / "src" / "Lib" / "Top.lean").write_text(
+        "import Lib.Used\nimport Lib.AlsoUnused\ntheorem top : 2 + 2 = 4 := used\n")
+    assert subprocess.run(["lake", "build", "Lib.Top"], cwd=pkg, capture_output=True, text=True).returncode == 0
+
+    tool = tmp_path / "cone"
+    tool.mkdir()
+    (tool / "lean-toolchain").write_text("leanprover/lean4:v4.33.1\n")
+    (tool / "lakefile.toml").write_text(
+        'name = "cone"\n\n[[lean_exe]]\nname = "cone"\nroot = "Cone"\nsupportInterpreter = true\n')
+    shutil.copy(HERE / "Cone.lean", tool / "Cone.lean")
+    built = subprocess.run(["lake", "build", "cone"], cwd=tool, capture_output=True, text=True)
+    assert built.returncode == 0, built.stdout + built.stderr
+
+    out = tmp_path / "cone.json"
+    run = subprocess.run(["lake", "env", str(tool / ".lake" / "build" / "bin" / "cone"), "Lib.Top", "top", "Lib",
+                          str(out), str(tmp_path)], cwd=pkg, capture_output=True, text=True)
+    assert run.returncode == 0, run.stdout + run.stderr
+    (r,) = json.loads(out.read_text())
+    assert r["archive_modules"] == 4 and r["archive_modules_in_cone"] == 2
+    assert r["archive_declarations"] == 4 and r["archive_declarations_in_cone"] == 2
+    assert r["names_not_found"] == []
+    assert (tmp_path / "cone-modules-first-root.txt").read_text().split() == ["Lib.Top", "Lib.Used"]

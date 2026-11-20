@@ -109,6 +109,19 @@ given. What it does not add: a second kernel. `leanchecker`'s own source says
 it "is not an external verifier". Mathlib's `.olean` files come from
 Mathlib's cache and are not replayed here.
 
+## What the verdict job also measures
+
+A pass is the expected outcome, and a tick carries little. So the verdict job
+also runs `Cone.lean`, a compiled program that walks the constants reachable
+from the five theorems, the walk `#print axioms` makes, and counts how many of
+the archive's modules and declarations lie inside that cone and how many lie
+outside it. The note that came with the archive says the argument "will be
+massively simplified"; the size of the cone is the first measurement of how
+much of the 175,187 files the theorems use at all. It checks no proof and
+decides nothing, and a failure of that step does not touch the verdict. On
+Mathlib it reports that `riemannZeta_one_sub` reaches 54,405 constants in
+1,612 of 8,312 modules, in seven seconds.
+
 ## HuntSpec
 
 ```huntspec

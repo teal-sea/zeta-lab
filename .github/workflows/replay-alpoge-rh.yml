@@ -721,6 +721,38 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # How much of the archive do the theorems use? hunts/alpoge_replay/
+      # Cone.lean walks the constants reachable from the five theorems, the
+      # walk #print axioms makes, and counts the archive's modules and
+      # declarations inside and outside it. The note that came with the
+      # archive expects the argument to be "massively simplified"; this is the
+      # first measurement of how much there is to remove. It informs and never
+      # decides, and it checks no proof.
+      - name: measure what the five theorems depend on (supplementary)
+        if: success()
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          mkdir -p "$RUNNER_TEMP/cone" && cd "$RUNNER_TEMP/cone"
+          cp "$LEAN_DIR/lean-toolchain" .
+          printf 'name = "cone"\n\n[[lean_exe]]\nname = "cone"\nroot = "Cone"\nsupportInterpreter = true\n' > lakefile.toml
+          cp "$GITHUB_WORKSPACE/$HUNT/Cone.lean" Cone.lean
+          lake build cone 2>&1 | tail -3
+          cd "$LEAN_DIR"
+          start=$(date +%s)
+          lake env "$RUNNER_TEMP/cone/.lake/build/bin/cone" Main \
+            riemannHypothesis,riemannZeta_eq_zero_re,LFunction_ne_zero_of_half_lt_re,LFunction_eq_zero_re,LFunction_eq_zero_re_of_isPrimitive \
+            BuildAid,CompanionTheory,Development,Formalism,GroundTheory,Lemmata,PositivityTheory,ReciprocityTheory,Supplements,Statements,Main \
+            "$OUT/evidence/cone.json" "$OUT/evidence" > /dev/null
+          echo "cone rc=$? wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          zstd -q -9 --rm "$OUT"/evidence/cone-modules-*.txt || true
+          {
+            echo "### what the theorems depend on (supplementary)"
+            echo '```'
+            jq -c '.[] | {label, constants_in_cone, archive_modules, archive_modules_in_cone, archive_declarations, archive_declarations_in_cone, archive_theorems, archive_theorems_in_cone, names_not_found}' "$OUT/evidence/cone.json"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: preserve the evidence, including failures
         if: always()
         uses: actions/upload-artifact@v4
