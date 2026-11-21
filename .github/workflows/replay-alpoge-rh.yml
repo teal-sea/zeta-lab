@@ -146,8 +146,9 @@ env:
   # minutes every time, 46 to 60 GB read. With no read-ahead it is eleven
   # minutes cold and three and a half to four warm, 5 GB read (run
   # 44920814617). A shard that imports more than IO_TUNE_BIG_MODULES gets
-  # IO_TUNE_RA_BIG_KB, and so do the verdict's axioms jobs. Below that the
-  # import fits at 16 KB and 0 has not been measured.
+  # IO_TUNE_RA_BIG_KB. Below that the import fits at 16 KB and 0 has not
+  # been measured. The verdict's axioms jobs stay at 16 KB: they import once
+  # and then read proofs through.
   IO_TUNE_BIG_MODULES: "110000"
   IO_TUNE_RA_BIG_KB: "0"
   # How far over a shard's capacity the plan goes, at the planner's prices:
@@ -1130,9 +1131,13 @@ jobs:
             bash "$HUNT/restore_chunks.sh" fetch.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
           # after the restore, which wants the normal read-ahead
-          ra="$IO_TUNE_RA_KB"
-          if [ "$(wc -l < "$RUNNER_TEMP/need.txt")" -gt "$IO_TUNE_BIG_MODULES" ]; then ra="$IO_TUNE_RA_BIG_KB"; fi
-          bash "$HUNT/io_tune.sh" "$ra" "$IO_TUNE_FA_BYTES" "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" | tee -a "$OUT/evidence/run.txt" || true
+          # 16 KB here, not the 0 of a build shard at the top. This job imports
+          # once, cold, and for a cold import of everything the two measured
+          # the same (737 s and 661 s). What follows the import is the walk
+          # over every proof the theorem rests on, which reads terms through
+          # from end to end: one page per fault would make that four times
+          # as many reads.
+          bash "$HUNT/io_tune.sh" "$IO_TUNE_RA_KB" "$IO_TUNE_FA_BYTES" "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" | tee -a "$OUT/evidence/run.txt" || true
 
       # No token is in the environment of the two steps below.
       - name: print the axioms
