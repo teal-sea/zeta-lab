@@ -830,13 +830,26 @@ And it is still the difference between a result and none: on the
 compressed volume the same import was stopped after forty minutes.
 
 The last nine modules import 146,663 and more, one after the other, so at
-this setting they are an hour and a half to three hours of imports. The
-second part of the run measures the same import with no read-ahead at all
-(one 4 KB page per fault): if `lean` touches about three places in each
-module's file, as 48 KB a module at 16 KB windows suggests, that keeps a
-third to a half of it resident and it fits. `IO_TUNE_RA_BIG_KB` in the
-workflow is where the answer goes: the read-ahead for a shard that imports
-more than 110,000 modules, and for the verdict's axioms jobs.
+this setting they are an hour and a half to three hours of imports.
+
+**The same import with no read-ahead** (one 4 KB page per fault; second
+part of the run, 16:51Z):
+
+| cache | wall s | user s | system s | peak resident MB | major faults | disk reads | MB read |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| cold | 661.0 | 26.1 | 57.0 | 13,193 | 4,234,004 | 4,546,960 | 17,925 |
+| warm | 207.9 | 24.8 | 38.3 | 13,257 | 1,049,577 | 1,154,806 | 4,810 |
+| warm | 232.4 | 24.7 | 40.3 | 13,284 | 1,290,574 | 1,363,673 | 5,365 |
+
+My guess that it would fit was wrong: the cold run faults 4.2 million
+single pages, 17 GB that `lean` really reads, about 100 KB a module at this
+height and not the 48 KB of the two smaller imports. But a warm import is
+now three and a half to four minutes and reads 5 GB, where at 16 KB it was
+ten and read 46. `IO_TUNE_RA_BIG_KB` is set to 0: a build shard that
+imports more than 110,000 modules, and each of the verdict's axioms jobs,
+runs with no read-ahead. For the last nine modules that is about eleven
+minutes for the first import and four for each after it on a disk like
+this one, and about twice that on the slower kind.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
