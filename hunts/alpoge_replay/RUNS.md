@@ -1345,6 +1345,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 10 | 44914347569 | 15:46 | 4,107 | 131,204 | 74.89 | 0 | 0 | 3.08 | against build state 14710597929; one process per runner; all four shards reported; 4,392 planned; one strike, see below: the watchdog ended the replay of `SesquilinearFractions.ExistsFactorThroughMultiplication` at 12.7 GB, alone on its runner, and the 285 modules after it in that list were not reached; check state 14713298174 |
 | 11 | 44924547755 | 18:16 | 8,137 | 139,341 | 79.54 | 0 | 0 | 5.58 | against build state 14713104221; dispatched by hand at 16:26Z after the cancelled run; two processes per runner, small page-fault windows, extra swap, plain directories; all four shards reported; 8,884 planned, three shards stopped by their deadline; no process killed, no new strike; the module struck in round 10, `SesquilinearFractions.ExistsFactorThroughMultiplication`, went through the kernel on shard 0 in 2,076 s with the swap in place; check state 14718594608 |
 | 12 | 44934638612 | 19:52 | 6,606 | 145,947 | 83.31 | 0 | 0 | 4.07 | against build state 14718047776; two processes per runner; three of four shards reported, each with all 2,202 of its modules and none stopped by its deadline; shard 2's runner was lost 49 minutes into its replay and left no log, and the two surviving runners looked at never had less than 11 GB available, so memory in general was not short; check state 14722696394. Round 13 started with four shards (run 44943257562), was cancelled after twelve minutes and dispatched again with twelve (run 44944303371) |
+| 13 | 44944303371 | 22:00 | 15,578 | 161,525 | 92.20 | 0 | 0 | 6.79 | against build state 14720649806, the complete one; twelve shards, two processes per runner; nine of twelve shards reported, eight of them stopped by their deadline, 19,971 planned on the nine; shards 5, 6 and 11 lost their runners 91, 65 and 89 minutes into the replay and left no log, see "The lost runners are not a module" below; check state 14727455301. Round 14 is run 44954431174, twelve shards, the first round with the self-test |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
@@ -1406,6 +1407,40 @@ verdict path has to work the first time, and the replay can catch up. The
 chain does not restart by itself after a cancelled round. It is to be
 dispatched again by hand from check state 14713298174, with the swap, the
 small windows, the further cleanup and a plain directory for any shard.
+
+### The lost runners are not a module, 2026-11-21 22:45Z
+
+Since check round 8 a replay shard has ended six times with its runner gone
+and no log: one of four in rounds 8, 9 and 12, three of twelve in round 13,
+none in rounds 10 and 11. Six of 32. The build lost no runner that way in
+rounds 12 to 21, about 120 shards. What can be said:
+
+- *It was not a module in round 12.* The 2,202 modules of round 12's lost
+  shard 2 were planned again as the first 2,202 of round 13's shard 0, in
+  the same order and with the same split between two processes. Round 12's
+  runner was lost 2,927 s into its replay; at the times round 13 measured
+  for those modules, its two processes were then on about the 421st and
+  426th module of their lists. Round 13 replayed 865 and 867 from each list
+  without incident. Whatever ended that runner, the modules it was on
+  replay.
+- *It was not memory on the runners that survived beside them.* Round 13's
+  shards 4, 7 and 10, the neighbours of the lost 5, 6 and 11, never had
+  less than 7.0, 10.1 and 11.4 GB available, left their 27 GB of swap
+  untouched (25.9 GB free at the least), and the watchdog stopped and
+  killed nothing. What the lost runners saw is not known: they uploaded
+  nothing, GitHub returns no log for them (HTTP 404) and their check runs
+  carry no text.
+- *Both kinds of runner are lost.* By their restore times, round 13's
+  shards 5 and 6 were on the faster disks and shard 11 on the slower.
+- *When.* 49, 65, 89 and 91 minutes into a replay of 100 in the four cases
+  timed.
+
+So the cause is not found. What follows from what is known: a lost shard
+costs its round's work and nothing else, its modules replay when planned
+again, and there is no module to isolate or to strike. The chain carries
+on; a round that loses shards leaves their modules to the next. If the
+rate holds, about a fifth of each round's runner time is lost. Uploading a
+shard's record in parts would cap that, and has not been built.
 
 ### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
 
