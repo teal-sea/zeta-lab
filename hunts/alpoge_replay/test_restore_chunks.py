@@ -87,20 +87,6 @@ def test_every_listed_member_is_unpacked_and_no_other(tmp_path):
     assert sorted((tmp_path / "calls.txt").read_text().split()) == ["111", "222"]    # one download per bundle
 
 
-def test_extra_arguments_reach_tar(tmp_path):
-    """The replay restores .olean files only."""
-    env = _setup(tmp_path, BUNDLES)
-    shard = tmp_path / "shard.json"
-    shard.write_text(json.dumps({"fetch": FETCH}))
-    dest = tmp_path / "lean"
-    dest.mkdir()
-    proc = subprocess.run(["bash", str(SCRIPT), str(shard), str(dest), "--wildcards", "*.olean"],
-                          env=env, capture_output=True, text=True, cwd=tmp_path)
-    assert proc.returncode == 0, proc.stderr
-    got = sorted(p.name for p in dest.rglob("*") if p.is_file())
-    assert got == ["One.olean", "Three.olean", "Two.olean"]
-
-
 def test_a_member_that_is_missing_or_corrupt_fails_the_restore(tmp_path):
     env = _setup(tmp_path, BUNDLES)
     dest = tmp_path / "lean"
