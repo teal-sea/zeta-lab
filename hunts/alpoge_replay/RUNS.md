@@ -909,6 +909,17 @@ Round 11 was dispatched at 15:46Z, before the swap, with the small
 page-fault windows and two processes; if it strikes the module again, the
 later rounds still try it twice with swap.
 
+### Check round 11 cancelled, 2026-11-21 16:18Z: the replay waits for the rehearsal of the verdict
+
+Round 11 (run 44920988121, dispatched 15:46Z) was cancelled half an hour
+in, with nothing merged. The account was at its limit of twenty jobs, the
+rehearsal of the new verdict jobs (run 44922636081) had been queued for
+thirteen minutes, and the four replay runners were the ones to give up: the
+verdict path has to work the first time, and the replay can catch up. The
+chain does not restart by itself after a cancelled round. It is to be
+dispatched again by hand from check state 14713298174, with the swap, the
+small windows, the further cleanup and a plain directory for any shard.
+
 ### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
 
 Check round 6 was the first with a memory log. On shard 0, four driver
