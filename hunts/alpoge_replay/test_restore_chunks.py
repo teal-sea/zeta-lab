@@ -269,6 +269,33 @@ def test_a_shard_that_fits_gets_a_plain_directory_and_no_privileged_command(tmp_
     assert subprocess.run(["bash", script, str(target), "many"], env=env, capture_output=True).returncode == 2
 
 
+def test_the_limit_can_be_what_the_disk_holds(tmp_path):
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    sudo = bindir / "sudo"
+    sudo.write_text('#!/usr/bin/env bash\necho "sudo $*" >> "$FAKE_SUDO"\nexit 1\n')
+    sudo.chmod(sudo.stat().st_mode | stat.S_IEXEC)
+    env = {**os.environ, "PATH": f"{bindir}{os.pathsep}{os.environ['PATH']}", "FAKE_SUDO": str(tmp_path / "sudo.txt")}
+    target = tmp_path / "lean" / ".lake" / "build"
+    script = str(HERE / "build_volume.sh")
+    free_mb = shutil.disk_usage(tmp_path).free // 2**20
+    # one module is a megabyte here and nothing is held back: about as many modules as megabytes free
+    env1 = {**env, "BUILD_VOLUME_KB_PER_MODULE": "1000", "BUILD_VOLUME_RESERVE_MB": "0"}
+    fits = str(max(1, free_mb // 2))
+    proc = subprocess.run(["bash", script, str(target), fits, "disk"], env=env1, capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stderr
+    assert f"plain directory, {fits} modules" in proc.stdout and "room for" in proc.stdout
+    assert not (tmp_path / "sudo.txt").exists()
+    # more modules than the disk has megabytes: the volume is reached for (and our stand-in refuses)
+    proc = subprocess.run(["bash", script, str(target), str(free_mb * 2), "disk"], env=env1, capture_output=True, text=True)
+    assert proc.returncode != 0 and (tmp_path / "sudo.txt").exists()
+    # the reserve counts: with all of the free space held back there is room for nothing
+    env2 = {**env, "BUILD_VOLUME_KB_PER_MODULE": "1000", "BUILD_VOLUME_RESERVE_MB": str(free_mb * 2)}
+    (tmp_path / "sudo.txt").unlink()
+    proc = subprocess.run(["bash", script, str(target), "1", "disk"], env=env2, capture_output=True, text=True)
+    assert "room for 0 modules" in proc.stdout and proc.returncode != 0
+
+
 def test_the_parent_directory_exists_before_tarfile_is_asked_to_unpack(tmp_path):
     """The fault of round 14, planted so that it fails on any Python.
 

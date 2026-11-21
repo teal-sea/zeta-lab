@@ -285,7 +285,12 @@ jobs:
           } | tee "$OUT/evidence/run.txt"
           # The cleanup took 96 to 135 s in the pilot, so it runs behind the
           # setup steps; it is done long before the disk is needed.
-          nohup sudo sh -c 'rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; docker image prune --all --force' >/dev/null 2>&1 &
+          # The further cleanup takes the disk from about 111 GB free to
+          # 130 (measured, run 44921139865): parts of the runner image no
+          # step here uses. With it the outputs of every module of the
+          # archive fit a plain directory. The marker tells the step that
+          # sizes the volume that the disk is as free as it will get.
+          nohup sudo sh -c 'rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; docker image prune --all --force; rm -rf /opt/hostedtoolcache /usr/share/swift /usr/local/julia* /usr/lib/jvm /usr/local/share/powershell /usr/local/lib/node_modules /opt/microsoft /opt/google /usr/lib/google-cloud-sdk /opt/az /usr/share/az_* /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/miniconda /home/linuxbrew /usr/local/share/chromium /usr/lib/firefox /opt/pipx /usr/share/gradle-* /usr/share/kotlinc /usr/share/sbt /usr/local/share/vcpkg /usr/share/apache-maven-* /usr/local/sqlpackage /usr/lib/mono /usr/share/ri /opt/actionarchivecache; touch /tmp/alpoge-cleanup.done' >/dev/null 2>&1 &
           # A module high in the graph maps tens of thousands of .olean files;
           # the default limit of 65530 mappings would make Lean read them into
           # memory instead.
@@ -340,20 +345,6 @@ jobs:
           name: alpoge-${{ env.EPOCH }}-plan-r${{ env.ROUND }}
           path: plan
 
-      # A plain directory when what the shard imports fits the disk, the
-      # compressed volume only when it does not (build_volume.sh says why).
-      # 115,000 modules are about 75 GB of the 98 a runner has free; the
-      # small page-fault windows (IO_TUNE) only help on the plain directory,
-      # btrfs reads a compressed extent of 128 KB whatever is asked for.
-      - name: a place for the build outputs
-        run: |
-          set -euo pipefail
-          need=$(jq '.need | length' "plan/shard-$SHARD.json")
-          limit=115000
-          if [ "$COMPRESS_FS" != "true" ]; then limit=100000000; fi
-          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" "$need" "$limit" | tee -a "$OUT/evidence/run.txt"
-          df -h "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
-
       - name: install elan and the toolchain the archive names
         run: |
           set -euo pipefail
@@ -375,6 +366,26 @@ jobs:
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
           df -h / | tee -a "$OUT/evidence/run.txt"
 
+      # A plain directory when what the shard imports fits the disk, the
+      # compressed volume only when it does not (build_volume.sh says why).
+      # The small page-fault windows (IO_TUNE) only help on the plain
+      # directory, and after the cleanup the disk holds every module of the
+      # archive. Sized here, after the toolchain and Mathlib are on the
+      # disk and once the cleanup is done, from the space that is left.
+      - name: a place for the build outputs
+        run: |
+          set -euo pipefail
+          for _ in $(seq 60); do
+            if [ -e /tmp/alpoge-cleanup.done ]; then break; fi
+            sleep 5
+          done
+          if [ ! -e /tmp/alpoge-cleanup.done ]; then echo "cleanup not finished after five minutes" | tee -a "$OUT/evidence/run.txt"; fi
+          need=$(jq '.need | length' "plan/shard-$SHARD.json")
+          limit=disk
+          if [ "$COMPRESS_FS" != "true" ]; then limit=100000000; fi
+          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" "$need" "$limit" | tee -a "$OUT/evidence/run.txt"
+          df -h "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
+
       - name: restore the modules this shard imports from earlier rounds
         env:
           GH_TOKEN: ${{ github.token }}
@@ -384,7 +395,11 @@ jobs:
           # one download per bundle, its chunks unpacked three at a time,
           # and of each chunk only the modules this shard imports
           jq -r '.need[]' "$shard" > need.txt
-          RESTORE_NEED="$PWD/need.txt" bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
+          # three bundles in flight, or one when the shard needs most of the
+          # disk for what it restores
+          bundles=3
+          if [ "$(wc -l < need.txt)" -gt 115000 ]; then bundles=1; fi
+          RESTORE_NEED="$PWD/need.txt" RESTORE_BUNDLES="$bundles" bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           du -sh "$LEAN_DIR/.lake/build" 2>/dev/null | tee -a "$OUT/evidence/run.txt" || true
           df -h / | tee -a "$OUT/evidence/run.txt"
           python3 "$HUNT/replay_shard.py" check --lean-dir "$LEAN_DIR" --shard "$shard" | tee -a "$OUT/evidence/run.txt"
