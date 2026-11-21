@@ -1111,6 +1111,30 @@ kernel) and the like. None is a `debug` option.
 Still running when this was written: the cone job of this run, started
 19:52:59Z, and after it the summary job with its guard.
 
+**The cone and the summary, 20:35Z.** The cone job exited 0 after 2,495 s
+(artifact 14724395088), and the summary job found all seven answers, the
+build job green and five axiom lines, each its own theorem's and each the
+three standard axioms: the guard passed and the run ended green (artifact
+14723384776). What the theorems rest on, counted by `Cone.lean` as it was
+at `af44b45e`:
+
+| roots | constants in the cone | archive modules (percent) | archive declarations (percent) | archive theorems (percent) |
+| --- | --- | --- | --- | --- |
+| `riemannHypothesis` | 1,478,219 | 146,437 of 175,187 (83.6) | 1,265,256 of 1,905,921 (66.4) | 1,075,015 of 1,548,655 (69.4) |
+| all five | 1,478,243 | 146,440 of 175,187 (83.6) | 1,265,279 of 1,905,921 (66.4) | 1,075,031 of 1,548,655 (69.4) |
+
+By library, for `riemannHypothesis`: Development 842,309, Formalism 278,273, Mathlib 203,035, GroundTheory 76,752, ReciprocityTheory 47,612, CompanionTheory 15,717, Init 9,662, PositivityTheory 4,276, Lemmata 314, Batteries 253, Std 9, Aesop 3, Supplements 2, Main 1, Lean 1. No name was missing from the
+environment.
+
+So the proof of the first theorem mentions, directly or through what it
+uses, 84 of every 100 modules of the archive and two of every three of its
+declarations; 28,750 modules hold nothing it rests on. The four
+statements about Dirichlet L-functions add 3 modules and 23 declarations
+to that: the five theorems are one proof. The note that came with the
+archive expects the argument to be "massively simplified". This count says
+that it will not be by deleting what is unused: most of what is there is
+used. It says nothing about how much of it a shorter argument would need.
+
 **Limit 1 in detail: the kernel of 4.33.1 (read 20:10Z to 20:16Z).** The
 sources are Lean's release notes for 4.33.0, 4.33.1, 4.34.0, 4.34.1, 4.35.0
 and 4.36.0 on lean-lang.org, Leonardo de Moura's "Postmortem for the Kernel
