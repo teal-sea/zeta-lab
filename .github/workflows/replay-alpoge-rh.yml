@@ -833,6 +833,7 @@ jobs:
           set -euo pipefail
           cat > "$RUNNER_TEMP/PrintAxioms.lean" <<'LEAN'
           import Main
+          set_option maxHeartbeats 0
           #check (riemannHypothesis : RiemannHypothesis)
           #print RiemannHypothesis
           #print axioms riemannHypothesis
@@ -841,7 +842,16 @@ jobs:
           #print axioms LFunction_eq_zero_re
           #print axioms LFunction_eq_zero_re_of_isPrimitive
           LEAN
-          lake env lean "$RUNNER_TEMP/PrintAxioms.lean" 2>&1 | tee "$OUT/evidence/axioms.txt"
+          # `#print axioms` walks every constant the theorem rests on, by
+          # recursion. The archive compiles with a 400 MB thread stack
+          # (lakefile.toml, moreLeanArgs); `lake env lean` does not pass
+          # that on, so it is given here, and the main thread's limit is
+          # lifted. A stack overflow in the last step would say nothing about
+          # the proof and cost an hour.
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
+          start=$(date +%s)
+          lake env lean --tstack=400000 "$RUNNER_TEMP/PrintAxioms.lean" 2>&1 | tee "$OUT/evidence/axioms.txt"
+          echo "print axioms rc=${PIPESTATUS[0]} wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
           printed=$(grep -c 'depends on axioms' "$OUT/evidence/axioms.txt" || true)
           echo "axiom lines printed: $printed" | tee -a "$OUT/evidence/run.txt"
           if [ "$printed" -ne 5 ]; then
@@ -879,12 +889,14 @@ jobs:
           set -uo pipefail
           cat > "$RUNNER_TEMP/PrintAxiomsInterior.lean" <<'LEAN'
           import Main
+          set_option maxHeartbeats 0
           #print axioms Deduction.zeroFree_of_rpow_window
           #print axioms UpperTheory.Comparison₂.formB
           #print axioms UpperTheory.FinalTheorems.everyCharacter
           #print axioms UpperTheory.V.SmallClassNumbers.bound
           LEAN
-          lake env lean "$RUNNER_TEMP/PrintAxiomsInterior.lean" 2>&1 | tee "$OUT/evidence/axioms-interior.txt"
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
+          lake env lean --tstack=400000 "$RUNNER_TEMP/PrintAxiomsInterior.lean" 2>&1 | tee "$OUT/evidence/axioms-interior.txt"
           {
             echo "### four interior statements (supplementary)"
             echo '```'
@@ -910,6 +922,7 @@ jobs:
           cp "$GITHUB_WORKSPACE/$HUNT/Cone.lean" Cone.lean
           lake build cone 2>&1 | tail -3
           cd "$LEAN_DIR"
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
           start=$(date +%s)
           lake env "$RUNNER_TEMP/cone/.lake/build/bin/cone" Main \
             riemannHypothesis,riemannZeta_eq_zero_re,LFunction_ne_zero_of_half_lt_re,LFunction_eq_zero_re,LFunction_eq_zero_re_of_isPrimitive \
