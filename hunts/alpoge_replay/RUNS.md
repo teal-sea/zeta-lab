@@ -1397,3 +1397,61 @@ mark, kept by the allocator; it does not say those twenty modules need it,
 and it does not yet say what the deepest modules will need. It is half of
 what round 6 saw at its worst (5.6 GB). Nothing was suspended or killed, and
 all four shards reported.
+
+## Third pass: the same replay with a second checker
+
+Why: limit 1 of the verdict, set out under "Limit 1 in detail" there. What:
+`L4LDriver.lean` puts lean4lean's type checker behind the front end of
+`ReplayDriver.lean`, and `replay-alpoge-check.yml` takes `checker=lean4lean`
+and an epoch of its own, `l4l`. lean4lean is derived from the C++ kernel and
+runs on the same runtime: a second route, not an independent one. Nothing
+of it is built in the session's container, which may not build downloaded
+code; it is fetched and compiled on the runner, where the archive is.
+
+### Estimate before spending, 2026-11-21 20:20Z
+
+Nothing was known: whether lean4lean at its `master` (`67f63b0c`,
+toolchain 4.33.0-rc2) builds with Lean 4.33.1 at all, whether it reads this
+archive, what a module costs. Its paper says 20 to 50 percent slower than
+the kernel; the kernel's replay stands at 197 process-hours for 145,947
+modules. So the unit was timed first, on one runner.
+
+### The self-test every shard now runs, 2026-11-21 20:23Z, run 44946013320
+
+Before it replays anything a shard builds the three-module toy of
+`test_replay_check.py` and requires its driver to answer OK, FAIL, OK
+(`replay_check.py selftest`). Tried first on the kernel's driver, epoch
+`t1`, one shard, five minutes, on `83a9fc6f`: the self-test passed in five
+seconds with
+
+```
+"Lib.Cheat": "while replaying declaration 'bad': | (kernel) declaration type mismatch, 'bad' has type |   True | but it is expected to have type |   Eq 1 2"
+```
+
+and the shard replayed the 90 modules of its plan, 2.66 s each, none
+rejected. The kernel's chain picks the step up with round 14.
+
+### Pilot of the second checker, 2026-11-21 20:23Z to 20:38Z, run 44946010580
+
+Epoch `l4l`, round 0, one shard, eight minutes, two processes, on
+`83a9fc6f`, build state 14720649806.
+
+| | |
+| --- | --- |
+| build | lean4lean at `67f63b0c818920dfaed2ad07ccff187a6a8fe1e3` and batteries at `76e1c118b0700b4ceafe99532e887d6431625e1a`, with the archive's toolchain: 33 s, no error |
+| self-test | passed: `Lib.Honest` OK, `Lib.Cheat` FAIL ("at bad: (kernel) declaration type mismatch, 'bad' has type ... True but it is expected to have type ... Eq.{1} Nat ..."), `Lib.UsesCheat` OK |
+| planned / replayed | 144 / 86 when the eight minutes ended; 3,226 declarations |
+| rejections | 0 |
+| cost | 828 s for the 86; the kernel's replay took 371 s for the same 86 (check state 14722696394), a ratio of 2.23 on a runner that was swapping from its second minute |
+| memory | each process grew by about 480 MB with every module that imports Mathlib (389, 871, 1,355, 1,817, 2,321 MB after the fourth to the eighth), to 6.3 GB resident; the two together used up all 27 GB of swap in five minutes, and the watchdog suspended one of them once |
+| check state | artifact 14723794021 |
+
+So it builds, it reads the archive's `.olean` files, it rejects the planted
+fault, and it agrees with the kernel on 86 modules. It also keeps about
+half a gigabyte for every module it has replayed, which the kernel's driver
+does not (527 to 649 MB flat, above). Where that memory is held was not
+found by reading lean4lean's source and could not be probed here. The
+remedy does not depend on knowing: `replay_check.py run --batch 4` gives a
+process four modules and then replaces it. The second pilot (round 1, ten
+minutes, dispatched 20:42Z on `06a8e36d`) measures what a module costs
+without the swapping.
