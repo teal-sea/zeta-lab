@@ -1138,10 +1138,15 @@ below was checked against Lean's source.
   By those notes 15241 needs a machine "with at least 18GB free RAM",
   15289 concerns "inputs north of 100GB", and 15288 concerns objects
   shared between threads, which the kernel does not do in its default
-  configuration. The runners here have 15 GB of memory and about 3 GB of
-  swap, and the largest `lean` process the watchdog saw in the rounds of
-  the build it watched held 13.7 GB.
-  Runs that completed on these machines cannot have met the first two.
+  configuration. The runners of the build and of the verdict have 15 GB of
+  memory and about 3 GB of swap, and the largest `lean` process the
+  watchdog saw in the rounds of the build it watched held 13.7 GB. A
+  process on such a machine cannot have met the first two. (The replay's
+  runners are given up to 24 GB more swap. The largest driver seen there
+  is the one on `SesquilinearFractions.ExistsFactorThroughMultiplication`,
+  130 lines of algebraic geometry: 12.7 GB when the watchdog ended it in
+  round 10, and in round 11 a resident peak of 10.0 GB with about 13 GB of
+  the runner's swap in use.)
   4.35.0 and 4.36.0 list no further soundness fix for the official kernel.
 - The same sources say what the standard second opinion is. The
   postmortem: "The gold standard is `comparator` and external checkers
