@@ -123,7 +123,7 @@ env:
   # (odd-numbered shards only), or shard numbers with spaces between. Set
   # here and not by an input, so that a round the chain dispatches by itself
   # picks it up.
-  IO_TUNE: ""
+  IO_TUNE: "all"
   IO_TUNE_RA_KB: "16"
   IO_TUNE_FA_BYTES: "4096"
   HUNT: hunts/alpoge_replay
