@@ -153,14 +153,14 @@ env:
   # How far over a shard's capacity the plan goes, at the planner's prices:
   # the cluster pass, and the filling pass. 1.4 and 1.0 without IO_TUNE.
   #
-  # For round 20 both are 0.42, a budget of 3,024 s a shard. After round 19
-  # 845 modules were left, priced at 17,443 s in all, and at 3.0 the planner
-  # made one cluster of them: one runner for everything, eleven idle. At
-  # 3,024 s they spread over twelve shards and the 22 at the very top wait
-  # one round. Back to 3.0 once round 20 is dispatched, so that the round
-  # after it takes whatever is left in one shard.
-  PLAN_OVER: "0.42"
-  FILL_OVER: "0.42"
+  # Round 20 was dispatched with both at 0.42, a budget of 3,024 s a shard
+  # (80e4db83). After round 19 845 modules were left, priced at 17,443 s in
+  # all, and at 3.0 the planner made one cluster of them: one runner for
+  # everything, eleven idle. At 3,024 s they spread over twelve shards and
+  # the 22 at the very top wait one round. 3.0 again from round 21, which
+  # is to take whatever is left in one shard.
+  PLAN_OVER: "3.0"
+  FILL_OVER: "2.5"
   # Minutes a shard may build beyond BUILD_MINUTES, which the plan is sized
   # by. A shard that is done stops when it is done, so this costs a round
   # nothing unless a shard needs it; the shard that needs it is the one with

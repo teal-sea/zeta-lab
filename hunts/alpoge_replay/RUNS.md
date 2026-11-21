@@ -151,6 +151,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 16 | 44899651298 | 12:52 | 6,300 | 160,222 | 91.46 | 0 | 0 | 0 | 9.80 | two compiles; 12,746 planned and every shard stopped by its deadline; 1,281 modules built by two shards, every pair identical; 255 of the built modules stand on 72 that no chunk holds, see below, so 159,967 are usable (91.31 percent); state artifact 14707902742 |
 | 17 | 44906573935 | 14:18 | 6,229 | 166,451 | 95.01 | 0 | 0 | 0 | 11.55 | two compiles; 8,702 planned and ten of twelve shards stopped by their deadline; 857 modules built by two shards, every pair identical; 1,418 extras built and all kept; 166,449 usable (two modules of round 16 still stand on one unbuilt); no suspension, no kill, largest module 3.0 GB; a compile is now mostly its imports, see below; state artifact 14710597929 |
 | 18 | 44913274901 | 15:40 | 3,280 | 169,731 | 96.89 | 0 | 0 | 0 | 21.71 | two compiles, the last round planned by source size and the last under the runner's own page-fault windows; 7,044 planned and all twelve shards stopped by their deadline; 562 modules built twice, every pair identical; nothing stranded any more; 260 million major page faults over the twelve runners, three suspensions, no kill, largest module 7.4 GB; state artifact 14713104221 |
+| 19 | 44920413546 | 16:58 | 4,611 | 174,342 | 99.52 | 0 | 0 | 0 | 11.24 | the first round with the planner pricing by imports, small page-fault windows on every shard and a plan of three times capacity; 5,150 planned, four of twelve shards stopped by their deadline; 2,327 extras built, 1,603 modules built twice, every pair identical; no suspension, no kill, largest module 4.0 GB; 24 million major page faults where round 18 had 260 million; state artifact 14715757843 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -850,6 +851,42 @@ imports more than 110,000 modules, and each of the verdict's axioms jobs,
 runs with no read-ahead. For the last nine modules that is about eleven
 minutes for the first import and four for each after it on a disk like
 this one, and about twice that on the slower kind.
+
+### Round 19, 2026-11-21 16:58Z: what the small windows do on twelve runners
+
+4,611 modules, 99.52 percent in all, no failure, 845 left. Seconds per
+compile by how many modules the module imports (modules in brackets):
+
+| imports | round 17 | round 18 | round 19 |
+| --- | --- | --- | --- |
+| under 5,000 | 6 (3,233) | 9 (1,310) | 7 (930) |
+| 5,000 to 10,000 | 10 (1,106) | 11 (413) | 7 (898) |
+| 10,000 to 15,000 | 11 (615) | 19 (298) | 8 (710) |
+| 15,000 to 20,000 | 16 (487) | 35 (89) | 11 (439) |
+| 20,000 to 25,000 | 20 (707) | 25 (986) | 14 (896) |
+| 25,000 to 30,000 | 36 (69) | 75 (124) | 13 (386) |
+| 30,000 to 35,000 | 130 (9) | 117 (59) | 19 (280) |
+| 35,000 to 40,000 | 190 (1) | | 14 (50) |
+| 40,000 to 50,000 | 197 (2) | | 19 (18) |
+| 50,000 to 60,000 | | | 18 (2) |
+| over 60,000 | | | 148 (2) |
+
+Round 19 is the first under read-ahead 16 KB and fault-around 4 KB, on
+every shard, with two compiles at once, on whatever runners the fleet
+handed out. A module on 30,000 to 50,000 others costs what one on 20,000
+did, where it had cost seven to ten times that. The probe's single-runner
+result holds in production. 1,603 more modules were built on two runners
+and all pairs agree: 4,305 of 4,305 over the campaign.
+
+**Round 20, dispatched twice.** The chain dispatched it at 16:58Z (run
+44927486409) with the plan at three times capacity, and with only 845
+modules left, priced at 17,443 s, that plan was a single cluster: one
+runner for everything up to `Main`, eleven idle, two to three hours. I
+cancelled it at 17:03Z and dispatched round 20 again (run 44927890126) on
+`80e4db83`, planned to 3,024 s a shard: 823 modules over twelve shards, 22
+waiting, by the plan reproduced here from the state. The 22 are the top:
+they go to one shard in round 21, which runs with no read-ahead and may
+build for 150 minutes.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
