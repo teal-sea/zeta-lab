@@ -241,3 +241,29 @@ def test_the_restore_script_unpacks_only_what_is_needed_when_told_what_that_is(t
                           capture_output=True, text=True)
     assert proc.returncode != 0
 
+
+
+# --------------------------------------------------------------------------
+# build_volume.sh: the plain path, which is the one every round now takes
+# --------------------------------------------------------------------------
+
+def test_a_shard_that_fits_gets_a_plain_directory_and_no_privileged_command(tmp_path):
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    sudo = bindir / "sudo"                       # any call to sudo would be a mistake on this path
+    sudo.write_text('#!/usr/bin/env bash\necho "sudo $*" >> "$FAKE_SUDO"\nexit 1\n')
+    sudo.chmod(sudo.stat().st_mode | stat.S_IEXEC)
+    env = {**os.environ, "PATH": f"{bindir}{os.pathsep}{os.environ['PATH']}", "FAKE_SUDO": str(tmp_path / "sudo.txt")}
+    target = tmp_path / "lean" / ".lake" / "build"
+    script = str(HERE / "build_volume.sh")
+    proc = subprocess.run(["bash", script, str(target), "42061"], env=env, capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stderr
+    assert target.is_dir() and "plain directory, 42061 modules" in proc.stdout
+    assert not (tmp_path / "sudo.txt").exists()
+    # at the limit it is still plain; one over, it reaches for the volume (and our stand-in refuses)
+    assert subprocess.run(["bash", script, str(target), "90000"], env=env, capture_output=True).returncode == 0
+    proc = subprocess.run(["bash", script, str(target), "90001"], env=env, capture_output=True, text=True)
+    assert proc.returncode != 0 and (tmp_path / "sudo.txt").exists()
+    # a limit of zero means always compressed; nonsense is refused before anything is touched
+    assert subprocess.run(["bash", script, str(target), "5", "0"], env=env, capture_output=True).returncode != 0
+    assert subprocess.run(["bash", script, str(target), "many"], env=env, capture_output=True).returncode == 2

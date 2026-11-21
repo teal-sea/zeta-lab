@@ -210,17 +210,20 @@ jobs:
           tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
           rm -f "$HOME/replay/lean.tar.gz"
 
-      - name: compressed volume for the restored outputs
+      - name: fetch this round's plan
+        uses: actions/download-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-checkplan-c${{ env.ROUND }}
+          path: plan
+
+      # The replay restores .olean files only, of the modules it needs. A
+      # plain directory when they fit the disk, the compressed volume when
+      # they do not (build_volume.sh says why).
+      - name: a place for the restored outputs
         run: |
           set -euo pipefail
-          sudo apt-get install -y -q btrfs-progs >/dev/null
-          img=/mnt/alpoge-build.img
-          if ! sudo test -d /mnt; then img="$HOME/alpoge-build.img"; fi
-          sudo truncate -s 600G "$img"
-          sudo mkfs.btrfs -q "$img"
-          mkdir -p "$LEAN_DIR/.lake/build"
-          sudo mount -o loop,compress-force=zstd:3,noatime "$img" "$LEAN_DIR/.lake/build"
-          sudo chown -R "$(id -u):$(id -g)" "$LEAN_DIR/.lake/build"
+          need=$(jq '.need | length' "plan/shard-$SHARD.json")
+          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" "$need" 90000 | tee -a "$OUT/evidence/run.txt"
 
       - name: install elan and the toolchain the archive names
         run: |
@@ -236,12 +239,6 @@ jobs:
           set -euo pipefail
           lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
-
-      - name: fetch this round's plan
-        uses: actions/download-artifact@v4
-        with:
-          name: alpoge-${{ env.EPOCH }}-checkplan-c${{ env.ROUND }}
-          path: plan
 
       - name: restore the modules of this shard and everything they import
         env:

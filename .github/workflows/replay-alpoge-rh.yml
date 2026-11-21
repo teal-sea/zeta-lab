@@ -290,18 +290,21 @@ jobs:
           rm -f "$HOME/replay/lean.tar.gz"
           cat "$LEAN_DIR/lean-toolchain" | tee -a "$OUT/evidence/run.txt"
 
-      - name: optional compressed volume for the build outputs
-        if: env.COMPRESS_FS == 'true'
+      - name: fetch this round's plan
+        uses: actions/download-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-plan-r${{ env.ROUND }}
+          path: plan
+
+      # A plain directory when what the shard imports fits the disk, the
+      # compressed volume only when it does not (build_volume.sh says why).
+      - name: a place for the build outputs
         run: |
           set -euo pipefail
-          sudo apt-get install -y -q btrfs-progs >/dev/null
-          img=/mnt/alpoge-build.img
-          if ! sudo test -d /mnt; then img="$HOME/alpoge-build.img"; fi
-          sudo truncate -s 600G "$img"
-          sudo mkfs.btrfs -q "$img"
-          mkdir -p "$LEAN_DIR/.lake/build"
-          sudo mount -o loop,compress-force=zstd:3,noatime "$img" "$LEAN_DIR/.lake/build"
-          sudo chown -R "$(id -u):$(id -g)" "$LEAN_DIR/.lake/build"
+          need=$(jq '.need | length' "plan/shard-$SHARD.json")
+          limit=90000
+          if [ "$COMPRESS_FS" != "true" ]; then limit=100000000; fi
+          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" "$need" "$limit" | tee -a "$OUT/evidence/run.txt"
           df -h "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
 
       - name: install elan and the toolchain the archive names
@@ -324,12 +327,6 @@ jobs:
           echo "mathlib at $(git -C .lake/packages/mathlib rev-parse HEAD)" | tee -a "$OUT/evidence/run.txt"
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
           df -h / | tee -a "$OUT/evidence/run.txt"
-
-      - name: fetch this round's plan
-        uses: actions/download-artifact@v4
-        with:
-          name: alpoge-${{ env.EPOCH }}-plan-r${{ env.ROUND }}
-          path: plan
 
       - name: restore the modules this shard imports from earlier rounds
         env:
@@ -748,14 +745,8 @@ jobs:
         if: env.COMPRESS_FS == 'true'
         run: |
           set -euo pipefail
-          sudo apt-get install -y -q btrfs-progs >/dev/null
-          img=/mnt/alpoge-build.img
-          if ! sudo test -d /mnt; then img="$HOME/alpoge-build.img"; fi
-          sudo truncate -s 600G "$img"
-          sudo mkfs.btrfs -q "$img"
-          mkdir -p "$LEAN_DIR/.lake/build"
-          sudo mount -o loop,compress-force=zstd:3,noatime "$img" "$LEAN_DIR/.lake/build"
-          sudo chown -R "$(id -u):$(id -g)" "$LEAN_DIR/.lake/build"
+          # every module of the archive lands here: always the volume
+          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" 175187 0 | tee -a "$OUT/evidence/run.txt"
 
       - name: install elan and the toolchain the archive names
         run: |
