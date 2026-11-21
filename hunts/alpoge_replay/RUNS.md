@@ -412,6 +412,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 3 | 44842635028 | 02:10 | 14,133 | 52,760 | 30.12 | 0 | 0 | 6.77 | against build state 14678652610; 19,976 planned, all four shards stopped by the deadline; check state 14687215680 |
 | 4 | 44854433459 | 03:50 | 17,352 | 70,112 | 40.02 | 0 | 0 | 3.89 | against build state 14683342288; every planned module replayed; check state 14690269141 |
 | 5 | 44863171205 | 06:40 | 7,886 | 77,998 | 44.52 | 0 | 0 | 5.50 | against build state 14687303640; two of four shards reported, see the third incident; check state 14696455861 |
+| 6 | 44876650580 | 08:38 | 16,601 | 94,599 | 54.00 | 0 | 0 | 4.80 | against build state 14694700878; 18,040 planned, one shard stopped by its deadline; all four shards reported and the watchdog (version one) killed nothing; check state 14700320734 |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
