@@ -558,6 +558,100 @@ def test_built_sinks_are_the_built_modules_nothing_built_imports(tmp_path: Path)
     assert out.read_text().split() == ["C", "D", "F"]
 
 
+def test_closure_sizes_count_every_module_under_a_module_once() -> None:
+    #      A
+    #     / \\
+    #    B   C      D imports B and C: the diamond must not count A twice
+    #     \\ /
+    #      D -- E
+    deps = {"A": [], "B": ["A"], "C": ["A"], "D": ["B", "C"], "E": ["D"], "F": []}
+    order, _ = rp.topo_levels(deps)
+    assert rp.closure_sizes(deps, order) == {"A": 1, "B": 2, "C": 2, "D": 4, "E": 5, "F": 1}
+
+
+def _timed(n_per_bin: dict[int, int], base: dict[int, float], r: float, bin_size: int = 100):
+    """Modules whose seconds are base(bin of the import count) + r * KB, exactly."""
+    closure, size, timings = {}, {}, {}
+    for b, n in n_per_bin.items():
+        for i in range(n):
+            m = f"M{b}_{i}"
+            closure[m] = b * bin_size + (i % bin_size)
+            size[m] = 500 + 100 * (i % 40)                       # 0.5 to 4.4 KB
+            timings[m] = base[b] + r * size[m] / 1000.0
+    return closure, size, timings
+
+
+def test_import_cost_recovers_the_cost_by_import_count_and_by_source_size() -> None:
+    closure, size, timings = _timed({0: 300, 1: 200, 3: 100}, {0: 3.0, 1: 10.0, 3: 130.0}, r=0.5)
+    closure["Top"], size["Top"] = 700, 2000                      # nothing this high was ever timed
+    cost, table = rp.import_cost(closure, size, timings, bin_size=100)
+    assert abs(table["s_per_kb"] - 0.5) < 1e-6
+    # bin 2 was never timed and takes the value below it; the table never falls
+    assert table["seconds_by_bin"] == [3.0, 10.0, 10.0, 130.0] and table["measured_bins"] == [0, 1, 3]
+    assert abs(cost["M3_0"] - (130.0 + 0.5 * 0.5)) < 1e-6
+    # above the highest measured bin the cost grows with the import count: 130 * 700 / 350, plus the source
+    assert abs(cost["Top"] - (260.0 + 0.5 * 2.0)) < 1e-6
+
+
+def test_import_cost_is_never_cheaper_for_a_module_that_imports_more() -> None:
+    # a noisy middle bin that came out cheaper than the one below it
+    closure, size, timings = _timed({0: 300, 1: 200, 2: 50}, {0: 5.0, 1: 20.0, 2: 12.0}, r=0.0)
+    _, table = rp.import_cost(closure, size, timings, bin_size=100)
+    assert table["seconds_by_bin"] == [5.0, 20.0, 20.0]
+
+
+def test_import_cost_needs_enough_timings_and_ignores_a_thin_bin() -> None:
+    closure, size, timings = _timed({0: 150}, {0: 3.0}, r=0.5)
+    assert rp.import_cost(closure, size, timings, bin_size=100) is None            # under 200 timings: no fit
+    closure, size, timings = _timed({0: 300, 1: 4}, {0: 3.0, 1: 500.0}, r=0.5)
+    _, table = rp.import_cost(closure, size, timings, bin_size=100)
+    assert table["measured_bins"] == [0] and table["seconds_by_bin"] == [3.0]      # four timings are not a bin
+
+
+def _heavy_state(tmp_path: Path):
+    """6,000 leaves; 250 light built modules on ten leaves each, 2 s; 250 heavy
+    built modules on every leaf, 100 s; and six unbuilt chains of eight heavy
+    modules, each module importing the one before it and every leaf."""
+    leaves = [f"L{i}" for i in range(6000)]
+    deps = {m: [] for m in leaves}
+    where, secs = {m: "r0-s0" for m in leaves}, {m: 1.0 for m in leaves}
+    for i in range(250):
+        deps[f"Light{i}"] = leaves[i * 10:i * 10 + 10]
+        where[f"Light{i}"], secs[f"Light{i}"] = "r1-s0", 2.0
+        deps[f"Heavy{i}"] = leaves
+        where[f"Heavy{i}"], secs[f"Heavy{i}"] = "r2-s0", 100.0
+    for c in range(6):
+        for j in range(8):
+            deps[f"U{c}_{j}"] = leaves + ([f"U{c}_{j - 1}"] if j else [])
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {m: 1000 for m in deps}}))
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": where, "seconds": secs, "failed": {}, "crashed": {},
+                                 "bundles": {"0": 5, "1": 6, "2": 7}}))
+    return dag, state
+
+
+def test_the_plan_prices_a_module_by_what_it_imports(tmp_path: Path) -> None:
+    """Round 17 in small. A module on 6,000 others takes 100 s here, whatever its
+    source size says, and a shard has 400 s: four of a chain, not seven."""
+    dag, state = _heavy_state(tmp_path)
+    common = ["replay_plan.py", "plan", "--dag", str(dag), "--state", str(state), "--round", "3",
+              "--shards", "6", "--budget-s", "400"]
+    sys.argv = common + ["--out", str(tmp_path / "plan")]
+    rp.main()
+    plan = json.loads((tmp_path / "plan" / "plan.json").read_text())
+    assert plan["cost_by_imports"]["seconds_by_bin"] == [2.0, 100.0]
+    assert [s["modules"] for s in plan["shards"]] == [4] * 6 and plan["waiting_after"] == 24
+    assert all(s["est_s"] == 400.0 for s in plan["shards"])
+    # the planner as it was up to round 18: 52 s a module by its arithmetic, so seven
+    # of a chain to a shard, which is 700 s of work for a shard that has 400
+    sys.argv = common + ["--size-only", "--out", str(tmp_path / "plan-size")]
+    rp.main()
+    old = json.loads((tmp_path / "plan-size" / "plan.json").read_text())
+    assert old["cost_by_imports"] is None
+    assert [s["modules"] for s in old["shards"]] == [7] * 6 and old["waiting_after"] == 6
+
+
 def test_a_stranded_module_is_no_target_for_the_rehearsal(tmp_path: Path) -> None:
     """X is built and stands on E, which is not: Lake, given X, would elaborate E."""
     deps = {"A": [], "E": ["A"], "X": ["E"], "B": ["A"]}

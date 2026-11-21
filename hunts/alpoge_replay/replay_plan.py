@@ -407,6 +407,87 @@ def recent_timings(where, secs, rounds: int = 2, enough: int = 200):
     return picked if len(picked) >= enough else secs
 
 
+def closure_sizes(deps, order) -> dict[str, int]:
+    """How many modules each module imports all the way down, itself included.
+
+    Exact, by one bit set per module, built in import order and dropped once
+    every module importing it has taken it: 175,187 modules in a few seconds.
+    """
+    idx = {m: i for i, m in enumerate(order)}
+    pending = dict.fromkeys(order, 0)
+    for m in order:
+        for d in deps[m]:
+            pending[d] += 1
+    bits: dict[str, int] = {}
+    out: dict[str, int] = {}
+    for m in order:
+        b = 1 << idx[m]
+        for d in deps[m]:
+            b |= bits[d]
+            pending[d] -= 1
+            if pending[d] == 0:
+                del bits[d]
+        out[m] = b.bit_count()
+        if pending[m]:
+            bits[m] = b
+    return out
+
+
+def import_cost(closure, size, timings, bin_size: int = 5000, enough: int = 5):
+    """Seconds per module from how much it imports and how long its source is.
+
+    Before a module elaborates a line, lean maps the .olean of every module
+    under it. While those fit in the runner's memory that is cheap. Past it
+    every start reads them back from disk, and it becomes the whole cost:
+    round 17 measured about 10 s for a module on 10,000 others, 20 s on
+    20,000, and 130 to 200 s on 30,000 to 50,000. The model by source size
+    alone priced those at 10 s too, so the planner packed a shard with twenty
+    times what it could do, the deadline cut it off, and the rest waited a
+    round each time.
+
+    The model is seconds = a(bin of the import count) + r * KB of source, with
+    one r for all bins, fitted on `timings` (the last rounds: the cost moves
+    as the build climbs). a never falls as the count grows, a bin with fewer
+    than `enough` timings takes the value below it, and above the highest
+    measured bin a grows in proportion to the count: nothing up there has been
+    measured. Returns (module -> seconds, table for the record), or None when
+    the timings are too few to fit.
+    """
+    pts = [(closure[m] // bin_size, size[m] / 1000.0, s) for m, s in timings.items() if m in closure and m in size]
+    if len(pts) < 200:
+        return None
+    n: dict[int, int] = {}
+    sx: dict[int, float] = {}
+    sy: dict[int, float] = {}
+    for b, x, y in pts:
+        n[b] = n.get(b, 0) + 1
+        sx[b] = sx.get(b, 0.0) + x
+        sy[b] = sy.get(b, 0.0) + y
+    num = den = 0.0
+    for b, x, y in pts:   # the slope inside the bins, shared
+        dx = x - sx[b] / n[b]
+        num += dx * (y - sy[b] / n[b])
+        den += dx * dx
+    r = min(5.0, max(0.0, num / den)) if den else 0.0
+    measured = {b: max(1.0, sy[b] / n[b] - r * sx[b] / n[b]) for b in n if n[b] >= enough}
+    if not measured:
+        return None
+    last = max(measured)
+    table: list[float] = []
+    a = measured[min(measured)]
+    for b in range(last + 1):
+        a = max(a, measured.get(b, 0.0))
+        table.append(a)
+
+    def base(k: int) -> float:
+        b = k // bin_size
+        return table[b] if b <= last else table[last] * k / ((last + 0.5) * bin_size)
+
+    cost = {m: base(closure[m]) + r * size[m] / 1000.0 for m in closure if m in size}
+    return cost, {"bin_modules": bin_size, "s_per_kb": round(r, 4), "seconds_by_bin": [round(t, 1) for t in table],
+                  "timings": len(pts), "measured_bins": sorted(measured)}
+
+
 # --------------------------------------------------------------------------
 # subcommands
 # --------------------------------------------------------------------------
@@ -448,8 +529,14 @@ def cmd_plan(a) -> None:
     where, secs, failed, crashed, bundles = load_state(a.state)
     done = usable(where, deps, order)
     stranded = sum(1 for m in where if m in deps) - len(done)
-    rate = fit_rate(size, recent_timings(where, secs), a.overhead_s, a.s_per_kb)
+    recent = recent_timings(where, secs)
+    rate = fit_rate(size, recent, a.overhead_s, a.s_per_kb)
     cost = cost_model(size, a.overhead_s, rate)
+    # once there are timings, price a module by what it imports as well
+    by_imports = None if a.size_only else import_cost(closure_sizes(deps, order), size, recent)
+    table = None
+    if by_imports:
+        cost, table = by_imports
     # a module that failed to elaborate, and everything above it, is out of
     # reach; so is one that crashed the runner three times running
     blocked = set(failed) | {m for m, n in crashed.items() if n >= a.max_crashes}
@@ -485,7 +572,8 @@ def cmd_plan(a) -> None:
     summary = {"round": a.round, "rate_s_per_kb": round(rate, 4), "overhead_s": a.overhead_s,
                "budget_s": a.budget_s, "built_before": len(done), "blocked": len(blocked),
                "failed": failed, "waiting_after": waiting, "fill": bool(a.fill), "stranded": stranded,
-               "built_twice": sum(1 for n in times.values() if n > 1), "shards": []}
+               "built_twice": sum(1 for n in times.values() if n > 1),
+               "cost_by_imports": table, "shards": []}
     position = {m: i for i, m in enumerate(order)}
     for i, owned in enumerate(shards):
         # what the shard builds: its own modules and the extras, in import order
@@ -571,6 +659,8 @@ def main() -> None:
                            help="second pass: idle shards also build modules whose unbuilt imports another shard owns")
             s.add_argument("--fill-budget-s", type=float, default=0.0,
                            help="what a shard can really do; the second pass fills up to this, not to --budget-s")
+            s.add_argument("--size-only", action="store_true",
+                           help="price a module by its source size alone, as the planner did up to round 18")
         else:
             s.add_argument("--max-rounds", type=int, default=80)
         s.set_defaults(fn=fn)
