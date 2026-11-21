@@ -604,17 +604,18 @@ that holds nothing but imports, 45,128 modules in all, six times:
 
 The first three rows are the runner as it comes, and they are what the build
 shards have been paying. The import needs about 20 s of processor. The rest
-of five minutes is the disk: 52 to 72 GB read for an import whose files are
-about 25 GB in all, the same pages read again and again, because what the
-kernel maps around each fault does not fit in memory and is pushed out
-before `lean` returns to it. A warm cache does not help; there is no warm
-state to reach.
+of five minutes is the disk: 52 to 72 GB read for an import whose archive
+files are about 24 GB in all (0.54 MB a module here), the same pages read
+again and again, because what the kernel maps around each fault does not
+fit in memory and is pushed out before `lean` returns to it. A warm cache
+does not help; there is no warm state to reach.
 
 With the windows small the same import keeps 8.5 GB resident, the first run
-reads 14 GB (one operation per fault: 3,400 a second, the disk's limit, so
-it is no faster than before), and every run after it finds everything in
-memory: 29 s, then 19 s. Fifteen times faster on this runner, for a setting
-that changes nothing `lean` computes.
+reads 14 GB (one read per fault, about 3,400 a second for the whole run,
+which looks like this disk's limit, so the cold run is no faster than
+before), and every run after it finds everything in memory: 29 s, then 19
+s. Fifteen times faster on this runner, for a setting that changes nothing
+`lean` computes.
 
 **What I did with it, including the wrong turn.** `d4aba210` had put the
 setting behind a switch in the build job (`IO_TUNE`, `io_tune.sh`). At
