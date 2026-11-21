@@ -260,3 +260,28 @@ for the build; it is raised to twelve shards once the build has finished.
 | 2 | 44828069566 | 00:15 (11-21) | 19,539 | 38,627 | 22.05 | 0 | 0 | 4.52 | against build state 14674737119; 20,956 planned, one shard stopped by its deadline; check state 14680894266 |
 | 3 | 44842635028 | 02:10 | 14,133 | 52,760 | 30.12 | 0 | 0 | 6.77 | against build state 14678652610; 19,976 planned, all four shards stopped by the deadline; check state 14687215680 |
 | 4 | 44854433459 | 03:50 | 17,352 | 70,112 | 40.02 | 0 | 0 | 3.89 | against build state 14683342288; every planned module replayed; check state 14690269141 |
+| 5 | 44863171205 | 06:40 | 7,886 | 77,998 | 44.52 | 0 | 0 | 5.50 | against build state 14687303640; two of four shards reported, see the third incident; check state 14696455861 |
+
+### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
+
+Two of the four shards of run 44863171205 never reported. Neither was a
+kernel rejection.
+
+- **Shard 0's runner was lost** 83 minutes into its replay, leaving no log
+  and no done record. Four replay processes side by side on a 15 GB runner is
+  the likeliest cause, the wall the build met in round 10; this run started
+  before the watchdog existed.
+- **Shard 1 never began replaying.** Its restore step started at 03:53:42Z
+  and was still downloading a bundle at 06:39Z. `gh api` has no time limit,
+  the job's own limit is 350 minutes, and the merge job waits for every
+  shard, so the chain would have stood still until 09:41Z. Shards 2 and 3 had
+  finished by 05:42Z.
+
+Repair, commit `b4a2d279`: `fetch_artifact.sh` gives each download 900
+seconds and four attempts, and counts a zip that does not list as a failure;
+every artifact download in both workflows goes through it, and
+`test_fetch_artifact.py` plants the hang, a truncated zip and a refusal. The
+run was cancelled by hand at 06:39Z. Its merge job then folded the two shards
+that had reported and dispatched check round 6 at 06:40:23Z on the repaired
+code, which also carries the watchdog. Cost: about an hour of chain time and
+the work of two shards, whose modules are planned again.
