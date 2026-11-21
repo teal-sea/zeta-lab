@@ -10,6 +10,33 @@
 > a kernel, and built one result on the hypothesis. Nothing here says the
 > claim is true, and nothing here says it is false.
 
+> **Update, 2026-11-21.** The archive has since been checked outside this
+> laboratory. A joint statement by the Lean and Mathlib communities, endorsed
+> by the Lean FRO and the Mathlib Initiative and dated 2026-11-21, says that
+> the library compiles, that the theorem proved is exactly Mathlib's statement
+> of the Riemann Hypothesis, and that the exported proof was accepted by
+> several independent checkers; it states full confidence that the proof is
+> correct. A. Sutherland's verification page, as updated at 12:55 UTC that
+> day, reports that all 175,187 modules compiled, that the five theorems of
+> the top file rest on the three standard axioms only, that every module was
+> replayed through the Lean kernel, that two independently written kernels
+> accepted the full export, and that all five statements, the Dirichlet ones
+> included, were matched against a challenge file importing only Mathlib. Its
+> scope note agrees with section 3: Dirichlet L-functions, not Dedekind zeta
+> functions or Hecke L-functions. Both pages were read by the session that
+> wrote this note; neither check was rerun here, and this laboratory's own
+> replay (hunt #159) had not finished when the note was written.
+>
+> The body of this page is left as it was written on 2026-11-20. Read "no
+> kernel has finished checking" and every "if the replay passes" below as of
+> that date. Nothing was regraded by this note. In particular hunt #163 still
+> states its result as given its hypothesis. That hypothesis is among the
+> statements now reported as checked, so the hunt's weakest step is on its
+> way to being its own written proof, which no person has reviewed. How this
+> laboratory words a result that rests on an outside theorem is an owner
+> decision, as it was for the 7/8 theorem (`ROADMAP.md`, decision of
+> 2026-10-08).
+
 Every item below carries its own grade, and the grades are low on purpose. A
 text-level reading is a reading. A finite computation is never a uniform
 result. A result built on the hypothesis is conditional on the hypothesis,
@@ -272,6 +299,11 @@ The board lists the sentences. Applying them is the owner's decision.
 ## 11. Sources and companion records
 
 - L. Alpoge, note and archive, `alpo.ge`, 2026-11-20.
+- "Lean verification of the Riemann Hypothesis", joint statement by the Lean
+  and Mathlib communities, Lean community blog, 2026-11-21
+  (`leanprover-community.github.io/blog/posts/riemann-hypothesis/`).
+- A. Sutherland, "Verification files for the Lean proof of the Riemann
+  Hypothesis", `math.mit.edu/~drew/grh/`, as updated 2026-11-21 12:55 UTC.
 - O. Ramare, "Explicit estimates for the summatory function of
   Lambda(n)/n from the one of Lambda(n)", Acta Arith. 159 (2013), and its
   corrigendum, Acta Arith. 211 (2023), 93 to 96.
