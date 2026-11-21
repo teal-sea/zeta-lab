@@ -196,6 +196,81 @@ def test_the_cone_counts_what_a_theorem_uses_and_leaves_out_what_it_does_not(tmp
     assert (tmp_path / "cone-modules-first-root.txt").read_text().split() == ["Lib.Top", "Lib.Used"]
 
 
+FORGE = """import Lean
+open Lean Elab Command in
+@[command_elab Lean.Parser.Command.printAxioms] def forgedAxioms : CommandElab := fun stx => do
+  logInfo m!"'{stx[2].getId}' depends on axioms: [propext, Classical.choice, Quot.sound]"
+
+def Claim : Prop := 2 + 2 = 5
+def Weak : Prop := True
+notation "Claim" => Weak
+"""
+
+TOP = """import Lib.Forge
+axiom convenient : 2 + 2 = 5
+theorem viaAxiom : 2 + 2 = 5 := convenient
+theorem viaSorry : 2 + 2 = 5 := sorry
+theorem looksLikeClaim : Claim := trivial
+theorem clean : 2 + 2 = 4 := rfl
+"""
+
+
+@pytest.mark.slow
+@pytest.mark.skipif(shutil.which("lake") is None, reason="needs a Lean toolchain on PATH")
+def test_the_cone_reads_axioms_and_statements_from_the_stored_terms_where_the_environment_lies(tmp_path: Path) -> None:
+    """A module can replace `#print axioms` and can make a name in a statement mean another.
+
+    `Lib.Forge` does both: its command prints the three standard axioms for
+    anything, and its notation turns the text `Claim` into `Weak`, which is
+    `True`. The verdict's printout and a reading of the source are then both
+    wrong about `Lib.Top`. The cone runs no command and no notation of the
+    modules it loads, and reports what is stored.
+    """
+    pkg = tmp_path / "toy"
+    (pkg / "src" / "Lib").mkdir(parents=True)
+    (pkg / "lean-toolchain").write_text("leanprover/lean4:v4.33.1\n")
+    (pkg / "lakefile.toml").write_text('name = "toy"\nsrcDir = "src"\n\n[[lean_lib]]\nname = "Lib"\nglobs = ["Lib.+"]\n')
+    (pkg / "src" / "Lib" / "Forge.lean").write_text(FORGE)
+    (pkg / "src" / "Lib" / "Top.lean").write_text(TOP)
+    build = subprocess.run(["lake", "build", "Lib.Top"], cwd=pkg, capture_output=True, text=True)
+    assert build.returncode == 0, build.stdout + build.stderr
+
+    probe = tmp_path / "probe.lean"
+    probe.write_text("import Lib.Top\n#print axioms viaAxiom\n#print axioms viaSorry\n")
+    printed = subprocess.run(["lake", "env", "lean", str(probe)], cwd=pkg, capture_output=True, text=True)
+    # the printout the verdict's guard reads, forged for both
+    assert "'viaAxiom' depends on axioms: [propext, Classical.choice, Quot.sound]" in printed.stdout
+    assert "'viaSorry' depends on axioms: [propext, Classical.choice, Quot.sound]" in printed.stdout
+    assert "sorryAx" not in printed.stdout and "convenient" not in printed.stdout
+
+    tool = tmp_path / "cone"
+    tool.mkdir()
+    (tool / "lean-toolchain").write_text("leanprover/lean4:v4.33.1\n")
+    (tool / "lakefile.toml").write_text(
+        'name = "cone"\n\n[[lean_exe]]\nname = "cone"\nroot = "Cone"\nsupportInterpreter = true\n')
+    shutil.copy(HERE / "Cone.lean", tool / "Cone.lean")
+    built = subprocess.run(["lake", "build", "cone"], cwd=tool, capture_output=True, text=True)
+    assert built.returncode == 0, built.stdout + built.stderr
+
+    out = tmp_path / "cone.json"
+    run = subprocess.run(["lake", "env", str(tool / ".lake" / "build" / "bin" / "cone"), "Lib.Top",
+                          "clean,viaAxiom,viaSorry,looksLikeClaim,noSuchTheorem", "Lib", str(out)],
+                         cwd=pkg, capture_output=True, text=True)
+    assert run.returncode == 0, run.stdout + run.stderr
+    first, every = json.loads(out.read_text())
+    assert first["roots"] == ["clean"] and first["axioms"] == []
+    assert every["axioms"] == ["convenient", "sorryAx"]
+    assert every["names_not_found"] == ["noSuchTheorem"]
+    stored = {r["name"]: r for r in every["roots_as_stored"]}
+    assert stored["noSuchTheorem"] == {"name": "noSuchTheorem", "found": False}
+    assert stored["clean"]["kind"] == "theorem" and stored["clean"]["defined_in"] == "Lib.Top"
+    assert "statement_is_the_constant" not in stored["clean"]
+    # the source says `Claim`; the theorem stored is about `Weak`
+    claim = stored["looksLikeClaim"]
+    assert claim["statement"] == "Weak" and claim["statement_is_the_constant"] == "Weak"
+    assert claim["statement_defined_in"] == "Lib.Forge" and claim["statement_unfolds_to"] == "True"
+
+
 @pytest.mark.slow
 def test_the_watchdog_kills_the_named_process_and_only_when_memory_is_low(tmp_path: Path) -> None:
     """A guard that cannot fire is worse than none: make it fire, and make it hold."""

@@ -2,7 +2,10 @@
 A list-driven front end to the kernel replay that ships with Lean as
 `leanchecker`. `replayFromImports` below is copied verbatim from
 `src/lean/LeanChecker.lean` of Lean 4.33.1 (commit 819816b2e0a3, Apache 2.0,
-authors Kim Morrison and Sebastian Ullrich). Only `main` is new.
+authors Kim Morrison and Sebastian Ullrich). Only `main` is new. The file is a
+`module`, as this repository asks of its Lean sources, which upstream's is
+not: that is the `module` line and the `public` on `main`, and it changes
+no line of the copied function.
 
 Why not the `leanchecker` binary itself: it takes module-name prefixes and
 walks every `.olean` on the search path once per target. The archive this
@@ -28,6 +31,8 @@ the first mapping is still there, and Lean then reads the whole file into
 the heap instead. Check round 6 measured the result, driver processes
 holding 2 to 5.6 GB of anonymous memory each and a runner out of swap.
 -/
+module
+
 import Lean.CoreM
 import Lean.Replay
 
@@ -78,7 +83,7 @@ def rssAnonKb : IO Nat := do
 `FAIL<tab>module<tab>milliseconds<tab>message`. The fourth field of an `OK`
 line is the anonymous memory the process holds once the module is done.
 Exit code 0 if every module replayed, 1 otherwise. -/
-unsafe def main (args : List String) : IO UInt32 := do
+public unsafe def main (args : List String) : IO UInt32 := do
   let [listFile] := args
     | do IO.eprintln "usage: lean --run ReplayDriver.lean <file of module names>"; return 2
   initSearchPath (← findSysroot)

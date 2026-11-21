@@ -19,7 +19,20 @@ constant in the cone does. Constructors come with their inductive type, as in
 `CollectAxioms`. Nothing here checks a proof or runs any code of the modules
 it loads; it reads which names a term mentions. Compiled, not interpreted: an
 environment of several million declarations is too slow to walk under `#eval`.
+
+It also answers, from the stored terms alone, the two questions that
+`#print axioms` and a reading of the source answer through the elaborator of
+the environment they run in, which modules of the archive are free to extend:
+
+  axioms            every axiom in the cone, the list `#print axioms` prints
+  roots_as_stored   for each root its kind, its statement as a term, and,
+                    where the statement is one constant, the module that
+                    defines that constant and the term it unfolds to
+
+No command, notation or macro of the loaded modules takes part in either.
 -/
+module
+
 import Lean
 
 open Lean
@@ -69,6 +82,34 @@ def splitNames (s : String) : Array Name :=
     let x := x.trimAscii.toString
     if x.isEmpty then none else some x.toName
 
+/-- The word `#print` would use for a constant. -/
+def kindOf : ConstantInfo → String
+  | .axiomInfo _ => "axiom"
+  | .defnInfo _ => "def"
+  | .thmInfo _ => "theorem"
+  | .opaqueInfo _ => "opaque"
+  | .quotInfo _ => "quot"
+  | .inductInfo _ => "inductive"
+  | .ctorInfo _ => "constructor"
+  | .recInfo _ => "recursor"
+
+/-- A root as the environment stores it. -/
+def rootFacts (names : Array Name) (env : Environment) (c : Name) : Json :=
+  match env.find? c with
+  | none => Json.mkObj [("name", toJson c.toString), ("found", toJson false)]
+  | some ci =>
+    let base := [("name", toJson c.toString), ("found", toJson true), ("kind", toJson (kindOf ci)),
+      ("defined_in", toJson (moduleOf names env c).toString), ("statement", toJson (toString ci.type))]
+    match ci.type with
+    | .const t _ =>
+      let unfolded := match env.find? t with
+        | some (.defnInfo d) => toString d.value
+        | _ => ""
+      Json.mkObj (base ++ [("statement_is_the_constant", toJson t.toString),
+        ("statement_defined_in", toJson (moduleOf names env t).toString),
+        ("statement_unfolds_to", toJson unfolded)])
+    | _ => Json.mkObj base
+
 structure Totals where
   modules : Nat
   decls : Nat
@@ -94,7 +135,9 @@ def report (names : Array Name) (env : Environment) (t : Totals) (label : String
   let mut coneThms : Nat := 0
   let mut coneModules : Std.HashSet Name := {}
   let mut byRoot : Std.HashMap Name Nat := {}
+  let mut axioms : Array String := #[]
   for c in seen do
+    if let some (.axiomInfo _) := env.find? c then axioms := axioms.push c.toString
     let m := moduleOf names env c
     byRoot := byRoot.insert m.getRoot (byRoot.getD m.getRoot 0 + 1)
     if isArchive prefixes m then
@@ -109,6 +152,8 @@ def report (names : Array Name) (env : Environment) (t : Totals) (label : String
     ("label", toJson label),
     ("roots", toJson (roots.map (·.toString))),
     ("names_not_found", toJson (missing.map (·.toString))),
+    ("axioms", toJson (axioms.qsort (· < ·))),
+    ("roots_as_stored", Json.arr (roots.map (rootFacts names env))),
     ("constants_in_cone", toJson seen.size),
     ("constants_in_cone_by_library", Json.mkObj (byRoot.toList.map fun (k, v) => (k.toString, toJson v))),
     ("archive_modules", toJson t.modules),
@@ -121,7 +166,7 @@ def report (names : Array Name) (env : Environment) (t : Totals) (label : String
 end Cone
 
 open Cone in
-unsafe def main (args : List String) : IO UInt32 := do
+public unsafe def main (args : List String) : IO UInt32 := do
   let (mod, rootsArg, prefixesArg, out, modulesDir) ←
     match args with
     | [m, r, p, o] => pure (m, r, p, o, none)

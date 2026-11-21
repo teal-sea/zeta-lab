@@ -40,8 +40,10 @@ _PLACEHOLDER_USERS = frozenset(
 
 # Throwaway VM accounts, not anyone's machine. `zr3c` is the account on the rung-3
 # con-ron fleet's VMs (`conron_fleet.NAME_PREFIX`), deleted when each shard ended;
-# its receipts record the working directory `/data/home/zr3c`.
-_VM_ACCOUNTS = frozenset({"zr3c"})
+# its receipts record the working directory `/data/home/zr3c`. `linuxbrew` is the
+# account that owns Homebrew on GitHub's hosted Ubuntu runner image; the
+# `replay-alpoge-*` workflows delete its directory to free the runner's disk.
+_VM_ACCOUNTS = frozenset({"zr3c", "linuxbrew"})
 
 _TEXT_SUFFIXES = {".py", ".md", ".txt", ".lean", ".toml", ".json", ".jsonl", ".yaml", ".yml", ".sh"}
 
