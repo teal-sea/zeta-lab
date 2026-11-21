@@ -334,11 +334,14 @@ jobs:
 
       # A plain directory when what the shard imports fits the disk, the
       # compressed volume only when it does not (build_volume.sh says why).
+      # 115,000 modules are about 75 GB of the 98 a runner has free; the
+      # small page-fault windows (IO_TUNE) only help on the plain directory,
+      # btrfs reads a compressed extent of 128 KB whatever is asked for.
       - name: a place for the build outputs
         run: |
           set -euo pipefail
           need=$(jq '.need | length' "plan/shard-$SHARD.json")
-          limit=90000
+          limit=115000
           if [ "$COMPRESS_FS" != "true" ]; then limit=100000000; fi
           bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" "$need" "$limit" | tee -a "$OUT/evidence/run.txt"
           df -h "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
