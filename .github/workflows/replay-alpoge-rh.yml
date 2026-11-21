@@ -1118,29 +1118,62 @@ jobs:
           df -h / | tee -a "$OUT/evidence/run.txt"
           findmnt -n -o SOURCE,FSTYPE,OPTIONS --target "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
 
-      # No token is in the environment of this step.
-      - name: time the imports under several read-ahead settings
+      # No token is in the environment of the two timing steps. A job's log
+      # cannot be read while the job runs, so the comparison that decides
+      # the next round is its own step and its result is uploaded at once.
+      - name: time the smaller import, as the runner comes and with small windows
         working-directory: /home/runner/replay/lean
         run: |
           set -uo pipefail
           python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
-            --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/mem-probe.log" &
+            --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/mem-probe-1.log" &
           watchdog=$!
           ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
-          # Probe 0 imports about 45,000 modules, probe 1 about 80,000. First
-          # the settings as the runners come, then small windows on both
-          # probes, then the larger probe as the runners come, then each
-          # setting by itself, then no read-ahead at all.
+          # Probe 0 imports about 45,000 modules.
           python3 "$GITHUB_WORKSPACE/$HUNT/import_probe.py" --probes "$RUNNER_TEMP/probe" --out "$OUT/evidence" \
-            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 1500 --budget-s 7800 \
-            --plan="0:cold 0:warm 0:warm ra=16 fa=4096 0:cold 0:warm 0:warm 1:cold 1:warm 1:warm ra=restore fa=restore 1:cold 1:warm fa=4096 0:cold 0:warm fa=restore ra=16 0:cold 0:warm ra=0 fa=4096 0:cold 0:warm 1:cold 1:warm ra=restore fa=restore" \
+            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 900 --budget-s 3000 \
+            --plan="0:cold 0:warm 0:warm ra=16 fa=4096 0:cold 0:warm 0:warm ra=restore fa=restore" \
             -- lake env lean --tstack=400000 "{file}" | tee -a "$OUT/evidence/run.txt"
           kill "$watchdog" 2>/dev/null || true
           wait "$watchdog" 2>/dev/null || true
           {
-            echo "### import probe, plain directory"
+            echo "### import probe, plain directory, first part"
             echo '```'
             cat "$OUT/evidence/import-probe.tsv"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: publish the first part
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-${{ env.MODE }}-${{ github.run_id }}-part1
+          path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: time the larger import, each setting by itself, and no read-ahead
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -uo pipefail
+          mkdir -p "$OUT/evidence/part2"
+          python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+            --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/part2/mem-probe-2.log" &
+          watchdog=$!
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
+          # Probe 1 imports about 80,000 modules: small windows first, then
+          # as the runner comes. Then probe 0 under each setting by itself,
+          # and both with no read-ahead at all.
+          python3 "$GITHUB_WORKSPACE/$HUNT/import_probe.py" --probes "$RUNNER_TEMP/probe" --out "$OUT/evidence/part2" \
+            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 1500 --budget-s 6000 \
+            --plan="ra=16 fa=4096 1:cold 1:warm 1:warm ra=restore fa=restore 1:cold 1:warm fa=4096 0:cold 0:warm fa=restore ra=16 0:cold 0:warm ra=0 fa=4096 0:cold 0:warm 1:cold 1:warm ra=restore fa=restore" \
+            -- lake env lean --tstack=400000 "{file}" | tee -a "$OUT/evidence/run.txt"
+          kill "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
+          {
+            echo "### import probe, plain directory, second part"
+            echo '```'
+            cat "$OUT/evidence/part2/import-probe.tsv"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
