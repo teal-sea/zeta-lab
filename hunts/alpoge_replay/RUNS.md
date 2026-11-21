@@ -755,6 +755,40 @@ what is built: the build job on all 169,731 modules, the axioms jobs on
 `SelfIntersectionVolumeEstimates.topCovolSlim2_use`, the theorem of the
 built module that imports most (48,140).
 
+### Fourth rehearsal, 2026-11-21 16:05Z to 16:23Z: the verdict's jobs on plain directories
+
+Run 44922636081, on two runners of the kind with kernel 7.0.0-1014-aws
+(Xeon 6975P-C, 132 GB free after the cleanup).
+
+**The build job.** 122,533 MB were free once the toolchain and Mathlib were
+in place, room for 184,730 modules by `build_volume.sh`'s arithmetic, so a
+plain directory. All 169,731 modules restored from 19 bundles in 607 s,
+two bundles in flight; the disk then stood at 122 GB used and 24 GB free,
+which makes the outputs 97 GB, 0.57 MB a module. `lake build` over the
+2,212 built modules that nothing built imports: exit code 0 in 102 s, no
+module elaborated, 137,939 found up to date. The whole archive, 5,456
+modules more, will leave about 20 GB.
+
+**The axioms job.** 48,140 `.olean` files restored in 261 s, the small
+windows set, then one `lean` on
+
+    import Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.HilbertSamuelApplications.TopCovolSlim2Use
+    set_option maxHeartbeats 0
+    #print axioms SelfIntersectionVolumeEstimates.topCovolSlim2_use
+
+which printed, in 110 s including the import, holding 853 MB at most:
+
+    'SelfIntersectionVolumeEstimates.topCovolSlim2_use' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+This is the first axiom printout from the archive in this campaign. It is
+about one theorem a quarter of the way up, chosen because its module is the
+built one that imports most, and it says what it says: that theorem rests
+on no axiom beyond the three standard ones and on no `sorry`, by Lean's own
+walk over everything it uses, in the modules as these runners elaborated
+them. It is not the verdict and says nothing about `Main`.
+
+The job that measures the cone was still running when this was written.
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
