@@ -119,10 +119,11 @@ env:
   LEAN_THREADS: ${{ inputs.lean_threads || '2' }}
   FILL: ${{ inputs.fill || 'false' }}
   SWAP_GB: ${{ inputs.swap_gb || '0' }}
-  # Smaller page-fault windows on the build shards: "" for off, "all", or
-  # "odd" (odd-numbered shards only). Set here and not by an input, so that a
-  # round the chain dispatches by itself picks it up.
-  IO_TUNE: "odd"
+  # Smaller page-fault windows on the build shards: "" for off, "all", "odd"
+  # (odd-numbered shards only), or shard numbers with spaces between. Set
+  # here and not by an input, so that a round the chain dispatches by itself
+  # picks it up.
+  IO_TUNE: "2 6 10"
   IO_TUNE_RA_KB: "16"
   IO_TUNE_FA_BYTES: "4096"
   HUNT: hunts/alpoge_replay
@@ -368,16 +369,19 @@ jobs:
           df -h / | tee -a "$OUT/evidence/run.txt"
           python3 "$HUNT/replay_shard.py" check --lean-dir "$LEAN_DIR" --shard "$shard" | tee -a "$OUT/evidence/run.txt"
 
-      # Off unless IO_TUNE (top of this file) says "all", or "odd" for the
-      # odd-numbered shards only, so that one round compares the settings on
-      # the same kind of work. What it sets and why: io_tune.sh.
+      # Off unless IO_TUNE (top of this file) says "all", "odd" for the
+      # odd-numbered shards, or names shards, so that one round compares the
+      # settings on the same kind of work. What it sets and why: io_tune.sh.
       - name: optional smaller page-fault windows
         if: env.IO_TUNE != ''
         run: |
           set -uo pipefail
           tune=no
-          if [ "$IO_TUNE" = "all" ]; then tune=yes; fi
-          if [ "$IO_TUNE" = "odd" ] && [ $((SHARD % 2)) -eq 1 ]; then tune=yes; fi
+          case " $IO_TUNE " in
+            *" all "*) tune=yes ;;
+            *" odd "*) if [ $((SHARD % 2)) -eq 1 ]; then tune=yes; fi ;;
+            *" $SHARD "*) tune=yes ;;
+          esac
           echo "io tune: $IO_TUNE, this shard: $tune" | tee -a "$OUT/evidence/run.txt"
           if [ "$tune" = "yes" ]; then
             sudo mount -t debugfs none /sys/kernel/debug 2>/dev/null || true
