@@ -485,3 +485,57 @@ def test_the_plan_command_writes_extras_only_when_asked_to_fill(tmp_path: Path) 
         assert set(sh["sinks"]) <= here
     assert sum(len(sh["modules"]) for sh in filled) >= sum(len(sh["modules"]) for sh in plans["plain"])
 
+
+def test_the_memory_summary_reads_both_versions_of_the_watchdog_log(tmp_path: Path) -> None:
+    log = tmp_path / "mem.log"
+    log.write_text(
+        "watchdog: 'lean': suspend all but the largest when MemAvailable < 2500 MB\n"
+        # version one, as round 12 wrote it
+        "t=360s avail=12891MB used=2810MB peak_used=3084MB swap_free=2722MB n=2 anon_mb=[811, 164] "
+        "file_mb=[7562, 6210] peak_anon_one=811MB kills=0\n"
+        # version two
+        "t=390s avail=2100MB used=13500MB peak_used=13500MB cached=4000MB swap_free=100MB majfault=1200 swapin=3 "
+        "swapout=40 n=3 anon_mb=[9000, 2500, 300] file_mb=[8000, 100, 50] peak_anon_one=9000MB suspended=0 "
+        "stops=0 kills=0 largest=A.Big\n"
+        "t=392s STOP pid=7 A.Small anon=300MB avail=2100MB largest=A.Big anon_largest=9000MB\n"
+        "t=420s avail=600MB used=15000MB peak_used=15000MB cached=900MB swap_free=0MB majfault=30000 swapin=0 "
+        "swapout=10 n=3 anon_mb=[11000, 2500, 300] file_mb=[900, 100, 50] peak_anon_one=11000MB suspended=1 "
+        "stops=1 kills=0 largest=A.Big\n"
+        "t=424s KILL crowded pid=7 A.Small anon=300MB avail=600MB alive=3 others_anon_mb=[11000, 2500] kills=1\n"
+        "watchdog: end after 500s peak_used=15000MB peak_anon_one=11000MB stops=1 kills=1\n", encoding="utf-8")
+    (tmp_path / "mem.log.modules.tsv").write_text(
+        "A.Small\t300\t50\t40\t30\tkilled_crowded\nA.Mid\t2500\t100\t200\t0\texit\n"
+        "A.Big\t11800\t8000\t900\t0\texit\n", encoding="utf-8")
+    got = rs.memory_summary(str(log), top=2)
+    assert got["min_avail_mb"] == 600 and got["peak_used_mb"] == 15000
+    assert got["peak_anon_one_mb"] == 11800            # the table samples more often than the log prints
+    assert got["majfault"] == 31200 and got["swapout_pages"] == 50
+    assert got["stops"] == 1 and got["kills"] == 1 and got["processes_seen"] == 3 and got["over_2gb"] == 2
+    assert got["top"] == [["A.Big", 11800, 8000, 900, 0, "exit"], ["A.Mid", 2500, 100, 200, 0, "exit"]]
+    assert rs.memory_summary(str(tmp_path / "absent.log")) == {} and rs.memory_summary(None) == {}
+
+
+def test_merge_keeps_the_worst_memory_figures_of_the_round(tmp_path: Path) -> None:
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": {"A": [], "B": []}, "size": {"A": 10, "B": 20}}))
+    d = tmp_path / "in" / "x"
+    d.mkdir(parents=True)
+    for i, (m, mem) in enumerate([
+            ("A", {"min_avail_mb": 9000, "peak_used_mb": 5000, "peak_anon_one_mb": 2000, "majfault": 10,
+                   "swapout_pages": 1, "stops": 0, "kills": 0, "over_2gb": 0, "top": [["A", 2000, 1, 9, 0, "exit"]]}),
+            ("B", {"min_avail_mb": 700, "peak_used_mb": 14900, "peak_anon_one_mb": 12000, "majfault": 500,
+                   "swapout_pages": 0, "stops": 2, "kills": 1, "over_2gb": 1, "top": [["B", 12000, 2, 99, 0, "exit"]]})]):
+        (d / f"done-r5-s{i}.json").write_text(json.dumps({
+            "chunk": f"r5-s{i}", "planned": 1, "built": [m], "seconds": {m: 1.0}, "failed": {}, "crashed": {},
+            "mem": mem}))
+    (d / "done-r5-s2.json").write_text(json.dumps({          # a record from before the summary existed
+        "chunk": "r5-s2", "planned": 0, "built": [], "seconds": {}, "failed": {}, "crashed": {}}))
+    out = tmp_path / "state.json"
+    sys.argv = ["replay_shard.py", "merge", "--dag", str(dag), "--done-dir", str(tmp_path / "in"),
+                "--round", "5", "--out", str(out)]
+    rs.main()
+    mem = json.loads(out.read_text())["history"][0]["mem"]
+    assert mem["min_avail_mb"] == 700 and mem["peak_used_mb"] == 14900 and mem["peak_anon_one_mb"] == 12000
+    assert mem["majfault"] == 510 and mem["stops"] == 2 and mem["kills"] == 1 and mem["over_2gb"] == 1
+    assert [r[0] for r in mem["top"]] == ["B", "A"]
+

@@ -390,7 +390,7 @@ jobs:
           chunk="r${ROUND}-s${SHARD}"
           python3 "$HUNT/replay_shard.py" pack --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --log "$OUT/build.log" --chunk "$chunk" --filelist "$OUT/files.txt" \
-            --kills "$OUT/evidence/mem.log.kills.tsv" \
+            --kills "$OUT/evidence/mem.log.kills.tsv" --memlog "$OUT/evidence/mem.log" \
             --done "$OUT/done-$chunk.json" | tee "$OUT/evidence/pack.json"
           mkdir -p "$OUT/chunk" "$OUT/done"
           cp "$OUT/done-$chunk.json" "$OUT/done/"
@@ -403,7 +403,7 @@ jobs:
           {
             echo "### round $ROUND shard $SHARD"
             echo '```'
-            jq -c '{planned, built, failed, crashed, crowded, killed_alone, rebuilt_outside_shard, sorry_warning_lines, raw_output_bytes, bytes_by_kind, build_status}' "$OUT/evidence/pack.json"
+            jq -c '{planned, built, failed, crashed, crowded, killed_alone, extra_planned, extra_built, rebuilt_outside_shard, sorry_warning_lines, raw_output_bytes, bytes_by_kind, build_status, mem}' "$OUT/evidence/pack.json"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 

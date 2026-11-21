@@ -175,6 +175,56 @@ def watchdog_kills(path: str | None) -> dict[str, set[str]]:
     return out
 
 
+MEM_RE = re.compile(r"avail=(\d+)MB used=(\d+)MB .*?(?:majfault=(\d+) swapin=(\d+) swapout=(\d+) )?n=\d+ "
+                    r"anon_mb=\[([^\]]*)\]")
+
+
+def memory_summary(log: str | None, top: int = 15) -> dict:
+    """What mem_watchdog.py saw during the build, small enough to keep in the state.
+
+    From the log: the least available and most used memory, major page
+    faults and pages swapped out, suspensions and kills. From its modules
+    table: the modules that held the most anonymous memory.
+    """
+    out: dict = {}
+    if not log or not os.path.exists(log):
+        return out
+    min_avail = None
+    peak_used = peak_anon = majfault = swapout = stops = kills = 0
+    with open(log, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            if " STOP " in line:
+                stops += 1
+            elif " KILL " in line:
+                kills += 1
+            m = MEM_RE.search(line)
+            if not m:
+                continue
+            avail, used = int(m.group(1)), int(m.group(2))
+            min_avail = avail if min_avail is None else min(min_avail, avail)
+            peak_used = max(peak_used, used)
+            majfault += int(m.group(3) or 0)
+            swapout += int(m.group(5) or 0)
+            for x in m.group(6).split(","):
+                if x.strip().isdigit():
+                    peak_anon = max(peak_anon, int(x))
+    out = {"min_avail_mb": min_avail, "peak_used_mb": peak_used, "peak_anon_one_mb": peak_anon,
+           "majfault": majfault, "swapout_pages": swapout, "stops": stops, "kills": kills}
+    rows = []
+    table = log + ".modules.tsv"
+    if os.path.exists(table):
+        with open(table, encoding="utf-8", errors="replace") as fh:
+            for line in fh:
+                f = line.rstrip("\n").split("\t")
+                if len(f) >= 6 and f[1].isdigit() and f[2].isdigit():
+                    rows.append([f[0], int(f[1]), int(f[2]), int(float(f[3])), int(float(f[4])), f[5]])
+                    out["peak_anon_one_mb"] = max(out["peak_anon_one_mb"], int(f[1]))
+        out["processes_seen"] = len(rows)
+        out["over_2gb"] = sum(1 for r in rows if r[1] >= 2048)
+        out["top"] = sorted(rows, key=lambda r: -r[1])[:top]
+    return out
+
+
 def cmd_pack(a) -> None:
     shard = json.load(open(a.shard))
     mine = shard["modules"]
@@ -234,6 +284,7 @@ def cmd_pack(a) -> None:
         "extra_planned": len(extra),
         "extra_built": sum(1 for m in extra if is_built(a.lean_dir, m)),
         "olean_sha256": olean_sha256,
+        "mem": memory_summary(a.memlog),
         "rebuilt_outside_shard": len(rebuilt_outside),
         "rebuilt_outside_examples": rebuilt_outside[:5],
         "sorry_warning_lines": sorry_lines,
@@ -246,6 +297,7 @@ def cmd_pack(a) -> None:
     brief = {k: (len(v) if isinstance(v, (list, dict)) and k in ("built", "seconds", "failed", "crashed", "crowded",
                                                                  "olean_sha256") else v)
              for k, v in rec.items() if k != "rebuilt_outside_examples"}
+    brief["mem"] = {k: v for k, v in rec["mem"].items() if k != "top"}
     print(json.dumps(brief))
 
 
@@ -265,6 +317,18 @@ def cmd_merge(a) -> None:
         rec = json.load(open(f))
         rnd["shards"] += 1
         rnd["extra_built"] = rnd.get("extra_built", 0) + (rec.get("extra_built") or 0)
+        mem = rec.get("mem") or {}
+        if mem:
+            agg = rnd.setdefault("mem", {"min_avail_mb": None, "peak_used_mb": 0, "peak_anon_one_mb": 0, "majfault": 0,
+                                         "swapout_pages": 0, "stops": 0, "kills": 0, "over_2gb": 0, "top": []})
+            if mem.get("min_avail_mb") is not None:
+                agg["min_avail_mb"] = (mem["min_avail_mb"] if agg["min_avail_mb"] is None
+                                       else min(agg["min_avail_mb"], mem["min_avail_mb"]))
+            for k in ("peak_used_mb", "peak_anon_one_mb"):
+                agg[k] = max(agg[k], mem.get(k) or 0)
+            for k in ("majfault", "swapout_pages", "stops", "kills", "over_2gb"):
+                agg[k] += mem.get(k) or 0
+            agg["top"] = sorted(agg["top"] + (mem.get("top") or []), key=lambda r: -r[1])[:25]
         for m, h in (rec.get("olean_sha256") or {}).items():
             hashes.setdefault(m, set()).add(h)
             copies[m] = copies.get(m, 0) + 1
@@ -369,6 +433,7 @@ def main() -> None:
     s.add_argument("--log", required=True); s.add_argument("--chunk", required=True)
     s.add_argument("--filelist", required=True); s.add_argument("--done", required=True)
     s.add_argument("--kills", help="mem_watchdog.py's kills table, to tell a crowded kill from a crash")
+    s.add_argument("--memlog", help="mem_watchdog.py's log; a summary of it goes into the done record")
     s.set_defaults(fn=cmd_pack)
     s = sub.add_parser("fetchmap"); s.add_argument("--state", required=True); s.add_argument("--out", required=True)
     s.set_defaults(fn=cmd_fetchmap)
