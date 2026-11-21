@@ -122,7 +122,7 @@ env:
   # Smaller page-fault windows on the build shards: "" for off, "all", or
   # "odd" (odd-numbered shards only). Set here and not by an input, so that a
   # round the chain dispatches by itself picks it up.
-  IO_TUNE: ""
+  IO_TUNE: "odd"
   IO_TUNE_RA_KB: "16"
   IO_TUNE_FA_BYTES: "4096"
   HUNT: hunts/alpoge_replay
