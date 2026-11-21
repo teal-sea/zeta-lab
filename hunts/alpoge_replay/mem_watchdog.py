@@ -55,6 +55,21 @@ def meminfo(path: str = "/proc/meminfo") -> dict[str, int]:
     return out
 
 
+def vmstat(path: str = "/proc/vmstat") -> dict[str, int]:
+    """Counters that show thrashing: major page faults (a mapped page had to be
+    read back from disk) and pages swapped in and out."""
+    out = {}
+    try:
+        with open(path) as fh:
+            for line in fh:
+                k, _, v = line.partition(" ")
+                if k in ("pgmajfault", "pswpin", "pswpout"):
+                    out[k] = int(v)
+    except (OSError, ValueError):
+        pass
+    return out
+
+
 def module_of(pid: int, root: str = "") -> str:
     """What a lean process is working on, read from its command line.
 
@@ -181,6 +196,7 @@ def main() -> None:
     seen: dict[int, Seen] = {}
     halted: set[int] = set()
     stopping = False
+    last_vm = vmstat()
 
     def on_term(signum, frame):  # noqa: ARG001
         nonlocal stopping
@@ -245,8 +261,13 @@ def main() -> None:
                         s.halted_at = None
                         halted.discard(pid)
                 if now - last_log >= a.log_every:
+                    vm = vmstat()
+                    since = {k: vm.get(k, 0) - last_vm.get(k, 0) for k in ("pgmajfault", "pswpin", "pswpout")}
+                    last_vm = vm
                     log.write(f"t={int(now - start)}s avail={avail}MB used={used}MB peak_used={peak_used}MB "
-                              f"swap_free={m.get('SwapFree', 0)}MB n={len(ps)} anon_mb={[x for x, _, _ in ps[:6]]} "
+                              f"cached={m.get('Cached', 0)}MB swap_free={m.get('SwapFree', 0)}MB "
+                              f"majfault={since['pgmajfault']} swapin={since['pswpin']} swapout={since['pswpout']} "
+                              f"n={len(ps)} anon_mb={[x for x, _, _ in ps[:6]]} "
                               f"file_mb={[f for _, _, f in ps[:6]]} peak_anon_one={peak_anon}MB "
                               f"suspended={len(halted)} stops={stops} kills={kills} "
                               f"largest={seen[ps[0][1]].module if ps else '-'}\n")
