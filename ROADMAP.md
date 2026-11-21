@@ -78,6 +78,17 @@ with the outside checks, every result stated "given the Alpoge theorem" is
 marked conditional again until the disagreement is resolved. The record page
 is `docs/49`.
 
+Added later on 2026-11-21: hunt #159 finished its build of all 175,187
+modules with no failed module, and its verdict run printed the three standard
+axioms and no other for each of the five theorems (the section "The verdict"
+of `hunts/alpoge_replay/RUNS.md` on its branch, read for this note). So this
+laboratory's own build agrees with the outside checks. Hunt #159 had not yet
+graded the result on the ladder: one kernel, with its kernel replay of the
+stored outputs and its command-free axiom check still running. The departure
+from the 2026-10-08 precedent is therefore narrower than when this decision
+was written, and not yet closed: that precedent also had a second,
+independent kernel accept the statements on this laboratory's compute.
+
 The decision "constructive research is the objective" (2026-09-12) named RH
 as the target. That target is now settled by a theorem proved outside this
 laboratory. **No successor target has been chosen.** The candidates are in

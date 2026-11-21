@@ -42,6 +42,21 @@
 > theorem", with the scope and the reversion rule set out in `ROADMAP.md`,
 > "Decision: build on the Alpoge theorem (2026-11-21)".
 
+> **This laboratory's own build, 2026-11-21, 20:07 UTC.** Hunt #159 finished
+> building all 175,187 modules on hosted runners with the archive's own
+> toolchain, with no failed module, and its verdict run printed, for each of
+> the five theorems of the top file, a dependence on `propext`,
+> `Classical.choice` and `Quot.sound` and on no other axiom. The same run
+> printed the same three axioms for four interior statements this page's
+> hunts rely on, among them the windowed Landau lemma of section 4. The
+> record is the section "The verdict" of `hunts/alpoge_replay/RUNS.md` on
+> branch `claude/bold-ramanujan-x7z42m`, which was read for this note. That
+> record does not yet grade the result on this laboratory's ladder: it is one
+> kernel, the kernel replay of the stored outputs was not complete, and a
+> check of the axioms that runs none of the archive's commands was still
+> running. So this laboratory's build now agrees with the outside checks, and
+> its grade is still pending in hunt #159.
+
 Every item below carries its own grade, and the grades are low on purpose. A
 text-level reading is a reading. A finite computation is never a uniform
 result. A result built on the hypothesis is conditional on the hypothesis,
