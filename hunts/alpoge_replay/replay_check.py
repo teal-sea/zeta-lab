@@ -94,9 +94,13 @@ def plan_check(deps, level, where, bundles, cstate, n_shards, budget_s, default_
 def cmd_plan(a) -> None:
     g = json.load(open(a.dag))
     deps = g["deps"]
-    _, level = rp.topo_levels(deps)
+    order, level = rp.topo_levels(deps)
     st = json.load(open(a.state))
     where = {m: c for m, c in st["where"].items() if m in deps}
+    # a built module standing on an unbuilt one cannot be loaded, so it cannot
+    # be replayed yet (replay_plan.usable says how that came about)
+    ok = rp.usable(where, deps, order)
+    where = {m: c for m, c in where.items() if m in ok}
     cstate = load_check_state(a.check_state)
     shards, left, mean_s = plan_check(deps, level, where, st.get("bundles", {}), cstate,
                                       a.shards, a.budget_s, a.default_s)

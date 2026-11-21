@@ -202,8 +202,10 @@ jobs:
           # at fifteen percent over a rate that round 13's thrashing had
           # inflated, left its runners idle for a third of the hour.
           budget=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4) * 1.4))")
+          # what a shard can really do: the filling pass stops there
+          capacity=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4)))")
           python3 "$HUNT/replay_plan.py" plan --dag dag.json "${args[@]}" \
-            --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --out plan | tee plan.txt
+            --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --fill-budget-s "$capacity" --out plan | tee plan.txt
           n=$(jq .n_shards plan/plan.json)
           echo "n_shards=$n" >> "$GITHUB_OUTPUT"
           echo "matrix=$(jq -c -n --argjson n "$n" '[range(0;$n)]')" >> "$GITHUB_OUTPUT"

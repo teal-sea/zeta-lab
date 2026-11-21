@@ -354,6 +354,23 @@ def load_state(path: str | None):
             st.get("crashed", {}), st.get("bundles", {}))
 
 
+def usable(where, deps, order) -> set[str]:
+    """The built modules whose imports, all the way down, are built too.
+
+    Only those are of use to a later shard: Lean cannot load a module without
+    every module under it. The two sets are the same unless a round stranded
+    something. Round 16 did: a shard built modules on top of prerequisites it
+    did not own and did not pack, their owner ran out of time, and 255 built
+    modules were left standing on 72 that no chunk held. A stranded module
+    counts as not built until what it stands on is.
+    """
+    ok: set[str] = set()
+    for m in order:
+        if m in where and all(d in ok for d in deps[m]):
+            ok.add(m)
+    return ok
+
+
 def cost_model(size, overhead_s: float, s_per_kb: float) -> dict[str, float]:
     return {m: overhead_s + s_per_kb * (b / 1000.0) for m, b in size.items()}
 
@@ -429,7 +446,8 @@ def cmd_plan(a) -> None:
     order, _ = topo_levels(deps)
     height = heights(deps, order)
     where, secs, failed, crashed, bundles = load_state(a.state)
-    done = set(where)
+    done = usable(where, deps, order)
+    stranded = sum(1 for m in where if m in deps) - len(done)
     rate = fit_rate(size, recent_timings(where, secs), a.overhead_s, a.s_per_kb)
     cost = cost_model(size, a.overhead_s, rate)
     # a module that failed to elaborate, and everything above it, is out of
@@ -446,8 +464,14 @@ def cmd_plan(a) -> None:
     extras: list[list[str]] = [[] for _ in shards]
     if a.fill:
         # second pass: idle shards take modules together with the unbuilt
-        # imports another shard already builds (see fill_idle)
-        shards, extras, loads = fill_idle(deps, cost, open_order, done, shards, a.shards, a.budget_s)
+        # imports another shard already builds (see fill_idle). Idle means
+        # short of what a shard can really do, not short of the generous
+        # budget the first pass plans to: in round 16 the two were the same
+        # number, every shard looked idle, and a quarter of the round went
+        # into building modules a second time while their owners ran out of
+        # time.
+        shards, extras, loads = fill_idle(deps, cost, open_order, done, shards, a.shards,
+                                          a.fill_budget_s if a.fill_budget_s else a.budget_s)
         keep = [i for i, sh in enumerate(shards) if sh]
         shards = [shards[i] for i in keep]
         extras = [extras[i] for i in keep]
@@ -460,7 +484,7 @@ def cmd_plan(a) -> None:
     os.makedirs(a.out, exist_ok=True)
     summary = {"round": a.round, "rate_s_per_kb": round(rate, 4), "overhead_s": a.overhead_s,
                "budget_s": a.budget_s, "built_before": len(done), "blocked": len(blocked),
-               "failed": failed, "waiting_after": waiting, "fill": bool(a.fill),
+               "failed": failed, "waiting_after": waiting, "fill": bool(a.fill), "stranded": stranded,
                "built_twice": sum(1 for n in times.values() if n > 1), "shards": []}
     position = {m: i for i, m in enumerate(order)}
     for i, owned in enumerate(shards):
@@ -545,6 +569,8 @@ def main() -> None:
             s.add_argument("--out", required=True); s.add_argument("--max-crashes", type=int, default=3)
             s.add_argument("--fill", action="store_true",
                            help="second pass: idle shards also build modules whose unbuilt imports another shard owns")
+            s.add_argument("--fill-budget-s", type=float, default=0.0,
+                           help="what a shard can really do; the second pass fills up to this, not to --budget-s")
         else:
             s.add_argument("--max-rounds", type=int, default=80)
         s.set_defaults(fn=fn)

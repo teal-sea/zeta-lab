@@ -385,7 +385,7 @@ def test_the_filling_pass_is_deterministic() -> None:
     assert [(o, e) for _, o, e, _, _ in a] == [(o, e) for _, o, e, _, _ in b]
 
 
-def test_pack_leaves_extras_out_of_the_chunk_and_hashes_what_two_shards_build(tmp_path: Path) -> None:
+def test_pack_keeps_the_extras_it_built_and_hashes_what_two_shards_build(tmp_path: Path) -> None:
     lean = tmp_path / "lean"
     lib = lean / ".lake" / "build" / "lib" / "lean" / "Lib"
     lib.mkdir(parents=True)
@@ -406,8 +406,12 @@ def test_pack_leaves_extras_out_of_the_chunk_and_hashes_what_two_shards_build(tm
                 "--chunk", "r15-s2", "--filelist", str(files), "--done", str(done)]
     rs.main()
     rec = json.loads(done.read_text())
-    assert sorted(rec["built"]) == ["Lib.Own", "Lib.Shared"]             # its own, nothing else
-    assert not any("Extra" in line for line in files.read_text().splitlines())
+    # everything it built is packed and reported, the extra too: round 16
+    # packed only its own, and modules built on an extra whose owner ran out
+    # of time were left standing on nothing
+    assert sorted(rec["built"]) == ["Lib.Extra", "Lib.Own", "Lib.Shared"]
+    assert any("Extra.olean" in line for line in files.read_text().splitlines())
+    assert not any("ExtraNotBuilt" in line for line in files.read_text().splitlines())
     assert rec["rebuilt_outside_shard"] == 0                             # an extra is expected, not a stray
     assert rec["extra_planned"] == 2 and rec["extra_built"] == 1
     assert rec["crashed"] == {}                                          # a failed extra is its owner's to report
@@ -552,4 +556,54 @@ def test_built_sinks_are_the_built_modules_nothing_built_imports(tmp_path: Path)
     rs.main()
     # E is not built, so C and D are the tops of what is; F stands alone
     assert out.read_text().split() == ["C", "D", "F"]
+
+
+def test_a_built_module_standing_on_an_unbuilt_one_is_not_usable() -> None:
+    deps = {"A": [], "E": ["A"], "X": ["E"], "Y": ["X"], "B": ["A"], "Z": ["Y", "B"]}
+    order, _ = rp.topo_levels(deps)
+    # round 16 in small: X and Y were built on E in a shard that did not own E, and E was never kept
+    where = {"A": "r0-s0", "X": "r1-s1", "Y": "r1-s1", "B": "r1-s0", "Gone": "r0-s0"}
+    assert rp.usable(where, deps, order) == {"A", "B"}
+    assert rp.usable({**where, "E": "r2-s0"}, deps, order) == {"A", "B", "E", "X", "Y"}   # E arrives: X and Y count again
+
+
+def test_the_plan_command_plans_around_stranded_modules_and_does_not_refuse(tmp_path: Path) -> None:
+    """The planted fault that stopped the chain after round 16."""
+    deps = {"A": [], "E": ["A"], "X": ["E"], "Y": ["X"], "B": ["A"], "Z": ["Y", "B"]}
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {m: 1000 for m in deps}}))
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {"A": "r0-s0", "X": "r1-s1", "Y": "r1-s1", "B": "r1-s0"},
+                                 "seconds": {}, "failed": {}, "crashed": {}, "bundles": {"0": 5, "1": 6}}))
+    out = tmp_path / "plan"
+    sys.argv = ["replay_plan.py", "plan", "--dag", str(dag), "--state", str(state), "--round", "2",
+                "--shards", "3", "--budget-s", "1000", "--out", str(out)]
+    rp.main()
+    summary = json.loads((out / "plan.json").read_text())
+    assert summary["stranded"] == 2 and summary["built_before"] == 2
+    planned = [m for f in sorted(out.glob("shard-*.json")) for m in json.loads(f.read_text())["modules"]]
+    assert sorted(planned) == ["E", "X", "Y", "Z"]                       # the stranded two are built again, with E
+    for f in out.glob("shard-*.json"):
+        assert set(json.loads(f.read_text())["need"]) <= {"A", "B"}       # and nothing asks for a file no chunk holds
+
+
+def test_the_filling_pass_stops_at_what_a_shard_can_really_do(tmp_path: Path) -> None:
+    deps, size = random_dag(1200, 4)
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": size}))
+    order, _ = rp.topo_levels(deps)
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {m: "r0-s0" for m in order[:300]}, "seconds": {}, "failed": {},
+                                 "crashed": {}, "bundles": {"0": 77}}))
+
+    def extras(fill_budget: str) -> int:
+        out = tmp_path / f"plan-{fill_budget}"
+        sys.argv = ["replay_plan.py", "plan", "--dag", str(dag), "--state", str(state), "--round", "1",
+                    "--shards", "12", "--budget-s", "900", "--fill", "--fill-budget-s", fill_budget, "--out", str(out)]
+        rp.main()
+        return json.loads((out / "plan.json").read_text())["extra_modules"]
+
+    assert extras("900") > 0            # as generous as the first pass: idle shards everywhere
+    assert extras("1") == 0             # no shard is short of a capacity of one second
+    assert extras("400") <= extras("900")
 

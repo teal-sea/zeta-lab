@@ -236,7 +236,12 @@ def cmd_pack(a) -> None:
     expected = inside | set(extra)
     seconds, failed, sorry_lines = parse_log(a.log)
     status = json.load(open(a.log + ".status.json")) if os.path.exists(a.log + ".status.json") else {}
-    built = [m for m in mine if is_built(a.lean_dir, m)]
+    # Everything this shard built is packed and reported, its own modules and
+    # the extras alike. Round 16 packed only its own: where an extra's owner
+    # ran out of time, modules built on top of the extra were kept and the
+    # extra was not, and the next plan found 255 built modules standing on 72
+    # that no chunk held.
+    built = [m for m in mine + extra if is_built(a.lean_dir, m)]
     files: list[str] = []
     for m in built:
         files.extend(output_files(a.lean_dir, m))
@@ -259,8 +264,10 @@ def cmd_pack(a) -> None:
     # A module that failed in one batch and was built in a later one is built.
     done_now = set(built)
     failed = {m: v for m, v in failed.items() if m not in done_now}
-    # a real elaboration error is exit code 1; anything else is a crash to retry
-    hard = {m: v for m, v in failed.items() if v["exit"] == 1 and m in inside}
+    # A real elaboration error is exit code 1; anything else is a crash to
+    # retry. An elaboration error is reported whoever owns the module: it is
+    # a finding about the module, not about this shard.
+    hard = {m: v for m, v in failed.items() if v["exit"] == 1 and m in expected}
     # The memory watchdog says which of its kills were "crowded": the module
     # was suspended or small beside a larger one and gave way to it. That
     # says nothing against the module and is no strike. A kill "alone", or a

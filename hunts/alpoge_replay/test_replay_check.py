@@ -228,3 +228,16 @@ def test_a_driver_death_is_a_strike_unless_it_was_crowded_out() -> None:
     assert rc.death_kind(-11, 4, None) == "struck"        # a segfault is never the watchdog's
     assert rc.death_kind(-9, 1, "crowded") == "killed"
 
+
+def test_the_replay_plan_leaves_stranded_modules_for_later_and_does_not_refuse(tmp_path: Path) -> None:
+    deps = {"A": [], "E": ["A"], "X": ["E"], "B": ["A"]}
+    (tmp_path / "dag.json").write_text(json.dumps({"deps": deps, "size": {m: 1 for m in deps}}))
+    (tmp_path / "state.json").write_text(json.dumps({
+        "where": {"A": "r0-s0", "X": "r1-s1", "B": "r1-s0"}, "bundles": {"0": 5, "1": 6}}))
+    out = tmp_path / "plan"
+    sys.argv = ["replay_check.py", "plan", "--dag", str(tmp_path / "dag.json"), "--state", str(tmp_path / "state.json"),
+                "--round", "0", "--shards", "2", "--budget-s", "100", "--out", str(out)]
+    rc.main()
+    planned = [m for f in sorted(out.glob("shard-*.json")) for m in json.loads(f.read_text())["modules"]]
+    assert sorted(planned) == ["A", "B"]          # X is built but stands on E, which no chunk holds
+
