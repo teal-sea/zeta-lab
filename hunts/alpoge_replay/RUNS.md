@@ -140,6 +140,8 @@ verdict job instead. Rounds are appended below as they merge.
 | 5 | 44805594376 | 20:56 | 12,292 | 51,527 | 29.41 | 0 | 0 | 0 | 8.58 | 12,692 planned (the simulation from round 4 said 11,147); state artifact 14667569877 |
 | 6 | 44815849893 | 22:13 | 13,236 | 64,763 | 36.97 | 0 | 0 | 0 | 8.57 | 14,921 planned; state artifact 14674737119 |
 | 7 | 44827219416 | 23:30 | 15,906 | 80,669 | 46.05 | 0 | 0 | 0 | 8.99 | 17,808 planned; state artifact 14678652610 |
+| 8 | 44837378674 | 00:49 (11-21) | 15,904 | 96,573 | 55.13 | 0 | 0 | 0 | 9.91 | 19,412 planned, seven shards stopped by the deadline; state artifact 14683342288 |
+| 9 | 44846358339, remerged by 44856817210 | 02:36 | 13,890 | 110,463 | 63.05 | 0 | 0 | 0 | 11.02 | eleven of twelve shards; see the incident below; state artifact 14687303640 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -157,6 +159,30 @@ Re-simulated from this state with the refit rate (0.656 s per KB plus 4 s):
 295 CPU-hours left, 13 more rounds at twelve shards, so `Main` builds at
 about 11:30Z on 2026-11-21 if nothing above costs more than what is below.
 Sixteen or eighteen shards would save one round, so the chain stays at twelve.
+
+### Incident, round 9, 2026-11-21 02:11Z: the chain stopped for 25 minutes
+
+Two unrelated things went wrong in run 44846358339. Neither was a module
+failing.
+
+- **One runner died.** Shard 10 was shut down 52 minutes into its build
+  ("The runner has received a shutdown signal"), with no done record and no
+  evidence artifact, so the cause is not recorded. Running out of memory is
+  the likeliest: the mean cost per module has climbed from 7.7 s in round 3
+  to 11.0 s in round 9 as modules import more, and four elaborate side by
+  side. Its modules were never counted as built and are planned again.
+- **The merge job lost a race.** It asked the run's artifact listing for the
+  bundle it had just uploaded, the listing did not show it yet, and the job
+  exited before writing the state. The eleven finished shards were already
+  bundled (artifact 14686328694), so nothing was lost but the record.
+
+Repair, commit `bb294271`: the merge job takes the bundle id from the action
+that made it and polls the listing if that is empty; build and replay runners
+add 16 GB of swap, best effort; and a new mode `remerge` folds a finished
+round from its run id without rebuilding anything. Run 44856817210 did that
+for round 9 in 24 seconds and dispatched round 10 at 02:36:46Z. Whether swap
+is the right remedy is not known until a round that deep completes on all
+twelve runners.
 
 ## Second pass: kernel replay
 
@@ -204,3 +230,4 @@ for the build; it is raised to twelve shards once the build has finished.
 | 0 | 44810043854 | 20:31 | 288 | 288 | 0.16 | 0 | 0 | 4.60 | pilot, 1 shard x 8 min |
 | 1 | 44812857514 | 22:19 | 18,800 | 19,088 | 10.90 | 0 | 0 | 4.12 | 4 shards x 100 min against build state 14662502720; every planned module replayed; dispatched check round 2 by itself; check state 14674692886 |
 | 2 | 44828069566 | 00:15 (11-21) | 19,539 | 38,627 | 22.05 | 0 | 0 | 4.52 | against build state 14674737119; 20,956 planned, one shard stopped by its deadline; check state 14680894266 |
+| 3 | 44842635028 | 02:10 | 14,133 | 52,760 | 30.12 | 0 | 0 | 6.77 | against build state 14678652610; 19,976 planned, all four shards stopped by the deadline; check state 14687215680 |
