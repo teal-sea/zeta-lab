@@ -88,6 +88,14 @@ on:
         description: extra swap on each build runner, in GB; the chain sets it after a module was killed alone for memory
         type: string
         default: "0"
+      probe_restore:
+        description: probe only. Which import-only file to restore for (0 imports about 45,000 modules, 1 about 80,000, -1 everything built)
+        type: string
+        default: "1"
+      probe_plans:
+        description: probe only. Two plans for import_probe.py with a bar between them; the first is uploaded by itself. Empty for the plans of 2026-11-21 15:00Z
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -1059,10 +1067,12 @@ jobs:
     if: inputs.mode == 'probe'
     name: probe (${{ inputs.epoch || 'p1' }})
     runs-on: ubuntu-24.04
-    timeout-minutes: 170
+    timeout-minutes: 300
     env:
       LEAN_DIR: /home/runner/replay/lean
       OUT: /home/runner/replay/out
+      PROBE_RESTORE: ${{ inputs.probe_restore || '1' }}
+      PROBE_PLANS: ${{ inputs.probe_plans || '0:cold 0:warm 0:warm ra=16 fa=4096 0:cold 0:warm 0:warm ra=restore fa=restore|ra=16 fa=4096 1:cold 1:warm 1:warm ra=restore fa=restore 1:cold 1:warm fa=4096 0:cold 0:warm fa=restore ra=16 0:cold 0:warm ra=0 fa=4096 0:cold 0:warm 1:cold 1:warm ra=restore fa=restore' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1080,9 +1090,21 @@ jobs:
           } | tee "$OUT/evidence/run.txt"
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
           sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h / | tee -a "$OUT/evidence/run.txt"
+          # Everything built, uncompressed, is more than the disk has free
+          # after the usual cleanup. This job uses none of the following; how
+          # much they free decides whether the last modules can be built on
+          # a plain directory.
+          sudo rm -rf /opt/hostedtoolcache /usr/share/swift /usr/local/julia* /usr/lib/jvm /usr/local/share/powershell \
+            /usr/local/lib/node_modules /opt/microsoft /opt/google /usr/lib/google-cloud-sdk /opt/az /usr/share/az_* \
+            /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/miniconda /home/linuxbrew /usr/local/share/chromium \
+            /usr/lib/firefox /opt/pipx /usr/share/gradle-* /usr/share/kotlinc /usr/share/sbt /usr/local/share/vcpkg \
+            /usr/share/apache-maven-* /usr/local/sqlpackage /usr/lib/mono /usr/share/ri /opt/actionarchivecache || true
+          df -h / | tee -a "$OUT/evidence/run.txt"
+          { sudo du -xsm /opt/* /usr/* /usr/local/* /usr/share/* /usr/lib/* /var/* /home/* 2>/dev/null | sort -n | tail -25; } \
+            | tee -a "$OUT/evidence/run.txt" || true
           sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
           sudo mount -t debugfs none /sys/kernel/debug 2>/dev/null || true
-          df -h / | tee -a "$OUT/evidence/run.txt"
 
       - name: restore the archive from this branch's cache
         uses: actions/cache/restore@v4
@@ -1125,10 +1147,26 @@ jobs:
           python3 "$HUNT/replay_shard.py" probe --dag "$RUNNER_TEMP/dag.json" --state state/state.json \
             --targets 35000,80000 --out-dir "$RUNNER_TEMP/probe" | tee -a "$OUT/evidence/run.txt"
           cp "$RUNNER_TEMP/probe/probes.json" "$OUT/evidence/probes.json"
-          # probe 1 imports what probe 0 does and more: restoring for it serves both
-          python3 "$HUNT/replay_shard.py" fetchmap --state state/state.json --need "$RUNNER_TEMP/probe/probe-1.need" \
+          # A later probe imports what the earlier ones do and more:
+          # restoring for one serves those before it. PROBE_RESTORE counts
+          # from the end when negative, as the plans do.
+          need=$(python3 -c "import json,sys; p=json.load(open(sys.argv[1])); print('probe-%d.need' % (int(sys.argv[2]) % len(p)))" \
+            "$RUNNER_TEMP/probe/probes.json" "$PROBE_RESTORE")
+          echo "restoring for $need: $(wc -l < "$RUNNER_TEMP/probe/$need") modules" | tee -a "$OUT/evidence/run.txt"
+          # A full disk takes the runner with it and leaves no log: stop
+          # here instead. The .olean files average 0.55 MB a module, and two
+          # bundles are in flight beside them.
+          free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+          want_gb=$(( $(wc -l < "$RUNNER_TEMP/probe/$need") * 56 / 100000 + 12 ))
+          echo "disk: $free_gb GB free, this restore wants $want_gb" | tee -a "$OUT/evidence/run.txt"
+          if [ "$free_gb" -lt "$want_gb" ]; then
+            echo "::error::not enough disk on this runner for $need"; exit 1
+          fi
+          python3 "$HUNT/replay_shard.py" fetchmap --state state/state.json --need "$RUNNER_TEMP/probe/$need" \
             --out probe-fetch.json | tee -a "$OUT/evidence/run.txt"
-          RESTORE_NEED="$RUNNER_TEMP/probe/probe-1.need" RESTORE_SUFFIX=.olean \
+          # two bundles in flight, not three: with everything restored the
+          # disk has little room for the bundles themselves
+          RESTORE_NEED="$RUNNER_TEMP/probe/$need" RESTORE_SUFFIX=.olean RESTORE_BUNDLES=2 \
             bash "$HUNT/restore_chunks.sh" probe-fetch.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           du -sh "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
@@ -1145,10 +1183,11 @@ jobs:
             --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/mem-probe-1.log" &
           watchdog=$!
           ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
-          # Probe 0 imports about 45,000 modules.
+          # The first plan: by default probe 0, about 45,000 modules, as the
+          # runner comes and then with small windows.
           python3 "$GITHUB_WORKSPACE/$HUNT/import_probe.py" --probes "$RUNNER_TEMP/probe" --out "$OUT/evidence" \
-            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 900 --budget-s 3000 \
-            --plan="0:cold 0:warm 0:warm ra=16 fa=4096 0:cold 0:warm 0:warm ra=restore fa=restore" \
+            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 2700 --budget-s 6000 \
+            --plan="${PROBE_PLANS%%|*}" \
             -- lake env lean --tstack=400000 "{file}" | tee -a "$OUT/evidence/run.txt"
           kill "$watchdog" 2>/dev/null || true
           wait "$watchdog" 2>/dev/null || true
@@ -1177,12 +1216,12 @@ jobs:
             --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/part2/mem-probe-2.log" &
           watchdog=$!
           ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
-          # Probe 1 imports about 80,000 modules: small windows first, then
-          # as the runner comes. Then probe 0 under each setting by itself,
-          # and both with no read-ahead at all.
+          # The second plan: by default probe 1, about 80,000 modules, small
+          # windows first, then as the runner comes; then probe 0 under each
+          # setting by itself, and both with no read-ahead at all.
           python3 "$GITHUB_WORKSPACE/$HUNT/import_probe.py" --probes "$RUNNER_TEMP/probe" --out "$OUT/evidence/part2" \
-            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 1500 --budget-s 6000 \
-            --plan="ra=16 fa=4096 1:cold 1:warm 1:warm ra=restore fa=restore 1:cold 1:warm fa=4096 0:cold 0:warm fa=restore ra=16 0:cold 0:warm ra=0 fa=4096 0:cold 0:warm 1:cold 1:warm ra=restore fa=restore" \
+            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 2700 --budget-s 7200 \
+            --plan="${PROBE_PLANS#*|}" \
             -- lake env lean --tstack=400000 "{file}" | tee -a "$OUT/evidence/run.txt"
           kill "$watchdog" 2>/dev/null || true
           wait "$watchdog" 2>/dev/null || true
