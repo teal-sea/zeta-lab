@@ -468,6 +468,17 @@ minutes at this rate and less with three bundles in flight, the check about
 four minutes, and the disk has room (about 83 GB of 145). The two steps that
 cannot be rehearsed are the ones that import `Main`.
 
+**Second rehearsal, dispatched 2026-11-21 10:38Z** on state 14702344189
+(150,487 modules, rounds 0 to 14), commit `4c74ca7b`. Estimate from the
+first: under 35 minutes on one runner. Reason: three things the verdict job
+depends on changed after the first rehearsal and have not run in it, the
+volume script (now asking the loop device for direct I/O, with a fallback),
+the restore with three bundles in flight, and the corrected count of
+elaborated modules. Outcome: not read yet. Its evidence artifact is
+`alpoge-p1-rehearse-<run id>`; `run.txt` must again say exit code 0 and
+"modules elaborated in this job: 0", and its "volume:" line says whether
+direct I/O was granted.
+
 ## Second pass: kernel replay
 
 What it is and why it exists: `MISSION.md`, "The second pass". Compute is the
