@@ -421,6 +421,18 @@ def cmd_fetchmap(a) -> None:
     print(f"bundles={len(fetch)} chunks={sum(len(v) for v in fetch.values())} modules={len(st['where'])}")
 
 
+def cmd_builtsinks(a) -> None:
+    """The built modules that no built module imports: building these as
+    targets makes Lake check every module built so far, and nothing else."""
+    deps = json.load(open(a.dag))["deps"]
+    built = {m for m in json.load(open(a.state))["where"] if m in deps}
+    imported = {d for m in built for d in deps[m]}
+    sinks = sorted(built - imported)
+    with open(a.out, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(sinks) + ("\n" if sinks else ""))
+    print(f"built={len(built)} sinks={len(sinks)}")
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -437,6 +449,9 @@ def main() -> None:
     s.set_defaults(fn=cmd_pack)
     s = sub.add_parser("fetchmap"); s.add_argument("--state", required=True); s.add_argument("--out", required=True)
     s.set_defaults(fn=cmd_fetchmap)
+    s = sub.add_parser("builtsinks"); s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
+    s.add_argument("--out", required=True)
+    s.set_defaults(fn=cmd_builtsinks)
     s = sub.add_parser("merge"); s.add_argument("--dag", required=True); s.add_argument("--state")
     s.add_argument("--done-dir", required=True); s.add_argument("--round", type=int, required=True)
     s.add_argument("--out", required=True); s.add_argument("--github-output")

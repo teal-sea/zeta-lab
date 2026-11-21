@@ -539,3 +539,16 @@ def test_merge_keeps_the_worst_memory_figures_of_the_round(tmp_path: Path) -> No
     assert mem["majfault"] == 510 and mem["stops"] == 2 and mem["kills"] == 1 and mem["over_2gb"] == 1
     assert [r[0] for r in mem["top"]] == ["B", "A"]
 
+
+def test_built_sinks_are_the_built_modules_nothing_built_imports(tmp_path: Path) -> None:
+    deps = {"A": [], "B": ["A"], "C": ["A"], "D": ["B"], "E": ["C", "D"], "F": []}
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {m: 1 for m in deps}}))
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {m: "r0-s0" for m in ("A", "B", "C", "D", "F", "Gone.From.The.Graph")}}))
+    out = tmp_path / "sinks.txt"
+    sys.argv = ["replay_shard.py", "builtsinks", "--dag", str(dag), "--state", str(state), "--out", str(out)]
+    rs.main()
+    # E is not built, so C and D are the tops of what is; F stands alone
+    assert out.read_text().split() == ["C", "D", "F"]
+

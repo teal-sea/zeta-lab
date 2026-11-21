@@ -36,9 +36,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: round (plan, build, merge), verdict (restore everything, print axioms), or remerge (fold a round whose merge job failed, from its run id)
+        description: round (plan, build, merge), verdict (restore everything, print axioms), remerge (fold a round whose merge job failed, from its run id), or rehearse (the verdict job's restore and no-op build on whatever is built so far; prints no axioms)
         type: choice
-        options: [round, verdict, remerge]
+        options: [round, verdict, remerge, rehearse]
         default: round
       from_run:
         description: remerge only. The run id of the round whose shards finished but whose merge job did not
@@ -89,8 +89,11 @@ permissions:
   contents: read
   actions: read
 
+# One round at a time per epoch. A rehearsal runs beside the rounds, in a
+# group of its own: a pending run in the rounds' group would be displaced by
+# the next round's dispatch, or displace it.
 concurrency:
-  group: replay-alpoge-rh-${{ inputs.epoch || 'p1' }}
+  group: replay-alpoge-rh-${{ inputs.epoch || 'p1' }}${{ inputs.mode == 'rehearse' && '-rehearse' || '' }}
   cancel-in-progress: false
 
 env:
@@ -699,8 +702,8 @@ jobs:
   # verdict: everything on one runner, nothing left to build, print the axioms
   # --------------------------------------------------------------------------
   verdict:
-    if: (inputs.mode || 'round') == 'verdict'
-    name: verdict (${{ inputs.epoch || 'p1' }})
+    if: (inputs.mode || 'round') == 'verdict' || inputs.mode == 'rehearse'
+    name: ${{ inputs.mode || 'verdict' }} (${{ inputs.epoch || 'p1' }})
     runs-on: ubuntu-24.04
     timeout-minutes: 350
     env:
@@ -717,7 +720,8 @@ jobs:
           mkdir -p "$OUT/evidence"
           {
             echo "zeta-lab commit: $GITHUB_SHA"
-            echo "epoch $EPOCH verdict from state artifact $STATE_ID"
+            echo "epoch $EPOCH $MODE from state artifact $STATE_ID"
+            lscpu | grep -E '^(Model name|Thread\(s\) per core|Core\(s\) per socket|Socket\(s\)|CPU\(s\)):' | sed 's/  */ /g' || true
             echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
           } | tee "$OUT/evidence/run.txt"
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
@@ -789,8 +793,26 @@ jobs:
         run: |
           set -uo pipefail
           start=$(date +%s)
-          lake build --no-ansi 2>&1 | tee "$OUT/evidence/final-build.log" | tail -30
-          rc=${PIPESTATUS[0]}
+          # how much memory Lake itself needs to hold the whole workspace
+          python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name lake --floor-mb 0 --soft-mb 0 --resume-mb 0 \
+            --log "$OUT/evidence/mem-lake.log" &
+          watchdog=$!
+          if [ "$MODE" = "rehearse" ]; then
+            # Main is not built yet. The targets are the built modules that
+            # nothing built imports, so Lake checks every module built so
+            # far and must find all of them up to date.
+            python3 "$GITHUB_WORKSPACE/$HUNT/replay_plan.py" dag --src "$LEAN_DIR/src" --out "$RUNNER_TEMP/dag.json"
+            python3 "$GITHUB_WORKSPACE/$HUNT/replay_shard.py" builtsinks --dag "$RUNNER_TEMP/dag.json" \
+              --state "$GITHUB_WORKSPACE/state/state.json" --out "$RUNNER_TEMP/sinks.txt" | tee -a "$OUT/evidence/run.txt"
+            xargs -a "$RUNNER_TEMP/sinks.txt" -n 3000 lake build --no-ansi 2>&1 | tee "$OUT/evidence/final-build.log" | tail -30
+            rc=${PIPESTATUS[0]}
+          else
+            lake build --no-ansi 2>&1 | tee "$OUT/evidence/final-build.log" | tail -30
+            rc=${PIPESTATUS[0]}
+          fi
+          kill "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
+          tail -1 "$OUT/evidence/mem-lake.log" | tee -a "$OUT/evidence/run.txt" || true
           echo "final lake build rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
           echo "modules elaborated in this job: $(grep -c '^✔ .* Built ' "$OUT/evidence/final-build.log" || true)" | tee -a "$OUT/evidence/run.txt"
           if grep -q "declaration uses 'sorry'" "$OUT/evidence/final-build.log"; then
@@ -799,6 +821,7 @@ jobs:
           exit "$rc"
 
       - name: print the axioms behind the five theorems of Main.lean
+        if: env.MODE == 'verdict'
         working-directory: /home/runner/replay/lean
         run: |
           set -euo pipefail
@@ -843,7 +866,7 @@ jobs:
       # names were read from the archive text. This step informs and never
       # decides: a wrong name fails here, not in the verdict above.
       - name: print the axioms behind four interior statements (supplementary)
-        if: success()
+        if: success() && env.MODE == 'verdict'
         continue-on-error: true
         working-directory: /home/runner/replay/lean
         run: |
@@ -871,7 +894,7 @@ jobs:
       # first measurement of how much there is to remove. It informs and never
       # decides, and it checks no proof.
       - name: measure what the five theorems depend on (supplementary)
-        if: success()
+        if: success() && env.MODE == 'verdict'
         continue-on-error: true
         run: |
           set -uo pipefail
@@ -899,7 +922,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: alpoge-${{ env.EPOCH }}-verdict-${{ github.run_id }}
+          name: alpoge-${{ env.EPOCH }}-${{ env.MODE }}-${{ github.run_id }}
           path: /home/runner/replay/out/evidence
           retention-days: 90
           if-no-files-found: warn
