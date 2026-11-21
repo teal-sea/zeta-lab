@@ -1098,9 +1098,10 @@ kernel) and the like. None is a `debug` option.
 3. `#print axioms` and `#check` run inside the environment they describe.
    A module of that environment can replace a command or a notation, and
    `test_replay_check.py` builds one that does. The text above shows no
-   such thing, and text is not the check: run 44943756336 asks the same
+   such thing, and text is not the check: run 44943756336 asked the same
    questions of the stored terms with a program that runs none of the
-   archive's commands. Its answer is recorded below when it is in.
+   archive's commands, and got the same answers ("The walk of the stored
+   terms" below). This limit is closed.
 4. Mathlib's own `.olean` files come from Mathlib's cache and are replayed
    by neither pass.
 5. Nothing here is a statement about the mathematics, or about whether a
@@ -1134,6 +1135,44 @@ to that: the five theorems are one proof. The note that came with the
 archive expects the argument to be "massively simplified". This count says
 that it will not be by deleting what is unused: most of what is there is
 used. It says nothing about how much of it a shorter argument would need.
+
+**The walk of the stored terms, 21:04Z, run 44943756336.** Mode `rehearse`
+on `Main`, on `b5d8c520`, the first commit with the extended `Cone.lean`. It
+ended green: its build job restored all 175,187 outputs again and found
+nothing to build, its axioms job printed the five lines again from one
+import (artifact 14723701380), all five reading `[propext,
+Classical.choice, Quot.sound]`, and its cone job exited 0 after 2,552 s
+(artifact 14724543673). The cone job loads the `.olean` files and reads
+terms; it elaborates nothing and runs no command, notation or macro of the
+archive.
+
+- Axioms in the cone of `riemannHypothesis`, and in the cone of all five:
+  `Classical.choice`, `Quot.sound`, `propext`. No other, and no name the
+  environment lacks.
+- The statements as stored:
+
+  | root | kind and module | its statement is the constant | which is defined in |
+  | --- | --- | --- | --- |
+  | `riemannHypothesis` | theorem, in `Main` | `RiemannHypothesis` | `Mathlib.NumberTheory.LSeries.RiemannZeta` |
+  | `riemannZeta_eq_zero_re` | theorem, in `Main` | `RiemannZetaZerosOnLine` | `Statements` |
+  | `LFunction_ne_zero_of_half_lt_re` | theorem, in `Main` | `DirichletLNonvanishingRightOfHalf` | `Statements` |
+  | `LFunction_eq_zero_re` | theorem, in `Main` | `DirichletLZerosOnLine` | `Statements` |
+  | `LFunction_eq_zero_re_of_isPrimitive` | theorem, in `Main` | `PrimitiveDirichletLZerosOnLine` | `Statements` |
+
+- What `RiemannHypothesis` unfolds to, as the environment stores it:
+
+  ```
+  forall (s : Complex), (Eq.{1} Complex (riemannZeta s) (OfNat.ofNat.{0} Complex 0 (Zero.toOfNat0.{0} Complex Complex.instZero))) -> (Not (Exists.{1} Nat (fun (n : Nat) => Eq.{1} Complex s (HMul.hMul.{0, 0, 0} Complex Complex Complex (instHMul.{0} Complex Complex.instMul) (Neg.neg.{0} Complex Complex.instNeg (OfNat.ofNat.{0} Complex 2 (instOfNatAtLeastTwo.{0} Complex 2 Complex.instNatCast RiemannHypothesis._proof_1))) (HAdd.hAdd.{0, 0, 0} Complex Complex Complex (instHAdd.{0} Complex Complex.instAdd) (Nat.cast.{0} Complex Complex.instNatCast n) (OfNat.ofNat.{0} Complex 1 (One.toOfNat1.{0} Complex Complex.instOne))))))) -> (Ne.{1} Complex s (OfNat.ofNat.{0} Complex 1 (One.toOfNat1.{0} Complex Complex.instOne))) -> (Eq.{1} Real (Complex.re s) (HDiv.hDiv.{0, 0, 0} Real Real Real (instHDiv.{0} Real (DivInvMonoid.toDiv.{0} Real Real.instDivInvMonoid)) (OfNat.ofNat.{0} Real 1 (One.toOfNat1.{0} Real Real.instOne)) (OfNat.ofNat.{0} Real 2 (instOfNatAtLeastTwo.{0} Real 2 Real.instNatCast RiemannHypothesis._proof_1))))
+  ```
+
+  That is the definition at lines 185 and 186 of Mathlib's file, and
+  `RiemannZetaZerosOnLine` of `Statements.lean` unfolds to the same term but
+  for the name of one auxiliary proof.
+- The counts are those of the verdict run's cone to the last digit, by
+  library as well, from a second runner.
+
+So the printout of `#print axioms` and the reading of `Main.lean` were not
+artefacts of the environment they were made in.
 
 **Limit 1 in detail: the kernel of 4.33.1 (read 20:10Z to 20:16Z).** The
 sources are Lean's release notes for 4.33.0, 4.33.1, 4.34.0, 4.34.1, 4.35.0
@@ -1479,3 +1518,40 @@ remedy does not depend on knowing: `replay_check.py run --batch 4` gives a
 process four modules and then replaces it. The second pilot (round 1, ten
 minutes, dispatched 20:42Z on `06a8e36d`) measures what a module costs
 without the swapping.
+
+### Second pilot, 2026-11-21 20:42Z to 20:55Z, run 44947689609
+
+Epoch `l4l`, round 1, one shard, ten minutes, two processes of four modules
+each at a time, on `06a8e36d`.
+
+| | |
+| --- | --- |
+| self-test | passed on this runner as well |
+| planned / replayed | 180 / 180 in 271 s, before the deadline; 8,752 declarations |
+| rejections | 0 |
+| memory | 114, 599, 1,574 and 2,089 MB after the four modules of the first process, 114, 599, 1,082 and 1,567 MB in the ones after it, each then replaced: 2.1 GB at most by the driver's own reading; the runner never had less than 10.9 GB available and no swap was used |
+| cost | 484 s, 2.69 s a module. The kernel's replay of the same 180 modules is on record at 1001 s (5.56 s a module), but that was on shards of two thousand modules with four times the files restored; the like-for-like figure is the kernel's 2.66 s a module in the five-minute test above |
+| check state | artifact 14724676759 |
+
+lean4lean prints a line of its own for a declaration that takes it more
+than a second ("lean4lean took 16671" for one theorem here); those lines are
+not verdicts and the reader of the driver's output skips them.
+
+With the import dominating both, a module costs lean4lean about what it
+costs the kernel at the bottom of the graph. What it costs higher up, where
+its own table of every imported constant grows with the import, is not
+measured.
+
+### The chain, launched 2026-11-21 21:04Z
+
+Run 44949631188: epoch `l4l`, round 2, from check state 14724676759, four
+shards, one hundred minutes, three processes per runner (the pilots ran
+two; three is a guess the chain corrects, since it halves the count after a
+kill or a lost runner), chained. Four shards while the kernel's replay
+holds twelve runners; more when it is done. Rounds are appended below as
+they merge.
+
+| round | run | merged (UTC) | replayed | total | % of archive | rejections | struck | mean s per module | note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | 44946010580 | 20:38 | 86 | 86 | 0.05 | 0 | 0 | 9.63 | first pilot, swapping |
+| 1 | 44947689609 | 20:54 | 180 | 266 | 0.15 | 0 | 0 | 2.69 | second pilot, four modules per process |
