@@ -322,6 +322,47 @@ as run 44879877336: three compiles at once, the filling pass on. Three is
 an experiment with a bounded cost, one round: if a third compile adds
 nothing, or a runner is lost, the chain goes back to two.
 
+### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
+
+Estimated before: nothing was known, which is why it was run. One runner
+beside round 13's twelve and the replay's four, seventeen jobs for 37
+minutes. Mode `rehearse` on state 14697715651: the verdict job's own restore
+of everything built in rounds 0 to 12, then a `lake build` whose targets are
+the built modules that nothing built imports.
+
+| | |
+| --- | --- |
+| runner | Intel Xeon 6975P-C, 4 logical CPUs on 2 cores, 15 GB |
+| restore | 13 bundles, 126 chunks in 1,828 s, three chunks at a time and the bundles one after another; the disk went from 32 to 72 GB used of 145 |
+| on disk afterwards | 138,246 `.olean` files, one per module in the state |
+| the build | 11,020 targets in 8 invocations, exit code 0, 161 s |
+| modules Lake elaborated | 0 |
+| modules Lake replayed from their stored logs | 203,186 lines (a module with output is listed once per invocation that reaches it) |
+| `declaration uses 'sorry'` in any replayed log | 0 |
+| Lake's own memory | 1.0 GB anonymous at the peak, 2.3 GB in use on the machine |
+
+What it establishes, and only for these 138,246 modules: the outputs of 126
+chunks, each built on a different runner job, agree on one machine with what
+Lake computes there from the sources. Nothing was out of date. It is the
+"outputs travel between runners" limit of `MISSION.md` measured at 79
+percent, by Lake's hashes, not by a kernel.
+
+It is also the first reading of the hardware, on this one runner: two cores
+with two threads each, which is what the correction above inferred from
+throughput.
+
+What it found wrong in the job, fixed before the real one: the count of
+modules elaborated matched only lines marked with a tick, and Lake marks a
+module that printed a warning with a warning sign, so a rebuilt module with
+a warning would have been counted as none. The count was right here because
+no line of the log says "Built" at all. And the log was 365 MB, because Lake
+repeats every stored warning; it is compressed now.
+
+Read forward to the verdict: the restore of all 175,187 modules is about 39
+minutes at this rate and less with three bundles in flight, the check about
+four minutes, and the disk has room (about 83 GB of 145). The two steps that
+cannot be rehearsed are the ones that import `Main`.
+
 ## Second pass: kernel replay
 
 What it is and why it exists: `MISSION.md`, "The second pass". Compute is the

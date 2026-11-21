@@ -814,10 +814,16 @@ jobs:
           wait "$watchdog" 2>/dev/null || true
           tail -1 "$OUT/evidence/mem-lake.log" | tee -a "$OUT/evidence/run.txt" || true
           echo "final lake build rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
-          echo "modules elaborated in this job: $(grep -c '^✔ .* Built ' "$OUT/evidence/final-build.log" || true)" | tee -a "$OUT/evidence/run.txt"
+          # Lake marks a module it built with a tick, or with a warning or an
+          # information sign when the module printed something; one it only
+          # checked is "Replayed". Count every kind of "Built".
+          echo "modules elaborated in this job: $(grep -c -E '^(✔|⚠|ℹ) \[[0-9]+/[0-9]+\] Built ' "$OUT/evidence/final-build.log" || true)" | tee -a "$OUT/evidence/run.txt"
+          echo "modules found up to date and replayed from their traces: $(grep -c -E '^(✔|⚠|ℹ) \[[0-9]+/[0-9]+\] Replayed ' "$OUT/evidence/final-build.log" || true)" | tee -a "$OUT/evidence/run.txt"
           if grep -q "declaration uses 'sorry'" "$OUT/evidence/final-build.log"; then
             echo "::error::the build log reports a declaration using sorry"; exit 1
           fi
+          # the log repeats every stored warning of every module: keep it small
+          zstd -q -9 --rm "$OUT/evidence/final-build.log" -o "$OUT/evidence/final-build.log.zst" || true
           exit "$rc"
 
       - name: print the axioms behind the five theorems of Main.lean
