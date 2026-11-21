@@ -669,6 +669,50 @@ image the job does not use, and imports all of them under small windows and
 under no read-ahead. That is the case of the last nine modules and of the
 verdict's axiom printout.
 
+### What the two older probe runs had when they were stopped, 2026-11-21 15:54Z
+
+Both were cancelled at 15:54Z: the account was at its limit of twenty jobs
+(twelve build shards, four replay shards, three probes, and the
+repository's own nightly suite), a job that reports the runners' disks had
+been waiting six minutes, and what these two still had to run was known in
+kind. A cancelled job still uploads its evidence.
+
+**The 80,111-module import on a plain directory, small windows** (run
+44916286894, second part, same runner as the table above):
+
+| cache | wall s | user s | system s | peak resident MB | major faults | disk reads | MB read |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| cold | 569.0 | 16.3 | 37.1 | 9,450 | 1,399,604 | 2,092,247 | 24,549 |
+| warm | 82.3 | 14.4 | 19.5 | 10,087 | 121,070 | 191,059 | 1,935 |
+| warm | 35.8 | 13.6 | 17.5 | 10,193 | 438 | 14,941 | 188 |
+
+From 45,128 to 80,111 modules the resident set grows by 1.7 GB: 48 KB a
+module, on about 6.3 GB for Mathlib and `lean` itself. By that line the
+import of all 175,187 would hold about 14.7 GB, against the 13 GB or so a
+runner keeps for file pages: close, and not measured. The runs it had not
+reached (the same import as the runner comes, each setting by itself, no
+read-ahead) are not needed for the decision made at 15:37Z.
+
+**The 166,449-module import on the compressed volume, as the verdict job
+would run it** (run 44914862924; the restore took 575 s and the build over
+3,355 built sinks found 155,508 modules up to date and elaborated none, in
+137 s, for the third time). `lean` on the file importing everything, btrfs
+with zstd through a loop device with direct I/O, the volume's own
+read-ahead of 4 MB: stopped by the probe's limit after 2,400 s, not done,
+with 457 GB read from the disk. The second run was eighteen minutes in when
+the job was cancelled.
+
+That is a finding about the verdict job, not about the archive: as
+written, its axiom printout would import `Main` three times on that volume
+and might not finish. The same holds for the last nine modules, which
+import 146,663 and more and cannot be given a plain directory by the rule
+of 115,000. The compressed volume was the answer to a disk too small for
+the archive; it is the wrong answer to a memory too small for an import.
+What replaces it for the top is being measured: run 44920814617 (everything
+on a plain directory after a further cleanup, small windows), and a job on
+three runners that reports their disks and whether f2fs or zfs can be
+mounted (run 44921139865).
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
@@ -776,6 +820,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 7 | 44887964847 | 10:53 | 16,577 | 111,176 | 63.46 | 0 | 0 | 4.59 | against build state 14699969555; the fixed driver, outputs in a plain directory; 18,032 planned, one shard stopped by its deadline; all four shards reported, nothing killed; check state 14704356588 |
 | 8 | 44896453130 | 12:43 | 9,472 | 120,648 | 68.87 | 0 | 0 | 7.59 | against build state 14702344189; three of four shards reported, shard 0's runner was lost and left no log; 13,611 planned on the three, all stopped by the deadline; the chain lowered itself to two processes per runner for round 9; check state 14707134382 |
 | 9 | 44905297777 | 14:31 | 6,449 | 127,097 | 72.55 | 0 | 0 | 3.78 | against build state 14704557927; two processes per runner; three of four shards reported, shard 1's runner was lost and left no log, as shard 0's was in round 8 at four; 6,504 planned on the three, one stopped by its deadline; the chain lowered itself to one process per runner for round 10; check state 14710478596 |
+| 10 | 44914347569 | 15:46 | 4,107 | 131,204 | 74.89 | 0 | 0 | 3.08 | against build state 14710597929; one process per runner; all four shards reported; 4,392 planned; one strike, see below: the watchdog ended the replay of `SesquilinearFractions.ExistsFactorThroughMultiplication` at 12.7 GB, alone on its runner, and the 285 modules after it in that list were not reached; check state 14713298174 |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
@@ -800,6 +845,27 @@ run was cancelled by hand at 06:39Z. Its merge job then folded the two shards
 that had reported and dispatched check round 6 at 06:40:23Z on the repaired
 code, which also carries the watchdog. Cost: about an hour of chain time and
 the work of two shards, whose modules are planned again.
+
+### Check round 10, 2026-11-21 15:46Z: the module that the replay cannot hold
+
+Round 10 ran one process per runner, after rounds 8 and 9 each lost a
+runner without a log. All four shards reported and the kernel rejected
+nothing. On shard 3 the watchdog ended the replay of
+`Development.WeilBound.CoreStatements.SesquilinearFractions.ExistsFactorThroughMultiplication`
+when it held 12,750 MB with nothing else running: one strike. That is the
+module that held 13.7 GB when it was compiled (build round 14). Rounds 8
+and 9 replayed against build states that contain it, with four and two
+processes side by side, so it is the likely cause of the two lost runners;
+their logs are gone and that stays an inference.
+
+A strike is not a rejection: the kernel never finished with the module.
+Changed for rounds 11 and 12 on (`310093ae`, `a832489a`): a replay
+shard adds swap on what its disk has left, the watchdog ends a replay only
+when the swap is nearly used up too, a module gets four strikes before it
+is left out, and the chain never runs fewer than two processes per runner.
+Round 11 was dispatched at 15:46Z, before the swap, with the small
+page-fault windows and two processes; if it strikes the module again, the
+later rounds still try it twice with swap.
 
 ### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
 
