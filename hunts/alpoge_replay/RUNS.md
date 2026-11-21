@@ -626,8 +626,11 @@ plain directory.
 the speed: 16,577 modules replayed against 16,601 in round 6, 4.59 s a
 module against 4.80. So what a module costs to replay is its import and its
 kernel work, not the leak. The driver's memory after a module, which it now
-prints, peaked at 2.5 to 2.7 GB on twenty modules, all in three
-subdirectories of `Formalism` and `GroundTheory` and none of them among the
-deepest: that is the kernel's own memory on heavy declarations, retained by
-the allocator, and no longer something that grows with the list. Nothing
-was suspended or killed, and all four shards reported.
+prints, peaked between 2,537 and 2,658 MB: the twenty largest readings sit
+within 121 MB of each other, in six directories, after modules whose import
+closures are small (36 to 2,012 archive modules). A reading that flat, after
+modules that shallow, is where a process's heap stood at its high-water
+mark, kept by the allocator; it does not say those twenty modules need it,
+and it does not yet say what the deepest modules will need. It is half of
+what round 6 saw at its worst (5.6 GB). Nothing was suspended or killed, and
+all four shards reported.
