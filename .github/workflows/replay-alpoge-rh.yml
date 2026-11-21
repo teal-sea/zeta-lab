@@ -592,18 +592,16 @@ jobs:
           fi
           # The watchdog settles memory inside a round: it suspends the
           # smaller compile and lets the larger finish, so a crash or a
-          # crowded kill is no reason to compile fewer modules at once. A
-          # runner that never reported is: there the watchdog did not cope.
-          # Three crashes of the same module block it in the planner.
+          # crowded kill is no reason to compile fewer modules at once.
+          # Neither, any more, is a shard that never reported. Round 14 lost
+          # one to a bug in the restore script, seven minutes in and long
+          # before any compile; the rule that stood here took that for
+          # memory and halved every runner, and rounds 15 and 16 ran one
+          # compile at a time for it. The thread count is now only what the
+          # dispatch says. Three crashes of the same module still block it
+          # in the planner.
           lost=$(( ${SHARDS_PLANNED:-0} - ${SHARDS_REPORTED:-0} ))
-          echo "${CRASHED_NOW:-0} modules crashed, ${CROWDED_NOW:-0} were crowded out by the watchdog, $lost shards never reported" | tee -a "$GITHUB_STEP_SUMMARY"
-          if [ "$lost" -gt 0 ]; then
-            case "$LEAN_THREADS" in
-              ''|4|3) LEAN_THREADS=2 ;;
-              2) LEAN_THREADS=1 ;;
-            esac
-            echo "next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
-          fi
+          echo "${CRASHED_NOW:-0} modules crashed, ${CROWDED_NOW:-0} were crowded out by the watchdog, $lost shards never reported; LEAN_NUM_THREADS stays $LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
           # A module killed while it was the only compile running does not
           # fit a runner's memory. Before it counts as out of reach, one
           # round gives every runner swap to page into.
