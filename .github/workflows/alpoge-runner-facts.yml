@@ -1,0 +1,96 @@
+# What a hosted runner offers the Alpöge replay: its disk after the cleanup,
+# and which filesystems its kernel can mount.
+#
+# The last modules of the archive import 150,000 others and more. Restored
+# uncompressed, everything they need is about 106 GB, and a runner has 98 to
+# 110 GB free; on the compressed btrfs volume it fits, but a page fault there
+# reads a whole 128 KB extent, and an import no longer fits in memory by a
+# wide margin (hunts/alpoge_replay/RUNS.md, 2026-11-21). This job asks three
+# runners what else they have. It reads no archive code and builds nothing.
+name: alpoge-runner-facts
+
+on:
+  workflow_dispatch:
+  # A workflow that exists only on a branch cannot be dispatched by name
+  # until it has run once: pushing this file runs it.
+  push:
+    branches: [claude/bold-ramanujan-x7z42m]
+    paths: [.github/workflows/alpoge-runner-facts.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  facts:
+    name: runner facts ${{ matrix.n }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        n: [1, 2, 3]   # the fleet hands out several machine types
+    steps:
+      - name: machine, disk, filesystems
+        run: |
+          set -uo pipefail
+          echo "kernel $(uname -r)"; lscpu | grep -E '^Model name' | sed 's/  */ /g'; free -m | sed -n 2,3p
+          lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT,ROTA,MODEL 2>/dev/null || true
+          df -h / /mnt 2>/dev/null || true
+          swapon --show || true
+          for q in /sys/block/*/queue/read_ahead_kb; do echo "$q $(cat "$q")"; done
+          echo "--- filesystems the kernel can load"
+          for m in btrfs f2fs zfs erofs squashfs bcachefs; do
+            echo "$m: $(modinfo -F filename "$m" 2>&1 | head -1)"
+          done
+          grep -E 'f2fs|btrfs|zfs|erofs' /proc/filesystems || true
+          echo "--- packages"
+          apt-cache policy zfsutils-linux f2fs-tools erofs-utils btrfs-progs 2>/dev/null | grep -E '^[a-z]|Installed|Candidate' || true
+          command -v mkfs.f2fs mkfs.btrfs zpool mkfs.erofs || true
+
+      - name: what the cleanup frees
+        run: |
+          set -uo pipefail
+          start=$(date +%s)
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          echo "usual cleanup: $(( $(date +%s) - start )) s"; df -h / | tail -1
+          start=$(date +%s)
+          sudo rm -rf /opt/hostedtoolcache /usr/share/swift /usr/local/julia* /usr/lib/jvm /usr/local/share/powershell \
+            /usr/local/lib/node_modules /opt/microsoft /opt/google /usr/lib/google-cloud-sdk /opt/az /usr/share/az_* \
+            /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/miniconda /home/linuxbrew /usr/local/share/chromium \
+            /usr/lib/firefox /opt/pipx /usr/share/gradle-* /usr/share/kotlinc /usr/share/sbt /usr/local/share/vcpkg \
+            /usr/share/apache-maven-* /usr/local/sqlpackage /usr/lib/mono /usr/share/ri /opt/actionarchivecache || true
+          echo "further cleanup: $(( $(date +%s) - start )) s"; df -h / | tail -1
+          echo "--- largest of what is left (MB)"
+          sudo du -xsm /opt/* /usr/* /usr/local/* /usr/share/* /usr/lib/* /var/* /var/lib/* /home/* /mnt/* /swapfile /mnt/swapfile 2>/dev/null \
+            | sort -n | tail -30
+
+      - name: can a compressed f2fs or zfs volume be made here
+        run: |
+          set -uo pipefail
+          sudo apt-get install -y -q f2fs-tools >/dev/null 2>&1 || echo "f2fs-tools did not install"
+          truncate -s 2G /tmp/f2fs.img
+          if sudo modprobe f2fs 2>&1 && mkfs.f2fs -q -f -O extra_attr,inode_checksum,sb_checksum,compression /tmp/f2fs.img 2>&1 | tail -2; then
+            sudo mkdir -p /tmp/f2 && dev=$(sudo losetup --find --show --direct-io=on /tmp/f2fs.img) \
+              && sudo mount -t f2fs -o compress_algorithm=zstd,compress_log_size=2,compress_extension='*',compress_cache,noatime "$dev" /tmp/f2 \
+              && echo "f2fs mounted: $(findmnt -n -o OPTIONS /tmp/f2)" \
+              || echo "f2fs could not be mounted with compression"
+            if mountpoint -q /tmp/f2; then
+              sudo chown "$USER" /tmp/f2
+              head -c 300000000 /dev/zero | tr '\0' 'a' > /tmp/f2/a.txt; sync
+              echo "300 MB of one letter takes: $(df -m /tmp/f2 | tail -1 | awk '{print $3}') MB"
+              cat /sys/class/bdi/*/read_ahead_kb 2>/dev/null | sort | uniq -c
+            fi
+          else
+            echo "no f2fs on this kernel"
+          fi
+          sudo apt-get install -y -q zfsutils-linux >/dev/null 2>&1 || echo "zfsutils-linux did not install"
+          if sudo modprobe zfs 2>&1; then
+            truncate -s 2G /tmp/zfs.img
+            sudo zpool create -o ashift=12 -O compression=zstd-3 -O recordsize=16k -O atime=off -m /tmp/z tank /tmp/zfs.img 2>&1 \
+              && echo "zfs pool made: $(zfs get -H -o value compression,recordsize tank | tr '\n' ' ')" \
+              && echo "arc max $(cat /sys/module/zfs/parameters/zfs_arc_max) compressed arc $(cat /sys/module/zfs/parameters/zfs_compressed_arc_enabled)" \
+              || echo "zfs pool could not be made"
+          else
+            echo "no zfs on this kernel"
+          fi
