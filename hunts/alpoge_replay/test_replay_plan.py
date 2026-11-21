@@ -301,3 +301,187 @@ def test_the_fetch_map_of_a_state_names_every_chunk_that_holds_a_module(tmp_path
     with pytest.raises(SystemExit):
         rs.main()
 
+
+def run_rounds_filled(deps, size, shards=5, budget=600.0):
+    order, _ = rp.topo_levels(deps)
+    height = rp.heights(deps, order)
+    cost = rp.cost_model(size, 4.0, 0.5)
+    done: set[str] = set()
+    rounds = []
+    while len(done) < len(order):
+        plan, _, _ = rp.plan_round(deps, cost, order, height, done, shards, budget, 10**6)
+        owned, extra, loads = rp.fill_idle(deps, cost, order, done, plan, shards, budget)
+        assert any(owned), "planner stalled with modules left"
+        rounds.append((plan, owned, extra, loads, set(done)))
+        for sh in owned:
+            done.update(sh)
+        assert len(rounds) < 10_000
+    return rounds, cost
+
+
+@pytest.mark.parametrize("seed,shards,budget,idle", [(1, 5, 600.0, False), (1, 12, 600.0, True),
+                                                     (2, 8, 2000.0, True), (3, 12, 6000.0, True)])
+def test_the_filling_pass_keeps_every_shard_closed_and_within_budget(seed, shards, budget, idle) -> None:
+    deps, size = random_dag(3000, seed)
+    rounds, cost = run_rounds_filled(deps, size, shards=shards, budget=budget)
+    seen: set[str] = set()
+    extras = 0
+    for plan, owned, extra, loads, done in rounds:
+        owner = {}
+        for i, sh in enumerate(owned):
+            for m in sh:
+                assert m not in owner and m not in done and m not in seen, "module owned twice"
+                owner[m] = i
+        for i, sh in enumerate(plan):                       # the first pass keeps what it planned
+            assert all(owner[m] == i for m in sh)
+        for i in range(len(owned)):
+            here = set(owned[i]) | set(extra[i])
+            for m in extra[i]:
+                assert m in owner and owner[m] != i, "an extra must be owned by another shard of the round"
+            for m in here:
+                for d in deps[m]:
+                    # the property that makes shards independent
+                    assert d in done or d in here, f"{m} needs {d}, which this shard does not build"
+            assert sum(cost[m] for m in here) <= budget + 1e-6
+            assert loads[i] == pytest.approx(sum(cost[m] for m in here))
+        extras += sum(len(e) for e in extra)
+        seen.update(owner)
+    assert seen == set(deps)
+    plain, _ = run_rounds(deps, size, shards=shards, budget=budget)
+    assert len(rounds) <= len(plain), "filling idle shards must not cost rounds"
+    if idle:
+        # with shards to spare the pass has work to do, and it saves rounds
+        assert extras > 0 and len(rounds) < len(plain)
+    else:
+        # five small shards are full every round: nothing is idle, nothing is built twice
+        assert extras == 0 and len(rounds) == len(plain)
+
+
+def test_the_filling_pass_builds_a_join_this_round_at_the_price_of_one_extra() -> None:
+    # two clusters that fill their shards, and a module J joining both: the
+    # cluster pass defers J, the filling pass gives it a third shard with
+    # both of its imports built there again
+    deps = {"A": [], "B": [], "J": ["A", "B"]}
+    size = {"A": 1000, "B": 1000, "J": 1000}
+    cost = {"A": 300.0, "B": 300.0, "J": 10.0}
+    order, _ = rp.topo_levels(deps)
+    plan, waiting, _ = rp.plan_round(deps, cost, order, rp.heights(deps, order), set(), 3, 400.0, 10**6)
+    assert sorted(sum(plan, [])) == ["A", "B"] and waiting == 1
+    owned, extra, loads = rp.fill_idle(deps, cost, order, set(), plan, 3, 700.0)
+    where = {m: i for i, sh in enumerate(owned) for m in sh}
+    assert set(where) == {"A", "B", "J"}
+    i = where["J"]
+    assert sorted(owned[i] + extra[i]) == ["A", "B", "J"] and len(extra[i]) >= 1
+    # with no room for the imports it stays deferred
+    owned, extra, _ = rp.fill_idle(deps, cost, order, set(), plan, 3, 400.0)
+    assert "J" not in sum(owned, []) and sum(extra, []) == []
+
+
+def test_the_filling_pass_is_deterministic() -> None:
+    deps, size = random_dag(1500, 11)
+    a, _ = run_rounds_filled(deps, size)
+    b, _ = run_rounds_filled(deps, size)
+    assert [(o, e) for _, o, e, _, _ in a] == [(o, e) for _, o, e, _, _ in b]
+
+
+def test_pack_leaves_extras_out_of_the_chunk_and_hashes_what_two_shards_build(tmp_path: Path) -> None:
+    lean = tmp_path / "lean"
+    lib = lean / ".lake" / "build" / "lib" / "lean" / "Lib"
+    lib.mkdir(parents=True)
+    for m, body in (("Own", "own bytes"), ("Extra", "extra bytes"), ("Shared", "shared bytes")):
+        (lib / f"{m}.olean").write_text(body)
+        (lib / f"{m}.trace").write_text(json.dumps({"outputs": {}}))
+    shard = tmp_path / "shard.json"
+    shard.write_text(json.dumps({"round": 15, "shard": 2, "modules": ["Lib.Own", "Lib.Shared"],
+                                 "extra": ["Lib.Extra", "Lib.ExtraNotBuilt"],
+                                 "shared": ["Lib.Shared", "Lib.Extra", "Lib.ExtraNotBuilt"],
+                                 "sinks": ["Lib.Own"]}))
+    log = tmp_path / "build.log"
+    log.write_text("✔ [1/4] Built Lib.Extra (2.0s)\n✔ [2/4] Built Lib.Shared (2.0s)\n✔ [3/4] Built Lib.Own (3.0s)\n"
+                   "✖ [4/4] Building Lib.ExtraNotBuilt (9s)\nerror: Lean exited with code 137\n", encoding="utf-8")
+    done = tmp_path / "done.json"
+    files = tmp_path / "files.txt"
+    sys.argv = ["replay_shard.py", "pack", "--lean-dir", str(lean), "--shard", str(shard), "--log", str(log),
+                "--chunk", "r15-s2", "--filelist", str(files), "--done", str(done)]
+    rs.main()
+    rec = json.loads(done.read_text())
+    assert sorted(rec["built"]) == ["Lib.Own", "Lib.Shared"]             # its own, nothing else
+    assert not any("Extra" in line for line in files.read_text().splitlines())
+    assert rec["rebuilt_outside_shard"] == 0                             # an extra is expected, not a stray
+    assert rec["extra_planned"] == 2 and rec["extra_built"] == 1
+    assert rec["crashed"] == {}                                          # a failed extra is its owner's to report
+    import hashlib
+    assert rec["olean_sha256"] == {"Lib.Shared": hashlib.sha256(b"shared bytes").hexdigest(),
+                                   "Lib.Extra": hashlib.sha256(b"extra bytes").hexdigest()}
+
+
+def test_merge_says_whether_modules_built_twice_came_out_the_same(tmp_path: Path) -> None:
+    deps = {"A": [], "B": ["A"], "C": ["A"]}
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {"A": 10, "B": 20, "C": 30}}))
+    d = tmp_path / "in" / "x"
+    d.mkdir(parents=True)
+
+    def records(a_hash_in_second_shard: str) -> None:
+        (d / "done-r4-s0.json").write_text(json.dumps({
+            "chunk": "r4-s0", "planned": 2, "built": ["A", "B"], "seconds": {"A": 1.0, "B": 2.0}, "failed": {},
+            "crashed": {}, "olean_sha256": {"A": "aaa"}}))
+        (d / "done-r4-s1.json").write_text(json.dumps({
+            "chunk": "r4-s1", "planned": 1, "built": ["C"], "seconds": {"C": 2.0}, "failed": {}, "crashed": {},
+            "extra_built": 1, "olean_sha256": {"A": a_hash_in_second_shard}}))
+
+    out = tmp_path / "state.json"
+    gh = tmp_path / "gh.txt"
+    sys.argv = ["replay_shard.py", "merge", "--dag", str(dag), "--done-dir", str(tmp_path / "in"),
+                "--round", "4", "--out", str(out), "--github-output", str(gh)]
+    records("aaa")
+    rs.main()
+    st = json.loads(out.read_text())
+    assert st["where"] == {"A": "r4-s0", "B": "r4-s0", "C": "r4-s1"}     # the owner's copy is the one kept
+    h = st["history"][0]
+    assert h["built_twice"] == 1 and h["built_twice_different"] == 0 and h["extra_built"] == 1
+    outputs = dict(line.split("=", 1) for line in gh.read_text().splitlines())
+    assert outputs["built_twice"] == "1" and outputs["built_twice_different"] == "0"
+
+    gh.unlink()
+    records("bbb")                                                       # the planted fault: different bytes
+    rs.main()
+    h = json.loads(out.read_text())["history"][0]
+    assert h["built_twice_different"] == 1 and h["built_twice_different_examples"] == ["A"]
+    assert dict(line.split("=", 1) for line in gh.read_text().splitlines())["built_twice_different"] == "1"
+
+
+def test_the_plan_command_writes_extras_only_when_asked_to_fill(tmp_path: Path) -> None:
+    deps, size = random_dag(1200, 4)
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": size}))
+    order, _ = rp.topo_levels(deps)
+    built = order[:300]
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {m: "r0-s0" for m in built}, "seconds": {}, "failed": {}, "crashed": {},
+                                 "bundles": {"0": 77}}))
+    plans = {}
+    for name, flags in (("plain", []), ("filled", ["--fill"])):
+        out = tmp_path / name
+        sys.argv = ["replay_plan.py", "plan", "--dag", str(dag), "--state", str(state), "--round", "1",
+                    "--shards", "12", "--budget-s", "900", "--out", str(out), *flags]
+        rp.main()
+        plans[name] = [json.loads(f.read_text()) for f in sorted(out.glob("shard-*.json"))]
+    assert all(sh["extra"] == [] and sh["shared"] == [] for sh in plans["plain"])
+    filled = plans["filled"]
+    assert sum(len(sh["extra"]) for sh in filled) > 0
+    done = set(built)
+    owner = {}
+    for sh in filled:
+        for m in sh["modules"]:
+            assert m not in owner
+            owner[m] = sh["shard"]
+    for sh in filled:
+        here = set(sh["modules"]) | set(sh["extra"])
+        assert all(owner[m] != sh["shard"] for m in sh["extra"])
+        assert all(d in done or d in here for m in here for d in deps[m])
+        assert set(sh["need"]) <= done and all(d in sh["need"] or d in here for m in here for d in deps[m])
+        assert set(sh["shared"]) == {m for m in here if sum(m in set(o["modules"]) | set(o["extra"]) for o in filled) > 1}
+        assert set(sh["sinks"]) <= here
+    assert sum(len(sh["modules"]) for sh in filled) >= sum(len(sh["modules"]) for sh in plans["plain"])
+

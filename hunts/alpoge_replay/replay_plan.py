@@ -227,6 +227,87 @@ def plan_round(deps, cost, order, height, done, n_shards, budget, max_modules):
     return shards, len(deferred) + left, bin_load
 
 
+def _bits(x: int):
+    """Indices of the set bits of x, lowest first."""
+    while x:
+        low = x & -x
+        yield low.bit_length() - 1
+        x ^= low
+
+
+def fill_idle(deps, cost, order, done, shards, n_shards: int, budget: float):
+    """A second pass over a round's plan: use the capacity the first pass left idle.
+
+    The cluster pass never builds a module twice, so a module whose unbuilt
+    imports ended up in different shards waits for the next round. Early in
+    the campaign that costs nothing, every shard is full. Late, the unbuilt
+    part is one tangle joined near the top: a round then fills two or three
+    shards and leaves the rest idle, although almost every module left would
+    fit a shard together with all it still needs (measured on this archive
+    after round 11: with shards of four compiles for an hour, five rounds
+    would do where the cluster pass alone takes seven).
+
+    This pass walks the modules not yet planned, in topological order, and
+    gives each to the shard that lacks the fewest of its unbuilt imports, if
+    that shard has room for the lacking part. What it lacks is built there
+    too, although another shard already builds it: an "extra". A shard stays
+    closed downward, which is the property that makes shards independent.
+
+    Returns (owned, extra, loads). owned[i]: the modules shard i is first to
+    build; it packs and reports those. extra[i]: modules it builds only to
+    reach its own, owned by another shard of the same round.
+    """
+    unbuilt = [m for m in order if m not in done]
+    idx = {m: j for j, m in enumerate(unbuilt)}
+    n = max(n_shards, len(shards))
+    builds = [0] * n                     # everything shard i builds, as a bit set over `unbuilt`
+    loads = [0.0] * n
+    owner: dict[int, int] = {}
+    planned = 0
+    for i, sh in enumerate(shards):
+        for m in sh:
+            j = idx[m]
+            builds[i] |= 1 << j
+            owner[j] = i
+            loads[i] += cost[m]
+        planned |= builds[i]
+    closure = [0] * len(unbuilt)         # a module and every unbuilt module below it
+    hopeless = 0                         # did not fit anywhere: nothing above it can either
+    for j, m in enumerate(unbuilt):
+        k = 1 << j
+        for d in deps[m]:
+            dj = idx.get(d)
+            if dj is not None:
+                k |= closure[dj]
+        closure[j] = k
+        if planned >> j & 1:
+            continue
+        if k & hopeless:
+            hopeless |= 1 << j
+            continue
+        placed = False
+        # the shards that lack the least of it, then the emptiest
+        for i in sorted(range(n), key=lambda i: ((k & ~builds[i]).bit_count(), loads[i], i))[:3]:
+            lacking = k & ~builds[i]
+            add = sum(cost[unbuilt[b]] for b in _bits(lacking))
+            if loads[i] + add <= budget:
+                for b in _bits(lacking & ~planned):
+                    owner[b] = i
+                builds[i] |= k
+                loads[i] += add
+                planned |= k
+                placed = True
+                break
+        if not placed:
+            hopeless |= 1 << j
+    owned: list[list[str]] = [[] for _ in range(n)]
+    extra: list[list[str]] = [[] for _ in range(n)]
+    for i in range(n):
+        for b in _bits(builds[i]):
+            (owned if owner[b] == i else extra)[i].append(unbuilt[b])
+    return owned, extra, loads
+
+
 def sinks_of(shard: list[str], deps) -> list[str]:
     """Modules of the shard that no other module of the shard imports."""
     inside = set(shard)
@@ -359,14 +440,32 @@ def cmd_plan(a) -> None:
         for m in order:
             if m not in blocked and any(d in blocked for d in deps[m]):
                 blocked.add(m)
+    open_order = [m for m in order if m not in blocked]
     shards, waiting, loads = plan_round(
-        deps, cost, [m for m in order if m not in blocked], height, done,
-        a.shards, a.budget_s, a.max_modules)
+        deps, cost, open_order, height, done, a.shards, a.budget_s, a.max_modules)
+    extras: list[list[str]] = [[] for _ in shards]
+    if a.fill:
+        # second pass: idle shards take modules together with the unbuilt
+        # imports another shard already builds (see fill_idle)
+        shards, extras, loads = fill_idle(deps, cost, open_order, done, shards, a.shards, a.budget_s)
+        keep = [i for i, sh in enumerate(shards) if sh]
+        shards = [shards[i] for i in keep]
+        extras = [extras[i] for i in keep]
+        owned_all = {m for sh in shards for m in sh}
+        waiting = sum(1 for m in open_order if m not in done and m not in owned_all)
+    times: dict[str, int] = {}
+    for sh, ex in zip(shards, extras):
+        for m in sh + ex:
+            times[m] = times.get(m, 0) + 1
     os.makedirs(a.out, exist_ok=True)
     summary = {"round": a.round, "rate_s_per_kb": round(rate, 4), "overhead_s": a.overhead_s,
                "budget_s": a.budget_s, "built_before": len(done), "blocked": len(blocked),
-               "failed": failed, "waiting_after": waiting, "shards": []}
-    for i, sh in enumerate(shards):
+               "failed": failed, "waiting_after": waiting, "fill": bool(a.fill),
+               "built_twice": sum(1 for n in times.values() if n > 1), "shards": []}
+    position = {m: i for i, m in enumerate(order)}
+    for i, owned in enumerate(shards):
+        # what the shard builds: its own modules and the extras, in import order
+        sh = sorted(owned + extras[i], key=position.__getitem__)
         need = built_closure(sh, deps, done)
         chunks = sorted({where[m] for m in need})
         fetch: dict[str, list[str]] = {}
@@ -375,16 +474,22 @@ def cmd_plan(a) -> None:
             if rnd not in bundles:
                 raise SystemExit(f"state has no bundle for round {rnd}, needed for chunk {c}")
             fetch.setdefault(str(bundles[rnd]), []).append(f"chunk-{c}.tar.zst")
-        rec = {"round": a.round, "shard": i, "modules": sh, "sinks": sinks_of(sh, deps),
+        # "modules" are the shard's own: it packs and reports those. "extra"
+        # it builds only to reach them; "shared" are the modules of either
+        # kind that another shard builds too, whose .olean hashes are compared.
+        rec = {"round": a.round, "shard": i, "modules": owned, "extra": extras[i],
+               "shared": [m for m in sh if times[m] > 1], "sinks": sinks_of(sh, deps),
                "need": need, "chunks": chunks, "fetch": fetch,
                "est_s": round(sum(cost[m] for m in sh), 1),
                "bytes": sum(size[m] for m in sh)}
         json.dump(rec, open(os.path.join(a.out, f"shard-{i}.json"), "w"))
-        summary["shards"].append({"shard": i, "modules": len(sh), "sinks": len(rec["sinks"]),
+        summary["shards"].append({"shard": i, "modules": len(owned), "extra": len(extras[i]),
+                                  "sinks": len(rec["sinks"]),
                                   "need": len(need), "chunks": len(chunks), "est_s": rec["est_s"],
                                   "kb": rec["bytes"] // 1000})
     summary["n_shards"] = len(shards)
     summary["planned_modules"] = sum(len(s) for s in shards)
+    summary["extra_modules"] = sum(len(e) for e in extras)
     json.dump(summary, open(os.path.join(a.out, "plan.json"), "w"), indent=1)
     print(json.dumps({k: v for k, v in summary.items() if k != "shards"}))
     for s in summary["shards"]:
@@ -438,6 +543,8 @@ def main() -> None:
         if name == "plan":
             s.add_argument("--state"); s.add_argument("--round", type=int, required=True)
             s.add_argument("--out", required=True); s.add_argument("--max-crashes", type=int, default=3)
+            s.add_argument("--fill", action="store_true",
+                           help="second pass: idle shards also build modules whose unbuilt imports another shard owns")
         else:
             s.add_argument("--max-rounds", type=int, default=80)
         s.set_defaults(fn=fn)

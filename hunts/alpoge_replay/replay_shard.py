@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import hashlib
 import json
 import os
 import re
@@ -177,7 +178,12 @@ def watchdog_kills(path: str | None) -> dict[str, set[str]]:
 def cmd_pack(a) -> None:
     shard = json.load(open(a.shard))
     mine = shard["modules"]
+    # "extra": modules another shard owns, built here only to reach this
+    # shard's own (the planner's filling pass). They are neither packed nor
+    # reported, but they are not strays either.
+    extra = shard.get("extra", [])
     inside = set(mine)
+    expected = inside | set(extra)
     seconds, failed, sorry_lines = parse_log(a.log)
     status = json.load(open(a.log + ".status.json")) if os.path.exists(a.log + ".status.json") else {}
     built = [m for m in mine if is_built(a.lean_dir, m)]
@@ -192,7 +198,14 @@ def cmd_pack(a) -> None:
         by_kind[kind] = by_kind.get(kind, 0) + os.path.getsize(os.path.join(a.lean_dir, f))
     raw = sum(by_kind.values())
     olean = by_kind.get("olean", 0)
-    rebuilt_outside = sorted(m for m in seconds if m not in inside)
+    rebuilt_outside = sorted(m for m in seconds if m not in expected)
+    # Two shards built these: the bytes of the .olean are what the next
+    # round's traces depend on, so they are compared at the merge.
+    olean_sha256 = {}
+    for m in shard.get("shared", []):
+        if is_built(a.lean_dir, m):
+            with open(lib_path(a.lean_dir, m) + ".olean", "rb") as fh:
+                olean_sha256[m] = hashlib.sha256(fh.read()).hexdigest()
     # A module that failed in one batch and was built in a later one is built.
     done_now = set(built)
     failed = {m: v for m, v in failed.items() if m not in done_now}
@@ -218,6 +231,9 @@ def cmd_pack(a) -> None:
         "crashed": crashed,
         "crowded": crowded,
         "killed_alone": sorted(m for m in watchdog_kills(a.kills).get("alone", set()) if m in inside),
+        "extra_planned": len(extra),
+        "extra_built": sum(1 for m in extra if is_built(a.lean_dir, m)),
+        "olean_sha256": olean_sha256,
         "rebuilt_outside_shard": len(rebuilt_outside),
         "rebuilt_outside_examples": rebuilt_outside[:5],
         "sorry_warning_lines": sorry_lines,
@@ -227,7 +243,8 @@ def cmd_pack(a) -> None:
         "build_status": status,
     }
     json.dump(rec, open(a.done, "w"))
-    brief = {k: (len(v) if isinstance(v, (list, dict)) and k in ("built", "seconds", "failed", "crashed", "crowded") else v)
+    brief = {k: (len(v) if isinstance(v, (list, dict)) and k in ("built", "seconds", "failed", "crashed", "crowded",
+                                                                 "olean_sha256") else v)
              for k, v in rec.items() if k != "rebuilt_outside_examples"}
     print(json.dumps(brief))
 
@@ -242,9 +259,15 @@ def cmd_merge(a) -> None:
     rnd = {"round": a.round, "shards": 0, "planned": 0, "built": 0, "bytes_by_kind": {}, "raw_output_bytes": 0,
            "olean_bytes": 0, "seconds_sum": 0.0, "source_bytes": 0, "rebuilt_outside_shard": 0,
            "sorry_warning_lines": 0, "timed_out_shards": 0, "failed": 0, "crashed": 0}
+    hashes: dict[str, set[str]] = {}
+    copies: dict[str, int] = {}
     for f in sorted(glob.glob(os.path.join(a.done_dir, "**", "done-*.json"), recursive=True)):
         rec = json.load(open(f))
         rnd["shards"] += 1
+        rnd["extra_built"] = rnd.get("extra_built", 0) + (rec.get("extra_built") or 0)
+        for m, h in (rec.get("olean_sha256") or {}).items():
+            hashes.setdefault(m, set()).add(h)
+            copies[m] = copies.get(m, 0) + 1
         rnd["planned"] += rec.get("planned", 0)
         for m in rec.get("built", []):
             if m in known and m not in state["where"]:
@@ -274,6 +297,15 @@ def cmd_merge(a) -> None:
             rnd["bytes_by_kind"][k] = rnd["bytes_by_kind"].get(k, 0) + v
         if (rec.get("build_status") or {}).get("timed_out"):
             rnd["timed_out_shards"] += 1
+    # Modules two shards built: same bytes or not. A difference does not make
+    # anything wrong, Lake rebuilds what was built against the other copy,
+    # but it makes building twice a waste, and the chain stops doing it.
+    twice = sorted(m for m, n in copies.items() if n > 1)
+    different = [m for m in twice if len(hashes[m]) > 1]
+    rnd["built_twice"] = len(twice)
+    rnd["built_twice_different"] = len(different)
+    if different:
+        rnd["built_twice_different_examples"] = different[:20]
     rnd["failed"] = len(state["failed"])
     rnd["crashed"] = len(state["crashed"])
     rnd["seconds_sum"] = round(rnd["seconds_sum"], 1)
@@ -297,6 +329,8 @@ def cmd_merge(a) -> None:
         "crashed_this_round": rnd.get("crashed_this_round", 0),
         "crowded_this_round": rnd.get("crowded_this_round", 0),
         "killed_alone": sorted(rnd.get("killed_alone", [])),
+        "built_twice": rnd["built_twice"],
+        "built_twice_different": rnd["built_twice_different"],
         "shards_reported": rnd["shards"],
         "round_summary": rnd,
     }
@@ -304,7 +338,8 @@ def cmd_merge(a) -> None:
     if a.github_output:
         with open(a.github_output, "a") as fh:
             for k in ("built_this_round", "modules_built", "main_built", "complete", "n_failed", "percent",
-                      "timed_out_shards", "crashed_this_round", "crowded_this_round", "shards_reported"):
+                      "timed_out_shards", "crashed_this_round", "crowded_this_round", "shards_reported",
+                      "built_twice", "built_twice_different"):
                 v = out[k]
                 fh.write(f"{k}={str(v).lower() if isinstance(v, bool) else v}\n")
 

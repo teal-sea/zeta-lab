@@ -77,9 +77,13 @@ on:
         type: boolean
         default: false
       lean_threads:
-        description: LEAN_NUM_THREADS for lake build, which caps how many modules compile at once; empty means one per core
+        description: LEAN_NUM_THREADS for lake build, which caps how many modules compile at once; empty means two
         type: string
         default: ""
+      fill:
+        description: second planning pass; idle shards also build modules whose unbuilt imports another shard owns, building those imports twice
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -106,6 +110,7 @@ env:
   # Two compiles at once unless a dispatch says otherwise: from about round 9
   # the modules import enough that four exhaust a 15 GB runner.
   LEAN_THREADS: ${{ inputs.lean_threads || '2' }}
+  FILL: ${{ inputs.fill || 'false' }}
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -181,6 +186,7 @@ jobs:
           python3 "$HUNT/replay_plan.py" dag --src "$HOME/replay/lean/src" --out dag.json
           args=()
           if [ -f state-prev/state.json ]; then args+=(--state state-prev/state.json); fi
+          if [ "$FILL" = "true" ]; then args+=(--fill); fi
           # as many compiles at once as the build step will run, for
           # BUILD_MINUTES, planned fifteen percent over so a shard is cut by
           # its deadline, not left idle
@@ -535,6 +541,8 @@ jobs:
           TIMED_OUT: ${{ steps.count.outputs.timed_out_shards }}
           CRASHED_NOW: ${{ steps.count.outputs.crashed_this_round }}
           CROWDED_NOW: ${{ steps.count.outputs.crowded_this_round }}
+          TWICE: ${{ steps.count.outputs.built_twice }}
+          TWICE_DIFFERENT: ${{ steps.count.outputs.built_twice_different }}
           SHARDS_REPORTED: ${{ steps.count.outputs.shards_reported }}
           SHARDS_PLANNED: ${{ needs.plan.outputs.n_shards }}
         run: |
@@ -573,6 +581,13 @@ jobs:
             esac
             echo "next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
           fi
+          # Modules two shards built this round (the filling pass). Different
+          # bytes make the second copy a waste, so the pass is switched off.
+          echo "${TWICE:-0} modules were built by two shards; ${TWICE_DIFFERENT:-0} of them came out with different .olean bytes" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "${TWICE_DIFFERENT:-0}" != "0" ] && [ "$FILL" = "true" ]; then
+            FILL=false
+            echo "::warning::${TWICE_DIFFERENT} modules built twice differ byte for byte; the filling pass is off from the next round"
+          fi
           if [ "$CHAIN" != "true" ] || [ -z "$next" ]; then
             echo "chain is off or there is nothing to hand on to; stopping"
             if [ "$BUILT" = "0" ] && [ "$MAIN_BUILT" != "true" ]; then exit 1; fi
@@ -581,7 +596,7 @@ jobs:
           gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
             -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
-            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS"
+            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS" -f fill="$FILL"
 
   # --------------------------------------------------------------------------
   # remerge: a round whose shards finished and were bundled, but whose merge
@@ -676,7 +691,7 @@ jobs:
           gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
             -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
-            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS"
+            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS" -f fill="$FILL"
 
   # --------------------------------------------------------------------------
   # verdict: everything on one runner, nothing left to build, print the axioms

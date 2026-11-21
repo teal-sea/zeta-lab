@@ -212,6 +212,82 @@ itself. Whether it does is not measured; the memory log of round 12 is the
 first measurement, and if the top of the graph needs more than a hosted
 runner has, this route ends there and that will be said.
 
+### What round 12 measured, 2026-11-21 07:00Z: memory was never the limit at two compiles
+
+Round 12 was the first with a memory log. Read from its first four shards
+while the others were still building (two compiles at once, watchdog version
+one, no kill):
+
+| | |
+| --- | --- |
+| peak memory in use | 3.3 to 4.5 GB of 15.6 GB |
+| largest anonymous memory of one lean process | 0.7, 0.8, 0.9 and 2.5 GB |
+| file-backed memory of one lean process | 8 to 10.6 GB: mapped `.olean` files, shared between processes and reclaimable |
+| runner swap | three of the four runners came with about 3 GB and used 0.3 to 1.9 GB of it while 12 GB counted as available; the fourth had none |
+| throughput | 467 to 514 modules per shard-hour, 14 to 15 thread-seconds each, in the three shards whose modules together import 33,000 to 40,000 built modules; 1,672 in 59 minutes, 4.2 thread-seconds each, in the shard that imports 9,760 |
+| restore before the build | 6.3 to 7.0 minutes on these four shards, 22 to 31 minutes on the other eight, for about the same number of chunks (84 to 114) |
+
+So the second incident's reading was wrong: it was not the heap. At this
+depth a module fits a runner with room to spare, two at once leave two
+thirds of the memory unused, and the ten seconds a module costs here over a
+shallow one is most likely its import. The few modules at the very top
+import four times more and are not measured yet. What lost runners at four
+compiles in rounds 9 to 11 is not identified. The mapped files are the
+suspect: four processes each touching 8 to 10 GB of them on a 15.6 GB
+machine that is already swapping.
+
+**The import closures, exactly** (bit sets over the DAG, state after round
+11). The 127,320 modules built have small closures: median 318 archive
+modules, 99th percentile 9,401, largest 21,129. The 47,867 left: median
+5,199, 90th percentile 21,575, 99th 30,586. Only 91 import more than 40,000
+and nine more than 150,000, ending in `Main` with all 175,187. Median build
+time against closure, over 127,120 timed modules: 6.3 s under 100 modules,
+7.4 s at 1,000 to 3,000, 9.7 s at 8,000 to 10,000, 13 s at 10,000 to 15,000.
+Eleven modules between 15,000 and 22,000 took a median of 500 s and one took
+2,307 s (`...AutomorphicMembership.ParMem`, 10 KB of source), all in rounds
+10 and 11 at four compiles with swap, so that figure mixes cost with
+thrashing and is not a rate.
+
+**What limits the campaign now is the shape of a round, not the runners.**
+By the cost model the unbuilt part is 202 thread-hours with a critical path
+of 0.55 hours (105 modules): 4.2 hours on twelve runners at four compiles.
+The planner needs far more, because a shard must hold every unbuilt import
+of what it builds, so a module that joins several unbuilt clusters waits a
+round. Simulated from the state after round 11, 35 minutes of overhead per
+round:
+
+| compiles x minutes | rounds | hours | lower bound on rounds for any downward-closed plan |
+| --- | --- | --- | --- |
+| 2 x 60 | 9 | 14.2 | |
+| 3 x 60 | 8 | 12.0 | 6 |
+| 4 x 60 | 7 | 10.2 | 5 |
+| 4 x 90 | 6 | 12.2 | 4 |
+| 4 x 120 | 5 | 12.9 | 3 |
+| 4 x 150 | 5 | 15.4 | |
+
+Longer rounds do not help: the last rounds hold a few thousand modules and
+still run one shard to its deadline. The lower bound counts a module as
+buildable in a round when its whole unbuilt closure fits one shard, with
+twelve shards' capacity and shared prerequisites built for free; it is what a
+planner that built shared prerequisites twice could approach.
+
+**Changed for round 13**, in order of commit:
+
+- `2fea1e67` watchdog version two: under 2.5 GB available it suspends every
+  lean process but the largest and resumes them when memory is back; under
+  700 MB it kills a suspended one first ("crowded", counted but no strike),
+  and only a process that is alone and still fills the runner is killed as a
+  crash. It writes each module's peak memory. The chain lowers the thread
+  count only when a runner is lost.
+- `126dd0fe` the plan is sized for the compiles a shard will run, at the rate
+  of the last two rounds (2.0 s per KB after round 11, where the all-time
+  rate said 1.0).
+- `b92dab76` the memory log counts major page faults and swap traffic, which
+  is what will say whether three or four compiles thrash.
+- `e8582bc4`, `1a6142dd`, `956d215a` the restore unpacks three chunks at a
+  time and, of each chunk, only the modules the shard imports; the verdict
+  job restores through the same script.
+
 ## Second pass: kernel replay
 
 What it is and why it exists: `MISSION.md`, "The second pass". Compute is the
