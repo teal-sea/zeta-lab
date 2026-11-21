@@ -49,6 +49,10 @@ def test_replayed_failed_and_twice_struck_modules_are_not_planned_again() -> Non
     shards, left, _ = rc.plan_check(deps, level, where, {"0": 7}, cstate, n_shards=4, budget_s=600, default_s=6)
     assert [m for s in shards for m in s["modules"]] == ["M3", "M4", "M5"]
     assert left == 0
+    # with more strikes allowed, the module struck twice is tried again
+    shards, _, _ = rc.plan_check(deps, level, where, {"0": 7}, cstate, n_shards=4, budget_s=600, default_s=6,
+                                 max_strikes=4)
+    assert [m for s in shards for m in s["modules"]] == ["M2", "M3", "M4", "M5"]
 
 
 def test_only_built_modules_are_planned() -> None:

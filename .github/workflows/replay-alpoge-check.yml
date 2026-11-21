@@ -149,8 +149,12 @@ jobs:
           args=()
           if [ -f cstate/checkstate.json ]; then args+=(--check-state cstate/checkstate.json); fi
           budget=$(python3 -c "print(int(float('$CHECK_MINUTES') * 60 * int('$PROCS') * 0.9))")
+          # Four strikes, not two: the one module struck so far
+          # (SesquilinearFractions.ExistsFactorThroughMultiplication, 12.7 GB
+          # held when the watchdog ended its replay in round 10) was struck
+          # on runners without the extra swap the shards have from round 12.
           python3 "$HUNT/replay_check.py" plan --dag dag.json --state state/state.json "${args[@]}" \
-            --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --out plan | tee plan.txt
+            --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --max-strikes 4 --out plan | tee plan.txt
           n=$(jq .n_shards plan/plan.json)
           echo "n_shards=$n" >> "$GITHUB_OUTPUT"
           echo "matrix=$(jq -c -n --argjson n "$n" '[range(0;$n)]')" >> "$GITHUB_OUTPUT"
@@ -262,6 +266,26 @@ jobs:
           RESTORE_NEED="$PWD/need.txt" RESTORE_SUFFIX=.olean bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
 
+      # One module is known to hold more than 12 GB while its declarations
+      # are replayed (it held 13.7 GB when it was compiled). Swap on what
+      # the disk has left gives it somewhere to go, and the watchdog below
+      # ends a replay only when that is nearly used up as well.
+      - name: extra swap on what the disk has left
+        run: |
+          set -uo pipefail
+          free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+          swap_gb=$(( free_gb - 12 ))
+          if [ "$swap_gb" -gt 24 ]; then swap_gb=24; fi
+          if [ "$swap_gb" -ge 4 ]; then
+            sudo fallocate -l "${swap_gb}G" /swapfile-alpoge && sudo chmod 600 /swapfile-alpoge \
+              && sudo mkswap -q /swapfile-alpoge && sudo swapon /swapfile-alpoge \
+              && sudo sysctl -w vm.swappiness=10 | tee -a "$OUT/evidence/run.txt" \
+              || echo "extra swap could not be added" | tee -a "$OUT/evidence/run.txt"
+          else
+            echo "no room for extra swap: $free_gb GB free" | tee -a "$OUT/evidence/run.txt"
+          fi
+          free -g | tee -a "$OUT/evidence/run.txt"
+
       # After the restore, which reads its bundles front to back and wants
       # the normal read-ahead; before the replay, which maps .olean files
       # and reads a few places in each.
@@ -286,7 +310,7 @@ jobs:
           # "killed" (crowded out) or as a strike (killed alone), and after a
           # kill the chain runs the next round with fewer processes.
           python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
-            --root "$LEAN_DIR/src" --log "$OUT/evidence/mem.log" &
+            --swap-floor-mb 1024 --root "$LEAN_DIR/src" --log "$OUT/evidence/mem.log" &
           watchdog=$!
           python3 "$HUNT/replay_check.py" run --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --minutes "$CHECK_MINUTES" --procs "$PROCS" --driver "$HUNT/ReplayDriver.lean" \

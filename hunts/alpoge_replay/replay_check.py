@@ -103,7 +103,7 @@ def cmd_plan(a) -> None:
     where = {m: c for m, c in where.items() if m in ok}
     cstate = load_check_state(a.check_state)
     shards, left, mean_s = plan_check(deps, level, where, st.get("bundles", {}), cstate,
-                                      a.shards, a.budget_s, a.default_s)
+                                      a.shards, a.budget_s, a.default_s, a.max_strikes)
     os.makedirs(a.out, exist_ok=True)
     for i, sh in enumerate(shards):
         sh.update({"round": a.round, "shard": i})
@@ -360,6 +360,8 @@ def main() -> None:
     s.add_argument("--shards", type=int, default=4)
     s.add_argument("--budget-s", type=float, required=True, help="process-seconds one shard is planned for")
     s.add_argument("--default-s", type=float, default=6.0, help="seconds per module before any is measured")
+    s.add_argument("--max-strikes", type=int, default=2,
+                   help="a module a replay process died on this many times is not planned again")
     s.add_argument("--out", required=True)
     s.set_defaults(fn=cmd_plan)
     s = sub.add_parser("run")
