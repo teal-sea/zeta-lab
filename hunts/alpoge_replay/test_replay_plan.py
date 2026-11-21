@@ -272,6 +272,7 @@ def test_merge_counts_a_crowded_kill_but_gives_no_strike_for_it(tmp_path: Path) 
     assert st["history"][0]["crowded_this_round"] == 1 and st["history"][0]["killed_alone"] == ["C"]
     outputs = dict(line.split("=", 1) for line in gh.read_text().splitlines())
     assert outputs["crowded_this_round"] == "1" and outputs["crashed_this_round"] == "1"
+    assert outputs["n_killed_alone"] == "1"        # what makes the chain give the next round swap
 
 
 def test_the_rate_is_fitted_on_the_last_rounds_not_on_every_round() -> None:

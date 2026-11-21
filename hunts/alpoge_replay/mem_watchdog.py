@@ -18,6 +18,9 @@ way). This watchdog samples /proc/meminfo and acts in two steps.
               nothing against its module. Only when the last process left is
               alone and the runner is still full is that one killed: an
               "alone" kill, which says its module does not fit this runner.
+              With `--swap-floor-mb` the hard floor waits until free swap is
+              under that too: a round that retries a module killed alone
+              gives the runner more swap and lets the module page.
 
 Version one killed the largest process at the hard floor. That is the wrong
 victim: it throws away the most work, and the module that needed the room
@@ -177,6 +180,8 @@ def main() -> None:
     p.add_argument("--floor-mb", type=int, default=700, help="hard floor: kill")
     p.add_argument("--soft-mb", type=int, default=2500, help="soft floor: suspend all but the largest")
     p.add_argument("--resume-mb", type=int, default=5000, help="resume one suspended process above this")
+    p.add_argument("--swap-floor-mb", type=int, default=-1,
+                   help="with swap to fall back on: kill only once free swap is also under this; -1 ignores swap")
     p.add_argument("--max-halt-s", type=float, default=1200.0,
                    help="a process suspended this long is resumed whatever memory says")
     p.add_argument("--log", required=True)
@@ -216,7 +221,8 @@ def main() -> None:
             open(a.log + ".modules.tsv", "a", buffering=1) as mods, \
             open(a.log + ".kills.tsv", "a", buffering=1) as killed:
         log.write(f"watchdog: '{a.name}': suspend all but the largest when MemAvailable < {soft} MB, "
-                  f"resume above {resume} MB, kill under {a.floor_mb} MB (suspended first), twice running\n")
+                  f"resume above {resume} MB, kill under {a.floor_mb} MB (suspended first), twice running"
+                  + (f", and only with free swap under {a.swap_floor_mb} MB" if a.swap_floor_mb >= 0 else "") + "\n")
 
         def close(pid: int, now: float) -> None:
             s = seen.pop(pid)
@@ -273,7 +279,12 @@ def main() -> None:
                               f"largest={seen[ps[0][1]].module if ps else '-'}\n")
                     last_log = now
                 low_soft = low_soft + 1 if avail < soft else 0
-                low_hard = low_hard + 1 if avail < a.floor_mb else 0
+                # With swap to fall back on (a round retrying a module that
+                # was killed alone), nothing is killed while swap has room:
+                # the suspended processes are paged out and the large one
+                # runs on, slowly. Without it, the floor alone decides.
+                out_of_swap = a.swap_floor_mb < 0 or m.get("SwapFree", 0) <= a.swap_floor_mb
+                low_hard = low_hard + 1 if (avail < a.floor_mb and out_of_swap) else 0
                 high = high + 1 if avail >= resume else 0
                 acted_hard = False
                 for what, pid in decide(avail, ps, halted, soft=soft, floor=a.floor_mb, resume=resume,

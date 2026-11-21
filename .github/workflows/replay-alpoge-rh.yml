@@ -84,6 +84,10 @@ on:
         description: second planning pass; idle shards also build modules whose unbuilt imports another shard owns, building those imports twice
         type: boolean
         default: false
+      swap_gb:
+        description: extra swap on each build runner, in GB; the chain sets it after a module was killed alone for memory
+        type: string
+        default: "0"
 
 permissions:
   contents: read
@@ -114,6 +118,7 @@ env:
   # the modules import enough that four exhaust a 15 GB runner.
   LEAN_THREADS: ${{ inputs.lean_threads || '2' }}
   FILL: ${{ inputs.fill || 'false' }}
+  SWAP_GB: ${{ inputs.swap_gb || '0' }}
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -259,9 +264,19 @@ jobs:
           # the default limit of 65530 mappings would make Lean read them into
           # memory instead.
           sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
-          # Rounds 9 and 10 lost one and then four runners mid-build. Extra
-          # swap (tried in round 10) did not help; a watchdog in the build
-          # step now kills one compile instead (mem_watchdog.py).
+          # Extra swap only in a round that retries a module killed alone
+          # for memory (round 14 met one that held 13.7 GB of 15.6). With
+          # four compiles and no watchdog, in round 10, swap only made the
+          # survivors thrash. Now the watchdog suspends everything but the
+          # largest process, so what pages is the suspended, and the large
+          # module if it must; low swappiness keeps the kernel from paging
+          # heaps out to make room for cache.
+          if [ "${SWAP_GB:-0}" != "0" ]; then
+            sudo fallocate -l "${SWAP_GB}G" /swapfile-alpoge && sudo chmod 600 /swapfile-alpoge \
+              && sudo mkswap -q /swapfile-alpoge && sudo swapon /swapfile-alpoge \
+              && sudo sysctl -w vm.swappiness=10 | tee -a "$OUT/evidence/run.txt" \
+              || echo "extra swap could not be added" | tee -a "$OUT/evidence/run.txt"
+          fi
           free -g | tee -a "$OUT/evidence/run.txt"
           df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
 
@@ -367,8 +382,10 @@ jobs:
           # simply planned again), and only a process that is alone and
           # still fills the runner is killed as "alone", which is recorded as
           # a crash. It also writes each module's peak memory.
+          swapargs=()
+          if [ "${SWAP_GB:-0}" != "0" ]; then swapargs=(--swap-floor-mb 1024); fi
           python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
-            --root "$LEAN_DIR/src" --log "$OUT/evidence/mem.log" &
+            "${swapargs[@]}" --root "$LEAN_DIR/src" --log "$OUT/evidence/mem.log" &
           watchdog=$!
           # Lake compiles one module per worker thread. Fewer threads is the
           # remedy when modules high in the graph exhaust the runner's memory
@@ -546,6 +563,7 @@ jobs:
           TIMED_OUT: ${{ steps.count.outputs.timed_out_shards }}
           CRASHED_NOW: ${{ steps.count.outputs.crashed_this_round }}
           CROWDED_NOW: ${{ steps.count.outputs.crowded_this_round }}
+          KILLED_ALONE: ${{ steps.count.outputs.n_killed_alone }}
           TWICE: ${{ steps.count.outputs.built_twice }}
           TWICE_DIFFERENT: ${{ steps.count.outputs.built_twice_different }}
           SHARDS_REPORTED: ${{ steps.count.outputs.shards_reported }}
@@ -586,6 +604,13 @@ jobs:
             esac
             echo "next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
           fi
+          # A module killed while it was the only compile running does not
+          # fit a runner's memory. Before it counts as out of reach, one
+          # round gives every runner swap to page into.
+          if [ "${KILLED_ALONE:-0}" != "0" ] && [ "${SWAP_GB:-0}" = "0" ]; then
+            SWAP_GB=24
+            echo "${KILLED_ALONE} module(s) were killed alone for memory; the next round gives each runner ${SWAP_GB} GB of swap" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
           # Modules two shards built this round (the filling pass). Different
           # bytes make the second copy a waste, so the pass is switched off.
           echo "${TWICE:-0} modules were built by two shards; ${TWICE_DIFFERENT:-0} of them came out with different .olean bytes" | tee -a "$GITHUB_STEP_SUMMARY"
@@ -601,7 +626,7 @@ jobs:
           gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
             -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
-            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS" -f fill="$FILL"
+            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS" -f fill="$FILL" -f swap_gb="$SWAP_GB"
 
   # --------------------------------------------------------------------------
   # remerge: a round whose shards finished and were bundled, but whose merge
@@ -696,7 +721,7 @@ jobs:
           gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
             -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
-            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS" -f fill="$FILL"
+            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS" -f fill="$FILL" -f swap_gb="$SWAP_GB"
 
   # --------------------------------------------------------------------------
   # verdict: everything on one runner, nothing left to build, print the axioms

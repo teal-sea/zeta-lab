@@ -393,6 +393,7 @@ def cmd_merge(a) -> None:
         "crashed_this_round": rnd.get("crashed_this_round", 0),
         "crowded_this_round": rnd.get("crowded_this_round", 0),
         "killed_alone": sorted(rnd.get("killed_alone", [])),
+        "n_killed_alone": len(set(rnd.get("killed_alone", []))),
         "built_twice": rnd["built_twice"],
         "built_twice_different": rnd["built_twice_different"],
         "shards_reported": rnd["shards"],
@@ -403,7 +404,7 @@ def cmd_merge(a) -> None:
         with open(a.github_output, "a") as fh:
             for k in ("built_this_round", "modules_built", "main_built", "complete", "n_failed", "percent",
                       "timed_out_shards", "crashed_this_round", "crowded_this_round", "shards_reported",
-                      "built_twice", "built_twice_different"):
+                      "built_twice", "built_twice_different", "n_killed_alone"):
                 v = out[k]
                 fh.write(f"{k}={str(v).lower() if isinstance(v, bool) else v}\n")
 

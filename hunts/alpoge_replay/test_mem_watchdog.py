@@ -210,3 +210,41 @@ def test_a_suspended_process_is_released_on_the_timer(tmp_path):
         for p in (a, b):
             p.kill()
             p.wait()
+
+
+@pytest.mark.slow
+def test_with_swap_to_fall_back_on_nothing_is_killed_while_swap_has_room(tmp_path):
+    fake = tmp_path / "lean"
+    shutil.copy("/bin/sleep", fake)
+    mem = tmp_path / "meminfo"
+
+    def reading(avail_mb: int, swap_free_mb: int) -> None:
+        tmp = tmp_path / "meminfo.tmp"
+        tmp.write_text(f"MemTotal: {16000 * 1024} kB\nMemAvailable: {avail_mb * 1024} kB\n"
+                       f"SwapFree: {swap_free_mb * 1024} kB\n")
+        os.replace(tmp, mem)
+
+    reading(300, 20000)                      # under the hard floor, but 20 GB of swap free
+    a = subprocess.Popen([str(fake), "120"])
+    b = subprocess.Popen([str(fake), "121"])
+    log = tmp_path / "mem.log"
+    dog = subprocess.Popen([sys.executable, str(HERE / "mem_watchdog.py"), "--name", "lean", "--log", str(log),
+                            "--meminfo", str(mem), "--interval", "0.1", "--swap-floor-mb", "1024"])
+    try:
+        # the smaller one is suspended (the soft floor does not look at swap), and nobody dies
+        assert _wait_for(lambda: [_state(a.pid), _state(b.pid)].count("T") == 1)
+        time.sleep(1.5)
+        assert a.poll() is None and b.poll() is None
+        reading(300, 500)                    # swap nearly gone too: now the suspended one goes, then the last
+        assert _wait_for(lambda: a.poll() is not None and b.poll() is not None, 15.0)
+    finally:
+        dog.send_signal(signal.SIGTERM)
+        dog.wait(timeout=20)
+        for p in (a, b):
+            if p.poll() is None:
+                p.kill()
+            p.wait()
+    kills = [line.split("\t")[1] for line in (tmp_path / "mem.log.kills.tsv").read_text().splitlines()]
+    assert kills == ["crowded", "alone"]
+    assert "only with free swap under 1024 MB" in log.read_text()
+
