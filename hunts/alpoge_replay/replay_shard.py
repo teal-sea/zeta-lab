@@ -309,6 +309,19 @@ def cmd_merge(a) -> None:
                 fh.write(f"{k}={str(v).lower() if isinstance(v, bool) else v}\n")
 
 
+def cmd_fetchmap(a) -> None:
+    """Everything built so far, as the "fetch" map restore_chunks.sh reads."""
+    st = json.load(open(a.state))
+    fetch: dict[str, list[str]] = {}
+    for c in sorted(set(st["where"].values())):  # a chunk is named r<round>-s<shard>
+        rnd = c.split("-")[0][1:]
+        if rnd not in st.get("bundles", {}):
+            raise SystemExit(f"state has no bundle for round {rnd}, needed for chunk {c}")
+        fetch.setdefault(str(st["bundles"][rnd]), []).append(f"chunk-{c}.tar.zst")
+    json.dump({"fetch": fetch}, open(a.out, "w"))
+    print(f"bundles={len(fetch)} chunks={sum(len(v) for v in fetch.values())} modules={len(st['where'])}")
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -322,6 +335,8 @@ def main() -> None:
     s.add_argument("--filelist", required=True); s.add_argument("--done", required=True)
     s.add_argument("--kills", help="mem_watchdog.py's kills table, to tell a crowded kill from a crash")
     s.set_defaults(fn=cmd_pack)
+    s = sub.add_parser("fetchmap"); s.add_argument("--state", required=True); s.add_argument("--out", required=True)
+    s.set_defaults(fn=cmd_fetchmap)
     s = sub.add_parser("merge"); s.add_argument("--dag", required=True); s.add_argument("--state")
     s.add_argument("--done-dir", required=True); s.add_argument("--round", type=int, required=True)
     s.add_argument("--out", required=True); s.add_argument("--github-output")

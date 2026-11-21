@@ -757,15 +757,9 @@ jobs:
           case "$STATE_ID" in ''|*[!0-9]*) echo "::error::verdict needs a numeric state_id"; exit 1;; esac
           bash "$HUNT/fetch_artifact.sh" "$STATE_ID" state.zip
           mkdir -p state && unzip -o -q state.zip -d state
-          jq -r '.bundles | to_entries[] | .value' state/state.json > bundles.txt
-          while read -r id; do
-            bash "$HUNT/fetch_artifact.sh" "$id" bundle.zip
-            for member in $(unzip -Z1 bundle.zip); do
-              unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
-            done
-            rm -f bundle.zip
-            df -h / | tail -1
-          done < bundles.txt
+          python3 "$HUNT/replay_shard.py" fetchmap --state state/state.json --out all.json | tee -a "$OUT/evidence/run.txt"
+          bash "$HUNT/restore_chunks.sh" all.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
           echo "olean files on disk: $(find "$LEAN_DIR/.lake/build/lib/lean" -name '*.olean' | wc -l)" | tee -a "$OUT/evidence/run.txt"
           jq '{modules_built: (.where | length), failed: (.failed | length), rounds: (.history | length)}' state/state.json | tee -a "$OUT/evidence/run.txt"
           cp state/state.json "$OUT/evidence/state.json"

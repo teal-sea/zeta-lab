@@ -287,3 +287,17 @@ def test_the_rate_is_fitted_on_the_last_rounds_not_on_every_round() -> None:
     assert rp.recent_timings(where, few) is few
     assert rp.recent_timings({m: "odd" for m in secs}, secs) is secs
 
+
+def test_the_fetch_map_of_a_state_names_every_chunk_that_holds_a_module(tmp_path: Path) -> None:
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {"A": "r0-s0", "B": "r0-s3", "C": "r0-s0", "D": "r12-s11"},
+                                 "bundles": {"0": 111, "12": 999, "5": 555}}))
+    out = tmp_path / "all.json"
+    sys.argv = ["replay_shard.py", "fetchmap", "--state", str(state), "--out", str(out)]
+    rs.main()
+    assert json.loads(out.read_text()) == {"fetch": {"111": ["chunk-r0-s0.tar.zst", "chunk-r0-s3.tar.zst"],
+                                                     "999": ["chunk-r12-s11.tar.zst"]}}
+    state.write_text(json.dumps({"where": {"A": "r7-s0"}, "bundles": {"0": 111}}))
+    with pytest.raises(SystemExit):
+        rs.main()
+
