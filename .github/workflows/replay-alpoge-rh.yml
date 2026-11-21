@@ -103,7 +103,9 @@ env:
   CHAIN: ${{ inputs.chain || 'false' }}
   MAX_ROUND: ${{ inputs.max_round || '60' }}
   COMPRESS_FS: ${{ inputs.compress_fs || 'false' }}
-  LEAN_THREADS: ${{ inputs.lean_threads || '' }}
+  # Two compiles at once unless a dispatch says otherwise: from about round 9
+  # the modules import enough that four exhaust a 15 GB runner.
+  LEAN_THREADS: ${{ inputs.lean_threads || '2' }}
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -242,12 +244,9 @@ jobs:
           # the default limit of 65530 mappings would make Lean read them into
           # memory instead.
           sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
-          # In round 9 one runner was shut down 52 minutes into its build with
-          # no record of why; running out of memory is the likeliest cause at
-          # this depth of the graph. Sixteen more gigabytes of swap turn that
-          # into a slow shard. Best effort: a runner that refuses still builds.
-          ( sudo fallocate -l 16G /alpoge-swap && sudo chmod 600 /alpoge-swap \
-            && sudo mkswap -q /alpoge-swap && sudo swapon /alpoge-swap ) || echo "extra swap not available"
+          # Rounds 9 and 10 lost one and then four runners mid-build. Extra
+          # swap (tried in round 10) did not help; a watchdog in the build
+          # step now kills one compile instead (mem_watchdog.py).
           free -g | tee -a "$OUT/evidence/run.txt"
           df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
 
@@ -355,6 +354,13 @@ jobs:
               find "$LEAN_DIR/.lake/build/ir" -name '*.setup.json' -mmin +20 -delete 2>/dev/null
             done ) &
           pruner=$!
+          # When available memory stays under 700 MB the watchdog kills the
+          # largest lean process. Lake reports that module as failed with a
+          # signal exit code, it is recorded as crashed, and the chain lowers
+          # the thread count for the next round. Without it the runner itself
+          # stops answering and the whole shard is lost.
+          python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --log "$OUT/evidence/mem.log" &
+          watchdog=$!
           # Lake compiles one module per worker thread. Fewer threads is the
           # remedy when modules high in the graph exhaust the runner's memory
           # (measured on a toy package: 8 modules take 20 s at the default,
@@ -365,7 +371,9 @@ jobs:
           fi
           python3 "$HUNT/replay_shard.py" build --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --minutes "$BUILD_MINUTES" --log "$OUT/build.log" | tee -a "$OUT/evidence/run.txt"
-          kill "$pruner" 2>/dev/null || true
+          kill "$pruner" "$watchdog" 2>/dev/null || true
+          grep -c ' KILL ' "$OUT/evidence/mem.log" | sed 's/^/watchdog kills: /' | tee -a "$OUT/evidence/run.txt" || true
+          tail -1 "$OUT/evidence/mem.log" | tee -a "$OUT/evidence/run.txt" || true
           echo "build wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
 
@@ -525,6 +533,8 @@ jobs:
           PERCENT: ${{ steps.count.outputs.percent }}
           TIMED_OUT: ${{ steps.count.outputs.timed_out_shards }}
           CRASHED_NOW: ${{ steps.count.outputs.crashed_this_round }}
+          SHARDS_REPORTED: ${{ steps.count.outputs.shards_reported }}
+          SHARDS_PLANNED: ${{ needs.plan.outputs.n_shards }}
         run: |
           set -euo pipefail
           echo "state artifact id: $STATE_ARTIFACT" | tee -a "$GITHUB_STEP_SUMMARY"
@@ -551,12 +561,13 @@ jobs:
           # (killed for memory, most likely) is retried with fewer modules
           # compiling at once: four, then two, then one. Three crashes of the
           # same module block it in the planner.
-          if [ "${CRASHED_NOW:-0}" != "0" ]; then
+          lost=$(( ${SHARDS_PLANNED:-0} - ${SHARDS_REPORTED:-0} ))
+          if [ "${CRASHED_NOW:-0}" != "0" ] || [ "$lost" -gt 0 ]; then
             case "$LEAN_THREADS" in
               ''|4|3) LEAN_THREADS=2 ;;
               2) LEAN_THREADS=1 ;;
             esac
-            echo "$CRASHED_NOW modules crashed this round; next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "${CRASHED_NOW:-0} modules crashed and $lost shards never reported this round; next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
           fi
           if [ "$CHAIN" != "true" ] || [ -z "$next" ]; then
             echo "chain is off or there is nothing to hand on to; stopping"

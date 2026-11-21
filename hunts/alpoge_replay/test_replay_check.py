@@ -182,3 +182,31 @@ def test_the_cone_counts_what_a_theorem_uses_and_leaves_out_what_it_does_not(tmp
     assert r["archive_declarations"] == 4 and r["archive_declarations_in_cone"] == 2
     assert r["names_not_found"] == []
     assert (tmp_path / "cone-modules-first-root.txt").read_text().split() == ["Lib.Top", "Lib.Used"]
+
+
+@pytest.mark.slow
+def test_the_watchdog_kills_the_named_process_and_only_when_memory_is_low(tmp_path: Path) -> None:
+    """A guard that cannot fire is worse than none: make it fire, and make it hold."""
+    import os
+    import time
+
+    fake = tmp_path / "lean"
+    shutil.copy("/bin/sleep", fake)
+    with open("/proc/meminfo") as fh:
+        avail = next(int(line.split()[1]) // 1024 for line in fh if line.startswith("MemAvailable"))
+
+    def run(floor: int) -> tuple[bool, str]:
+        victim = subprocess.Popen([str(fake), "60"])
+        time.sleep(0.3)
+        log = tmp_path / f"mem-{floor}.log"
+        subprocess.run([sys.executable, str(HERE / "mem_watchdog.py"), "--name", "lean", "--floor-mb", str(floor),
+                        "--log", str(log), "--log-every", "1", "--interval", "0.3", "--max-seconds", "3"], check=True)
+        alive = victim.poll() is None
+        victim.kill()
+        victim.wait()
+        return alive, log.read_text()
+
+    alive, text = run(avail + 100_000)   # floor far above what is available: must kill
+    assert not alive and " KILL " in text
+    alive, text = run(1)                 # floor of 1 MB: must not kill
+    assert alive and " KILL " not in text and "anon_mb=" in text

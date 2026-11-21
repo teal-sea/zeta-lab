@@ -194,8 +194,6 @@ jobs:
           } | tee "$OUT/evidence/run.txt"
           nohup sudo sh -c 'rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; docker image prune --all --force' >/dev/null 2>&1 &
           sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
-          ( sudo fallocate -l 16G /alpoge-swap && sudo chmod 600 /alpoge-swap \
-            && sudo mkswap -q /alpoge-swap && sudo swapon /alpoge-swap ) || echo "extra swap not available"
           free -g | tee -a "$OUT/evidence/run.txt"
 
       - name: restore the archive from this branch's cache
@@ -271,10 +269,18 @@ jobs:
         run: |
           set -uo pipefail
           start=$(date +%s)
+          # Same watchdog as the build: when the runner is nearly out of
+          # memory it kills the largest replay process, the driver records
+          # the module that process was on as "killed", and the chain runs
+          # the next round with fewer processes side by side.
+          python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --log "$OUT/evidence/mem.log" &
+          watchdog=$!
           python3 "$HUNT/replay_check.py" run --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --minutes "$CHECK_MINUTES" --procs "$PROCS" --driver "$HUNT/ReplayDriver.lean" \
             --out "$OUT/run" --done "$OUT/done/checkdone-c${ROUND}-s${SHARD}.json" | tee "$OUT/evidence/run.json"
           rc=${PIPESTATUS[0]}
+          kill "$watchdog" 2>/dev/null || true
+          tail -1 "$OUT/evidence/mem.log" | tee -a "$OUT/evidence/run.txt" || true
           echo "replay rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
           cat "$OUT"/run/driver-*.out 2>/dev/null | zstd -q -9 -o "$OUT/evidence/driver-out.tsv.zst" || true
           tail -c 4000 "$OUT"/run/driver-*.err 2>/dev/null > "$OUT/evidence/driver-err-tail.txt" || true
@@ -362,6 +368,8 @@ jobs:
           N_FAILED: ${{ steps.fold.outputs.n_failed }}
           ALL_REPLAYED: ${{ steps.fold.outputs.all_replayed }}
           PERCENT: ${{ steps.fold.outputs.percent_of_archive }}
+          KILLED_NOW: ${{ steps.fold.outputs.killed_this_round }}
+          SHARDS_REPORTED: ${{ steps.fold.outputs.shards_reported }}
         run: |
           set -euo pipefail
           echo "check state artifact id: $CHECK_STATE_ARTIFACT" | tee -a "$GITHUB_STEP_SUMMARY"
@@ -381,6 +389,16 @@ jobs:
             exit 1
           fi
           echo "Replayed $REPLAYED_NOW modules this round, ${PERCENT}% of the archive in all, $N_FAILED failed." | tee -a "$GITHUB_STEP_SUMMARY"
+          # A process killed for memory, or a runner that never reported:
+          # fewer processes side by side next round.
+          lost=$(( ${N_SHARDS:-0} - ${SHARDS_REPORTED:-0} ))
+          if [ "${KILLED_NOW:-0}" != "0" ] || [ "$lost" -gt 0 ]; then
+            case "$PROCS" in
+              4|3) PROCS=2 ;;
+              2) PROCS=1 ;;
+            esac
+            echo "${KILLED_NOW:-0} replay processes were killed for memory and $lost shards never reported; next round runs $PROCS per runner" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
           if [ "$CHAIN" != "true" ]; then exit 0; fi
           gh workflow run replay-alpoge-check.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id=latest \

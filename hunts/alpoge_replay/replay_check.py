@@ -199,26 +199,36 @@ def cmd_run(a) -> None:
     ok: dict[str, int] = {}
     failed: dict[str, str] = {}
     struck: list[str] = []
+    killed: list[str] = []
     startup_errors: list[str] = []
     for i, lst, p in procs:
         o, f = parse_driver_output(os.path.join(a.out, f"driver-{i}.out"))
         ok.update(o)
         failed.update(f)
         # a driver that died by itself (not our deadline, not a clean 0 or 1)
-        # was replaying the first module it never reported
+        # was replaying the first module it never reported. Killed with
+        # SIGKILL while others ran beside it, it was most likely the memory
+        # watchdog's choice, which says the runner was full, not that this
+        # module is at fault: that is "killed", and the chain answers with
+        # fewer processes. Only a death alone, or by another signal, is a
+        # strike against the module.
         if codes[str(i)] not in (0, 1, None):
             rest = [m for m in lst if m not in o and m not in f]
             if rest:
-                struck.append(rest[0])
+                if codes[str(i)] == -9 and a.procs > 1:
+                    killed.append(rest[0])
+                else:
+                    struck.append(rest[0])
         if codes[str(i)] is not None and not o and not f:
             with open(os.path.join(a.out, f"driver-{i}.err"), encoding="utf-8", errors="replace") as fh:
                 startup_errors.append(fh.read()[-600:])
     rec = {"round": shard["round"], "shard": shard["shard"], "planned": len(mods),
-           "ok": ok, "failed": failed, "struck": struck, "exit_codes": codes,
+           "ok": ok, "failed": failed, "struck": struck, "killed": killed, "exit_codes": codes,
            "timed_out": timed_out, "minutes": a.minutes, "procs": a.procs,
            "startup_errors": startup_errors}
     json.dump(rec, open(a.done, "w"))
     print(json.dumps({"planned": len(mods), "ok": len(ok), "failed": len(failed), "struck": struck,
+                      "killed": killed,
                       "exit_codes": codes, "timed_out": timed_out,
                       "ms_sum": sum(ok.values()),
                       "mean_ms": round(sum(ok.values()) / max(1, len(ok)), 1)}))
@@ -239,7 +249,7 @@ def cmd_merge(a) -> None:
     cstate = load_check_state(a.check_state)
     before = len(cstate["checked"])
     rnd = {"round": a.round, "build_state": a.build_state_id, "shards": 0, "planned": 0, "ok": 0,
-           "failed": 0, "struck": 0, "ms_sum": 0, "timed_out_shards": 0}
+           "failed": 0, "struck": 0, "killed": 0, "ms_sum": 0, "timed_out_shards": 0}
     for f in sorted(glob.glob(os.path.join(a.done_dir, "**", "checkdone-*.json"), recursive=True)):
         rec = json.load(open(f))
         tag = f"c{rec['round']}-s{rec['shard']}"
@@ -259,6 +269,7 @@ def cmd_merge(a) -> None:
             if m in known:
                 cstate.setdefault("strikes", {})[m] = cstate.setdefault("strikes", {}).get(m, 0) + 1
                 rnd["struck"] += 1
+        rnd["killed"] += len(rec.get("killed", []))
         if rec.get("timed_out"):
             rnd["timed_out_shards"] += 1
     cstate["history"] = [h for h in cstate.get("history", []) if h["round"] != a.round] + [rnd]
@@ -276,13 +287,15 @@ def cmd_merge(a) -> None:
         "n_struck": len(cstate.get("strikes", {})),
         "mean_ms": round(rnd["ms_sum"] / max(1, rnd["ok"]), 1),
         "all_replayed": len(built) == len(known) and len(cstate["checked"]) == len(known),
+        "killed_this_round": rnd["killed"],
+        "shards_reported": rnd["shards"],
         "round_summary": rnd,
     }
     print(json.dumps(out))
     if a.github_output:
         with open(a.github_output, "a") as fh:
             for k in ("replayed_this_round", "replayed", "left_in_this_build_state", "n_failed",
-                      "percent_of_archive", "all_replayed"):
+                      "percent_of_archive", "all_replayed", "killed_this_round", "shards_reported"):
                 v = out[k]
                 fh.write(f"{k}={str(v).lower() if isinstance(v, bool) else v}\n")
 
