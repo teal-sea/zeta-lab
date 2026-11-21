@@ -150,6 +150,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 15 | 44892897103 | 11:16 | 3,435 | 153,922 | 87.86 | 0 | 0 | 0 | 7.78 | one compile per runner, by a rule since removed, see below; all twelve shards reported; 3,463 planned; no suspension, no kill, largest module 5.1 GB; state artifact 14704557927 |
 | 16 | 44899651298 | 12:52 | 6,300 | 160,222 | 91.46 | 0 | 0 | 0 | 9.80 | two compiles; 12,746 planned and every shard stopped by its deadline; 1,281 modules built by two shards, every pair identical; 255 of the built modules stand on 72 that no chunk holds, see below, so 159,967 are usable (91.31 percent); state artifact 14707902742 |
 | 17 | 44906573935 | 14:18 | 6,229 | 166,451 | 95.01 | 0 | 0 | 0 | 11.55 | two compiles; 8,702 planned and ten of twelve shards stopped by their deadline; 857 modules built by two shards, every pair identical; 1,418 extras built and all kept; 166,449 usable (two modules of round 16 still stand on one unbuilt); no suspension, no kill, largest module 3.0 GB; a compile is now mostly its imports, see below; state artifact 14710597929 |
+| 18 | 44913274901 | 15:40 | 3,280 | 169,731 | 96.89 | 0 | 0 | 0 | 21.71 | two compiles, the last round planned by source size and the last under the runner's own page-fault windows; 7,044 planned and all twelve shards stopped by their deadline; 562 modules built twice, every pair identical; nothing stranded any more; 260 million major page faults over the twelve runners, three suspensions, no kill, largest module 7.4 GB; state artifact 14713104221 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -641,6 +642,32 @@ import (second part of the same run), and anything on the compressed
 volume, where the last modules must be built because 175,187 modules do not
 fit a runner's disk uncompressed. Round 19's own timings will show the
 first two.
+
+### Round 18 and the dispatch of round 19, 2026-11-21 15:40Z
+
+Round 18 was planned before `f918390d` and ran before the switch: 3,280
+modules for twelve runner-hours, 21.7 s per compile where round 17 paid
+11.6, and 260 million major page faults. It is the round the table in the
+section on round 17 predicts. It leaves 5,456 modules: 1,094 import 25,000
+or more, 17 more than 60,000.
+
+Round 19 (run 44920413546, dispatched 15:40Z on `d24ef946`) is the first
+with all of: the planner pricing by imports (fitted on rounds 17 and 18: 4,
+7, 11, 16, 19, 59, 116 s for 0 to 35,000 imports, 0.52 s per KB), the plan
+taken to three times a shard's capacity at those prices, small page-fault
+windows on every shard, and a plain directory up to 115,000 imported
+modules. Its plan, reproduced here from the state: 5,150 modules owned and
+2,436 extras on twelve shards, 2,015 of them planned for two shards, 306
+left waiting; the largest shard imports 105,534 modules, the highest
+planned module 100,723. What waits is the top: 13 modules importing 79,669
+to 175,187, and what stands between.
+
+A third probe, run 44920814617 dispatched 15:44Z (epoch `p1x` so that it
+runs beside the second), restores the `.olean` files of all 169,731 built
+modules into a plain directory, after removing the parts of the runner
+image the job does not use, and imports all of them under small windows and
+under no read-ahead. That is the case of the last nine modules and of the
+verdict's axiom printout.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
