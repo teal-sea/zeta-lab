@@ -18,6 +18,15 @@ imports their imports, and sends every constant of the module through the
 kernel again (`Lean.Environment.replay`). As the upstream file says of
 itself, this is not an external verifier; it detects declarations that
 reached an `.olean` without passing the kernel.
+
+One addition to the upstream function, marked below: the module's own
+`.olean` is unmapped when its replay is done. Upstream leaves it mapped,
+which costs nothing in a process that replays one module. In a process that
+replays thousands in import order it costs gigabytes: a later module that
+imports an earlier one cannot map that file at its address again, because
+the first mapping is still there, and Lean then reads the whole file into
+the heap instead. Check round 6 measured the result, driver processes
+holding 2 to 5.6 GB of anonymous memory each and a runner out of swap.
 -/
 import Lean.CoreM
 import Lean.Replay
@@ -38,6 +47,8 @@ unsafe def replayFromImports (module : Name) : IO Unit := do
       fnames := fnames.push pFile
   let parts ← readModuleDataParts fnames
   if h : parts.size = 0 then throw <| IO.userError "failed to read module data" else
+  -- (addition) the regions of the module's own files, to unmap at the end
+  let ownRegions := parts.map (·.2)
   let (mod, _) := parts[0]
   let (_, s) ← importModulesCore mod.imports |>.run
   let env ← finalizeImport s mod.imports {} 0 false false (isModule := true)
@@ -47,9 +58,25 @@ unsafe def replayFromImports (module : Name) : IO Unit := do
     newConstants := newConstants.insert name ci
   let env' ← env.replay newConstants
   env'.freeRegions
+  -- (addition) Nothing that points into the module's own files is alive any
+  -- more: `parts`, `mod` and `newConstants` were last used above and the
+  -- environment built from them is gone.
+  ownRegions.forM (·.free)
+
+/-- Anonymous memory this process holds, in kB, from `/proc/self/status`; 0 where there is none. -/
+def rssAnonKb : IO Nat := do
+  try
+    let status ← IO.FS.readFile "/proc/self/status"
+    for line in status.splitOn "\n" do
+      if line.startsWith "RssAnon:" then
+        return line.foldl (fun acc c => if c.isDigit then acc * 10 + (c.toNat - 48) else acc) 0
+    return 0
+  catch _ => return 0
 
 /-- `lean --run ReplayDriver.lean <file of module names>`: one line per module,
-`OK<tab>module<tab>milliseconds` or `FAIL<tab>module<tab>milliseconds<tab>message`.
+`OK<tab>module<tab>milliseconds<tab>anonymous kB` or
+`FAIL<tab>module<tab>milliseconds<tab>message`. The fourth field of an `OK`
+line is the anonymous memory the process holds once the module is done.
 Exit code 0 if every module replayed, 1 otherwise. -/
 unsafe def main (args : List String) : IO UInt32 := do
   let [listFile] := args
@@ -63,7 +90,7 @@ unsafe def main (args : List String) : IO UInt32 := do
     let t0 ← IO.monoMsNow
     try
       replayFromImports name.toName
-      out.putStrLn s!"OK\t{name}\t{(← IO.monoMsNow) - t0}"
+      out.putStrLn s!"OK\t{name}\t{(← IO.monoMsNow) - t0}\t{← rssAnonKb}"
     catch e =>
       bad := bad + 1
       let msg := (toString e).replace "\n" " | "

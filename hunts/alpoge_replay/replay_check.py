@@ -158,6 +158,24 @@ def parse_driver_output(path: str):
     return ok, failed
 
 
+def driver_anon(path: str) -> dict[str, int]:
+    """Anonymous memory, in MB, the driver held after each module it replayed.
+
+    The fourth field of an `OK` line, where the driver prints one. It is what
+    says whether the modules at the top of the graph can be replayed on a
+    runner at all.
+    """
+    out: dict[str, int] = {}
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) >= 4 and parts[0] == "OK" and parts[3].isdigit():
+                out[parts[1]] = int(parts[3]) // 1024
+    return out
+
+
 def death_kind(code: int, procs: int, watchdog_kind: str | None) -> str:
     """How to record a driver process that died by itself: "killed" or "struck".
 
@@ -222,10 +240,12 @@ def cmd_run(a) -> None:
                 if len(parts) >= 2:
                     watchdog[parts[0]] = parts[1]
     startup_errors: list[str] = []
+    anon: dict[str, int] = {}
     for i, lst, p in procs:
         o, f = parse_driver_output(os.path.join(a.out, f"driver-{i}.out"))
         ok.update(o)
         failed.update(f)
+        anon.update(driver_anon(os.path.join(a.out, f"driver-{i}.out")))
         # a driver that died by itself (not our deadline, not a clean 0 or 1)
         # was replaying the first module it never reported. Killed with
         # SIGKILL while others ran beside it, it was most likely the memory
@@ -248,10 +268,12 @@ def cmd_run(a) -> None:
     rec = {"round": shard["round"], "shard": shard["shard"], "planned": len(mods),
            "ok": ok, "failed": failed, "struck": struck, "killed": killed, "exit_codes": codes,
            "timed_out": timed_out, "minutes": a.minutes, "procs": a.procs,
-           "startup_errors": startup_errors}
+           "startup_errors": startup_errors,
+           # the modules after which a driver held the most anonymous memory, in MB
+           "anon_top": sorted(anon.items(), key=lambda kv: -kv[1])[:20]}
     json.dump(rec, open(a.done, "w"))
     print(json.dumps({"planned": len(mods), "ok": len(ok), "failed": len(failed), "struck": struck,
-                      "killed": killed,
+                      "killed": killed, "anon_peak_mb": max(anon.values(), default=0),
                       "exit_codes": codes, "timed_out": timed_out,
                       "ms_sum": sum(ok.values()),
                       "mean_ms": round(sum(ok.values()) / max(1, len(ok)), 1)}))
@@ -293,6 +315,8 @@ def cmd_merge(a) -> None:
                 cstate.setdefault("strikes", {})[m] = cstate.setdefault("strikes", {}).get(m, 0) + 1
                 rnd["struck"] += 1
         rnd["killed"] += len(rec.get("killed", []))
+        rnd["anon_top"] = sorted(rnd.get("anon_top", []) + [list(x) for x in rec.get("anon_top", [])],
+                                 key=lambda kv: -kv[1])[:20]
         if rec.get("timed_out"):
             rnd["timed_out_shards"] += 1
     cstate["history"] = [h for h in cstate.get("history", []) if h["round"] != a.round] + [rnd]

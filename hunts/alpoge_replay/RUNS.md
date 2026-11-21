@@ -487,3 +487,44 @@ run was cancelled by hand at 06:39Z. Its merge job then folded the two shards
 that had reported and dispatched check round 6 at 06:40:23Z on the repaired
 code, which also carries the watchdog. Cost: about an hour of chain time and
 the work of two shards, whose modules are planned again.
+
+### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
+
+Check round 6 was the first with a memory log. On shard 0, four driver
+processes side by side held 0.7 GB of anonymous memory each at the start and
+2 to 5.6 GB each later; the runner used all its swap and 12.7 of its 15.6 GB.
+That is the likely cause of the runner lost in check round 5.
+
+Cause: `replayFromImports`, as copied from Lean's `LeanChecker.lean`, never
+unmaps the module's own `.olean`. In a process that replays one module that
+costs nothing. In one that replays thousands in import order, a later module
+that imports an earlier one cannot map that file at its address again, and
+Lean then reads the whole file into the heap. The process ends up holding a
+heap copy of most of what it has replayed.
+
+Fix: the driver unmaps the module's own files when the module is done. One
+function call added to the upstream function, marked in `ReplayDriver.lean`.
+Measured in this lab's container, on Mathlib's own build outputs with the
+pinned toolchain, 210 modules in one process (207 from four low
+directories, then three that import them):
+
+| | driver as it was | driver now |
+| --- | --- | --- |
+| modules replayed, failed, exit code | 210, 0, 0 | 210, 0, 0 |
+| peak anonymous memory | 2,052 MB | 678 MB |
+| anonymous memory after a module | not printed | 527 to 649 MB, flat |
+
+The three high modules took 35.0, 51.5 and 2.8 s before and 1.5, 1.6 and
+1.6 s after, but the first run also had a cold disk, so only the memory
+figures are a comparison. About 0.5 GB of what remains is the Lean library
+loaded twice, once by the interpreter that runs the driver and once by the
+import; a compiled driver would not pay that and has not been built.
+
+The driver now prints the anonymous memory it holds after each module, and
+each round's check state keeps the twenty largest. That is the number that
+will say whether the modules at the top of the graph can be replayed on a
+hosted runner at all.
+
+Check round 7 (run 44885838195) had started at 08:38Z with the old driver.
+It was cancelled by hand and dispatched again with the new one, outputs in a
+plain directory.

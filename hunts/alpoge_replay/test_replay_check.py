@@ -78,6 +78,14 @@ def test_driver_output_is_read_line_by_line(tmp_path: Path) -> None:
     ok, failed = rc.parse_driver_output(str(out))
     assert ok == {"Lib.A": 412, "Lib.Sub.C₂": 3}
     assert list(failed) == ["Lib.Cheat"] and "type mismatch" in failed["Lib.Cheat"]
+    assert rc.driver_anon(str(out)) == {}          # the first driver printed no memory
+
+    # the driver now adds the anonymous memory it holds, in kB, to an OK line
+    out.write_text("OK\tLib.A\t412\t540672\nOK\tLib.B\t90\t2097152\nFAIL\tLib.Cheat\t776\tsome message\n"
+                   "OK\tLib.Old\t5\n", encoding="utf-8")
+    ok, failed = rc.parse_driver_output(str(out))
+    assert ok == {"Lib.A": 412, "Lib.B": 90, "Lib.Old": 5} and list(failed) == ["Lib.Cheat"]
+    assert rc.driver_anon(str(out)) == {"Lib.A": 528, "Lib.B": 2048}
 
 
 def test_merge_counts_replays_failures_and_strikes(tmp_path: Path) -> None:
