@@ -429,16 +429,77 @@ def cmd_fetchmap(a) -> None:
     print(f"bundles={len(fetch)} chunks={sum(len(v) for v in fetch.values())} modules={len(st['where'])}")
 
 
+def usable_built(dag_path: str, state_path: str):
+    """(imports, built modules that can be loaded): replay_plan.usable on a state file."""
+    import replay_plan as rp
+    deps = json.load(open(dag_path))["deps"]
+    order, _ = rp.topo_levels(deps)
+    return deps, rp.usable(json.load(open(state_path))["where"], deps, order)
+
+
 def cmd_builtsinks(a) -> None:
     """The built modules that no built module imports: building these as
-    targets makes Lake check every module built so far, and nothing else."""
-    deps = json.load(open(a.dag))["deps"]
-    built = {m for m in json.load(open(a.state))["where"] if m in deps}
+    targets makes Lake check every module built so far, and nothing else.
+
+    Built means loadable (replay_plan.usable). A module standing on an
+    unbuilt one is no target: Lake would elaborate what is under it, in a job
+    whose point is that nothing is elaborated."""
+    deps, built = usable_built(a.dag, a.state)
     imported = {d for m in built for d in deps[m]}
     sinks = sorted(built - imported)
     with open(a.out, "w", encoding="utf-8") as fh:
         fh.write("\n".join(sinks) + ("\n" if sinks else ""))
     print(f"built={len(built)} sinks={len(sinks)}")
+
+
+def probe_sets(deps, built, targets: list[int]) -> list[tuple[list[str], int]]:
+    """Growing sets of built sinks, and how many modules each set imports in all.
+
+    Sinks are taken in name order, so a set is a few neighbouring corners of
+    the archive rather than a scatter, as the imports of a real module are.
+    One set per target, closed off as soon as its imports reach the target,
+    and a last set of every sink, whose imports are everything built.
+    """
+    imported = {d for m in built for d in deps[m]}
+    sinks = sorted(built - imported)
+    out: list[tuple[list[str], int]] = []
+    seen: set[str] = set()
+    pending = sorted(targets)
+    for i, s in enumerate(sinks):
+        stack = [s]
+        while stack:
+            m = stack.pop()
+            if m in seen:
+                continue
+            seen.add(m)
+            stack.extend(d for d in deps[m] if d not in seen)
+        reached = False
+        while pending and len(seen) >= pending[0]:
+            pending.pop(0)
+            reached = True
+        if reached and i + 1 < len(sinks):
+            out.append((sinks[:i + 1], len(seen)))
+    out.append((sinks, len(seen)))
+    return out
+
+
+def cmd_probe(a) -> None:
+    """Import-only Lean files over growing parts of what is built.
+
+    A module near the top of the archive imports most of it, and pays for
+    that before it elaborates a line. These files hold nothing but imports,
+    so that the cost can be timed on what is already built."""
+    deps, built = usable_built(a.dag, a.state)
+    sets = probe_sets(deps, built, [int(t) for t in a.targets.split(",") if t.strip()])
+    os.makedirs(a.out_dir, exist_ok=True)
+    listing = []
+    for i, (sinks, closure) in enumerate(sets):
+        name = f"probe-{i}.lean"
+        with open(os.path.join(a.out_dir, name), "w", encoding="utf-8") as fh:
+            fh.write("".join(f"import {m}\n" for m in sinks))
+        listing.append({"file": name, "sinks": len(sinks), "closure": closure})
+    json.dump(listing, open(os.path.join(a.out_dir, "probes.json"), "w"))
+    print("probes: " + ", ".join(f"{p['file']} imports {p['closure']} modules through {p['sinks']} sinks" for p in listing))
 
 
 def main() -> None:
@@ -460,6 +521,10 @@ def main() -> None:
     s = sub.add_parser("builtsinks"); s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
     s.add_argument("--out", required=True)
     s.set_defaults(fn=cmd_builtsinks)
+    s = sub.add_parser("probe"); s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
+    s.add_argument("--targets", default="", help="comma-separated import counts; a last probe always takes everything built")
+    s.add_argument("--out-dir", required=True)
+    s.set_defaults(fn=cmd_probe)
     s = sub.add_parser("merge"); s.add_argument("--dag", required=True); s.add_argument("--state")
     s.add_argument("--done-dir", required=True); s.add_argument("--round", type=int, required=True)
     s.add_argument("--out", required=True); s.add_argument("--github-output")

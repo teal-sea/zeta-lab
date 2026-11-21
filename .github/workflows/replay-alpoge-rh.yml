@@ -36,7 +36,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: round (plan, build, merge), verdict (restore everything, print axioms), remerge (fold a round whose merge job failed, from its run id), or rehearse (the verdict job's restore and no-op build on whatever is built so far; prints no axioms)
+        description: round (plan, build, merge), verdict (restore everything, print axioms), remerge (fold a round whose merge job failed, from its run id), or rehearse (the verdict job's restore and no-op build on whatever is built so far, then a timing of imports; prints no axioms)
         type: choice
         options: [round, verdict, remerge, rehearse]
         default: round
@@ -844,6 +844,44 @@ jobs:
           # the log repeats every stored warning of every module: keep it small
           zstd -q -9 --rm "$OUT/evidence/final-build.log" -o "$OUT/evidence/final-build.log.zst" || true
           exit "$rc"
+
+      # What does a module near the top pay before it elaborates a line? It
+      # imports most of the archive, on a runner whose memory holds a tenth
+      # of it. Nothing built by round 17 imports more than 50,000 modules, so
+      # the price of the last ones is timed here, on files that hold nothing
+      # but imports of what is built (replay_shard.py probe, import_probe.py):
+      # cold and warm, at the volume's own read-ahead and at a small one.
+      # This measures time and checks no proof. A failure here fails nothing.
+      - name: time imports of growing parts of what is built (rehearse only)
+        if: success() && env.MODE == 'rehearse'
+        continue-on-error: true
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -uo pipefail
+          python3 "$GITHUB_WORKSPACE/$HUNT/replay_shard.py" probe --dag "$RUNNER_TEMP/dag.json" \
+            --state "$GITHUB_WORKSPACE/state/state.json" --targets 35000,80000 --out-dir "$RUNNER_TEMP/probe" \
+            | tee -a "$OUT/evidence/run.txt"
+          cp "$RUNNER_TEMP/probe/probes.json" "$OUT/evidence/probes.json"
+          { losetup -l 2>/dev/null || true; findmnt -n -o SOURCE,FSTYPE,OPTIONS --target "$LEAN_DIR/.lake/build" || true; } \
+            | tee -a "$OUT/evidence/run.txt"
+          # The watchdog as the build shards run it: it logs what lean holds,
+          # and ends a lean that would otherwise take the runner with it.
+          python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+            --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/mem-probe.log" &
+          watchdog=$!
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
+          python3 "$GITHUB_WORKSPACE/$HUNT/import_probe.py" --probes "$RUNNER_TEMP/probe" --out "$OUT/evidence" \
+            --build-dir "$LEAN_DIR/.lake/build" \
+            --plan="-1:cold -1:warm ra=128 -1:cold 0:cold 1:cold ra=restore 0:cold 1:cold" \
+            -- lake env lean --tstack=400000 "{file}" | tee -a "$OUT/evidence/run.txt"
+          kill "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
+          {
+            echo "### import probe"
+            echo '```'
+            cat "$OUT/evidence/import-probe.tsv"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: print the axioms behind the five theorems of Main.lean
         if: env.MODE == 'verdict'

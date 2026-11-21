@@ -558,6 +558,49 @@ def test_built_sinks_are_the_built_modules_nothing_built_imports(tmp_path: Path)
     assert out.read_text().split() == ["C", "D", "F"]
 
 
+def test_a_stranded_module_is_no_target_for_the_rehearsal(tmp_path: Path) -> None:
+    """X is built and stands on E, which is not: Lake, given X, would elaborate E."""
+    deps = {"A": [], "E": ["A"], "X": ["E"], "B": ["A"]}
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {m: 1 for m in deps}}))
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {"A": "r0-s0", "X": "r1-s1", "B": "r1-s0"}}))
+    out = tmp_path / "sinks.txt"
+    sys.argv = ["replay_shard.py", "builtsinks", "--dag", str(dag), "--state", str(state), "--out", str(out)]
+    rs.main()
+    assert out.read_text().split() == ["B"]
+
+
+def test_probe_sets_grow_to_everything_built() -> None:
+    #   A <- B <- C      D <- E      F          (C, E, F are the tops)
+    deps = {"A": [], "B": ["A"], "C": ["B"], "D": [], "E": ["D"], "F": [], "G": ["C", "E", "F"]}
+    built = {"A", "B", "C", "D", "E", "F"}
+    sets = rs.probe_sets(deps, built, [2, 4])
+    # C alone brings 3 modules and passes the first target; E brings 5 and passes the second
+    assert sets == [(["C"], 3), (["C", "E"], 5), (["C", "E", "F"], 6)]
+    # one sink passing two targets makes one set, and no target makes only the full set
+    assert rs.probe_sets(deps, built, [1, 2]) == [(["C"], 3), (["C", "E", "F"], 6)]
+    assert rs.probe_sets(deps, built, []) == [(["C", "E", "F"], 6)]
+    # a target nothing short of everything reaches adds no set of its own
+    assert rs.probe_sets(deps, built, [6, 100]) == [(["C", "E", "F"], 6)]
+
+
+def test_the_probe_command_writes_import_only_files(tmp_path: Path) -> None:
+    deps = {"A": [], "B": ["A"], "C": ["B"], "D": [], "E": ["D"], "X": ["Gap"], "Gap": []}
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {m: 1 for m in deps}}))
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {m: "r0-s0" for m in ("A", "B", "C", "D", "E", "X")}}))   # X is stranded
+    out = tmp_path / "probe"
+    sys.argv = ["replay_shard.py", "probe", "--dag", str(dag), "--state", str(state), "--targets", "3",
+                "--out-dir", str(out)]
+    rs.main()
+    assert json.loads((out / "probes.json").read_text()) == [
+        {"file": "probe-0.lean", "sinks": 1, "closure": 3}, {"file": "probe-1.lean", "sinks": 2, "closure": 5}]
+    assert (out / "probe-0.lean").read_text() == "import C\n"
+    assert (out / "probe-1.lean").read_text() == "import C\nimport E\n"      # nothing but imports, and no X
+
+
 def test_a_built_module_standing_on_an_unbuilt_one_is_not_usable() -> None:
     deps = {"A": [], "E": ["A"], "X": ["E"], "Y": ["X"], "B": ["A"], "Z": ["Y", "B"]}
     order, _ = rp.topo_levels(deps)
