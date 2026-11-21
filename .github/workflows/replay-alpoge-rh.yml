@@ -146,6 +146,12 @@ env:
   # the cluster pass, and the filling pass. 1.4 and 1.0 without IO_TUNE.
   PLAN_OVER: "3.0"
   FILL_OVER: "2.5"
+  # Minutes a shard may build beyond BUILD_MINUTES, which the plan is sized
+  # by. A shard that is done stops when it is done, so this costs a round
+  # nothing unless a shard needs it; the shard that needs it is the one with
+  # the last modules, whose first import alone reads for many minutes and
+  # which the deadline would otherwise cut off mid-module, round after round.
+  DEADLINE_EXTRA_MIN: "90"
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -468,7 +474,7 @@ jobs:
             echo "LEAN_NUM_THREADS=$LEAN_NUM_THREADS" | tee -a "$OUT/evidence/run.txt"
           fi
           python3 "$HUNT/replay_shard.py" build --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
-            --minutes "$BUILD_MINUTES" --log "$OUT/build.log" | tee -a "$OUT/evidence/run.txt"
+            --minutes "$(( BUILD_MINUTES + DEADLINE_EXTRA_MIN ))" --log "$OUT/build.log" | tee -a "$OUT/evidence/run.txt"
           kill "$pruner" "$watchdog" 2>/dev/null || true
           wait "$watchdog" 2>/dev/null || true
           grep -c ' KILL ' "$OUT/evidence/mem.log" | sed 's/^/watchdog kills: /' | tee -a "$OUT/evidence/run.txt" || true

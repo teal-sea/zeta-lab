@@ -713,6 +713,48 @@ on a plain directory after a further cleanup, small windows), and a job on
 three runners that reports their disks and whether f2fs or zfs can be
 mounted (run 44921139865).
 
+### What the runners have, and what follows for the top, 2026-11-21 16:00Z
+
+Run 44921139865 asked three runners. Two answered before a mistake of mine
+in the job's second step ended it (a `du` over paths that do not all exist,
+under `pipefail`); the third step, which would have tried f2fs and zfs, did
+not run and is not needed now.
+
+| runner | disk | free as it comes | after the usual cleanup | after the further cleanup |
+| --- | --- | --- | --- | --- |
+| Xeon Platinum 8573C, kernel 7.0.0-1017-azure | sda, 150 GB, ext4 | 86 GB | 111 GB (84 s) | 130 GB (67 s more) |
+| kernel 7.0.0-1014-aws, `/dev/mapper/cow-root` | 145 GB, ext4 | | 114 GB (93 s) | 133 GB (69 s more) |
+
+The further cleanup removes parts of the runner image no step of these
+workflows uses (`/opt/hostedtoolcache`, Swift, Julia, the JVMs, PowerShell,
+browsers, cloud command lines and the like). Both kernels can load btrfs,
+f2fs, zfs and erofs.
+
+The outputs of all 169,731 modules built so far are 102.7 GB, 0.61 MB a
+module; all 175,187 will be about 107 GB. So after the further cleanup a
+runner holds the whole archive uncompressed, with Mathlib and the toolchain
+beside it and 8 to 15 GB to spare. Changed accordingly:
+
+- Build shards (`4cf89301`): the further cleanup, and a plain directory
+  whenever the free space holds what the shard imports
+  (`build_volume.sh ... disk`); one bundle in flight above 115,000 modules.
+- The verdict (`e7648bae`): three jobs. One restores everything and runs
+  `lake build`, which must find nothing to do. One runner per question
+  prints the axioms of one theorem of `Main.lean` (or the four interior
+  statements, or measures the cone) from a plain directory with small
+  windows. A last job puts the five answers side by side and applies the
+  guard; it was tried here on stand-in answers with a missing answer, an
+  error in place of an answer, `sorryAx`, a foreign axiom, another
+  theorem's line and a failed build job planted, and refused each.
+- A shard may build ninety minutes past the hour its plan is sized by
+  (`DEADLINE_EXTRA_MIN`), so that the deadline does not cut the last
+  modules off mid-import round after round.
+
+Run 44922636081 (dispatched 16:05Z) rehearses the three verdict jobs on
+what is built: the build job on all 169,731 modules, the axioms jobs on
+`SelfIntersectionVolumeEstimates.topCovolSlim2_use`, the theorem of the
+built module that imports most (48,140).
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
