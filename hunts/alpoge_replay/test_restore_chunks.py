@@ -267,3 +267,48 @@ def test_a_shard_that_fits_gets_a_plain_directory_and_no_privileged_command(tmp_
     # a limit of zero means always compressed; nonsense is refused before anything is touched
     assert subprocess.run(["bash", script, str(target), "5", "0"], env=env, capture_output=True).returncode != 0
     assert subprocess.run(["bash", script, str(target), "many"], env=env, capture_output=True).returncode == 2
+
+
+def test_the_parent_directory_exists_before_tarfile_is_asked_to_unpack(tmp_path):
+    """The fault of round 14, planted so that it fails on any Python.
+
+    Python 3.12's tarfile, which the runners have, makes a missing parent
+    with a check and then a plain mkdir; two extractors side by side can both
+    pass the check, and the second dies with FileExistsError. Python 3.13,
+    which this tree's tests may run on, tolerates it, so running extractors
+    in parallel here proves nothing. What is pinned instead is the remedy:
+    by the time tarfile is asked, the directory is already there. A stand-in
+    for tarfile refuses otherwise.
+    """
+    import types
+
+    class Refuses:
+        def extract(self, member, dest, filter=None):
+            assert os.path.isdir(os.path.join(dest, os.path.dirname(member.name))), "parent directory not made first"
+            Path(dest, member.name).write_text("x")
+
+    member = types.SimpleNamespace(name=".lake/build/lib/lean/New/Dir/M.olean")
+    un.extract_member(Refuses(), member, str(tmp_path))
+    assert (tmp_path / member.name).read_text() == "x"
+    un.extract_member(Refuses(), member, str(tmp_path))        # and again, with everything in place
+
+
+def test_many_extractors_into_one_tree_all_finish(tmp_path):
+    """Sixteen extractors start together into directories none of them has made yet."""
+    dirs = [f".lake/build/lib/lean/Deep/D{i}/E{i}/F{i}" for i in range(150)]
+    chunks = []
+    names = []
+    for c in range(16):
+        files = {f"{d}/M{c}.olean": f"{c}" for d in dirs}
+        chunks.append(_chunk(tmp_path, f"race{c}", files))
+        names += [un.module_of(k) for k in files]
+    need = tmp_path / "need.txt"
+    need.write_text("\n".join(names) + "\n")
+    dest = tmp_path / "tree"
+    dest.mkdir()
+    procs = [subprocess.Popen(f"zstd -dc {chunk} | {sys.executable} {HERE / 'untar_needed.py'} {dest} {need}",
+                              shell=True, stderr=subprocess.PIPE) for chunk in chunks]
+    errors = [p.communicate()[1].decode() for p in procs]
+    assert all(p.returncode == 0 for p in procs), [e for e in errors if "Error" in e][:1]
+    assert sum(1 for _ in dest.rglob("*.olean")) == 16 * len(dirs)
+

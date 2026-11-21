@@ -190,10 +190,13 @@ jobs:
           args=()
           if [ -f state-prev/state.json ]; then args+=(--state state-prev/state.json); fi
           if [ "$FILL" = "true" ]; then args+=(--fill); fi
-          # as many compiles at once as the build step will run, for
-          # BUILD_MINUTES, planned fifteen percent over so a shard is cut by
-          # its deadline, not left idle
-          budget=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4) * 1.15))")
+          # As many compiles at once as the build step will run, for
+          # BUILD_MINUTES, planned forty percent over. A shard given too much
+          # is cut by its deadline and what it did not reach is planned
+          # again; a shard given too little sits idle, and round 14, planned
+          # at fifteen percent over a rate that round 13's thrashing had
+          # inflated, left its runners idle for a third of the hour.
+          budget=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4) * 1.4))")
           python3 "$HUNT/replay_plan.py" plan --dag dag.json "${args[@]}" \
             --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --out plan | tee plan.txt
           n=$(jq .n_shards plan/plan.json)

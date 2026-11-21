@@ -17,6 +17,7 @@ tar restores them. Prints one line: members kept, members skipped.
 """
 from __future__ import annotations
 
+import os
 import sys
 import tarfile
 
@@ -35,6 +36,23 @@ def module_of(name: str) -> str | None:
             parts[-1] = parts[-1].split(".", 1)[0]
             return ".".join(parts)
     return None
+
+
+def extract_member(tf, member, dest: str) -> None:
+    """Unpack one member, making its parent directory first.
+
+    Several of these programs run side by side into one tree. Python 3.12's
+    tarfile makes a missing parent directory with a check and then a plain
+    mkdir, and two processes can both pass the check: round 14 lost a shard
+    to exactly that (FileExistsError, on the runners' Python 3.12; 3.13
+    tolerates it). Made here first, tolerantly, tarfile finds the directory
+    there and makes nothing.
+    """
+    os.makedirs(os.path.join(dest, os.path.dirname(member.name)), exist_ok=True)
+    try:
+        tf.extract(member, dest, filter="data")
+    except TypeError:  # a Python without extraction filters
+        tf.extract(member, dest)
 
 
 def main() -> int:
@@ -56,10 +74,7 @@ def main() -> int:
             if not member.isfile():
                 continue
             if (suffix is None or member.name.endswith(suffix)) and module_of(member.name) in need:
-                try:
-                    tf.extract(member, dest, filter="data")
-                except TypeError:  # a Python without extraction filters
-                    tf.extract(member, dest)
+                extract_member(tf, member, dest)
                 kept += 1
             else:
                 skipped += 1
