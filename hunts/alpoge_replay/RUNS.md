@@ -149,6 +149,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 14 | 44887113440 | 10:08 | 7,071 | 150,487 | 85.90 | 0 | 0 | 0 | 8.12 | two compiles, outputs in a plain directory; eleven of twelve shards reported, shard 2 was lost to a race in the new restore; 7,239 planned and 7,071 built, see the note below; state artifact 14702344189 |
 | 15 | 44892897103 | 11:16 | 3,435 | 153,922 | 87.86 | 0 | 0 | 0 | 7.78 | one compile per runner, by a rule since removed, see below; all twelve shards reported; 3,463 planned; no suspension, no kill, largest module 5.1 GB; state artifact 14704557927 |
 | 16 | 44899651298 | 12:52 | 6,300 | 160,222 | 91.46 | 0 | 0 | 0 | 9.80 | two compiles; 12,746 planned and every shard stopped by its deadline; 1,281 modules built by two shards, every pair identical; 255 of the built modules stand on 72 that no chunk holds, see below, so 159,967 are usable (91.31 percent); state artifact 14707902742 |
+| 17 | 44906573935 | 14:18 | 6,229 | 166,451 | 95.01 | 0 | 0 | 0 | 11.55 | two compiles; 8,702 planned and ten of twelve shards stopped by their deadline; 857 modules built by two shards, every pair identical; 1,418 extras built and all kept; 166,449 usable (two modules of round 16 still stand on one unbuilt); no suspension, no kill, largest module 3.0 GB; a compile is now mostly its imports, see below; state artifact 14710597929 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -493,6 +494,98 @@ pass now fills a shard only up to what it can really do. Round 16 built
 17:10Z to 17:30Z. The window given at 09:07Z ended at 16:20Z; the hour was
 lost to the three faults of rounds 14 to 16, all in code written today.
 
+### Round 17, 2026-11-21 14:18Z: a compile is now mostly its imports, and every forecast so far ignored that
+
+Round 17 built 6,229 new modules with no failure, and the three changes of
+`9afac704` held: the plan ran, every shard kept its extras, and the merge
+left 2 stranded modules where round 16 left 255 (both from round 16, both
+on one module that no shard reached this round either). The filling pass
+built 857 modules twice, all pairs identical; with rounds 13 and 16 that is
+2,140 of 2,140.
+
+It built fewer than planned again, and this time the reason is not in the
+workflow. Seconds per compile, by how many of the archive's modules the
+module imports all the way down (exact counts, `replay_plan.closure_sizes`;
+modules in brackets):
+
+| imports | round 14 | round 16 | round 17 | still to build |
+| --- | --- | --- | --- | --- |
+| under 5,000 | 7 (2,859) | 7 (3,129) | 6 (3,233) | 2,488 |
+| 5,000 to 10,000 | 7 (2,654) | 9 (1,359) | 10 (1,106) | 1,374 |
+| 10,000 to 15,000 | 9 (704) | 9 (847) | 11 (615) | 1,094 |
+| 15,000 to 20,000 | 14 (68) | 15 (492) | 16 (487) | 571 |
+| 20,000 to 25,000 | 13 (786) | 23 (453) | 20 (707) | 1,934 |
+| 25,000 to 30,000 | | 64 (12) | 36 (69) | 675 |
+| 30,000 to 35,000 | | 153 (6) | 130 (9) | 440 |
+| 35,000 to 40,000 | | | 190 (1) | 75 |
+| 40,000 to 50,000 | | 215 (2) | 197 (2) | 60 |
+| 50,000 to 60,000 | | | | 10 |
+| over 60,000 | | | | 17 |
+
+Before it elaborates a line, `lean` maps the `.olean` of every module under
+the one it compiles. Two shards' memory logs give the resident file-backed
+memory of a compile as 4.9 to 6.1 GB (Mathlib) plus 0.29 to 0.31 GB per
+thousand archive modules imported. A runner keeps about 11 GB of file pages.
+A module on 20,000 others just fits; past that every start reads from disk
+what the last one pushed out, two compiles push each other's out, and the
+runners' disks are the limit: shard 9 took 11.7 million major page faults
+in its hour. Nothing was suspended or killed, and `MemAvailable` never fell
+under 10.8 GB, because it counts those pages as free. The machine was one
+of the cheaper cases: shard 7 ran on an AMD EPYC 7763 instead of the Xeon
+6975P-C of the other shards seen so far and compiled 333 modules in the hour
+where shard 9, on similar work, compiled 537.
+
+What is left is the top of the archive. 602 of the 8,738 modules import
+30,000 or more. The 585 of them under 60,000 are 24 of the 55 worker-hours
+that everything under 60,000 costs at round 17's prices. The other 17
+import more than 60,000, the last five 175,174 or more, and they form one
+chain up to `Main`. Nothing built so far imports more than 48,140, so what
+those 17 cost has not been measured.
+
+**Correction to every forecast above.** They priced a module by the length
+of its source, 4 s plus about 1 s per KB, fitted on the rounds before. That
+model puts the 8,738 modules left at 24 worker-hours; by import count they
+are 55, before the 17. The window given at 13:02Z (`Main` at 17:10Z to
+17:30Z) is wrong by hours, and so is the planner that used the same model:
+it gave a shard of such modules about twenty times what it could do, the
+deadline cut it off, and what stood above waited a round. By simulation on
+the state after round 17 (the planner's own functions, shards paying the
+prices in the table, 60 minutes a round) that planner needs 16 more rounds
+if the cost above 50,000 imports grows in proportion to the count and 21 if
+with its square.
+
+Changed in `f918390d`: the planner prices a module by what it imports
+(`replay_plan.import_cost`: seconds = a value per 5,000 imports, fitted on
+the last two rounds and never falling, plus a rate per KB). The same
+simulation gives 7 rounds in the first case and 12 or 13 in the second.
+Round 18 was planned before the change; round 19 is the first with it.
+
+**Two measurements running**, each on one more runner (17, then 18 in all
+for about an hour):
+
+- Run 44914862924, dispatched 14:37Z (`39652852`): the verdict job's
+  restore of all 166,449 loadable modules on the compressed volume, then
+  `lean` on files that hold nothing but imports, over 45,128, 80,111 and all
+  166,449 modules: cold, warm, and with the volume's read-ahead at 128 KB
+  instead of its own 4 MB. This is what one of the last modules pays, and
+  what the verdict's axiom printout pays to load `Main`.
+- A probe job, dispatched 14:48Z (`ffbb14e5`): the same two smaller imports
+  on a plain directory, as a build shard has it, under the runner's own
+  settings and under small page-fault windows (read-ahead 16 KB instead of
+  128, fault-around one page instead of 64 KB). On a fault in a mapped file
+  the kernel reads a window around the page and maps what is in memory
+  around it, so an imported `.olean` costs memory for far more than `lean`
+  looked at. If small windows let 45,000 modules stay in memory, the 602
+  cost a fraction of the table. `d4aba210` adds the same setting to the
+  build shards behind a switch (`IO_TUNE`), off until this is measured.
+
+**Forecast, with what is known at 14:50Z:** three more rounds for the wide
+part once the new planner is in (to about 19:30Z), then the chain of 17 on
+one runner, 3 to 7 hours by the two extrapolations. `Main` not before about
+22:30Z, more likely after 00:00Z on the 22nd, unless a probe finds the
+imports can be made cheap. The probes decide; this paragraph is replaced
+when they report.
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
@@ -599,6 +692,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 6 | 44876650580 | 08:38 | 16,601 | 94,599 | 54.00 | 0 | 0 | 4.80 | against build state 14694700878; 18,040 planned, one shard stopped by its deadline; all four shards reported and the watchdog (version one) killed nothing; check state 14700320734 |
 | 7 | 44887964847 | 10:53 | 16,577 | 111,176 | 63.46 | 0 | 0 | 4.59 | against build state 14699969555; the fixed driver, outputs in a plain directory; 18,032 planned, one shard stopped by its deadline; all four shards reported, nothing killed; check state 14704356588 |
 | 8 | 44896453130 | 12:43 | 9,472 | 120,648 | 68.87 | 0 | 0 | 7.59 | against build state 14702344189; three of four shards reported, shard 0's runner was lost and left no log; 13,611 planned on the three, all stopped by the deadline; the chain lowered itself to two processes per runner for round 9; check state 14707134382 |
+| 9 | 44905297777 | 14:31 | 6,449 | 127,097 | 72.55 | 0 | 0 | 3.78 | against build state 14704557927; two processes per runner; three of four shards reported, shard 1's runner was lost and left no log, as shard 0's was in round 8 at four; 6,504 planned on the three, one stopped by its deadline; the chain lowered itself to one process per runner for round 10; check state 14710478596 |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
