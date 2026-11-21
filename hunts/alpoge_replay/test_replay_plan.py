@@ -273,3 +273,17 @@ def test_merge_counts_a_crowded_kill_but_gives_no_strike_for_it(tmp_path: Path) 
     outputs = dict(line.split("=", 1) for line in gh.read_text().splitlines())
     assert outputs["crowded_this_round"] == "1" and outputs["crashed_this_round"] == "1"
 
+
+def test_the_rate_is_fitted_on_the_last_rounds_not_on_every_round() -> None:
+    size = {f"M{i}": 5000 for i in range(900)}
+    where = {f"M{i}": f"r{i // 300}-s0" for i in range(900)}                 # rounds 0, 1, 2
+    secs = {f"M{i}": (8.0 if i < 300 else 16.0) for i in range(900)}        # round 0 was cheap
+    recent = rp.recent_timings(where, secs)
+    assert len(recent) == 600 and min(recent.values()) == 16.0
+    assert rp.fit_rate(size, recent, 4.0, 0.5) == pytest.approx((16.0 - 4.0) / 5.0)
+    assert rp.fit_rate(size, secs, 4.0, 0.5) < rp.fit_rate(size, recent, 4.0, 0.5)
+    # too few recent timings, or chunk names it cannot read: every timing is used
+    few = {m: secs[m] for m in list(secs)[:150]}
+    assert rp.recent_timings(where, few) is few
+    assert rp.recent_timings({m: "odd" for m in secs}, secs) is secs
+

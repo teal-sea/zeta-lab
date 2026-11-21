@@ -286,6 +286,29 @@ def fit_rate(size, secs, overhead_s: float, default: float) -> float:
     return max(0.01, num / den) if den else default
 
 
+def recent_timings(where, secs, rounds: int = 2, enough: int = 200):
+    """The timings of the modules built in the last `rounds` rounds.
+
+    A module costs more the more it imports, and each round builds higher in
+    the graph than the one before, so the rate measured over every module
+    built so far lags what the next round will cost: after round 11 it said
+    10 s for a module that took 15. Falls back to every timing when the last
+    rounds are too few to fit.
+    """
+    by_round: dict[int, list[str]] = {}
+    for m in secs:
+        chunk = where.get(m, "")
+        try:
+            by_round.setdefault(int(chunk.split("-")[0][1:]), []).append(m)
+        except (ValueError, IndexError):
+            continue
+    picked: dict[str, float] = {}
+    for r in sorted(by_round, reverse=True)[:rounds]:
+        for m in by_round[r]:
+            picked[m] = secs[m]
+    return picked if len(picked) >= enough else secs
+
+
 # --------------------------------------------------------------------------
 # subcommands
 # --------------------------------------------------------------------------
@@ -326,7 +349,7 @@ def cmd_plan(a) -> None:
     height = heights(deps, order)
     where, secs, failed, crashed, bundles = load_state(a.state)
     done = set(where)
-    rate = fit_rate(size, secs, a.overhead_s, a.s_per_kb)
+    rate = fit_rate(size, recent_timings(where, secs), a.overhead_s, a.s_per_kb)
     cost = cost_model(size, a.overhead_s, rate)
     # a module that failed to elaborate, and everything above it, is out of
     # reach; so is one that crashed the runner three times running
