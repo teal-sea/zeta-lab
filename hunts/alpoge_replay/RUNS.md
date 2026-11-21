@@ -787,7 +787,18 @@ on no axiom beyond the three standard ones and on no `sorry`, by Lean's own
 walk over everything it uses, in the modules as these runners elaborated
 them. It is not the verdict and says nothing about `Main`.
 
-The job that measures the cone was still running when this was written.
+**The cone job and the summary.** On a third runner (kernel
+7.0.0-1017-azure, NVMe): the same 48,140 files restored in 253 s, then
+`Cone.lean` compiled and run on that module and theorem, exit code 0 in
+571 s. Of the 48,140 archive modules the theorem's module imports, 28,389
+hold a constant the theorem rests on (59 percent); of their 772,401
+declarations, 226,315 (29 percent); of their 597,004 theorems, 187,643 (31
+percent). 404,665 constants in the cone with Mathlib's. The summary job
+found both answers and listed them; the run ended green at 16:38Z.
+
+So every job of the verdict has now run once on real outputs, on plain
+directories, on both kinds of runner. What has not run is the summary's
+guard on real answers for the five theorems; it was tried on stand-ins.
 
 ### The import of everything built, on a plain directory, 2026-11-21 16:33Z
 
