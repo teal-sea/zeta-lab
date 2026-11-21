@@ -147,6 +147,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 12 | 44872248926 | 07:21 | 10,926 | 138,246 | 78.91 | 0 | 0 | 0 | 7.71 | 17,472 planned at the old sizing; all twelve shards reported; the first round at two compiles and the first with a watchdog, which killed nothing; state artifact 14697715651 |
 | 13 | 44879877336 | 08:54 | 5,170 | 143,416 | 81.86 | 0 | 0 | 0 | 22.30 | three compiles at once: half of round 12's output, see the judgement below; all twelve shards reported, the watchdog suspended and killed nothing; 2 modules built twice, same bytes; state artifact 14699969555 |
 | 14 | 44887113440 | 10:08 | 7,071 | 150,487 | 85.90 | 0 | 0 | 0 | 8.12 | two compiles, outputs in a plain directory; eleven of twelve shards reported, shard 2 was lost to a race in the new restore; 7,239 planned and 7,071 built, see the note below; state artifact 14702344189 |
+| 15 | 44892897103 | 11:16 | 3,435 | 153,922 | 87.86 | 0 | 0 | 0 | 7.78 | one compile per runner, by a rule since removed, see below; all twelve shards reported; 3,463 planned; no suspension, no kill, largest module 5.1 GB; state artifact 14704557927 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -427,6 +428,29 @@ module would have been the one killed. Nothing in the graph says how many
 more like it lie above; one that needs a gigabyte or two more will not fit,
 and that will show as a module killed alone.
 
+### Round 15, 2026-11-21 11:16Z: one compile per runner, by a rule that should not have fired
+
+Round 15 built 3,435 modules. Nothing was wrong with it except that every
+runner compiled one module at a time. The hand-on step of the merge job
+lowered `LEAN_NUM_THREADS` whenever a shard failed to report, on the reading
+that a silent shard is a runner out of memory. Round 14's silent shard was
+the restore race, seven minutes in and before any compile. The rule took 2
+down to 1 and nothing ever raises it. Round 15's shards were 43 to 98
+percent busy on their one worker, and round 16 was dispatched the same way
+at 11:16:36Z (run 44898323934).
+
+Removed in `29cf5de1`: the thread count is what the dispatch says, and the
+watchdog deals with memory inside a round. Round 16 was cancelled by hand 16
+minutes in and dispatched again at two compiles. Its plan is the first where
+the filling pass does real work: about 12,700 modules planned, some 2,000 of
+them built a second time on another shard, so the next state will carry the
+first real count of whether a module elaborated twice comes out the same.
+
+Cost of the two mistakes of the last three rounds, the restore race and this
+rule: about one round. **Forecast after round 15:** 21,265 modules left, 49
+worker-hours at round 14's rate; four rounds by simulation, `Main` built
+around 16:15Z to 16:35Z.
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
@@ -474,10 +498,12 @@ first: under 35 minutes on one runner. Reason: three things the verdict job
 depends on changed after the first rehearsal and have not run in it, the
 volume script (now asking the loop device for direct I/O, with a fallback),
 the restore with three bundles in flight, and the corrected count of
-elaborated modules. Outcome: not read yet. Its evidence artifact is
-`alpoge-p1-rehearse-<run id>`; `run.txt` must again say exit code 0 and
-"modules elaborated in this job: 0", and its "volume:" line says whether
-direct I/O was granted.
+elaborated modules. Outcome, run 44895281825, 17 minutes end to end: the
+loop device granted direct I/O (flag 1); the restore of 15 bundles and 149
+chunks took 633 s, against 1,828 s for 126 chunks the first time; 150,487
+`.olean` files on disk; the build over 8,528 targets ended with exit code 0
+in 132 s with 0 modules elaborated and 217,216 lines replayed from stored
+logs; Lake held 1.2 GB. The disk stood at 74 GB of 145.
 
 ## Second pass: kernel replay
 
@@ -529,6 +555,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 4 | 44854433459 | 03:50 | 17,352 | 70,112 | 40.02 | 0 | 0 | 3.89 | against build state 14683342288; every planned module replayed; check state 14690269141 |
 | 5 | 44863171205 | 06:40 | 7,886 | 77,998 | 44.52 | 0 | 0 | 5.50 | against build state 14687303640; two of four shards reported, see the third incident; check state 14696455861 |
 | 6 | 44876650580 | 08:38 | 16,601 | 94,599 | 54.00 | 0 | 0 | 4.80 | against build state 14694700878; 18,040 planned, one shard stopped by its deadline; all four shards reported and the watchdog (version one) killed nothing; check state 14700320734 |
+| 7 | 44887964847 | 10:53 | 16,577 | 111,176 | 63.46 | 0 | 0 | 4.59 | against build state 14699969555; the fixed driver, outputs in a plain directory; 18,032 planned, one shard stopped by its deadline; all four shards reported, nothing killed; check state 14704356588 |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
@@ -594,3 +621,13 @@ hosted runner at all.
 Check round 7 (run 44885838195) had started at 08:38Z with the old driver.
 It was cancelled by hand and dispatched again with the new one, outputs in a
 plain directory.
+
+**What check round 7 measured (10:53Z).** The fix changed the memory and not
+the speed: 16,577 modules replayed against 16,601 in round 6, 4.59 s a
+module against 4.80. So what a module costs to replay is its import and its
+kernel work, not the leak. The driver's memory after a module, which it now
+prints, peaked at 2.5 to 2.7 GB on twenty modules, all in three
+subdirectories of `Formalism` and `GroundTheory` and none of them among the
+deepest: that is the kernel's own memory on heavy declarations, retained by
+the allocator, and no longer something that grows with the list. Nothing
+was suspended or killed, and all four shards reported.
