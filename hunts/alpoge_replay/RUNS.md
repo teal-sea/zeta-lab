@@ -153,6 +153,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 18 | 44913274901 | 15:40 | 3,280 | 169,731 | 96.89 | 0 | 0 | 0 | 21.71 | two compiles, the last round planned by source size and the last under the runner's own page-fault windows; 7,044 planned and all twelve shards stopped by their deadline; 562 modules built twice, every pair identical; nothing stranded any more; 260 million major page faults over the twelve runners, three suspensions, no kill, largest module 7.4 GB; state artifact 14713104221 |
 | 19 | 44920413546 | 16:58 | 4,611 | 174,342 | 99.52 | 0 | 0 | 0 | 11.24 | the first round with the planner pricing by imports, small page-fault windows on every shard and a plan of three times capacity; 5,150 planned, four of twelve shards stopped by their deadline; 2,327 extras built, 1,603 modules built twice, every pair identical; no suspension, no kill, largest module 4.0 GB; 24 million major page faults where round 18 had 260 million; state artifact 14715757843 |
 | 20 | 44927890126 | 17:49 | 823 | 175,165 | 99.99 | 0 | 0 | 0 | 15.77 | dispatched by hand and planned to 3,024 s a shard; twelve shards, every one of the 823 planned modules built, none stopped by its deadline, 44 minutes from plan to merge; 288 extras, 185 modules built twice, every pair identical (4,490 of 4,490 over the campaign); no suspension, no kill, largest module 4.4 GB; state artifact 14718047776 |
+| 21 | 44932152644 | 19:27 | 22 | 175,187 | 100.00 | 0 | 0 | 0 | 311.05 | one shard, one runner, the 22 modules at the top, on a plain directory holding the outputs of all 175,165 others (101 GB, restored in 693 s); read-ahead 0 and a 4 KB fault-around window; 4,773 s of build, never suspended, largest module 2.0 GB; `Main` in 640 s; **every module of the archive is built**; state artifact 14720649806 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -905,6 +906,79 @@ the very top are an import of eleven minutes or more for the first and
 about four for each after it on a fast disk, twice that on a slow one, so
 `Main` is expected between 19:00Z and 19:40Z; the shard may build until
 20:35Z. When `Main` is built the merge dispatches the verdict.
+
+### Round 21, 2026-11-21 19:27Z: `Main` is built and the build is complete
+
+All 175,187 modules of the archive have elaborated on GitHub-hosted
+runners, with the archive's own toolchain (`leanprover/lean4:v4.33.1`) and
+its pinned Mathlib (`0df444a360eaa60ab8c11dca51a86af692955474`). Over the
+22 rounds: 0 modules failed, 0 crashed, 0 `declaration uses 'sorry'`
+warning lines, 0 modules rebuilt outside their shard. 4,490 modules were
+elaborated on two different runners and every pair of `.olean` files is
+byte-identical. 174,986 modules carry a recorded compile time (201 do
+not: 200 of the 491 of pilot round 0 and one from round 18);
+the recorded times sum to 1,783,871 s, 495.5 hours. The final state is
+artifact 14720649806.
+
+This says that Lean's elaborator and kernel accepted every module once, in
+shards, with outputs carried between runners as artifacts. It says nothing
+about the mathematics, and nothing about whether the statements in
+`Main.lean` are the ones their names suggest. The axioms those statements
+rest on are the verdict's question, below; a second kernel pass over the
+stored outputs is the replay chain's.
+
+Round 21 itself was one job on one runner (4 cores, 15 GB, Xeon 6975P-C,
+kernel 7.0.0-1014-aws). After the further cleanup the runner had 122,382 MB
+free, room for 184,487 modules by the 620 KB rule, so the outputs went to a
+plain directory: 21 bundles and 221 chunks in 693 s, one bundle at a time,
+101 GB on disk and 20 GB left. `io_tune.sh` set the read-ahead from 128 KB
+to 0 (the rule for more than 110,000 imported modules) and the fault-around
+window from 65,536 to 4,096 bytes. `lake build` ran 4,773 s and exited 0,
+well inside its deadline. The watchdog never stopped or killed a process:
+at most 9,707 MB in use on the machine, 2,049 MB in the largest `lean`.
+62.3 million major page faults, 6.3 million pages written to swap.
+
+| imports (itself included) | compile s | largest resident anonymous MB | module (last component) |
+| --- | --- | --- | --- |
+| 41,841 | 111 | 900 | `AllStagesAtMemberOfSpecializations` |
+| 43,137 | 112 | 922 | `PointwiseGaloisPropertiesOfLocalInputs` |
+| 43,212 | 15 | 924 | `PreAtMem` |
+| 45,505 | 260 | 958 | `GeometricRealizationOfWeightOne` |
+| 45,860 | 42 | 947 | `WeightOneGeometricRealization` |
+| 47,538 | 25 | 934 | `ThetaLiftHypothesesOfNonvanishing` |
+| 48,123 | 19 | 999 | `CFinal` |
+| 51,387 | 26 | 984 | `ExistsBaseLatticeOfPrime` |
+| 55,728 | 23 | 1,041 | `MemberBundlesLargeUnramifiedExponents` |
+| 61,081 | 43 | 1,092 | `GaloisRepresentationsOfThetaLift` |
+| 66,168 | 21 | 1,105 | `RowSrc` |
+| 79,669 | 253 | 1,213 | `HypothesesNonemptyOfUnramifiedExponents` |
+| 112,385 | 395 | 1,545 | `SiegelEisensteinSecondTermHypotheses` |
+| 151,286 | 560 | 1,852 | `EveryCharacterOfLiteratureOfVWin` |
+| 157,603 | 646 | 1,548 | `TopMainZj` |
+| 157,604 | 761 | 1,930 | `VwinOfRow` |
+| 170,702 | 619 | 2,049 | `CorGKOf` |
+| 175,174 | 619 | 1,962 | `CharacterBoxes.MainConclusion` |
+| 175,179 | 682 | 1,815 | `Supplements.Kernels.MainTheorems` |
+| 175,183 | 528 | 1,888 | `Supplements.Kernels.MainTheoremsCritical` |
+| 175,185 | 443 | 2,039 | `Supplements.Kernels.MainTheoremsAll` |
+| 175,187 | 640 | 2,036 | `Main` |
+
+Against the forecast. The probe of 16:33Z measured an import of everything
+built at 661 s from a cold cache and 208 to 232 s after that, with a
+read-ahead of 0. In the real build every module above 150,000 imports took
+443 to 761 s, near the cold price each time and not the warm one. Two
+compiles ran at once for about half of the round (73 of 159 half-minute
+samples), the runner's 3 GB of swap was full from the seventh minute on,
+and each real module also elaborates and writes its outputs, which an
+import-only file does not; how those seconds divide between the import and
+the rest was not measured.
+`Main` was forecast for 19:00Z to 19:40Z and the build ended at 19:25Z.
+
+The merge found `Main` built and dispatched the verdict: run 44941044062
+at 19:27:37Z on `af44b45e`, from state 14720649806. One job restores every
+output and `lake build` must find nothing left to do; seven more each
+import `Main` on a runner of their own, one per theorem of `Main.lean`, one
+for the four interior statements and one for the dependency cone.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
