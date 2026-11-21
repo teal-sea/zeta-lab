@@ -37,6 +37,11 @@
 > decision, as it was for the 7/8 theorem (`ROADMAP.md`, decision of
 > 2026-10-08).
 
+> **Decision, 2026-11-21.** The owner then directed the laboratory to build on
+> the theorem, stating results that use it as "proved, given the Alpoge
+> theorem", with the scope and the reversion rule set out in `ROADMAP.md`,
+> "Decision: build on the Alpoge theorem (2026-11-21)".
+
 Every item below carries its own grade, and the grades are low on purpose. A
 text-level reading is a reading. A finite computation is never a uniform
 result. A result built on the hypothesis is conditional on the hypothesis,
@@ -217,6 +222,11 @@ search below that bound is exact and reads no GRH.
 This result is a GRH-conditional theorem candidate whatever happens to the
 archive. If the archive is accepted by a kernel, the hypothesis is discharged
 and the written proof becomes the weakest step.
+*Updated 2026-11-21:* the result is now stated as proved, given the Alpoge
+theorem, whose third verified statement contains the hypothesis for every
+chi_D (through the routine bridge from chi_D to Mathlib's L-function, not yet written here); its weakest step is the written proof, reviewed by no person, so it
+stays a candidate pending external review (`ROADMAP.md`, decision of
+2026-11-21; `hunts/grh_class_number/RESULTS.md`, update at the top).
 
 ## 8. The Lean socket
 

@@ -11,6 +11,27 @@ integer computations that agree with every independent table found. A
 composite claim takes the grade of its weakest step: here the hypothesis,
 which is not a theorem, then the unreviewed written proof.
 
+**Update (2026-11-21).** The hypothesis is no longer open. Levent Alpoge's
+Lean archive was verified outside this laboratory on 2026-11-21 (the joint
+statement of the Lean and Mathlib communities, and Andrew Sutherland's
+verification page; ROADMAP.md, "Decision: build on the Alpoge theorem
+(2026-11-21)"). H(1/2) for every chi_D is contained in the third of its five
+verified statements, the one for every Dirichlet L-function at Re s > 1/2;
+the bridge that chi_D is a Dirichlet character whose Mathlib L-function is
+L(s, chi_D) remains routine and unwritten here. Every result below is
+therefore now stated as *proved, given the Alpoge theorem*. Its weakest step
+is the written proof (sections 2 and 4, audited at sigma0 = 1/2), which no
+person has reviewed, so it stays a candidate pending external review. The
+kernel grade of the theorem is the outside checkers'; this laboratory's own
+replay had not produced its verdict when this update was written. The
+published list to 2000 of Garcia, Grenie, Lee and Molteni loses its GRH
+hypothesis in the same way, for the bounds it uses (GRH for zeta_K of an
+imaginary quadratic K, which is zeta times L(s, chi_D)); whether its list
+below the cutoff also rests on a GRH-conditional routine is open, as row D02
+of `docs/reviews/2026-11-20-rh-claim-regrade-board.md` records. The text
+below is kept as written on 2026-11-20: where it says the hypothesis "is not
+a theorem" or that the replay is pending, read it as the state of that day.
+
 **After review (2026-11-20).** Two independent reviewers attacked this hunt,
 one on the proof and one on the computation; both returned "holds" and
 neither found a wrong or missing field or a failed step. Their eleven

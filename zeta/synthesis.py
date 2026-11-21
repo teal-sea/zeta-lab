@@ -28,6 +28,16 @@ sum over cached zero ordinates plus a density tail on the zero side, and the
 closed form.  They agree, which is a check on the implementations and on
 nothing else.
 
+(Corrected 2026-11-21, regrade board correction C5,
+``docs/reviews/2026-11-20-rh-claim-regrade-board.md``: the closed form is the
+value of the mean square only if the zeros are also simple.  The mean square
+sums m²/|ρ|² over distinct ordinates, m the multiplicity, while the closed
+form sums 1/|ρ|² over zeros counted with multiplicity, so under RH alone the
+closed form is a lower bound.  This is a derivation by ordinary reasoning,
+not checked at a source; the tree says the same of the Nyman-Beurling
+constant in ``hunts/rogue_frontier/nyman_beurling/SOURCES.md``.  The measured
+three-way agreement above is not in question.)
+
 **The wall, stated plainly.**  This is a genuine equivalence, not a route to
 a proof.  Proving finite mean power from the prime side means expanding S²
 into Σ Λ(n)Λ(m) correlations, i.e. controlling the variance of primes in

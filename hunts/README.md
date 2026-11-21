@@ -114,6 +114,21 @@ adopted). The archive of 2026-11-20 would discharge the hypothesis only by a
 kernel check; its replay (`alpoge_replay/`) is pending. See
 `grh_class_number/RESULTS.md`.
 
+*Updated 2026-11-21* (`ROADMAP.md`, "Decision: build on the Alpoge
+theorem"): the archive was verified outside this laboratory on 2026-11-21,
+by the Lean and Mathlib communities' joint statement and Andrew Sutherland's
+verification page. H(1/2) for every chi_D is contained in the third of its
+five verified statements (through the routine bridge from chi_D to Mathlib's L-function, not yet written here), so the result is now stated as *proved, given the
+Alpoge theorem*. Its weakest step is the written proof (RESULTS.md sections
+2 and 4, audited at sigma0 = 1/2), reviewed by no person, and it stays a
+candidate pending external review. The kernel grade is the outside
+checkers'; `alpoge_replay/` had not produced its verdict when this was
+written. The published list to 2000 of Garcia, Grenie, Lee and Molteni loses
+its GRH hypothesis in the same way, for the bounds it uses; whether their
+list also rests on PARI's GRH-conditional class-group routine stays
+unresolved, as above. The status line above is kept as written on
+2026-11-20.
+
 ### Hunt #162: the readable statements of the claimed RH archive, tested (`rh_claim_statements/`, opened 2026-11-20)
 
 **Status: closed as a falsification attempt, reviewed (2026-11-20). No statement failed.** On 2026-11-20 Levent Alpoge posted a claimed Lean 4 proof of RH and of GRH for Dirichlet L-functions (175,187 files, Mathlib pinned at `0df444a`). No kernel has checked it, and another session owns the replay, which is pending. This hunt read the archive as text only. It took 79 intermediate statements written in Mathlib's vocabulary: zeta, Gamma and L-function bounds, Chebyshev-type constants, quadric point counts over finite fields, 11 explicit primes, and sharp elementary inequalities. Each statement was transcribed with Lean's conventions made explicit: junk values, truncated subtraction, big-operator precedence, casts. Every identifier was resolved to its Mathlib definition site, and a scan of archive declarations, notation and instances showed that nothing captures one. Each statement was tested by exact arithmetic or Arb ball arithmetic, and the same test had to reject at least one one-change mutant with a witness.
@@ -991,6 +1006,16 @@ for |D| <= 3 * 10^6; weakening the abscissa to 11/12 and 15/16 weakens it in
 the predicted way; the GRH specialisation matches Lamzouri-Li-Soundararajan.
 No explicit half-plane constant or even-h list beyond 100 was found in the
 search; that is not a novelty claim. See `qrh_class_number/RESULTS.md`.
+*Corrected 2026-11-21* (correction C1 of
+`docs/reviews/2026-11-20-rh-claim-regrade-board.md`): the even-h half of that
+search result was wrong. Cremona and Sutherland (arXiv:2301.11169, 2023) list
+every h <= 1000 under GRH, and Garcia, Grenie, Lee and Molteni
+(arXiv:2610.14257, posted 9 October 2026, one day after this hunt) every
+h <= 2000 under GRH. This hunt's h <= 1500 count and largest discriminant
+equal their Table 1 row exactly (9,245,562 fields, 562,394,347), from a
+different hypothesis, a different lower bound and different software. What
+remains this hunt's own for the lists is the weaker 7/8 hypothesis, not the
+range. Whether the range is also its own is open (regrade board row D02): if the published list below its cutoff came from a GRH-conditional PARI routine, then, given the Alpoge theorem, this hunt's h <= 1500 list is the part of the range that is unconditional.
 
 ### Hunt #123: Linnik's constant 7/3 from the 7/8 zero-free half-plane (`qrh_linnik/`)
 

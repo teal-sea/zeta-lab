@@ -1135,6 +1135,23 @@ def lambda_facts() -> dict[str, Any]:
     (Odlyzko's own survey of the history in Numer. Algorithms 25 (2000), 293-303,
     and the published abstracts).  Note the upper bounds 0.22 and 0.2 are
     **non-strict**; the only known strict upper bound is Ki-Kim-Lee's Lambda < 1/2.
+
+    Corrected 2026-11-21 (regrade board, correction C3,
+    ``docs/reviews/2026-11-20-rh-claim-regrade-board.md``): the check above was
+    of citations, not of the chain behind them.  This lab's own reading of that
+    chain (hunt #147, ``hunts/dbn_pt_height/``) found the hypothesis behind the
+    upper bound 0.2, the asymptotic-region hypothesis of Polymath15's Table 1
+    row 2, evaluated at one parameter point only (N = N0, y = y0) in every
+    source it read (the one full sweep it found reported is an unpublished
+    2024 blog comment by a reader outside the project, with no stated
+    precision or y-range), with disposition "a gap in the published chain, attempt
+    unresolved, not a refutation".  Separately, the Lean archive posted on
+    2026-11-20 was verified outside this lab on 2026-11-21
+    (``docs/49-the-riemann-claim-day-one.md``).  That outside-verified theorem
+    gives RH, hence Lambda <= 0, hence with Rodgers-Tao's Lambda >= 0 the value
+    Lambda = 0, bypassing the 0.2 chain.  This follows from the outside theorem,
+    which this lab has not replayed; the entries returned below are left as
+    the published record and are not changed by this note.
     """
     return {
         "definition": "Lambda := inf{ t in R : H_t has only real zeros }",

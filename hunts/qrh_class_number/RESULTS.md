@@ -418,10 +418,41 @@ Found, and what this hunt adds to each:
   lists for odd h < 10^6 conditional on GRH (LLS bound, PARI under GRH, 4.5
   CPU years). Odd h <= 1500 agree; this hunt replaces GRH by the 7/8
   half-plane for those h and adds every even h <= 1500.
+  *Corrected 2026-11-21* (correction C1 of
+  `docs/reviews/2026-11-20-rh-claim-regrade-board.md`): as far as the text
+  read on 2026-11-20 says, Holmin et al. tabulate the counts F(h) for every
+  odd h < 10^6 and publish full lists only for noncyclic p-groups, so
+  "complete lists" may overstate what they publish; the agreement above is
+  with their counts. "Adds every even h <= 1500" is stale: every even
+  h <= 1000 was already listed under GRH by Cremona and Sutherland (2023),
+  and every h <= 2000 by Garcia, Grenie, Lee and Molteni (2026), both below.
 - **Mosunov and Jacobson**, Math. Comp. 85 (2016): unconditional class groups
   for all |Delta| < 2^40, organised by discriminant; no per-h lists are
   published. Since D(1500) < 2^40, their tabulation could in principle be
   re-read to the same lists (a door below).
+  *Corrected 2026-11-21* (same source): Cremona and Sutherland derive from
+  that tabulation, and publish, a per-discriminant file for every h <= 1000
+  under GRH. Whether the raw class numbers of the tabulation can be
+  downloaded is described inconsistently by two sources (Cremona-Sutherland:
+  from LMFDB; Garcia-Grenie-Lee-Molteni: not made available); unresolved.
+- *Added 2026-11-21.* **Cremona and Sutherland**, arXiv:2301.11169v4
+  (2023), section 5: assuming GRH (Languasco-Trudgian's lower bound for the
+  cutoff, then the unconditional Mosunov-Jacobson class numbers below it),
+  every discriminant with h <= 1000, even and odd, fields and nonmaximal
+  orders: 4,115,897 fundamental discriminants, the largest |D| = 227,932,027.
+  This hunt's h <= 1000 run agrees with both numbers (`search_H1000.json`:
+  4,115,897 found; largest |D| 227,932,027, at h = 996).
+- *Added 2026-11-21.* **Garcia, Grenie, Lee, Molteni**, arXiv:2610.14257
+  (posted 9 October 2026, one day after this hunt): the complete list of
+  imaginary quadratic fields for every h <= 2000 under GRH, with data,
+  computed with PARI/GP. Their Table 1 row for h0 = 1500 is 9,245,562
+  fields with largest |D| = 562,394,347, equal to this hunt's count and
+  largest discriminant exactly; their rows for h0 = 500 and 1000 are
+  1,028,749 / 55,171,603 and 4,115,897 / 227,932,027. The two tables were
+  reached from a different hypothesis (GRH there, the 7/8 half-plane here),
+  a different lower bound and different software (PARI/GP there, the exact
+  reduced-form sieve here), so the agreement is an independent check of both
+  on those numbers.
 
 Not found: an explicit constant for the half-plane form of Littlewood's
 bound, or complete lists for even h with 100 < h <= 1500 under any
@@ -430,6 +461,19 @@ novelty claim. Within the searched set, **Theorem A, the table D(h) and the
 QRH-conditional completion of the class-number lists for every h <= 1500 are
 original to this hunt (provenance)**, graded as stated at the top, and
 pending external review.
+
+*Corrected 2026-11-21* (correction C1 of
+`docs/reviews/2026-11-20-rh-claim-regrade-board.md`): the second half of the
+"Not found" sentence is false about the literature. Complete lists for even h
+with 100 < h <= 1000 under GRH have been public since 2023 (Cremona and
+Sutherland), and for every h <= 2000 since 9 October 2026 (Garcia, Grenie, Lee
+and Molteni), one day after this hunt. This hunt's h <= 1500 count and largest
+discriminant equal that paper's Table 1 row exactly (9,245,562 fields,
+562,394,347), from a different hypothesis, a different lower bound and
+different software. What remains this hunt's own for the lists is the weaker
+7/8 hypothesis, not the range. Whether the range is also its own is open (regrade board row D02): if the published list below its cutoff came from a GRH-conditional PARI routine, then, given the Alpoge theorem, this hunt's h <= 1500 list is the part of the range that is unconditional. The first half of the sentence, on an explicit
+constant for the half-plane form of Littlewood's bound, is not touched by this
+correction.
 
 Checked and not used: a Bach-type bound from the 7/8 half-plane for the norms
 of primes generating the class group. The argument needs the main term x to

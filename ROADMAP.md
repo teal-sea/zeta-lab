@@ -39,6 +39,53 @@ withdrawn or refuted, they revert to conditional statements and are marked so;
 nothing here makes the half-plane a theorem of this laboratory beyond the
 kernel grade of its formal statements.
 
+## Decision: build on the Alpoge theorem (2026-11-21)
+
+The owner directed the laboratory to use Levent Alpoge's theorem (posted
+2026-11-20 as a Lean 4 archive: Mathlib's `RiemannHypothesis`, and GRH for
+Dirichlet L-functions, so that every Dirichlet L-function is zero-free for
+Re s > 1/2, the trivial character at s = 1 excepted) as an input and build
+on it.
+The verification was done outside this laboratory and was read here in two
+sources. The joint statement of the Lean and Mathlib communities, endorsed by
+the Lean FRO and the Mathlib Initiative and dated 2026-11-21, says: "We
+hereby certify that both the statement and the proof of the Riemann
+Hypothesis are correct." Andrew Sutherland's verification page, as updated
+2026-11-21 12:55 UTC, records that all 175,187 modules compile, that the five
+theorems of `Main.lean` rest on `propext`, `Classical.choice` and
+`Quot.sound` only, that every module was replayed through the Lean kernel,
+that two independently written kernels accept the full export, and that all
+five statements, the three about Dirichlet L-functions included, match a
+challenge file that imports only Mathlib; the same page listed some kernel
+runs as still in progress. This laboratory's own replay (hunt #159, on
+another branch) had not produced its verdict when this was written, so the
+kernel grade is the outside checkers', not this laboratory's.
+
+Results that use it are stated as "proved, given the Alpoge theorem", carry
+that hypothesis in every sentence, and take the grade of the weakest step,
+which is usually the laboratory's own unreviewed argument; the theorem's
+kernel grade here is the outside checkers', and any bridge from Mathlib's
+definitions to the classical objects (for example from
+`DirichletCharacter.LFunction` to a classical L(s, chi)) is a step of its
+own that must be written and graded. The scope is Dirichlet L-functions, all moduli and all characters;
+nothing here extends it to Dedekind zeta functions or Hecke L-functions. If
+the theorem is withdrawn or refuted, the results revert to conditional
+statements and are marked so. This departs from the 2026-10-08 precedent,
+which built only after this laboratory's own rebuild was accepted by two
+kernels, and from recommendation 2 of the regrade board; the owner chose to
+build on the outside verification. If hunt #159's replay fails or disagrees
+with the outside checks, every result stated "given the Alpoge theorem" is
+marked conditional again until the disagreement is resolved. The record page
+is `docs/49`.
+
+The decision "constructive research is the objective" (2026-09-12) named RH
+as the target. That target is now settled by a theorem proved outside this
+laboratory. **No successor target has been chosen.** The candidates are in
+`docs/reviews/2026-11-20-rh-claim-regrade-board.md` section (b); choosing one
+is an open owner decision, recorded here as open. Until it is made, this
+decision authorizes building on the theorem within existing missions and
+names no new objective.
+
 ## Decision: a failed attempt does not close a method
 
 Use the four dispositions in `ALIGNMENT.md` section 5: candidate refuted,

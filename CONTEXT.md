@@ -146,7 +146,7 @@ Constants: `ODLYZKO_TABLES`
 
 ### `zeta/heatflow.py`, Heat flow on the Riemann Ξ function and the de Bruijn–Newman constant.
 
-*1441 lines*
+*1458 lines*
 
 Constants: `DEFAULT_DPS`, `H0_RELATION`, `PHI_STRIP`
 
@@ -223,7 +223,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `EPSTEIN_DIGITS_PE
 
 ### `zeta/li.py`, Li's criterion and Jensen polynomials, the real-rootedness lane.
 
-*1443 lines*
+*1452 lines*
 
 Constants: `DATA_DIR`, `GAMMA1`, `RADIUS_MAX`, `ZERO_DPS`
 
@@ -406,7 +406,7 @@ Constants: `DEFAULT_PROBES`
 
 ### `zeta/synthesis.py`, The prime signal as additive synthesis, and the power its partials carry.
 
-*181 lines*
+*191 lines*
 
 Constants: `MEAN_POWER_CLOSED_FORM`
 
@@ -1317,7 +1317,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2386 test functions across 147 files (the collected count differs where tests are parametrised):
+2387 test functions across 147 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1332,7 +1332,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_compiler_candidate.py`, 32
 - `tests/test_contribution_check.py`, 3
 - `tests/test_core.py`, 97
-- `tests/test_criteria.py`, 75
+- `tests/test_criteria.py`, 76
 - `tests/test_department_conformance.py`, 19
 - `tests/test_detector.py`, 11
 - `tests/test_detectors.py`, 4

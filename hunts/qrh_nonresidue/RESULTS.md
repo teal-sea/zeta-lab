@@ -501,6 +501,13 @@ Scholar listings; zbMATH was not queried directly; OEIS for record values):
 - Under GRH with explicit constants: Bach (Math. Comp. 1990), 2 (log n)^2 for
   Miller witnesses and n(chi); Lamzouri-Li-Soundararajan (Math. Comp. 2015);
   Carneiro-Milinovich-Quesada-Herrera-Ramos (arXiv:2404.08380).
+  *Corrected 2026-11-21 (regrade board, correction C5,
+  `docs/reviews/2026-11-20-rh-claim-regrade-board.md`):* this hunt's n(chi)
+  needs n coprime to the modulus. As Lamzouri, Li and Soundararajan read Bach
+  (arXiv:1309.3595, section 1.1), the constant with coprimality imposed is 3,
+  and 2 is the constant without it; so 2 stands for Miller witnesses and, on
+  that reading, 3 is the comparator for n(chi). Bach's paper itself was not
+  readable when this was checked.
 - Primitive roots: Wang, Shoup (Math. Comp. 1992, Proposition 1 with
   absolute constants c1, c2), Martin (Acta Arith. 1997, Proposition 3).
 

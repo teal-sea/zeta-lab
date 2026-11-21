@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import subprocess
 from fractions import Fraction
 from pathlib import Path
@@ -477,3 +478,82 @@ def test_pari_agrees():
     assert p['windows_inside_range']['fundamental_checked'] > 10000
     for h, row in p['windows_above_D_GRH'].items():
         assert row['violations'] == 0 and row['smallest_class_number'] > int(h)
+
+
+# ------------------------------------------------------------- the review packet
+
+_SHA = re.compile(r'(?<![0-9a-f])[0-9a-f]{64}(?![0-9a-f])')
+# A number: digit groups of three joined by single spaces or commas (the style
+# of RESULTS.md, "16 396 235 837"), or a plain run of digits, either with an
+# optional decimal part. The lookarounds stop "1500 2000" reading as "500 200".
+_NUM = re.compile(r'(?<![\d.])(?:\d{1,3}(?:[ ,]\d{3})+(?![\d])|\d+)(?:\.\d+)?(?![\d])')
+
+
+def _numbers(text):
+    """Every number in the text, separators removed, with its digit count."""
+    text = _SHA.sub(' ', text)
+    out = set()
+    for m in _NUM.finditer(text):
+        tok = re.sub(r'[ ,]', '', m.group(0))
+        out.add(tok)
+    return out
+
+
+def _json_numbers(obj, acc):
+    if isinstance(obj, bool):
+        return
+    if isinstance(obj, (int, float)):
+        acc.add(str(obj))
+        acc.update(_numbers(str(obj)))
+    elif isinstance(obj, str):
+        acc.update(_numbers(obj))
+    elif isinstance(obj, dict):
+        for k, v in obj.items():
+            _json_numbers(k, acc)
+            _json_numbers(v, acc)
+    elif isinstance(obj, list):
+        for v in obj:
+            _json_numbers(v, acc)
+
+
+def _committed_sources():
+    files = subprocess.run(['git', 'ls-files', '--', '*.json'], cwd=HERE,
+                           capture_output=True, text=True, check=True).stdout.split()
+    assert files, 'no committed JSON found: the check would pass vacuously'
+    texts = [(HERE / 'RESULTS.md').read_text()]
+    nums = _numbers(texts[0])
+    for name in files:
+        raw = (HERE / name).read_text()
+        texts.append(raw)
+        _json_numbers(json.loads(raw), nums)
+    return nums, '\n'.join(texts)
+
+
+def test_every_large_number_in_the_review_packet_is_on_record():
+    """REVIEW-REQUEST.md copies its numbers; it computes none of its own.
+
+    Every number with five or more digits in the packet must occur in
+    RESULTS.md or in a committed JSON file of this hunt, and every sha256 it
+    quotes must occur there verbatim.
+    """
+    packet = (HERE / 'REVIEW-REQUEST.md').read_text()
+    nums, corpus = _committed_sources()
+    big = {t for t in _numbers(packet) if sum(ch.isdigit() for ch in t) >= 5}
+    assert len(big) >= 30, 'the extractor found too few numbers to be checking anything'
+    missing = sorted(t for t in big if t not in nums)
+    assert not missing, f'numbers in REVIEW-REQUEST.md with no source on record: {missing}'
+    hashes = set(_SHA.findall(packet))
+    assert len(hashes) >= 8
+    assert not [h for h in hashes if h not in corpus]
+
+
+def test_the_packet_check_can_fail():
+    """The control for the test above: a planted number and a planted hash are seen."""
+    nums, corpus = _committed_sources()
+    planted = 'the search covered 16 396 235 839 discriminants'
+    assert '16396235839' in _numbers(planted) and '16396235839' not in nums
+    assert '16396235837' in _numbers(planted.replace('839', '837')) and '16396235837' in nums
+    assert '0.115718' in nums and '0.115719' not in nums
+    assert _numbers('h = 1500 2000') == {'1500', '2000'}
+    fake = 'deadbeef' * 8
+    assert _SHA.findall(f'x {fake} y') == [fake] and fake not in corpus

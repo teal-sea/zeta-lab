@@ -8,6 +8,18 @@
 > from ninth powers down to seventh. This page states them, says what each one
 > is measured against, and grades each one honestly.
 
+*Note added 2026-11-21.* The 7/8 half-plane that the five results assume is
+implied by the Alpoge theorem (RH, and GRH for Dirichlet L-functions),
+verified outside this laboratory on 2026-11-21 by the Lean and Mathlib
+communities and on Andrew Sutherland's verification page (`docs/49`;
+`ROADMAP.md`, "Decision: build on the Alpoge theorem (2026-11-21)"). So they
+no longer rest on OpenAI's unreviewed argument alone; each keeps its own
+unreviewed written proof as its weakest step. With that hypothesis a theorem,
+each is also overtaken by a published GRH or RH result, as rows D02 to D06 of
+[the regrade board](reviews/2026-11-20-rh-claim-regrade-board.md) record (D02
+on the condition its row states). This page is kept as the record of what a
+zero-free strip at 7/8 buys, not as the current results.
+
 Every result below except the first is conditional on OpenAI's theorem. Four
 of them (hunts #123 to #126) are **proved, given OpenAI's theorem**: the
 argument is an ordinary written proof by this laboratory, read line by line by
@@ -48,11 +60,24 @@ and anything about RH. 7/8 is not 1/2.
 | Result | Statement | Against | Grade | Where |
 | --- | --- | --- | --- | --- |
 | The input, replayed | Lean's kernel and the independent NanoDa kernel accept OpenAI's statements that zeta(s) and every Dirichlet L(s, chi) are nonzero for Re s > 7/8, and its Siegel-zero gap, with only the three standard axioms | OpenAI's own build; no outside replay was known | kernel-checked on two kernels, on this laboratory's compute; the argument is unreviewed by any person | [docs/38](38-the-quasi-riemann-claim.md), section 7 |
-| Class numbers up to 1500 | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D, with q = -D; hence the complete list of imaginary quadratic fields of class number h, for every h <= 1500: 9,245,562 fields, the largest with q = 562,394,347 | Watkins (2004): h <= 100 unconditionally. [Cremona-Sutherland (2023), section 5](https://arxiv.org/html/2301.11169v4#S5): all h <= 1000, including even h, under GRH. OpenAI: the same shape of bound, constant not computed | proved, given the input; constants enclosure-carrying; lists by exact computation; unreviewed | [hunt #124](../hunts/qrh_class_number/RESULTS.md) |
-| Primes between seventh powers | For every integer n >= 1 there is a prime p with n^7 < p < (n+1)^7, given also Kadiri, Lumley and Ng's explicit zero-density estimate; an eighth-power version on the same route is its audited predecessor | k = 9 from the input alone (hunt #126, next row); k = 86 for every n, unconditional (Lee, arXiv:2602.14340, 2026); already known for every n under full RH ([Chamberland-Straub](https://arxiv.org/abs/2602.22502)) | written conditional candidate, given the input and the density estimate; every numerical step enclosure-carrying; independent written audit by a separate agent context passed; reviewed by no person; not formalized | [October 8 extensions](../hunts/oct08_extensions/RESULTS.md) |
-| Primes between ninth powers | For every integer n >= 1 there is a prime p with n^9 < p < (n+1)^9 | k = 86 for every n, unconditional (Lee, arXiv:2602.14340, 2026) | proved, given the input; every numerical step enclosure-carrying; unreviewed | [hunt #126](../hunts/qrh_prime_powers/RESULTS.md) |
-| Small witnesses | For every nonprincipal Dirichlet character chi mod q >= 3, the least n with chi(n) not in {0, 1} is at most (log q)^8, so the least quadratic nonresidue mod p is at most (log p)^8; every odd composite n has a Miller-Rabin witness at most (0.7 log n)^8 | OpenAI: least quadratic nonresidue at most C (log p)^32, with C not stated | proved, given the input; enclosure-carrying; unreviewed | [hunt #125](../hunts/qrh_nonresidue/RESULTS.md) |
-| Linnik's constant | The least prime congruent to a mod q, for (a, q) = 1, is at most C(eps) q^(7/3 + eps), with C(eps) effective | L = 5, unconditional (Xylouris 2011 and 2018) | proved, given the input and the Chen-Gupta-Li density estimate (arXiv:2507.08296, a preprint); 12/5 from refereed inputs alone; unreviewed | [hunt #123](../hunts/qrh_linnik/RESULTS.md) |
+| Class numbers up to 1500 | h(D) >= sqrt(q) / (10 pi log log q) for every negative fundamental discriminant D, with q = -D; hence the complete list of imaginary quadratic fields of class number h, for every h <= 1500: 9,245,562 fields, the largest with q = 562,394,347 | Watkins (2004): h <= 100 unconditionally. [Cremona-Sutherland (2023), section 5](https://arxiv.org/html/2301.11169v4#S5): all h <= 1000, including even h, under GRH. [Garcia-Grenie-Lee-Molteni (arXiv:2610.14257, 9 October 2026)](https://arxiv.org/abs/2610.14257): all h <= 2000 under GRH; their h <= 1500 row equals this count and largest q exactly (amended 2026-11-21, note below). OpenAI: the same shape of bound, constant not computed | proved, given the input; constants enclosure-carrying; lists by exact computation; unreviewed | [hunt #124](../hunts/qrh_class_number/RESULTS.md) |
+| Primes between seventh powers | For every integer n >= 1 there is a prime p with n^7 < p < (n+1)^7, given also Kadiri, Lumley and Ng's explicit zero-density estimate; an eighth-power version on the same route is its audited predecessor | k = 9 from the input alone (hunt #126, next row); k = 86 for every n, unconditional (Lee, arXiv:2602.14340, 2026); already known for every n under full RH, at k = 3 since Caldwell-Cheng (2005, as cited by Chamberland-Straub) and at exponent 2.25 since [Chamberland-Straub](https://arxiv.org/abs/2602.22502) (2026, Theorem 1.2(a)) | written conditional candidate, given the input and the density estimate; every numerical step enclosure-carrying; independent written audit by a separate agent context passed; reviewed by no person; not formalized | [October 8 extensions](../hunts/oct08_extensions/RESULTS.md) |
+| Primes between ninth powers | For every integer n >= 1 there is a prime p with n^9 < p < (n+1)^9 | k = 86 for every n, unconditional (Lee, arXiv:2602.14340, 2026); under RH, k = 3 for every n (Caldwell-Cheng, 2005, as cited by Chamberland-Straub) and exponent 2.25 for every n ([Chamberland-Straub](https://arxiv.org/abs/2602.22502), 2026, Theorem 1.2(a)) | proved, given the input; every numerical step enclosure-carrying; unreviewed | [hunt #126](../hunts/qrh_prime_powers/RESULTS.md) |
+| Small witnesses | For every nonprincipal Dirichlet character chi mod q >= 3, the least n with chi(n) not in {0, 1} is at most (log q)^8, so the least quadratic nonresidue mod p is at most (log p)^8; every odd composite n has a Miller-Rabin witness at most (0.7 log n)^8 | OpenAI: least quadratic nonresidue at most C (log p)^32, with C not stated. Under GRH: below (log p)^2 for prime p >= 5 (Lamzouri-Li-Soundararajan, Cor. 1.1); for the general statement, with n coprime to q, below 3 (log q)^2 (Bach, 1990, as cited by Lamzouri-Li-Soundararajan) | proved, given the input; enclosure-carrying; unreviewed | [hunt #125](../hunts/qrh_nonresidue/RESULTS.md) |
+| Linnik's constant | The least prime congruent to a mod q, for (a, q) = 1, is at most C(eps) q^(7/3 + eps), with C(eps) effective | L = 5, unconditional (Xylouris 2011 and 2018). Under GRH: the least prime is at most (phi(q) log q)^2 for q > 3 (Lamzouri-Li-Soundararajan, Cor. 1.2) | proved, given the input and the Chen-Gupta-Li density estimate (arXiv:2507.08296, a preprint); 12/5 from refereed inputs alone; unreviewed | [hunt #123](../hunts/qrh_linnik/RESULTS.md) |
+
+*Corrected 2026-11-21* (source: corrections C1 and C2 of the
+[regrade board](reviews/2026-11-20-rh-claim-regrade-board.md), with the
+literature read in its
+[notes](reviews/2026-11-20-rh-claim-literature-notes.md)): the class-number
+cell stopped at Cremona-Sutherland; the h <= 2000 list of Garcia, Grenie, Lee
+and Molteni is added, with the exact agreement recorded in the class-number
+section below. The ninth-power, small-witness and Linnik cells gave only the
+unconditional or OpenAI comparator; each now also names the RH or GRH bound.
+The seventh-power cell credited the all-n statement under RH to
+Chamberland-Straub alone; their own text credits the cube case to Caldwell and
+Cheng (2005), whose paper this laboratory has not read. No grade and no
+number of this laboratory's changed.
 
 ## Why a half-plane is worth so much
 
@@ -95,6 +120,20 @@ weaker 7/8 zero-free hypothesis in place of GRH and the computed extension
 from h <= 1000 to h <= 1500, with completeness conditional on that input and
 the written analytic argument. Extending that cited table is not a claim of
 global priority for the range above 1000.
+
+*Corrected 2026-11-21* (source: correction C1 of the
+[regrade board](reviews/2026-11-20-rh-claim-regrade-board.md)): the second
+half of that distinction no longer holds. Garcia, Grenie, Lee and Molteni
+([arXiv:2610.14257](https://arxiv.org/abs/2610.14257)), posted on 9 October
+2026, one day after this result, give the complete list of imaginary quadratic
+fields for every h <= 2000 under GRH, with data. This laboratory's h <= 1500
+count and largest discriminant equal their Table 1 row for h0 = 1500 exactly:
+9,245,562 fields, the largest with q = 562,394,347. The two were reached from
+a different hypothesis (the 7/8 half-plane here, GRH there), a different lower
+bound for h(D) and different software (an exact reduced-form sieve here,
+PARI/GP there), so the agreement is an independent check of both tables on
+those two numbers. What remains this laboratory's own for this result is the
+weaker 7/8 hypothesis, not the range. Whether the range is also its own is open (regrade board row D02): if the published list below its cutoff came from a GRH-conditional PARI routine, then, given the Alpoge theorem, this laboratory's h <= 1500 list is the part of the range that is unconditional.
 
 The mechanism is Littlewood's and was run under a 3/4 hypothesis by Friedlander
 and Iwaniec without constants; the explicit constant 1/(10 pi), cutoff table

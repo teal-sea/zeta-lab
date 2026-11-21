@@ -54,6 +54,18 @@ an exponent on `x`. Three cautions people get wrong:
   and `|pi(x) - li(x)| < sqrt(x) log(x) / (8 pi)` for `x >= 2657`. I am confident in the shape and the
   constant `1/(8 pi)`; check the thresholds against the paper before quoting them. (Sanity check at
   `x = 10^6`: the `pi` bound gives about 550, and the actual `li(10^6) - pi(10^6)` is about 130.)
+  *Corrected 2026-11-21 (regrade board, correction C4,
+  `docs/reviews/2026-11-20-rh-claim-regrade-board.md`):* Schoenfeld's paper was not readable when
+  this was checked, and the `psi` threshold is printed as `73.2` as cited by Wikipedia's "Riemann
+  hypothesis" page and as `59` as cited by Platt and Trudgian (arXiv:2004.09765). The lab computed
+  `psi(x)` exactly on `[50, 200]` (a sieve, `log p` summed in mpmath at 40 digits, cross-checked
+  against `zeta.explicit.psi_true`): the inequality `|psi(x) - x| < sqrt(x) log^2(x) / (8 pi)` holds
+  for every `x` in `[59, 200]` and fails on `(58.4938556548..., 59)`, just below `59`. Both printed
+  thresholds are therefore consistent with this range, `59` is the smallest that works on it, and
+  together with the theorem from `73.2` on (as cited) the bound holds for every `x >= 59` under RH.
+  Above `200` the statement is the cited theorem (under RH), not this computation, and this grade is
+  *measured*: fixed precision, not enclosures. Pinned by
+  `tests/test_criteria.py::test_schoenfeld_psi_threshold_on_50_to_200`.
 - RH is **not** equivalent to `pi(x) < li(x)`. That statement is **FALSE**: Littlewood (1914) proved
   the difference changes sign infinitely often, despite being negative for every `x` ever computed.
   See `docs/08-why-it-is-hard.md` §3.3.

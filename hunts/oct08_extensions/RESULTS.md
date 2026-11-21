@@ -42,6 +42,13 @@ The explicit D=-39 omission example defeats that interpretation. The source
 leaf and independent audit of this auxiliary route remain open; no H1500 gain
 is established. Cremona-Sutherland's earlier GRH table through h1000, including
 even class numbers, is acknowledged.
+*Corrected 2026-11-21* (correction C1 of
+`docs/reviews/2026-11-20-rh-claim-regrade-board.md`): the acknowledgement
+covered the 2023 table only. Garcia, Grenie, Lee and Molteni
+(arXiv:2610.14257, posted 9 October 2026) give the complete GRH list for
+every h <= 2000, so an H1500 gain from this route would not extend the
+published range either; hunt #124's h <= 1500 count and largest discriminant
+equal their Table 1 row exactly (9,245,562 fields, 562,394,347).
 
 No accepted new primality algorithm resulted. The external model response had
 concrete errors; routes/algorithm/RESULTS.md and falsify.py preserve their

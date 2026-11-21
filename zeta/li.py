@@ -1339,6 +1339,15 @@ def hyperbolicity_scan(
     **Pólya's criterion is an equivalence**, so a single ``False`` here would
     *refute* RH.  Correspondingly, an all-``True`` table means only "no
     violation found in this range", never support for RH (``docs/08``).
+    (Corrected 2026-11-21, regrade board correction C5,
+    ``docs/reviews/2026-11-20-rh-claim-regrade-board.md``: true as logic about
+    the criterion, misleading at the point of use.  On the range this function
+    can reach, hyperbolicity is already an unconditional published theorem
+    (Griffin-Ono-Rolen-Thorner-Tripp-Wagner, Theorem 1.2 with Platt's
+    height, as recorded in the module
+    docstring, "no (d, n) this module can reach is unresolved").  So a
+    ``False`` row here would be a defect in the code or the precision, not a
+    refutation of RH, which would also have to contradict that theorem.)
     Measured on this machine at ``dps=30``: every (d, n) with 1 ≤ d ≤ 16 and
     0 ≤ n ≤ 25 (416 rows, ~41 s) is hyperbolic, with relative max |Im root| ≤
     3.722e-104 and smallest relative root gap 0.04316, the roots come out real

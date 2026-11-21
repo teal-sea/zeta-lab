@@ -207,17 +207,30 @@ Used by the four hunts that build on it (`docs/39`), each cited where it is used
 - **M. Watkins**, "Class numbers of imaginary quadratic fields", Math. Comp. 73
   (2004): complete lists for h <= 100, unconditional. **S. Holmin, N. Jones,
   P. Kurlberg, C. McLeman, K. Petersen**, arXiv:1510.04387: complete lists for
-  odd h < 10^6 under GRH. **J. Friedlander, H. Iwaniec**, arXiv:1701.03771,
+  odd h < 10^6 under GRH (*corrected 2026-11-21*: as far as the text read on
+  2026-11-20 says, they tabulate the counts F(h) for odd h < 10^6 and publish
+  full lists only for noncyclic p-groups, so "complete lists" may overstate
+  what they publish; regrade board, correction C1). **J. Friedlander, H. Iwaniec**, arXiv:1701.03771,
   Theorem 3: Littlewood's argument under a 3/4 hypothesis. **Y. Lamzouri, X. Li,
   K. Soundararajan**, Math. Comp. 84 (2015): the explicit GRH form. *For: hunt
   #124.*
+- **J. E. Cremona, A. V. Sutherland**, "Computing the endomorphism ring of an
+  elliptic curve over a number field", arXiv:2301.11169v4 (2023), section 5:
+  under GRH (Languasco-Trudgian's bound for the cutoff, Mosunov-Jacobson's
+  unconditional class numbers below it), every discriminant with h <= 1000,
+  even and odd: 4,115,897 fundamental discriminants, largest |D| =
+  227,932,027; data in the EndECNF repository. *For: hunt #124, the GRH
+  comparator for h <= 1000 (added to this block 2026-11-21, regrade board
+  correction C1).*
 - **S. R. Garcia, L. Grenie, E. S. Lee, G. Molteni**, "Bounds for the residue of
   Dedekind zeta functions under GRH and applications", arXiv:2610.14257 (9
   October 2026): explicit GRH bounds for the residue, and the complete list of
   imaginary quadratic fields with class number at most 2000 under GRH, with
   data (Table 1: 9,245,562 fields for h <= 1500, 16,453,493 for h <= 2000).
   Posted one day after hunt #124 and not cited there: its h <= 1500 count
-  equals hunt #124's. *The published frontier for hunt #163; a comparator
+  equals hunt #124's. (*Updated 2026-11-21*: the largest discriminant,
+  562,394,347, equals hunt #124's too; hunt #124, docs/39, docs/45 and the
+  README now cite it, regrade board correction C1.) *The published frontier for hunt #163; a comparator
   owed to hunt #124 (see `docs/49` section 9).*
 - **A. Languasco, T. Trudgian**, arXiv:2011.08348, J. Number Theory 236 (2022):
   the Lamzouri-Li-Soundararajan bounds for L(1, chi) under GRH made valid for

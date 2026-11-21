@@ -11,6 +11,12 @@ gives (stalled cover cells, 1 to 2% for about 400 < h <= 2760); a stronger
 classical route at abscissa 1/2 exists in float (the first door) and is not
 adopted.
 
+*Updated 2026-11-21*: the hypothesis is contained in the Alpoge theorem (through the routine bridge from chi_D to Mathlib's L-function, not yet written here),
+verified outside this laboratory that day; the result is now stated as
+proved, given the Alpoge theorem, and stays a candidate pending external
+review. See the update at the top of RESULTS.md. The mission text below is
+kept as written.
+
 ## Question and scope
 
 On 2026-11-20 Levent Alpoge posted a claimed Lean proof of RH and of GRH for

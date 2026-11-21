@@ -1,5 +1,18 @@
 # 22. Computational alarm systems for the Riemann Hypothesis
 
+> **Correction notice, 2026-11-21** (regrade board, correction C4,
+> `docs/reviews/2026-11-20-rh-claim-regrade-board.md`). This is an early page, written before
+> the lab's grade discipline: it has no grade line, and its closing status line is not a grade.
+> Read it as a record of what was written then; the page below is left unchanged. Two of its
+> statements are superseded or unchecked. (1) Its Li finding, that lambda_n for the
+> Davenport-Heilbronn function stays positive "for tens of thousands of terms", is superseded by
+> hunt #151 (`hunts/README.md`, `li_dh_onset_hardened/`): lambda_n(DH) > 0 for every
+> 1 <= n < 328997 and lambda_328997(DH) < 0, graded hardened there. (2) Its Mertens sentence, that
+> violations for zeta "occur at astronomically large bounds" above a stated power tower, does not
+> say what `zeta/criteria.py` says (the disproof is non-constructive, "no explicit counterexample is
+> known and the bounds on the first one are astronomical"), and the page's figure has not been
+> checked at its source.
+
 ## Stress-testing equivalences against the Davenport-Heilbronn imposter
 
 **Abstract**

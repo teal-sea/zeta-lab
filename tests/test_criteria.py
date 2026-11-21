@@ -1326,3 +1326,61 @@ def test_no_absolute_user_paths_in_committed_artefacts():
         text = path.read_text(encoding="utf-8")
         for needle in needles:
             assert needle not in text, f"{path.name} carries an absolute path"
+
+
+def test_schoenfeld_psi_threshold_on_50_to_200():
+    """docs/07 section 1: the psi threshold of Schoenfeld's RH bound, on [50, 200].
+
+    Pins the number docs/07 prints (added 2026-11-21, regrade board C4).  The
+    inequality |psi(x) - x| < sqrt(x) log^2 x / (8 pi) is checked against an
+    exact psi (a sieve, log p summed in mpmath at dps = 40).  Between two jumps
+    psi is constant, and the bound's slope stays below 0.09 on [50, 200], so
+    the margin f(x) - |psi(x) - x| is smallest at a jump or at the left limit
+    of one: checking both at every prime power covers the whole interval.
+
+    Result: the inequality holds on all of [59, 200] and fails on
+    (58.4938556548..., 59).  Above 200 the statement is the cited theorem
+    under RH, not this computation.  Measured grade: mpmath at fixed
+    precision with margins far above rounding, not enclosures.
+    """
+    from mpmath import diff, findroot, log, mpf, pi, sqrt
+
+    from zeta.explicit import psi_true
+
+    with mp.workdps(40):
+        jumps = {}
+        for p in sympy.primerange(2, 201):
+            q = p
+            while q <= 200:
+                jumps[q] = log(mpf(p))
+                q *= p
+        points = sorted(jumps)
+
+        def psi(x):
+            return sum((v for k, v in jumps.items() if k <= x), mpf(0))
+
+        def bound(x):
+            return sqrt(x) * log(x) ** 2 / (8 * pi)
+
+        # the slope premise of the endpoint argument
+        assert max(diff(bound, mpf(50) + i) for i in range(151)) < mpf("0.09")
+        # a second route for psi itself
+        for n in range(50, 201):
+            assert abs(float(psi(n)) - psi_true(n)) < 1e-9
+
+        def margin(x, value):
+            return bound(x) - abs(value - x)
+
+        tiny = mpf(10) ** -30
+        checks = [mpf(59), mpf(200)] + [mpf(k) for k in points if 59 <= k <= 200]
+        worst = min(margin(x, psi(x)) for x in checks)
+        worst_left = min(margin(x, psi(x - tiny)) for x in checks if x > 59)
+        assert worst > 0 and worst_left > 0
+        assert worst_left < 1  # the margin is real but not slack: 0.67 near 97
+
+        # fails just below 59, and the failure interval starts at 58.49385565...
+        c = psi(mpf(53))
+        assert margin(mpf("58.9"), c) < 0
+        start = findroot(lambda x: (x - c) - bound(x), mpf(57))
+        assert abs(start - mpf("58.4938556548")) < mpf("1e-9")
+        assert margin(start - mpf("0.01"), c) > 0

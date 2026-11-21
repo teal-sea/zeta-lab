@@ -199,6 +199,9 @@ Platt–Trudgian's verification of RH up to height `3 x 10^12` back into the sam
 current record `Lambda <= 0.2` (D. J. Platt, T. S. Trudgian, *The Riemann hypothesis is true up to
 3·10^12*, Bull. Lond. Math. Soc. 53 (2021)). The full bound history, with citations checked against
 the primary sources, is catalogued in code as `zeta.heatflow.lambda_facts()`.
+(*Corrected 2026-11-21, regrade board C3:* that check was of citations, not of the chain behind
+them, and predates hunt #147, whose reading found the hypothesis behind `0.2` evaluated at one
+parameter point only; see the dated note under "What is proved" in section 6.)
 
 From below, before Rodgers–Tao, the record bounds came from "Lehmer pairs" of unusually close zeros,
 a chain of improvements through the 1990s (the Csordas–Smith–Varga Lehmer-pair criterion, Constr.
@@ -338,6 +341,21 @@ This is a research frontier and a genuine reformulation. It is **not** a road to
 worth being blunt about why.
 
 - **What is proved:** `0 <= Lambda <= 0.2`, and RH `<=>` `Lambda = 0`.
+  *Corrected 2026-11-21 (regrade board, correction C3,
+  `docs/reviews/2026-11-20-rh-claim-regrade-board.md`):* the upper bound `0.2` is a published
+  theorem, but this laboratory's own reading of its chain (hunt #147, `hunts/dbn_pt_height/`, entry
+  in `hunts/README.md`) found the hypothesis behind it, the asymptotic-region hypothesis of
+  Polymath15's Table 1 row 2 that Platt and Trudgian use, evaluated at one parameter point only
+  (`N = N0`, `y = y0`) in every source it read (the one full sweep it found reported is an unpublished
+  2024 blog comment by a reader outside the project, with no stated precision or y-range). Its disposition: "a gap in the published chain,
+  attempt unresolved, not a refutation". Separately, the Lean archive posted on 2026-11-20 was
+  verified outside this laboratory on 2026-11-21 (the joint statement of the Lean and Mathlib
+  communities, and A. Sutherland's verification page; see
+  `docs/49-the-riemann-claim-day-one.md`). That outside-verified theorem gives RH, hence
+  `Lambda <= 0` by the corollary above, hence with Rodgers and Tao's `Lambda >= 0` the value
+  `Lambda = 0`, which bypasses the `0.2` chain altogether. This follows from the outside theorem;
+  this laboratory has not replayed it (its own replay, hunt #159, had no verdict when this note was
+  written). The paragraphs of this section below are left as written before that date.
 - **What is needed:** to prove RH you must push the upper bound all the way down to `0`. Every existing
   upper-bound technique, de Bruijn's, Polymath15's, works by *effective numerics plus explicit error
   control*: verify enough zeros, bound the tail, conclude no collision can have happened by time `t`.
