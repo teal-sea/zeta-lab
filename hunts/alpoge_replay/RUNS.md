@@ -1408,7 +1408,7 @@ chain does not restart by itself after a cancelled round. It is to be
 dispatched again by hand from check state 14713298174, with the swap, the
 small windows, the further cleanup and a plain directory for any shard.
 
-### The lost runners are not a module, 2026-11-21 22:45Z
+### The lost runners are not a module, 2026-11-21 22:38Z
 
 Since check round 8 a replay shard has ended six times with its runner gone
 and no log: one of four in rounds 8, 9 and 12, three of twelve in round 13,
