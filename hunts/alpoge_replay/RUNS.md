@@ -144,6 +144,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 9 | 44846358339, remerged by 44856817210 | 02:36 | 13,890 | 110,463 | 63.05 | 0 | 0 | 0 | 11.02 | eleven of twelve shards; see the incident below; state artifact 14687303640 |
 | 10 | 44856849272 | 04:09 | 6,971 | 117,434 | 67.03 | 0 | 0 | 0 | 15.82 | 11,909 planned; only eight of twelve shards reported, see the second incident; state artifact 14691128227 |
 | 11 | 44864672470 | 05:44 | 9,886 | 127,320 | 72.68 | 0 | 0 | 0 | 14.80 | 16,828 planned; eleven of twelve shards reported, shard 10's runner was lost mid-build; the last round on four compiles and swap; state artifact 14694700878 |
+| 12 | 44872248926 | 07:21 | 10,926 | 138,246 | 78.91 | 0 | 0 | 0 | 7.71 | 17,472 planned at the old sizing; all twelve shards reported; the first round at two compiles and the first with a watchdog, which killed nothing; state artifact 14697715651 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -271,6 +272,26 @@ buildable in a round when its whole unbuilt closure fits one shard, with
 twelve shards' capacity and shared prerequisites built for free; it is what a
 planner that built shared prerequisites twice could approach.
 
+**Correction, 07:25Z, with all twelve shards of round 12 in.** The table
+above takes a runner's capacity as proportional to the compiles it runs at
+once. Round 12 says it is not. Every shard spent 96 to 99 percent of its two
+workers' time inside lean, so nothing waits on Lake; a module took 7.7 s on
+average, against 14.8 s in round 11 and 15.8 s in round 10 at four at once;
+and a shard-hour built 910 modules at two compiles against 899 (round 11)
+and 871 (round 10) at four. Four at once made every module take twice as
+long and built no more. That is what four hardware threads on two cores
+would do; the core count has not been read from the machine yet, the next
+round's logs record it. Four at once was all cost: the same throughput, and
+one to four runners lost per round.
+
+Re-simulated from the state after round 12 (36,941 modules left, 82
+worker-hours at round 12's rate of 0.71 s per KB plus 4 s, a runner counted
+as two workers, 25 minutes of overhead per round): six rounds and 7.9 hours
+at twelve shards of 60 minutes; six rounds and 7.5 hours with the filling
+pass, the last of them five modules; five rounds and 6.1 hours if a third
+compile adds a quarter. The last three rounds hold under 4,000 modules
+between them: the tail is the shape of the graph, not capacity.
+
 **Changed for round 13**, in order of commit:
 
 - `2fea1e67` watchdog version two: under 2.5 GB available it suspends every
@@ -287,6 +308,19 @@ planner that built shared prerequisites twice could approach.
 - `e8582bc4`, `1a6142dd`, `956d215a` the restore unpacks three chunks at a
   time and, of each chunk, only the modules the shard imports; the verdict
   job restores through the same script.
+- `585591e0` the filling pass (`fill_idle`, input `fill`): an idle shard
+  also builds a module whose unbuilt imports another shard owns, building
+  those imports a second time; the merge compares the `.olean` bytes of
+  everything built twice.
+- `19c443f1` each round's state carries the watchdog's summary: least
+  available memory, major faults, suspensions, kills, and the modules that
+  held the most.
+
+Round 13 was dispatched by the chain at 07:21:06Z with the old settings (run
+44879843072), cancelled by hand thirty seconds later, and dispatched again
+as run 44879877336: three compiles at once, the filling pass on. Three is
+an experiment with a bounded cost, one round: if a third compile adds
+nothing, or a runner is lost, the chain goes back to two.
 
 ## Second pass: kernel replay
 

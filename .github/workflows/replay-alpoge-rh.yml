@@ -243,6 +243,8 @@ jobs:
             echo "zeta-lab commit: $GITHUB_SHA"
             echo "epoch $EPOCH round $ROUND shard $SHARD build_minutes $BUILD_MINUTES"
             echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+            # how many of those are cores and how many are threads of a core
+            lscpu | grep -E '^(Model name|Thread\(s\) per core|Core\(s\) per socket|Socket\(s\)|CPU\(s\)):' | sed 's/  */ /g' || true
           } | tee "$OUT/evidence/run.txt"
           # The cleanup took 96 to 135 s in the pilot, so it runs behind the
           # setup steps; it is done long before the disk is needed.
