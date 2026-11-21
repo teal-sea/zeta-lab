@@ -148,6 +148,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 13 | 44879877336 | 08:54 | 5,170 | 143,416 | 81.86 | 0 | 0 | 0 | 22.30 | three compiles at once: half of round 12's output, see the judgement below; all twelve shards reported, the watchdog suspended and killed nothing; 2 modules built twice, same bytes; state artifact 14699969555 |
 | 14 | 44887113440 | 10:08 | 7,071 | 150,487 | 85.90 | 0 | 0 | 0 | 8.12 | two compiles, outputs in a plain directory; eleven of twelve shards reported, shard 2 was lost to a race in the new restore; 7,239 planned and 7,071 built, see the note below; state artifact 14702344189 |
 | 15 | 44892897103 | 11:16 | 3,435 | 153,922 | 87.86 | 0 | 0 | 0 | 7.78 | one compile per runner, by a rule since removed, see below; all twelve shards reported; 3,463 planned; no suspension, no kill, largest module 5.1 GB; state artifact 14704557927 |
+| 16 | 44899651298 | 12:52 | 6,300 | 160,222 | 91.46 | 0 | 0 | 0 | 9.80 | two compiles; 12,746 planned and every shard stopped by its deadline; 1,281 modules built by two shards, every pair identical; 255 of the built modules stand on 72 that no chunk holds, see below, so 159,967 are usable (91.31 percent); state artifact 14707902742 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -451,6 +452,47 @@ rule: about one round. **Forecast after round 15:** 21,265 modules left, 49
 worker-hours at round 14's rate; four rounds by simulation, `Main` built
 around 16:15Z to 16:35Z.
 
+### Round 16, 2026-11-21 12:52Z: elaboration is reproducible across runners; and the filling pass broke the state
+
+**The measurement.** Round 16 was the first in which the filling pass did
+real work. 1,281 modules were elaborated twice, on two different runners,
+from the same sources against separately restored imports. The merge
+compared the two `.olean` files of each: all 1,281 pairs are identical byte
+for byte (sha256), none differ. With round 13's two, 1,283 of 1,283. This
+is a measurement of reproducibility for those modules on this toolchain and
+these runners; it is not a second kernel and says nothing of the other
+173,904.
+
+**The fault.** Round 17's plan then refused to run ("plan is not closed"),
+and the chain stood still from 12:53Z to 12:59Z. A shard that took a module
+through the filling pass built that module's unbuilt prerequisites too, as
+extras, but packed only the modules it owned. Where the owner of an extra
+ran out of its hour before reaching it, the extra was kept by nobody, and
+whatever the other shard had built on top of it was recorded as built with
+nothing under it: 255 modules standing on 72. The check that caught it is
+the one planted for exactly this (`built_closure`); it did its job one
+round late, because the planner trusted the state's list of built modules
+without asking whether each could be loaded.
+
+Fixed in `9afac704`. A shard now keeps everything it builds. Both planners
+count a module as built only if everything under it is built
+(`replay_plan.usable`): the 255 are planned again with what they stand on,
+and a state that is not closed can no longer stop a plan. Round 17 was
+dispatched by hand at 12:59Z from the same state.
+
+**The cost.** The filling pass was meant for idle shards. Round 16 was
+planned forty percent over, so by the planner's arithmetic every shard was
+idle, and the pass gave them extras: 2,068 of the round's 8,368 compiles
+built something a second time, while every shard ran out of its hour. The
+pass now fills a shard only up to what it can really do. Round 16 built
+6,300 new modules where a round without the pass would have built about
+8,000.
+
+**Forecast after round 16:** 15,220 modules left, 35 worker-hours at round
+14's rate. Four rounds by simulation, 4.2 to 4.5 hours: `Main` built around
+17:10Z to 17:30Z. The window given at 09:07Z ended at 16:20Z; the hour was
+lost to the three faults of rounds 14 to 16, all in code written today.
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
@@ -556,6 +598,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 5 | 44863171205 | 06:40 | 7,886 | 77,998 | 44.52 | 0 | 0 | 5.50 | against build state 14687303640; two of four shards reported, see the third incident; check state 14696455861 |
 | 6 | 44876650580 | 08:38 | 16,601 | 94,599 | 54.00 | 0 | 0 | 4.80 | against build state 14694700878; 18,040 planned, one shard stopped by its deadline; all four shards reported and the watchdog (version one) killed nothing; check state 14700320734 |
 | 7 | 44887964847 | 10:53 | 16,577 | 111,176 | 63.46 | 0 | 0 | 4.59 | against build state 14699969555; the fixed driver, outputs in a plain directory; 18,032 planned, one shard stopped by its deadline; all four shards reported, nothing killed; check state 14704356588 |
+| 8 | 44896453130 | 12:43 | 9,472 | 120,648 | 68.87 | 0 | 0 | 7.59 | against build state 14702344189; three of four shards reported, shard 0's runner was lost and left no log; 13,611 planned on the three, all stopped by the deadline; the chain lowered itself to two processes per runner for round 9; check state 14707134382 |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
