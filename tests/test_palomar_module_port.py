@@ -34,6 +34,15 @@ QRH_LEGACY_FILES = {
 }
 
 
+# A front end to lean4lean, a third-party type checker whose own files are not
+# modules. A `module` may not import one ("cannot import non-`module` ... from
+# `module`"), so this file cannot carry the header; it is compiled only on a
+# hosted runner, against lean4lean (hunts/alpoge_replay/RUNS.md).
+NON_MODULE_FRONT_ENDS = {
+    'hunts/alpoge_replay/L4LDriver.lean',
+}
+
+
 def test_all_submitted_lean_files_have_module_headers_and_fit_the_line_cap():
     files = subprocess.check_output(
         ["git", "ls-files", "-z", "*.lean"], cwd=ROOT,
@@ -41,6 +50,7 @@ def test_all_submitted_lean_files_have_module_headers_and_fit_the_line_cap():
     files = [name for name in files if name]
     assert len(files) >= 643
     assert QRH_LEGACY_FILES <= set(files)
+    assert NON_MODULE_FRONT_ENDS <= set(files), "an exception for a file that is gone"
     assert (ROOT / "lean/qrh/lean-toolchain").read_text().strip() == "leanprover/lean4:v4.34.1"
     for name in files:
         if "receipts" in Path(name).parts:
@@ -48,7 +58,7 @@ def test_all_submitted_lean_files_have_module_headers_and_fit_the_line_cap():
         path = ROOT / name
         assert not path.is_symlink(), name
         source = path.read_text()
-        if name not in QRH_LEGACY_FILES:
+        if name not in QRH_LEGACY_FILES | NON_MODULE_FRONT_ENDS:
             assert re.match(r"\A\s*(?:/-(?![!-]).*?-/\s*)*module(?:\s|$)", source, re.S), name
         assert len(source.rstrip("\n").split("\n")) <= 10000, name
 

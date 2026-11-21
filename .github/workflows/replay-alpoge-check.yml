@@ -17,8 +17,21 @@
 # kernel's message. A clean pass here says that the declarations in the
 # stored .olean files type-check, each against its imports. It is still one
 # kernel, and still says nothing about the mathematics.
+#
+# With checker=lean4lean the same plan, shards and records run a second
+# implementation of the checking logic in place of the C++ kernel:
+# hunts/alpoge_replay/L4LDriver.lean, compiled on the runner against
+# github.com/digama0/lean4lean at the commit pinned below. lean4lean is
+# derived from the C++ kernel and runs on the same runtime, so this is a
+# second route and not an independent one. Give that pass an epoch of its
+# own: its check states must not mix with the kernel's.
+#
+# Whichever checker replays, every shard first builds a three-module toy
+# package with a theorem that never met the kernel and requires its driver
+# to reject that module and only that one (replay_check.py selftest). A
+# shard whose checker cannot say no replays nothing.
 name: replay-alpoge-check
-run-name: alpoge check ${{ inputs.epoch || 'p1' }} c${{ inputs.round || '0' }} build-state ${{ inputs.state_id || 'latest' }} check-state ${{ inputs.check_state_id || 'none' }} (${{ inputs.shards || '1' }}x${{ inputs.check_minutes || '8' }}min)
+run-name: alpoge check ${{ inputs.checker == 'lean4lean' && 'lean4lean ' || '' }}${{ inputs.epoch || 'p1' }} c${{ inputs.round || '0' }} build-state ${{ inputs.state_id || 'latest' }} check-state ${{ inputs.check_state_id || 'none' }} (${{ inputs.shards || '1' }}x${{ inputs.check_minutes || '8' }}min)
 
 on:
   # Dispatch only. The commit that added this file (ab1874fb) carried a push
@@ -58,6 +71,10 @@ on:
         description: dispatch the next check round when this one is merged and modules are left
         type: boolean
         default: false
+      checker:
+        description: kernel (Lean's own, through ReplayDriver.lean) or lean4lean (the checker written in Lean, built on the runner); use an epoch of its own for lean4lean
+        type: string
+        default: kernel
 
 permissions:
   contents: read
@@ -86,6 +103,11 @@ env:
   # (io_tune.sh; measured by the probe job, RUNS.md): "" for off, or "all".
   IO_TUNE: "all"
   CHAIN: ${{ inputs.chain || 'false' }}
+  CHECKER: ${{ inputs.checker || 'kernel' }}
+  # lean4lean's master of 2026-10-10. Its own toolchain file says
+  # v4.33.0-rc2; it is built here with the archive's v4.33.1, which the
+  # .olean files require.
+  L4L_REV: 67f63b0c818920dfaed2ad07ccff187a6a8fe1e3
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -258,6 +280,41 @@ jobs:
           lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
 
+      # lean4lean is fetched and compiled here, where the archive is also
+      # built: nothing downloaded is built anywhere else. No token is in this
+      # step's environment.
+      - name: build the lean4lean driver
+        if: env.CHECKER == 'lean4lean'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/l4l" && cd "$RUNNER_TEMP/l4l"
+          cp "$LEAN_DIR/lean-toolchain" .
+          printf 'name = "l4ldriver"\n\n[[require]]\nname = "lean4lean"\ngit = "https://github.com/digama0/lean4lean"\nrev = "%s"\n\n[[lean_exe]]\nname = "l4ldriver"\nroot = "L4LDriver"\nsupportInterpreter = true\n' "$L4L_REV" > lakefile.toml
+          cp "$GITHUB_WORKSPACE/$HUNT/L4LDriver.lean" L4LDriver.lean
+          start=$(date +%s)
+          # lean4lean's own toolchain file names an older Lean; the driver
+          # must be built with the archive's, or it cannot read its .olean files
+          lake update --keep-toolchain 2>&1 | tail -6
+          lake build l4ldriver 2>&1 | tail -25
+          cmp lean-toolchain "$LEAN_DIR/lean-toolchain"
+          test -x .lake/build/bin/l4ldriver
+          test "$(git -C .lake/packages/lean4lean rev-parse HEAD)" = "$L4L_REV"
+          echo "checker: lean4lean at $L4L_REV, batteries at $(git -C .lake/packages/batteries rev-parse HEAD), driver built in $(( $(date +%s) - start )) s" | tee -a "$OUT/evidence/run.txt"
+
+      - name: the driver must reject the planted fault
+        run: |
+          set -euo pipefail
+          if [ "$CHECKER" = "lean4lean" ]; then
+            drv=(--driver-exe "$RUNNER_TEMP/l4l/.lake/build/bin/l4ldriver")
+          elif [ "$CHECKER" = "kernel" ]; then
+            drv=(--driver "$GITHUB_WORKSPACE/$HUNT/ReplayDriver.lean")
+            echo "checker: kernel, Lean's own, through ReplayDriver.lean" | tee -a "$OUT/evidence/run.txt"
+          else
+            echo "::error::unknown checker '$CHECKER'"; exit 1
+          fi
+          python3 "$HUNT/replay_check.py" selftest "${drv[@]}" --toolchain "$(cat "$LEAN_DIR/lean-toolchain")" \
+            --work "$RUNNER_TEMP/selftest" | tee -a "$OUT/evidence/run.txt"
+
       - name: restore the modules of this shard and everything they import
         env:
           GH_TOKEN: ${{ github.token }}
@@ -313,11 +370,16 @@ jobs:
           # kill one; the driver records the module that process was on as
           # "killed" (crowded out) or as a strike (killed alone), and after a
           # kill the chain runs the next round with fewer processes.
-          python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+          if [ "$CHECKER" = "lean4lean" ]; then
+            name=l4ldriver; drv=(--driver-exe "$RUNNER_TEMP/l4l/.lake/build/bin/l4ldriver")
+          else
+            name=lean; drv=(--driver "$HUNT/ReplayDriver.lean")
+          fi
+          python3 "$HUNT/mem_watchdog.py" --name "$name" --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
             --swap-floor-mb 1024 --root "$LEAN_DIR/src" --log "$OUT/evidence/mem.log" &
           watchdog=$!
           python3 "$HUNT/replay_check.py" run --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
-            --minutes "$CHECK_MINUTES" --procs "$PROCS" --driver "$HUNT/ReplayDriver.lean" \
+            --minutes "$CHECK_MINUTES" --procs "$PROCS" "${drv[@]}" \
             --kills "$OUT/evidence/mem.log.kills.tsv" \
             --out "$OUT/run" --done "$OUT/done/checkdone-c${ROUND}-s${SHARD}.json" | tee "$OUT/evidence/run.json"
           rc=${PIPESTATUS[0]}
@@ -446,4 +508,4 @@ jobs:
           gh workflow run replay-alpoge-check.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id=latest \
             -f check_state_id="$CHECK_STATE_ARTIFACT" -f shards="$SHARDS" \
-            -f check_minutes="$CHECK_MINUTES" -f procs="$PROCS" -f chain=true
+            -f check_minutes="$CHECK_MINUTES" -f procs="$PROCS" -f chain=true -f checker="$CHECKER"

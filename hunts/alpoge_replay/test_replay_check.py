@@ -10,6 +10,7 @@ where `lake` is absent.
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -116,17 +117,67 @@ def test_merge_counts_replays_failures_and_strikes(tmp_path: Path) -> None:
 # the planted fault
 # ---------------------------------------------------------------------------
 
-CHEAT = """import Lean
-open Lean Elab Tactic
+def test_the_driver_is_one_lean_file_or_one_program_never_both_or_neither() -> None:
+    assert rc.driver_command("/h/ReplayDriver.lean", None, "/o/list-0.txt") == [
+        "lake", "env", "lean", "--run", "/h/ReplayDriver.lean", "/o/list-0.txt"]
+    assert rc.driver_command(None, "/b/l4ldriver", "/o/list-0.txt") == ["lake", "env", "/b/l4ldriver", "/o/list-0.txt"]
+    for both_or_neither in (("/h/ReplayDriver.lean", "/b/l4ldriver"), (None, None), ("", "")):
+        with pytest.raises(SystemExit):
+            rc.driver_command(*both_or_neither, "/o/list-0.txt")
 
-/-- Close any goal with a term of the wrong type, without asking the elaborator. -/
-elab "cheat" : tactic => do
-  let g ← getMainGoal
-  g.assign (mkConst ``True.intro)
 
-set_option debug.skipKernelTC true in
-theorem bad : (1 : Nat) = 2 := by cheat
-"""
+def _stub_lake_and_driver(tmp_path: Path, monkeypatch, lines: list[str], code: int) -> str:
+    """A `lake` that builds nothing and runs what follows `env`, and a driver that prints `lines`."""
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    lake = bin_dir / "lake"
+    lake.write_text('#!/bin/sh\nif [ "$1" = build ]; then exit 0; fi\nshift\nexec "$@"\n')
+    lake.chmod(0o755)
+    driver = bin_dir / "driver"
+    body = "\n".join(f"printf '%s\\n' '{line}'" for line in lines)
+    driver.write_text(f"#!/bin/sh\n{body}\nexit {code}\n")
+    driver.chmod(0o755)
+    monkeypatch.setenv("PATH", f"{bin_dir}{os.pathsep}{os.environ['PATH']}")
+    return str(driver)
+
+
+def test_the_selftest_passes_only_a_driver_that_rejects_the_fault_and_nothing_else(tmp_path: Path, monkeypatch) -> None:
+    good = ["OK\tLib.Honest\t3\t100", "FAIL\tLib.Cheat\t4\t(kernel) declaration type mismatch", "OK\tLib.UsesCheat\t2\t100"]
+    cases = {
+        "rejects the fault and only it": (good, 1, True),
+        # a checker that checks nothing: the fault goes through
+        "accepts the fault": ([good[0], "OK\tLib.Cheat\t4\t100", good[2]], 0, False),
+        # one that rejects an honest module cannot be read
+        "rejects an honest module": (["FAIL\tLib.Honest\t3\tno", good[1], good[2]], 1, False),
+        # one that stops before the end said nothing about the rest
+        "says nothing about the last module": (good[:2], 1, False),
+        # the lines are right and the exit code says every module replayed
+        "exits 0 after a FAIL": (good, 0, False),
+        "prints nothing": ([], 139, False),
+    }
+    for n, (name, (lines, code, want)) in enumerate(cases.items()):
+        work = tmp_path / f"case{n}"
+        work.mkdir()
+        with monkeypatch.context() as m:
+            driver = _stub_lake_and_driver(work, m, lines, code)
+            got = rc.selftest(None, driver, "leanprover/lean4:v4.33.1", str(work / "w"))
+        assert got["passed"] is want, (name, got)
+    # the toy it writes is the three modules, the fault in the middle
+    assert (tmp_path / "case0" / "w" / "toy" / "src" / "Lib" / "Cheat.lean").read_text() == rc.CHEAT
+    assert list(rc.TOY) == ["Lib.Honest", "Lib.Cheat", "Lib.UsesCheat"]
+
+
+def test_a_toy_package_that_does_not_build_fails_the_selftest(tmp_path: Path, monkeypatch) -> None:
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    (bin_dir / "lake").write_text("#!/bin/sh\necho 'error: build failed'\nexit 1\n")
+    (bin_dir / "lake").chmod(0o755)
+    monkeypatch.setenv("PATH", f"{bin_dir}{os.pathsep}{os.environ['PATH']}")
+    got = rc.selftest("/h/ReplayDriver.lean", None, "leanprover/lean4:v4.33.1", str(tmp_path / "w"))
+    assert got["passed"] is False and got["build_rc"] == 1 and "build failed" in got["build_tail"]
+
+
+CHEAT = rc.CHEAT
 
 
 @pytest.mark.slow
@@ -159,6 +210,14 @@ def test_a_theorem_that_skipped_the_kernel_builds_clean_and_fails_the_replay(tmp
     assert lines == {"Lib.Honest": "OK", "Lib.Cheat": "FAIL", "Lib.UsesCheat": "OK"}, replay.stdout
     assert "declaration type mismatch" in replay.stdout
     assert replay.returncode == 1
+
+
+@pytest.mark.slow
+@pytest.mark.skipif(shutil.which("lake") is None, reason="needs a Lean toolchain on PATH")
+def test_the_selftest_the_workflow_runs_passes_with_the_kernel_driver(tmp_path: Path) -> None:
+    got = rc.selftest(str(HERE / "ReplayDriver.lean"), None, "leanprover/lean4:v4.33.1", str(tmp_path / "w"))
+    assert got["passed"] is True, got
+    assert got["verdicts"] == rc.TOY_EXPECTED and "declaration type mismatch" in got["messages"]["Lib.Cheat"]
 
 
 @pytest.mark.slow

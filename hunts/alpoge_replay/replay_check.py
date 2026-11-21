@@ -15,9 +15,15 @@ function `leanchecker` uses. It runs none of the archive's code. Modules have
 no order here, since every import already exists, so shards are cut by level
 in the import graph: the lowest need the fewest files restored.
 
-  plan    cut the built, unreplayed modules into shards
-  run     replay one shard under a deadline, several processes side by side
-  merge   fold the shard records into the check state
+  plan      cut the built, unreplayed modules into shards
+  run       replay one shard under a deadline, several processes side by side
+  merge     fold the shard records into the check state
+  selftest  build the toy package with the planted fault and require the
+            driver about to be used to reject it, on this machine
+
+The driver is `ReplayDriver.lean` under `lean --run` (`--driver`), or a
+compiled program with the same output (`--driver-exe`): `L4LDriver.lean`
+puts lean4lean's checker behind the same front end.
 """
 from __future__ import annotations
 
@@ -128,6 +134,96 @@ def cmd_plan(a) -> None:
 
 
 # --------------------------------------------------------------------------
+# the driver, and the fault it must reject
+# --------------------------------------------------------------------------
+
+#: A theorem that never met the kernel: the tactic assigns a term of the wrong
+#: type and `debug.skipKernelTC` lets the declaration through. `lake build`
+#: accepts it without a warning.
+CHEAT = """import Lean
+open Lean Elab Tactic
+
+/-- Close any goal with a term of the wrong type, without asking the elaborator. -/
+elab "cheat" : tactic => do
+  let g ← getMainGoal
+  g.assign (mkConst ``True.intro)
+
+set_option debug.skipKernelTC true in
+theorem bad : (1 : Nat) = 2 := by cheat
+"""
+
+#: module -> source of the toy package: one honest module, the fault, and a
+#: proof of `False` resting on it. Only the middle one may fail a replay.
+TOY = {
+    "Lib.Honest": "theorem honest : 1 + 1 = 2 := rfl\n",
+    "Lib.Cheat": CHEAT,
+    "Lib.UsesCheat": "import Lib.Cheat\ntheorem worse : False := absurd bad (by decide)\n",
+}
+TOY_EXPECTED = {"Lib.Honest": "OK", "Lib.Cheat": "FAIL", "Lib.UsesCheat": "OK"}
+
+
+def driver_command(driver: str | None, driver_exe: str | None, list_file: str) -> list[str]:
+    """The command that replays the modules named in `list_file`, run from a Lake package."""
+    if bool(driver) == bool(driver_exe):
+        raise SystemExit("give exactly one of --driver and --driver-exe")
+    if driver_exe:
+        return ["lake", "env", os.path.abspath(driver_exe), list_file]
+    return ["lake", "env", "lean", "--run", os.path.abspath(driver), list_file]
+
+
+def write_toy(pkg: str, toolchain: str) -> None:
+    os.makedirs(os.path.join(pkg, "src", "Lib"), exist_ok=True)
+    with open(os.path.join(pkg, "lean-toolchain"), "w", encoding="utf-8") as fh:
+        fh.write(toolchain.strip() + "\n")
+    with open(os.path.join(pkg, "lakefile.toml"), "w", encoding="utf-8") as fh:
+        fh.write('name = "toy"\nsrcDir = "src"\n\n[[lean_lib]]\nname = "Lib"\nglobs = ["Lib.+"]\n')
+    for module, source in TOY.items():
+        with open(os.path.join(pkg, "src", *module.split(".")) + ".lean", "w", encoding="utf-8") as fh:
+            fh.write(source)
+
+
+def selftest(driver: str | None, driver_exe: str | None, toolchain: str, work: str) -> dict:
+    """Build the toy package and replay it with the given driver.
+
+    Returns what happened; `passed` only if the build accepted all three
+    modules and the driver's verdicts are exactly `TOY_EXPECTED`. A driver that
+    accepts `Lib.Cheat` checks nothing, and one that rejects the others cannot
+    be read: neither may go on to replay the archive.
+    """
+    pkg = os.path.join(work, "toy")
+    write_toy(pkg, toolchain)
+    build = subprocess.run(["lake", "build", *TOY], cwd=pkg, capture_output=True, text=True)
+    names = os.path.abspath(os.path.join(work, "toy-list.txt"))
+    with open(names, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(TOY) + "\n")
+    out = {"build_rc": build.returncode, "verdicts": {}, "messages": {}, "driver_rc": None, "passed": False}
+    if build.returncode != 0:
+        out["build_tail"] = (build.stdout + build.stderr)[-800:]
+        return out
+    run = subprocess.run(driver_command(driver, driver_exe, names), cwd=pkg, capture_output=True, text=True,
+                         preexec_fn=_big_stack)
+    out["driver_rc"] = run.returncode
+    for line in run.stdout.splitlines():
+        parts = line.split("\t")
+        if len(parts) >= 3 and parts[0] in ("OK", "FAIL"):
+            out["verdicts"][parts[1]] = parts[0]
+            if parts[0] == "FAIL":
+                out["messages"][parts[1]] = (parts[3] if len(parts) > 3 else "")[:400]
+    if not out["verdicts"]:
+        out["driver_tail"] = (run.stdout + run.stderr)[-800:]
+    out["passed"] = out["verdicts"] == TOY_EXPECTED and run.returncode == 1
+    return out
+
+
+def cmd_selftest(a) -> None:
+    out = selftest(a.driver, a.driver_exe, a.toolchain, a.work)
+    print("selftest: " + json.dumps(out, ensure_ascii=False))
+    if not out["passed"]:
+        print("the driver did not reject the planted fault and only it; nothing may be replayed with it")
+        sys.exit(1)
+
+
+# --------------------------------------------------------------------------
 # run
 # --------------------------------------------------------------------------
 
@@ -213,7 +309,7 @@ def cmd_run(a) -> None:
             fh.write("\n".join(lst) + "\n")
         out = open(os.path.join(a.out, f"driver-{i}.out"), "wb")
         err = open(os.path.join(a.out, f"driver-{i}.err"), "wb")
-        p = subprocess.Popen(["lake", "env", "lean", "--run", os.path.abspath(a.driver), lf],
+        p = subprocess.Popen(driver_command(a.driver, a.driver_exe, lf),
                              cwd=a.lean_dir, stdout=out, stderr=err, start_new_session=True,
                              preexec_fn=_big_stack)
         procs.append((i, lst, p))
@@ -367,10 +463,17 @@ def main() -> None:
     s = sub.add_parser("run")
     s.add_argument("--lean-dir", required=True); s.add_argument("--shard", required=True)
     s.add_argument("--minutes", type=float, required=True); s.add_argument("--procs", type=int, default=4)
-    s.add_argument("--driver", required=True); s.add_argument("--out", required=True)
+    s.add_argument("--driver", help="a Lean file run with `lean --run`: ReplayDriver.lean")
+    s.add_argument("--driver-exe", help="a compiled driver with the same output, in place of --driver")
+    s.add_argument("--out", required=True)
     s.add_argument("--done", required=True)
     s.add_argument("--kills", help="mem_watchdog.py's kills table: crowded is no strike, alone is one")
     s.set_defaults(fn=cmd_run)
+    s = sub.add_parser("selftest")
+    s.add_argument("--driver"); s.add_argument("--driver-exe")
+    s.add_argument("--toolchain", required=True, help="the contents of the lean-toolchain file to build the toy with")
+    s.add_argument("--work", required=True, help="an empty directory to build the toy package in")
+    s.set_defaults(fn=cmd_selftest)
     s = sub.add_parser("merge")
     s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
     s.add_argument("--check-state"); s.add_argument("--done-dir", required=True)

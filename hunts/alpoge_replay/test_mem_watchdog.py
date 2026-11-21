@@ -87,6 +87,9 @@ def test_a_compile_is_named_by_its_source_path_and_a_replay_driver_by_its_list(t
     assert name_for([f"{root}/././Development/Foo/Bar.lean", "-o", "x.olean"]) == "Development.Foo.Bar"
     assert name_for(["./Main.lean"]) == "Main"
     assert name_for(["--run", "/somewhere/ReplayDriver.lean", "/tmp/out/list-3.txt"]) == "run:list-3.txt"
+    # a compiled driver has no `--run`: its list file alone names it
+    assert name_for(["/tmp/out/list-5.txt"]) == "run:list-5.txt"
+    assert name_for(["/tmp/out/notalist.txt"]) == "?"
     assert name_for(["--version"]) == "?"
 
 

@@ -1088,7 +1088,8 @@ kernel) and the like. None is a `debug` option.
 
 1. One kernel. Nothing here is a second implementation of the type
    checker, and a soundness bug in Lean 4.33.1's kernel would pass every
-   job above and the second pass too.
+   job above and the second pass too. What is known about that kernel is
+   set out under "Limit 1 in detail" below.
 2. The build was cut into shards and its outputs carried between runners
    as artifacts. 4,490 modules were built twice, on different runners, and
    every pair of outputs is identical. The second pass, which sends every
@@ -1109,6 +1110,62 @@ kernel) and the like. None is a `debug` option.
 
 Still running when this was written: the cone job of this run, started
 19:52:59Z, and after it the summary job with its guard.
+
+**Limit 1 in detail: the kernel of 4.33.1 (read 20:10Z to 20:16Z).** The
+sources are Lean's release notes for 4.33.0, 4.33.1, 4.34.0, 4.34.1, 4.35.0
+and 4.36.0 on lean-lang.org, Leonardo de Moura's "Postmortem for the Kernel
+Soundness Bug Hunt" of 2026-08-24, and the pages of lean4 pull requests
+14806, 14807 and 14843. They were read through a fetching agent, which
+returned the kernel sections verbatim and the rest as summaries; nothing
+below was checked against Lean's source.
+
+- In July and August 2026 a series of soundness bugs was found in Lean's
+  kernel and runtime, several of them by an AI model set to hunt for them.
+  The postmortem: "The OpenAI internal model managed to exploit all of them
+  to get the official kernel to accept a proof of `False`." So an
+  AI-written development that passes one kernel is not a hypothetical
+  risk. It is the case this limit is about.
+- 4.33.1, of 2026-08-21, is the release that closed that hunt. The
+  postmortem: "On August 21, we released Lean v4.33.1 with bug fixes for
+  all issues found during the kernel bug hunt." Its notes list pull
+  requests 14582, 14806, 14807, 14808, 14833, 14838, 14843, 14847 and
+  14849, and the fixes of 4.33.0 (14498, 14577, 14607, 14609, 14613, 14616
+  and the hardening after them) are below it. The archive's pin is this
+  release, and Mathlib's tag `v4.33.1` was cut for it the same day.
+- Every kernel item in the notes of 4.34.0 is already in 4.33.1. After
+  4.33.1 the notes list three more fixes that bear on proof checking, all
+  in the runtime and all in 4.34.1 of 2026-09-24: 15241, 15288 and 15289.
+  By those notes 15241 needs a machine "with at least 18GB free RAM",
+  15289 concerns "inputs north of 100GB", and 15288 concerns objects
+  shared between threads, which the kernel does not do in its default
+  configuration. The runners here have 15 GB of memory and about 3 GB of
+  swap, and the largest `lean` process the watchdog saw in the rounds of
+  the build it watched held 13.7 GB.
+  Runs that completed on these machines cannot have met the first two.
+  4.35.0 and 4.36.0 list no further soundness fix for the official kernel.
+- The same sources say what the standard second opinion is. The
+  postmortem: "The gold standard is `comparator` and external checkers
+  when you want to protect against a seriously malicious proof", and "`lake
+  build` does not protect users from adversarial proofs that try, for
+  example, to corrupt memory using Lean extensions." From 4.35.0 Lean
+  ships `lake check --paranoid`, which exports a project and replays the
+  export through Lean's kernel and four external checkers (lean4lean,
+  nanoda, con-leche, con-ron). None of that exists for 4.33.1 as a
+  command, and none of it has been run on this archive here. An export of
+  the cone of five theorems over 175,187 modules, held in the memory of one
+  checker, is not a job for a 15 GB runner; its size is not measured yet.
+- What a 15 GB runner can carry is the per-module form of the same idea:
+  the replay of the second pass with lean4lean's type checker in place of
+  the C++ kernel. lean4lean is a second implementation of the checking
+  logic, written in Lean. Its own README says it "is derived directly from
+  the C++ kernel implementation, and as such likely shares some
+  implementation bugs with it", and it runs on the same runtime, so it is
+  a second route and not an independent one. The notes of 4.34.0 say it
+  did not have the bug of pull request 14807, which nanoda had. Its
+  `master` (`67f63b0c`, 2026-10-10) is on toolchain 4.33.0-rc2; whether it
+  builds on 4.33.1 is untried. It could not be tried in this container,
+  which may not build downloaded code, so the first step is a pilot on a
+  runner with the planted fault of `test_replay_check.py`.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 

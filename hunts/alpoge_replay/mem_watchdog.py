@@ -78,7 +78,8 @@ def module_of(pid: int, root: str = "") -> str:
 
     A compile names its source file: that path, relative to `root`, with dots.
     A `lean --run script list` names its last argument, which is how the
-    replay tells its driver processes apart.
+    replay tells its driver processes apart; a compiled driver is given the
+    same `list-<n>.txt` as its last argument and is named the same way.
     """
     try:
         with open(f"/proc/{pid}/cmdline", "rb") as fh:
@@ -86,6 +87,8 @@ def module_of(pid: int, root: str = "") -> str:
     except OSError:
         return "?"
     if "--run" in args and len(args) > args.index("--run") + 2:
+        return "run:" + os.path.basename(args[-1])
+    if len(args) > 1 and os.path.basename(args[-1]).startswith("list-") and args[-1].endswith(".txt"):
         return "run:" + os.path.basename(args[-1])
     for a in args[1:]:
         if a.endswith(".lean"):
