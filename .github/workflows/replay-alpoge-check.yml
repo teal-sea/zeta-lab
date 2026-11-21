@@ -126,11 +126,11 @@ jobs:
           case "$sid" in ''|*[!0-9]*) echo "::error::could not resolve a build state id (got '$sid')"; exit 1;; esac
           echo "state_id=$sid" >> "$GITHUB_OUTPUT"
           echo "build state artifact: $sid" | tee -a "$GITHUB_STEP_SUMMARY"
-          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$sid/zip" < /dev/null > state.zip
+          bash "$HUNT/fetch_artifact.sh" "$sid" state.zip
           mkdir -p state && unzip -o -q state.zip -d state && test -f state/state.json
           if [ -n "$CHECK_STATE_ID" ]; then
             case "$CHECK_STATE_ID" in *[!0-9]*) echo "::error::check_state_id must be a number"; exit 1;; esac
-            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$CHECK_STATE_ID/zip" < /dev/null > cstate.zip
+            bash "$HUNT/fetch_artifact.sh" "$CHECK_STATE_ID" cstate.zip
             mkdir -p cstate && unzip -o -q cstate.zip -d cstate && test -f cstate/checkstate.json
           fi
 
@@ -253,7 +253,7 @@ jobs:
           start=$(date +%s)
           while read -r id; do
             [ -n "$id" ] || continue
-            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > bundle.zip
+            bash "$HUNT/fetch_artifact.sh" "$id" bundle.zip
             for member in $(jq -r --arg id "$id" '.fetch[$id][]' "$shard"); do
               # the replay reads .olean files only
               unzip -p bundle.zip "$member" | zstd -dc | tar -x -f - -C "$LEAN_DIR" --wildcards '*.olean'

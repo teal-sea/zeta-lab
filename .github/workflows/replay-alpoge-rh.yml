@@ -170,7 +170,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$STATE_ID" in *[!0-9]*) echo "::error::state_id must be a number"; exit 1;; esac
-          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$STATE_ID/zip" > state.zip
+          bash "$HUNT/fetch_artifact.sh" "$STATE_ID" state.zip
           mkdir -p state-prev && unzip -o -q state.zip -d state-prev
           test -f state-prev/state.json
 
@@ -329,7 +329,7 @@ jobs:
           start=$(date +%s)
           while read -r id; do
             [ -n "$id" ] || continue
-            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > bundle.zip
+            bash "$HUNT/fetch_artifact.sh" "$id" bundle.zip
             for member in $(jq -r --arg id "$id" '.fetch[$id][]' "$shard"); do
               unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
             done
@@ -614,7 +614,7 @@ jobs:
           while IFS=$'\t' read -r id name; do
             case "$name" in
               "alpoge-${EPOCH}-plan-r${ROUND}"|"alpoge-${EPOCH}-done-r${ROUND}-s"*)
-                gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > a.zip
+                bash "$HUNT/fetch_artifact.sh" "$id" a.zip
                 mkdir -p "in/$name"
                 unzip -o -q a.zip -d "in/$name"
                 rm -f a.zip
@@ -753,11 +753,11 @@ jobs:
         run: |
           set -euo pipefail
           case "$STATE_ID" in ''|*[!0-9]*) echo "::error::verdict needs a numeric state_id"; exit 1;; esac
-          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$STATE_ID/zip" > state.zip
+          bash "$HUNT/fetch_artifact.sh" "$STATE_ID" state.zip
           mkdir -p state && unzip -o -q state.zip -d state
           jq -r '.bundles | to_entries[] | .value' state/state.json > bundles.txt
           while read -r id; do
-            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > bundle.zip
+            bash "$HUNT/fetch_artifact.sh" "$id" bundle.zip
             for member in $(unzip -Z1 bundle.zip); do
               unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
             done
