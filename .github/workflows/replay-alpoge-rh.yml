@@ -326,8 +326,10 @@ jobs:
         run: |
           set -euo pipefail
           shard="plan/shard-$SHARD.json"
-          # one download per bundle, its chunks unpacked three at a time
-          bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
+          # one download per bundle, its chunks unpacked three at a time,
+          # and of each chunk only the modules this shard imports
+          jq -r '.need[]' "$shard" > need.txt
+          RESTORE_NEED="$PWD/need.txt" bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           du -sh "$LEAN_DIR/.lake/build" 2>/dev/null | tee -a "$OUT/evidence/run.txt" || true
           df -h / | tee -a "$OUT/evidence/run.txt"
           python3 "$HUNT/replay_shard.py" check --lean-dir "$LEAN_DIR" --shard "$shard" | tee -a "$OUT/evidence/run.txt"

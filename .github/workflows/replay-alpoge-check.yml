@@ -249,8 +249,10 @@ jobs:
         run: |
           set -euo pipefail
           shard="plan/shard-$SHARD.json"
-          # the replay reads .olean files only
-          bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" --wildcards '*.olean' | tee -a "$OUT/evidence/run.txt"
+          # the replay reads .olean files only, and only those of the
+          # modules it replays and what they import
+          jq -r '.need[]' "$shard" > need.txt
+          RESTORE_NEED="$PWD/need.txt" RESTORE_SUFFIX=.olean bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
 
       # No token is in the environment of this step, and it runs no code of
