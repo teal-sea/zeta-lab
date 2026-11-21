@@ -417,16 +417,27 @@ def cmd_merge(a) -> None:
 
 
 def cmd_fetchmap(a) -> None:
-    """Everything built so far, as the "fetch" map restore_chunks.sh reads."""
+    """Everything built so far, as the "fetch" map restore_chunks.sh reads.
+
+    With --need, a file of module names, only the chunks that hold one of them."""
     st = json.load(open(a.state))
+    wanted = None
+    if a.need:
+        with open(a.need, encoding="utf-8") as fh:
+            wanted = {line.strip() for line in fh if line.strip()}
+        missing = sorted(wanted - set(st["where"]))
+        if missing:
+            raise SystemExit(f"{len(missing)} needed modules are not built, e.g. {missing[:3]}")
     fetch: dict[str, list[str]] = {}
-    for c in sorted(set(st["where"].values())):  # a chunk is named r<round>-s<shard>
+    chunks = set(st["where"].values()) if wanted is None else {st["where"][m] for m in wanted}
+    for c in sorted(chunks):  # a chunk is named r<round>-s<shard>
         rnd = c.split("-")[0][1:]
         if rnd not in st.get("bundles", {}):
             raise SystemExit(f"state has no bundle for round {rnd}, needed for chunk {c}")
         fetch.setdefault(str(st["bundles"][rnd]), []).append(f"chunk-{c}.tar.zst")
     json.dump({"fetch": fetch}, open(a.out, "w"))
-    print(f"bundles={len(fetch)} chunks={sum(len(v) for v in fetch.values())} modules={len(st['where'])}")
+    print(f"bundles={len(fetch)} chunks={sum(len(v) for v in fetch.values())} "
+          f"modules={len(st['where']) if wanted is None else len(wanted)}")
 
 
 def usable_built(dag_path: str, state_path: str):
@@ -452,8 +463,8 @@ def cmd_builtsinks(a) -> None:
     print(f"built={len(built)} sinks={len(sinks)}")
 
 
-def probe_sets(deps, built, targets: list[int]) -> list[tuple[list[str], int]]:
-    """Growing sets of built sinks, and how many modules each set imports in all.
+def probe_sets(deps, built, targets: list[int]) -> list[tuple[list[str], list[str]]]:
+    """Growing sets of built sinks, each with every module it imports.
 
     Sinks are taken in name order, so a set is a few neighbouring corners of
     the archive rather than a scatter, as the imports of a real module are.
@@ -462,7 +473,7 @@ def probe_sets(deps, built, targets: list[int]) -> list[tuple[list[str], int]]:
     """
     imported = {d for m in built for d in deps[m]}
     sinks = sorted(built - imported)
-    out: list[tuple[list[str], int]] = []
+    out: list[tuple[list[str], list[str]]] = []
     seen: set[str] = set()
     pending = sorted(targets)
     for i, s in enumerate(sinks):
@@ -478,8 +489,8 @@ def probe_sets(deps, built, targets: list[int]) -> list[tuple[list[str], int]]:
             pending.pop(0)
             reached = True
         if reached and i + 1 < len(sinks):
-            out.append((sinks[:i + 1], len(seen)))
-    out.append((sinks, len(seen)))
+            out.append((sinks[:i + 1], sorted(seen)))
+    out.append((sinks, sorted(seen)))
     return out
 
 
@@ -488,7 +499,9 @@ def cmd_probe(a) -> None:
 
     A module near the top of the archive imports most of it, and pays for
     that before it elaborates a line. These files hold nothing but imports,
-    so that the cost can be timed on what is already built."""
+    so that the cost can be timed on what is already built. Beside each
+    probe-<n>.lean goes probe-<n>.need, the modules it imports all the way
+    down: what a job has to restore to run it."""
     deps, built = usable_built(a.dag, a.state)
     sets = probe_sets(deps, built, [int(t) for t in a.targets.split(",") if t.strip()])
     os.makedirs(a.out_dir, exist_ok=True)
@@ -497,7 +510,9 @@ def cmd_probe(a) -> None:
         name = f"probe-{i}.lean"
         with open(os.path.join(a.out_dir, name), "w", encoding="utf-8") as fh:
             fh.write("".join(f"import {m}\n" for m in sinks))
-        listing.append({"file": name, "sinks": len(sinks), "closure": closure})
+        with open(os.path.join(a.out_dir, f"probe-{i}.need"), "w", encoding="utf-8") as fh:
+            fh.write("".join(f"{m}\n" for m in closure))
+        listing.append({"file": name, "sinks": len(sinks), "closure": len(closure)})
     json.dump(listing, open(os.path.join(a.out_dir, "probes.json"), "w"))
     print("probes: " + ", ".join(f"{p['file']} imports {p['closure']} modules through {p['sinks']} sinks" for p in listing))
 
@@ -517,6 +532,7 @@ def main() -> None:
     s.add_argument("--memlog", help="mem_watchdog.py's log; a summary of it goes into the done record")
     s.set_defaults(fn=cmd_pack)
     s = sub.add_parser("fetchmap"); s.add_argument("--state", required=True); s.add_argument("--out", required=True)
+    s.add_argument("--need", help="file of module names; fetch only the chunks that hold them")
     s.set_defaults(fn=cmd_fetchmap)
     s = sub.add_parser("builtsinks"); s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
     s.add_argument("--out", required=True)

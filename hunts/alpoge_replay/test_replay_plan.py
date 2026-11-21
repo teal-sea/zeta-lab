@@ -669,14 +669,16 @@ def test_probe_sets_grow_to_everything_built() -> None:
     #   A <- B <- C      D <- E      F          (C, E, F are the tops)
     deps = {"A": [], "B": ["A"], "C": ["B"], "D": [], "E": ["D"], "F": [], "G": ["C", "E", "F"]}
     built = {"A", "B", "C", "D", "E", "F"}
-    sets = rs.probe_sets(deps, built, [2, 4])
+    def sizes(targets):
+        return [(sinks, len(closure)) for sinks, closure in rs.probe_sets(deps, built, targets)]
     # C alone brings 3 modules and passes the first target; E brings 5 and passes the second
-    assert sets == [(["C"], 3), (["C", "E"], 5), (["C", "E", "F"], 6)]
+    assert sizes([2, 4]) == [(["C"], 3), (["C", "E"], 5), (["C", "E", "F"], 6)]
+    assert rs.probe_sets(deps, built, [2, 4])[1][1] == ["A", "B", "C", "D", "E"]      # what the second set imports
     # one sink passing two targets makes one set, and no target makes only the full set
-    assert rs.probe_sets(deps, built, [1, 2]) == [(["C"], 3), (["C", "E", "F"], 6)]
-    assert rs.probe_sets(deps, built, []) == [(["C", "E", "F"], 6)]
+    assert sizes([1, 2]) == [(["C"], 3), (["C", "E", "F"], 6)]
+    assert sizes([]) == [(["C", "E", "F"], 6)]
     # a target nothing short of everything reaches adds no set of its own
-    assert rs.probe_sets(deps, built, [6, 100]) == [(["C", "E", "F"], 6)]
+    assert sizes([6, 100]) == [(["C", "E", "F"], 6)]
 
 
 def test_the_probe_command_writes_import_only_files(tmp_path: Path) -> None:
@@ -693,6 +695,23 @@ def test_the_probe_command_writes_import_only_files(tmp_path: Path) -> None:
         {"file": "probe-0.lean", "sinks": 1, "closure": 3}, {"file": "probe-1.lean", "sinks": 2, "closure": 5}]
     assert (out / "probe-0.lean").read_text() == "import C\n"
     assert (out / "probe-1.lean").read_text() == "import C\nimport E\n"      # nothing but imports, and no X
+    assert (out / "probe-0.need").read_text().split() == ["A", "B", "C"]       # what a job restores to run probe 0
+    assert (out / "probe-1.need").read_text().split() == ["A", "B", "C", "D", "E"]
+
+
+def test_fetchmap_can_be_narrowed_to_the_chunks_some_modules_are_in(tmp_path: Path) -> None:
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {"A": "r0-s0", "B": "r0-s1", "C": "r1-s0", "D": "r2-s3"},
+                                 "bundles": {"0": 11, "1": 12, "2": 13}}))
+    need = tmp_path / "need.txt"
+    need.write_text("A\nC\n")
+    out = tmp_path / "fetch.json"
+    sys.argv = ["replay_shard.py", "fetchmap", "--state", str(state), "--need", str(need), "--out", str(out)]
+    rs.main()
+    assert json.loads(out.read_text()) == {"fetch": {"11": ["chunk-r0-s0.tar.zst"], "12": ["chunk-r1-s0.tar.zst"]}}
+    need.write_text("A\nNotBuilt\n")                       # asking for a module no chunk holds is an error, not a gap
+    with pytest.raises(SystemExit):
+        rs.main()
 
 
 def test_a_built_module_standing_on_an_unbuilt_one_is_not_usable() -> None:

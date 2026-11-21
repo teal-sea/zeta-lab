@@ -36,9 +36,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: round (plan, build, merge), verdict (restore everything, print axioms), remerge (fold a round whose merge job failed, from its run id), or rehearse (the verdict job's restore and no-op build on whatever is built so far, then a timing of imports; prints no axioms)
+        description: round (plan, build, merge), verdict (restore everything, print axioms), remerge (fold a round whose merge job failed, from its run id), rehearse (the verdict job's restore and no-op build on whatever is built so far, then a timing of imports; prints no axioms), or probe (a timing of imports on a plain directory under several read-ahead settings; builds nothing)
         type: choice
-        options: [round, verdict, remerge, rehearse]
+        options: [round, verdict, remerge, rehearse, probe]
         default: round
       from_run:
         description: remerge only. The run id of the round whose shards finished but whose merge job did not
@@ -93,11 +93,11 @@ permissions:
   contents: read
   actions: read
 
-# One round at a time per epoch. A rehearsal runs beside the rounds, in a
-# group of its own: a pending run in the rounds' group would be displaced by
-# the next round's dispatch, or displace it.
+# One round at a time per epoch. A rehearsal or a probe runs beside the
+# rounds, in a group of its own: a pending run in the rounds' group would be
+# displaced by the next round's dispatch, or displace it.
 concurrency:
-  group: replay-alpoge-rh-${{ inputs.epoch || 'p1' }}${{ inputs.mode == 'rehearse' && '-rehearse' || '' }}
+  group: replay-alpoge-rh-${{ inputs.epoch || 'p1' }}${{ (inputs.mode == 'rehearse' || inputs.mode == 'probe') && format('-{0}', inputs.mode) || '' }}
   cancel-in-progress: false
 
 env:
@@ -991,6 +991,133 @@ jobs:
             echo "### what the theorems depend on (supplementary)"
             echo '```'
             jq -c '.[] | {label, constants_in_cone, archive_modules, archive_modules_in_cone, archive_declarations, archive_declarations_in_cone, archive_theorems, archive_theorems_in_cone, names_not_found}' "$OUT/evidence/cone.json"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: preserve the evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-${{ env.MODE }}-${{ github.run_id }}
+          path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
+
+  # --------------------------------------------------------------------------
+  # probe: what do the kernel's read-ahead settings do to an import?
+  #
+  # By round 17 a compile is mostly its imports: lean maps the .olean of every
+  # module under the one it compiles, a runner keeps about 11 GB of them in
+  # memory, and a module on 30,000 others no longer fits. On a page fault in a
+  # mapped file the kernel reads a window around the page (128 KB by default)
+  # and maps what is around it in memory (64 KB), so each .olean costs memory
+  # for much more than lean looked at. This job restores what one import-only
+  # file needs into a plain directory, as a build shard has it, and times
+  # lean on it under several settings, cold and warm. It builds nothing and
+  # checks no proof.
+  # --------------------------------------------------------------------------
+  probe:
+    if: inputs.mode == 'probe'
+    name: probe (${{ inputs.epoch || 'p1' }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 170
+    env:
+      LEAN_DIR: /home/runner/replay/lean
+      OUT: /home/runner/replay/out
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: record the run and free the runner's disk
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT/evidence"
+          {
+            echo "zeta-lab commit: $GITHUB_SHA"
+            echo "epoch $EPOCH $MODE from state artifact $STATE_ID"
+            lscpu | grep -E '^(Model name|Thread\(s\) per core|Core\(s\) per socket|Socket\(s\)|CPU\(s\)):' | sed 's/  */ /g' || true
+            echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+          } | tee "$OUT/evidence/run.txt"
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
+          sudo mount -t debugfs none /sys/kernel/debug 2>/dev/null || true
+          df -h / | tee -a "$OUT/evidence/run.txt"
+
+      - name: restore the archive from this branch's cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+          fail-on-cache-miss: true
+
+      - name: verify and extract the archive
+        run: |
+          set -euo pipefail
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c - | tee -a "$OUT/evidence/run.txt"
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+          rm -f "$HOME/replay/lean.tar.gz"
+
+      - name: install elan and the toolchain the archive names
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat "$LEAN_DIR/lean-toolchain")"
+          cd "$LEAN_DIR" && "$HOME/.elan/bin/lean" --version | tee -a "$OUT/evidence/run.txt"
+
+      - name: fetch the pinned dependencies and the Mathlib olean cache
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
+
+      - name: write the import-only files and restore what the larger one imports
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          case "$STATE_ID" in ''|*[!0-9]*) echo "::error::probe needs a numeric state_id"; exit 1;; esac
+          bash "$HUNT/fetch_artifact.sh" "$STATE_ID" state.zip
+          mkdir -p state && unzip -o -q state.zip -d state
+          python3 "$HUNT/replay_plan.py" dag --src "$LEAN_DIR/src" --out "$RUNNER_TEMP/dag.json"
+          python3 "$HUNT/replay_shard.py" probe --dag "$RUNNER_TEMP/dag.json" --state state/state.json \
+            --targets 35000,80000 --out-dir "$RUNNER_TEMP/probe" | tee -a "$OUT/evidence/run.txt"
+          cp "$RUNNER_TEMP/probe/probes.json" "$OUT/evidence/probes.json"
+          # probe 1 imports what probe 0 does and more: restoring for it serves both
+          python3 "$HUNT/replay_shard.py" fetchmap --state state/state.json --need "$RUNNER_TEMP/probe/probe-1.need" \
+            --out probe-fetch.json | tee -a "$OUT/evidence/run.txt"
+          RESTORE_NEED="$RUNNER_TEMP/probe/probe-1.need" RESTORE_SUFFIX=.olean \
+            bash "$HUNT/restore_chunks.sh" probe-fetch.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
+          du -sh "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
+          findmnt -n -o SOURCE,FSTYPE,OPTIONS --target "$LEAN_DIR/.lake/build" | tee -a "$OUT/evidence/run.txt"
+
+      # No token is in the environment of this step.
+      - name: time the imports under several read-ahead settings
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -uo pipefail
+          python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+            --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/mem-probe.log" &
+          watchdog=$!
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
+          # Probe 0 imports about 45,000 modules, probe 1 about 80,000. First
+          # the settings as the runners come, then small windows on both
+          # probes, then the larger probe as the runners come, then each
+          # setting by itself, then no read-ahead at all.
+          python3 "$GITHUB_WORKSPACE/$HUNT/import_probe.py" --probes "$RUNNER_TEMP/probe" --out "$OUT/evidence" \
+            --build-dir "$LEAN_DIR/.lake/build" --timeout-s 1500 --budget-s 7800 \
+            --plan="0:cold 0:warm 0:warm ra=16 fa=4096 0:cold 0:warm 0:warm 1:cold 1:warm 1:warm ra=restore fa=restore 1:cold 1:warm fa=4096 0:cold 0:warm fa=restore ra=16 0:cold 0:warm ra=0 fa=4096 0:cold 0:warm 1:cold 1:warm ra=restore fa=restore" \
+            -- lake env lean --tstack=400000 "{file}" | tee -a "$OUT/evidence/run.txt"
+          kill "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
+          {
+            echo "### import probe, plain directory"
+            echo '```'
+            cat "$OUT/evidence/import-probe.tsv"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 

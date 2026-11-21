@@ -19,6 +19,9 @@ The plan is a list of steps, in order:
   ra=<kb>    set the read-ahead of the filesystem under --build-dir (the size
              of the window the kernel reads around a page fault in a mapped
              file); ra=restore puts back what was there
+  fa=<bytes> set the kernel's fault-around window (on a page fault it also
+             maps the pages around it that are already in memory, 64 KB by
+             default, and they then count as used); fa=restore puts it back
 
 One row per run goes to <out>/import-probe.tsv: wall, user and system seconds,
 the command's peak resident memory and major faults, the system's major
@@ -38,7 +41,7 @@ import subprocess
 import sys
 import time
 
-COLUMNS = ["step", "probe", "closure", "sinks", "cache", "ra_kb", "rc", "wall_s", "user_s", "sys_s",
+COLUMNS = ["step", "probe", "closure", "sinks", "cache", "ra_kb", "fa_bytes", "rc", "wall_s", "user_s", "sys_s",
            "maxrss_mb", "majflt", "sys_majfault", "cached_before_mb", "cached_after_mb", "disk"]
 
 
@@ -79,11 +82,13 @@ def counter(path: str, key: str, sep: str = " ") -> int:
     return -1
 
 
-def bdi_files(build_dir: str, mounts: str = "/proc/mounts", sys_bdi: str = "/sys/class/bdi") -> list[str]:
+def ra_files(build_dir: str, mounts: str = "/proc/mounts", sys_bdi: str = "/sys/class/bdi",
+             sys_dev_block: str = "/sys/dev/block") -> list[str]:
     """The read_ahead_kb files of the filesystem holding build_dir.
 
-    btrfs keeps a device of its own for this, named btrfs-<n>; any other
-    filesystem uses the block device it is mounted from.
+    btrfs keeps a device of its own for this, named btrfs-<n>. Any other
+    filesystem uses the block device it is mounted from: that device's queue,
+    or, for a partition, the queue of the disk it is a part of.
     """
     real = os.path.realpath(build_dir)
     best = ("", "", "")
@@ -96,10 +101,21 @@ def bdi_files(build_dir: str, mounts: str = "/proc/mounts", sys_bdi: str = "/sys
         return sorted(glob.glob(os.path.join(sys_bdi, "btrfs-*", "read_ahead_kb")))
     try:
         st = os.stat(real)
-        one = os.path.join(sys_bdi, f"{os.major(st.st_dev)}:{os.minor(st.st_dev)}", "read_ahead_kb")
     except OSError:
         return []
-    return [one] if os.path.exists(one) else []
+    dev = os.path.join(sys_dev_block, f"{os.major(st.st_dev)}:{os.minor(st.st_dev)}")
+    for cand in (os.path.join(dev, "queue", "read_ahead_kb"), os.path.join(dev, "..", "queue", "read_ahead_kb")):
+        if os.path.exists(cand):
+            return [cand]
+    return []
+
+
+def read_setting(path: str) -> str:
+    try:
+        with open(path) as fh:
+            return fh.read().strip()
+    except OSError:
+        return "?"
 
 
 def write_root(path: str, text: str, sudo: list[str]) -> bool:
@@ -146,6 +162,8 @@ def main() -> int:
     p.add_argument("--sudo", default="sudo", help="prefix for writes to kernel settings; empty for none")
     p.add_argument("--drop-caches", default="/proc/sys/vm/drop_caches")
     p.add_argument("--bdi-root", default="/sys/class/bdi")
+    p.add_argument("--sys-dev-block", default="/sys/dev/block")
+    p.add_argument("--fault-around", default="/sys/kernel/debug/fault_around_bytes")
     p.add_argument("--diskstats", default="/proc/diskstats")
     a = p.parse_args(argv)
     if not any("{file}" in c for c in cmd):
@@ -154,10 +172,13 @@ def main() -> int:
     sudo = a.sudo.split()
     probes = json.load(open(os.path.join(a.probes, "probes.json")))
     os.makedirs(a.out, exist_ok=True)
-    files = bdi_files(a.build_dir, sys_bdi=a.bdi_root)
-    saved = {f: open(f).read().strip() for f in files}
+    files = ra_files(a.build_dir, sys_bdi=a.bdi_root, sys_dev_block=a.sys_dev_block)
+    saved = {f: read_setting(f) for f in files}
+    saved_fa = read_setting(a.fault_around) if not sudo else subprocess.run(
+        [*sudo, "cat", a.fault_around], capture_output=True, text=True).stdout.strip() or "?"
     ra = ",".join(sorted(set(saved.values()))) or "?"
-    print(f"read-ahead files: {saved or 'none found'}", flush=True)
+    fa = saved_fa
+    print(f"read-ahead files: {saved or 'none found'}; fault-around: {saved_fa}", flush=True)
     began = time.time()
     with open(os.path.join(a.out, "import-probe.tsv"), "w", encoding="utf-8") as tsv:
         tsv.write("\t".join(COLUMNS) + "\n")
@@ -166,13 +187,22 @@ def main() -> int:
                 want = step[3:]
                 for f in files:
                     write_root(f, saved[f] if want == "restore" else want, sudo)
-                now = {f: open(f).read().strip() for f in files}
+                now = {f: read_setting(f) for f in files}
                 ra = ",".join(sorted(set(now.values()))) or "?"
                 print(f"step {n} {step}: read-ahead now {now or 'unchanged, no file found'}", flush=True)
                 continue
+            if step.startswith("fa="):
+                want = step[3:]
+                if saved_fa != "?":
+                    write_root(a.fault_around, saved_fa if want == "restore" else want, sudo)
+                    fa = read_setting(a.fault_around) if not sudo else subprocess.run(
+                        [*sudo, "cat", a.fault_around], capture_output=True, text=True).stdout.strip() or "?"
+                print(f"step {n} {step}: fault-around now {fa}", flush=True)
+                continue
             idx, _, cache = step.partition(":")
             pr = probes[int(idx)]
-            row = {"step": n, "probe": pr["file"], "closure": pr["closure"], "sinks": pr["sinks"], "cache": cache, "ra_kb": ra}
+            row = {"step": n, "probe": pr["file"], "closure": pr["closure"], "sinks": pr["sinks"], "cache": cache,
+                   "ra_kb": ra, "fa_bytes": fa}
             if time.time() - began > a.budget_s:
                 row.update(rc="skipped")
             else:
