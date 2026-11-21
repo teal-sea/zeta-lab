@@ -579,12 +579,67 @@ for about an hour):
   cost a fraction of the table. `d4aba210` adds the same setting to the
   build shards behind a switch (`IO_TUNE`), off until this is measured.
 
-**Forecast, with what is known at 14:50Z:** three more rounds for the wide
+**Forecast, with what was known at 14:50Z:** three more rounds for the wide
 part once the new planner is in (to about 19:30Z), then the chain of 17 on
 one runner, 3 to 7 hours by the two extrapolations. `Main` not before about
 22:30Z, more likely after 00:00Z on the 22nd, unless a probe finds the
-imports can be made cheap. The probes decide; this paragraph is replaced
-when they report.
+imports can be made cheap. The next section is what the probe found.
+
+### The import probe, 2026-11-21 15:32Z: small page-fault windows make a 45,000-module import fit in memory
+
+Run 44916286894 (the 14:48Z run was cancelled and dispatched again at
+14:54Z so that the first comparison is uploaded by itself). One runner, AMD
+EPYC 9V74, 15 GB, an NVMe disk with ext4; the `.olean` files of 80,111
+modules restored into a plain directory (43 GB, 542 s). `lean` on a file
+that holds nothing but imports, 45,128 modules in all, six times:
+
+| read-ahead | fault-around | cache | wall s | user s | system s | peak resident MB | major faults | disk reads | MB read |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 128 KB | 64 KB | cold | 415.5 | 10.6 | 40.6 | 11,520 | 874,288 | 1,480,945 | 71,669 |
+| 128 KB | 64 KB | warm | 298.3 | 10.7 | 38.5 | 12,159 | 782,175 | 1,472,449 | 59,028 |
+| 128 KB | 64 KB | warm | 308.1 | 10.7 | 36.6 | 12,609 | 678,182 | 1,424,967 | 51,557 |
+| 16 KB | 4 KB | cold | 350.0 | 10.1 | 20.6 | 8,504 | 679,418 | 1,180,665 | 13,830 |
+| 16 KB | 4 KB | warm | 28.6 | 8.4 | 9.8 | 8,510 | 2,250 | 14,862 | 190 |
+| 16 KB | 4 KB | warm | 19.4 | 8.4 | 10.3 | 8,510 | 207 | 1,116 | 14 |
+
+The first three rows are the runner as it comes, and they are what the build
+shards have been paying. The import needs about 20 s of processor. The rest
+of five minutes is the disk: 52 to 72 GB read for an import whose files are
+about 25 GB in all, the same pages read again and again, because what the
+kernel maps around each fault does not fit in memory and is pushed out
+before `lean` returns to it. A warm cache does not help; there is no warm
+state to reach.
+
+With the windows small the same import keeps 8.5 GB resident, the first run
+reads 14 GB (one operation per fault: 3,400 a second, the disk's limit, so
+it is no faster than before), and every run after it finds everything in
+memory: 29 s, then 19 s. Fifteen times faster on this runner, for a setting
+that changes nothing `lean` computes.
+
+**What I did with it, including the wrong turn.** `d4aba210` had put the
+setting behind a switch in the build job (`IO_TUNE`, `io_tune.sh`). At
+15:01Z I set it for the odd shards of round 19 as a comparison. At 15:28Z
+and 15:32Z, with the probe's six runs past twenty minutes and no result
+readable, I took the slow runs to be the small windows, narrowed the
+comparison to three shards and then turned it off. The slow runs were the
+runner's own settings. The result arrived at 15:36Z and the switch went to
+every shard at 15:37Z (`IO_TUNE: "all"`), before round 19 was dispatched.
+With it, two more changes for that round:
+
+- The plan goes further over a shard's capacity (`PLAN_OVER` 3.0,
+  `FILL_OVER` 2.5, where 1.4 and 1.0 stood). The planner's prices are the
+  last two rounds', which paid the old price; a shard planned to 1.4 times
+  its capacity at those prices would be done in half its hour.
+- A shard keeps a plain directory up to 115,000 imported modules, where the
+  limit was 90,000. The small windows only work there: on the compressed
+  volume a fault reads a whole 128 KB extent whatever window is asked for.
+
+Not measured yet: two compiles at once under the setting, runners with a
+slower disk (the cold run is bound by operations per second), the 80,111
+import (second part of the same run), and anything on the compressed
+volume, where the last modules must be built because 175,187 modules do not
+fit a runner's disk uncompressed. Round 19's own timings will show the
+first two.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
