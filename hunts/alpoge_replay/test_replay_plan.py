@@ -205,3 +205,71 @@ def test_the_setup_file_is_not_packed(tmp_path: Path) -> None:
     got = rs.output_files(str(tmp_path), "A.B")
     assert [Path(f).name for f in got] == ["B.c", "B.c.hash", "B.ilean", "B.ilean.hash", "B.olean",
                                            "B.olean.hash", "B.trace"]
+
+
+def test_pack_tells_a_crowded_kill_from_a_crash_and_forgets_a_failure_that_was_later_built(tmp_path: Path) -> None:
+    lean = tmp_path / "lean"
+    lib = lean / ".lake" / "build" / "lib" / "lean" / "Lib"
+    lib.mkdir(parents=True)
+    for built in ("Ok", "Late"):
+        (lib / f"{built}.olean").write_text("x")
+        (lib / f"{built}.trace").write_text(json.dumps({"outputs": {}}))
+    mods = ["Lib.Ok", "Lib.Late", "Lib.Crowded", "Lib.Alone", "Lib.Both", "Lib.Segv", "Lib.Wrong"]
+    shard = tmp_path / "shard.json"
+    shard.write_text(json.dumps({"round": 7, "shard": 3, "modules": mods, "sinks": mods}))
+    log = tmp_path / "build.log"
+    log.write_text(
+        "✔ [1/9] Built Lib.Ok (1.0s)\n"
+        "✖ [2/9] Building Lib.Late (30s)\nerror: Lean exited with code 137\n"
+        "✖ [3/9] Building Lib.Crowded (40s)\nerror: Lean exited with code 137\n"
+        "✖ [4/9] Building Lib.Alone (900s)\nerror: Lean exited with code 137\n"
+        "✖ [5/9] Building Lib.Both (50s)\nerror: Lean exited with code 137\n"
+        "✖ [6/9] Building Lib.Segv (2s)\nerror: Lean exited with code 139\n"
+        "✖ [7/9] Building Lib.Wrong (2s)\nerror: Lib/Wrong.lean:1:0: type mismatch\nerror: Lean exited with code 1\n"
+        "=== batch 1 ===\n"
+        "✔ [2/9] Built Lib.Late (33s)\n",
+        encoding="utf-8",
+    )
+    kills = tmp_path / "mem.log.kills.tsv"
+    kills.write_text("Lib.Late\tcrowded\t900\t2\nLib.Crowded\tcrowded\t1200\t2\nLib.Alone\talone\t14100\t1\n"
+                     "Lib.Both\tcrowded\t800\t2\nLib.Both\talone\t13000\t1\n?\tcrowded\t5\t2\n")
+    done = tmp_path / "done.json"
+    sys.argv = ["replay_shard.py", "pack", "--lean-dir", str(lean), "--shard", str(shard), "--log", str(log),
+                "--chunk", "r7-s3", "--filelist", str(tmp_path / "files.txt"), "--done", str(done),
+                "--kills", str(kills)]
+    rs.main()
+    rec = json.loads(done.read_text())
+    assert sorted(rec["built"]) == ["Lib.Late", "Lib.Ok"]
+    assert sorted(rec["failed"]) == ["Lib.Wrong"]                      # exit code 1: a real elaboration error
+    assert sorted(rec["crowded"]) == ["Lib.Crowded"]                   # no strike
+    assert sorted(rec["crashed"]) == ["Lib.Alone", "Lib.Both", "Lib.Segv"]
+    assert rec["killed_alone"] == ["Lib.Alone", "Lib.Both"]
+
+    # without the table every signal death is a crash, as before
+    sys.argv = sys.argv[:-2]
+    rs.main()
+    rec = json.loads(done.read_text())
+    assert sorted(rec["crashed"]) == ["Lib.Alone", "Lib.Both", "Lib.Crowded", "Lib.Segv"] and rec["crowded"] == {}
+
+
+def test_merge_counts_a_crowded_kill_but_gives_no_strike_for_it(tmp_path: Path) -> None:
+    deps = {"A": [], "B": ["A"], "C": ["A"]}
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {"A": 10, "B": 20, "C": 30}}))
+    d = tmp_path / "in" / "x"
+    d.mkdir(parents=True)
+    (d / "done-r3-s0.json").write_text(json.dumps({
+        "chunk": "r3-s0", "planned": 3, "built": ["A"], "seconds": {"A": 1.5}, "failed": {},
+        "crashed": {"C": {"exit": 137, "excerpt": []}}, "crowded": {"B": {"exit": 137, "excerpt": []}},
+        "killed_alone": ["C"]}))
+    out = tmp_path / "state.json"
+    gh = tmp_path / "gh.txt"
+    sys.argv = ["replay_shard.py", "merge", "--dag", str(dag), "--done-dir", str(tmp_path / "in"),
+                "--round", "3", "--out", str(out), "--github-output", str(gh)]
+    rs.main()
+    st = json.loads(out.read_text())
+    assert st["crashed"] == {"C": 1}
+    assert st["history"][0]["crowded_this_round"] == 1 and st["history"][0]["killed_alone"] == ["C"]
+    outputs = dict(line.split("=", 1) for line in gh.read_text().splitlines())
+    assert outputs["crowded_this_round"] == "1" and outputs["crashed_this_round"] == "1"
+

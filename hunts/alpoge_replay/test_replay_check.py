@@ -210,3 +210,13 @@ def test_the_watchdog_kills_the_named_process_and_only_when_memory_is_low(tmp_pa
     assert not alive and " KILL " in text
     alive, text = run(1)                 # floor of 1 MB: must not kill
     assert alive and " KILL " not in text and "anon_mb=" in text
+
+
+def test_a_driver_death_is_a_strike_unless_it_was_crowded_out() -> None:
+    assert rc.death_kind(-9, 4, "crowded") == "killed"
+    assert rc.death_kind(-9, 4, "alone") == "struck"      # alone and still too big: the module's own doing
+    assert rc.death_kind(-9, 4, None) == "killed"         # no table: a SIGKILL beside others is the watchdog's
+    assert rc.death_kind(-9, 1, None) == "struck"
+    assert rc.death_kind(-11, 4, None) == "struck"        # a segfault is never the watchdog's
+    assert rc.death_kind(-9, 1, "crowded") == "killed"
+

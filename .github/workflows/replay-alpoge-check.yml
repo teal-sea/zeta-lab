@@ -269,17 +269,22 @@ jobs:
         run: |
           set -uo pipefail
           start=$(date +%s)
-          # Same watchdog as the build: when the runner is nearly out of
-          # memory it kills the largest replay process, the driver records
-          # the module that process was on as "killed", and the chain runs
-          # the next round with fewer processes side by side.
-          python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --log "$OUT/evidence/mem.log" &
+          # Same watchdog as the build: short of memory it suspends every
+          # replay process but the largest and resumes them when there is
+          # room, so the drivers take turns. Only at the hard floor does it
+          # kill one; the driver records the module that process was on as
+          # "killed" (crowded out) or as a strike (killed alone), and after a
+          # kill the chain runs the next round with fewer processes.
+          python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+            --root "$LEAN_DIR/src" --log "$OUT/evidence/mem.log" &
           watchdog=$!
           python3 "$HUNT/replay_check.py" run --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --minutes "$CHECK_MINUTES" --procs "$PROCS" --driver "$HUNT/ReplayDriver.lean" \
+            --kills "$OUT/evidence/mem.log.kills.tsv" \
             --out "$OUT/run" --done "$OUT/done/checkdone-c${ROUND}-s${SHARD}.json" | tee "$OUT/evidence/run.json"
           rc=${PIPESTATUS[0]}
           kill "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
           tail -1 "$OUT/evidence/mem.log" | tee -a "$OUT/evidence/run.txt" || true
           echo "replay rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
           cat "$OUT"/run/driver-*.out 2>/dev/null | zstd -q -9 -o "$OUT/evidence/driver-out.tsv.zst" || true

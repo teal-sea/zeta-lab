@@ -158,6 +158,20 @@ def parse_driver_output(path: str):
     return ok, failed
 
 
+def death_kind(code: int, procs: int, watchdog_kind: str | None) -> str:
+    """How to record a driver process that died by itself: "killed" or "struck".
+
+    "killed" is crowded out for memory and no strike against the module it
+    was on. The watchdog's word settles it when it has one; without one, a
+    SIGKILL while other drivers ran is taken as the watchdog's.
+    """
+    if watchdog_kind == "crowded":
+        return "killed"
+    if watchdog_kind is None and code == -9 and procs > 1:
+        return "killed"
+    return "struck"
+
+
 def cmd_run(a) -> None:
     shard = json.load(open(a.shard))
     mods = shard["modules"]
@@ -200,6 +214,13 @@ def cmd_run(a) -> None:
     failed: dict[str, str] = {}
     struck: list[str] = []
     killed: list[str] = []
+    watchdog: dict[str, str] = {}
+    if a.kills and os.path.exists(a.kills):
+        with open(a.kills, encoding="utf-8", errors="replace") as fh:
+            for line in fh:
+                parts = line.rstrip("\n").split("\t")
+                if len(parts) >= 2:
+                    watchdog[parts[0]] = parts[1]
     startup_errors: list[str] = []
     for i, lst, p in procs:
         o, f = parse_driver_output(os.path.join(a.out, f"driver-{i}.out"))
@@ -215,7 +236,9 @@ def cmd_run(a) -> None:
         if codes[str(i)] not in (0, 1, None):
             rest = [m for m in lst if m not in o and m not in f]
             if rest:
-                if codes[str(i)] == -9 and a.procs > 1:
+                # The watchdog's own table settles it when it names this
+                # driver: crowded out is "killed", killed alone is a strike.
+                if death_kind(codes[str(i)], a.procs, watchdog.get(f"run:list-{i}.txt")) == "killed":
                     killed.append(rest[0])
                 else:
                     struck.append(rest[0])
@@ -316,6 +339,7 @@ def main() -> None:
     s.add_argument("--minutes", type=float, required=True); s.add_argument("--procs", type=int, default=4)
     s.add_argument("--driver", required=True); s.add_argument("--out", required=True)
     s.add_argument("--done", required=True)
+    s.add_argument("--kills", help="mem_watchdog.py's kills table: crowded is no strike, alone is one")
     s.set_defaults(fn=cmd_run)
     s = sub.add_parser("merge")
     s.add_argument("--dag", required=True); s.add_argument("--state", required=True)

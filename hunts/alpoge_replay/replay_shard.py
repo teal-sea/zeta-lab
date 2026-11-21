@@ -159,6 +159,21 @@ def parse_log(path: str):
     return seconds, failed, sorry_lines
 
 
+def watchdog_kills(path: str | None) -> dict[str, set[str]]:
+    """{"crowded": {modules}, "alone": {modules}} from mem_watchdog.py's kills table."""
+    out: dict[str, set[str]] = {}
+    if not path or not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) >= 2 and parts[0] not in ("", "?"):
+                out.setdefault(parts[1], set()).add(parts[0])
+    # killed alone at any point outweighs having also been crowded out
+    out["crowded"] = out.get("crowded", set()) - out.get("alone", set())
+    return out
+
+
 def cmd_pack(a) -> None:
     shard = json.load(open(a.shard))
     mine = shard["modules"]
@@ -178,9 +193,20 @@ def cmd_pack(a) -> None:
     raw = sum(by_kind.values())
     olean = by_kind.get("olean", 0)
     rebuilt_outside = sorted(m for m in seconds if m not in inside)
+    # A module that failed in one batch and was built in a later one is built.
+    done_now = set(built)
+    failed = {m: v for m, v in failed.items() if m not in done_now}
     # a real elaboration error is exit code 1; anything else is a crash to retry
     hard = {m: v for m, v in failed.items() if v["exit"] == 1 and m in inside}
-    crashed = {m: v for m, v in failed.items() if v["exit"] != 1 and m in inside}
+    # The memory watchdog says which of its kills were "crowded": the module
+    # was suspended or small beside a larger one and gave way to it. That
+    # says nothing against the module and is no strike. A kill "alone", or a
+    # death the watchdog did not cause, stays a crash.
+    crowded_by_watchdog = watchdog_kills(a.kills).get("crowded", set())
+    crashed = {m: v for m, v in failed.items()
+               if v["exit"] != 1 and m in inside and m not in crowded_by_watchdog}
+    crowded = {m: v for m, v in failed.items()
+               if v["exit"] != 1 and m in inside and m in crowded_by_watchdog}
     rec = {
         "chunk": a.chunk,
         "round": shard["round"],
@@ -190,6 +216,8 @@ def cmd_pack(a) -> None:
         "seconds": {m: round(seconds[m], 3) for m in built if m in seconds},
         "failed": hard,
         "crashed": crashed,
+        "crowded": crowded,
+        "killed_alone": sorted(m for m in watchdog_kills(a.kills).get("alone", set()) if m in inside),
         "rebuilt_outside_shard": len(rebuilt_outside),
         "rebuilt_outside_examples": rebuilt_outside[:5],
         "sorry_warning_lines": sorry_lines,
@@ -199,7 +227,7 @@ def cmd_pack(a) -> None:
         "build_status": status,
     }
     json.dump(rec, open(a.done, "w"))
-    brief = {k: (len(v) if isinstance(v, (list, dict)) and k in ("built", "seconds", "failed", "crashed") else v)
+    brief = {k: (len(v) if isinstance(v, (list, dict)) and k in ("built", "seconds", "failed", "crashed", "crowded") else v)
              for k, v in rec.items() if k != "rebuilt_outside_examples"}
     print(json.dumps(brief))
 
@@ -234,6 +262,12 @@ def cmd_merge(a) -> None:
             if m in known:
                 state["crashed"][m] = state["crashed"].get(m, 0) + 1
                 rnd["crashed_this_round"] = rnd.get("crashed_this_round", 0) + 1
+        # crowded out by the memory watchdog: counted, never a strike
+        rnd["crowded_this_round"] = rnd.get("crowded_this_round", 0) + sum(
+            1 for m in rec.get("crowded", {}) if m in known)
+        for m in rec.get("killed_alone", []):
+            if m in known:
+                rnd.setdefault("killed_alone", []).append(m)
         for k in ("raw_output_bytes", "olean_bytes", "rebuilt_outside_shard", "sorry_warning_lines"):
             rnd[k] += rec.get(k, 0) or 0
         for k, v in (rec.get("bytes_by_kind") or {}).items():
@@ -261,6 +295,8 @@ def cmd_merge(a) -> None:
         "n_failed": len(state["failed"]),
         "timed_out_shards": rnd["timed_out_shards"],
         "crashed_this_round": rnd.get("crashed_this_round", 0),
+        "crowded_this_round": rnd.get("crowded_this_round", 0),
+        "killed_alone": sorted(rnd.get("killed_alone", [])),
         "shards_reported": rnd["shards"],
         "round_summary": rnd,
     }
@@ -268,7 +304,7 @@ def cmd_merge(a) -> None:
     if a.github_output:
         with open(a.github_output, "a") as fh:
             for k in ("built_this_round", "modules_built", "main_built", "complete", "n_failed", "percent",
-                      "timed_out_shards", "crashed_this_round", "shards_reported"):
+                      "timed_out_shards", "crashed_this_round", "crowded_this_round", "shards_reported"):
                 v = out[k]
                 fh.write(f"{k}={str(v).lower() if isinstance(v, bool) else v}\n")
 
@@ -284,6 +320,7 @@ def main() -> None:
     s = sub.add_parser("pack"); s.add_argument("--lean-dir", required=True); s.add_argument("--shard", required=True)
     s.add_argument("--log", required=True); s.add_argument("--chunk", required=True)
     s.add_argument("--filelist", required=True); s.add_argument("--done", required=True)
+    s.add_argument("--kills", help="mem_watchdog.py's kills table, to tell a crowded kill from a crash")
     s.set_defaults(fn=cmd_pack)
     s = sub.add_parser("merge"); s.add_argument("--dag", required=True); s.add_argument("--state")
     s.add_argument("--done-dir", required=True); s.add_argument("--round", type=int, required=True)

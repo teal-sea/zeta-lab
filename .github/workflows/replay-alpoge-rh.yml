@@ -354,12 +354,16 @@ jobs:
               find "$LEAN_DIR/.lake/build/ir" -name '*.setup.json' -mmin +20 -delete 2>/dev/null
             done ) &
           pruner=$!
-          # When available memory stays under 700 MB the watchdog kills the
-          # largest lean process. Lake reports that module as failed with a
-          # signal exit code, it is recorded as crashed, and the chain lowers
-          # the thread count for the next round. Without it the runner itself
-          # stops answering and the whole shard is lost.
-          python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --log "$OUT/evidence/mem.log" &
+          # Without a watchdog a full runner stops answering and the whole
+          # shard is lost. Under 2.5 GB available it suspends every lean
+          # process but the largest, which then has the room; they resume
+          # when memory is back or nothing else runs. Under 700 MB it kills a
+          # suspended one ("crowded": no strike against the module, it is
+          # simply planned again), and only a process that is alone and
+          # still fills the runner is killed as "alone", which is recorded as
+          # a crash. It also writes each module's peak memory.
+          python3 "$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+            --root "$LEAN_DIR/src" --log "$OUT/evidence/mem.log" &
           watchdog=$!
           # Lake compiles one module per worker thread. Fewer threads is the
           # remedy when modules high in the graph exhaust the runner's memory
@@ -372,7 +376,9 @@ jobs:
           python3 "$HUNT/replay_shard.py" build --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --minutes "$BUILD_MINUTES" --log "$OUT/build.log" | tee -a "$OUT/evidence/run.txt"
           kill "$pruner" "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
           grep -c ' KILL ' "$OUT/evidence/mem.log" | sed 's/^/watchdog kills: /' | tee -a "$OUT/evidence/run.txt" || true
+          grep -c ' STOP ' "$OUT/evidence/mem.log" | sed 's/^/watchdog suspensions: /' | tee -a "$OUT/evidence/run.txt" || true
           tail -1 "$OUT/evidence/mem.log" | tee -a "$OUT/evidence/run.txt" || true
           echo "build wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
@@ -384,6 +390,7 @@ jobs:
           chunk="r${ROUND}-s${SHARD}"
           python3 "$HUNT/replay_shard.py" pack --lean-dir "$LEAN_DIR" --shard "plan/shard-$SHARD.json" \
             --log "$OUT/build.log" --chunk "$chunk" --filelist "$OUT/files.txt" \
+            --kills "$OUT/evidence/mem.log.kills.tsv" \
             --done "$OUT/done-$chunk.json" | tee "$OUT/evidence/pack.json"
           mkdir -p "$OUT/chunk" "$OUT/done"
           cp "$OUT/done-$chunk.json" "$OUT/done/"
@@ -396,7 +403,7 @@ jobs:
           {
             echo "### round $ROUND shard $SHARD"
             echo '```'
-            jq -c '{planned, built, failed, crashed, rebuilt_outside_shard, sorry_warning_lines, raw_output_bytes, bytes_by_kind, build_status}' "$OUT/evidence/pack.json"
+            jq -c '{planned, built, failed, crashed, crowded, killed_alone, rebuilt_outside_shard, sorry_warning_lines, raw_output_bytes, bytes_by_kind, build_status}' "$OUT/evidence/pack.json"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -533,6 +540,7 @@ jobs:
           PERCENT: ${{ steps.count.outputs.percent }}
           TIMED_OUT: ${{ steps.count.outputs.timed_out_shards }}
           CRASHED_NOW: ${{ steps.count.outputs.crashed_this_round }}
+          CROWDED_NOW: ${{ steps.count.outputs.crowded_this_round }}
           SHARDS_REPORTED: ${{ steps.count.outputs.shards_reported }}
           SHARDS_PLANNED: ${{ needs.plan.outputs.n_shards }}
         run: |
@@ -557,17 +565,19 @@ jobs:
             next=round
             echo "Built $BUILT modules this round, ${PERCENT}% in all, $N_FAILED failed. Next: round $((ROUND + 1))." | tee -a "$GITHUB_STEP_SUMMARY"
           fi
-          # A module whose lean process died without an elaboration error
-          # (killed for memory, most likely) is retried with fewer modules
-          # compiling at once: four, then two, then one. Three crashes of the
-          # same module block it in the planner.
+          # The watchdog settles memory inside a round: it suspends the
+          # smaller compile and lets the larger finish, so a crash or a
+          # crowded kill is no reason to compile fewer modules at once. A
+          # runner that never reported is: there the watchdog did not cope.
+          # Three crashes of the same module block it in the planner.
           lost=$(( ${SHARDS_PLANNED:-0} - ${SHARDS_REPORTED:-0} ))
-          if [ "${CRASHED_NOW:-0}" != "0" ] || [ "$lost" -gt 0 ]; then
+          echo "${CRASHED_NOW:-0} modules crashed, ${CROWDED_NOW:-0} were crowded out by the watchdog, $lost shards never reported" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$lost" -gt 0 ]; then
             case "$LEAN_THREADS" in
               ''|4|3) LEAN_THREADS=2 ;;
               2) LEAN_THREADS=1 ;;
             esac
-            echo "${CRASHED_NOW:-0} modules crashed and $lost shards never reported this round; next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "next round runs with LEAN_NUM_THREADS=$LEAN_THREADS" | tee -a "$GITHUB_STEP_SUMMARY"
           fi
           if [ "$CHAIN" != "true" ] || [ -z "$next" ]; then
             echo "chain is off or there is nothing to hand on to; stopping"
