@@ -326,17 +326,8 @@ jobs:
         run: |
           set -euo pipefail
           shard="plan/shard-$SHARD.json"
-          jq -r '.fetch | to_entries[] | .key' "$shard" > bundles.txt
-          start=$(date +%s)
-          while read -r id; do
-            [ -n "$id" ] || continue
-            bash "$HUNT/fetch_artifact.sh" "$id" bundle.zip
-            for member in $(jq -r --arg id "$id" '.fetch[$id][]' "$shard"); do
-              unzip -p bundle.zip "$member" | zstd -dc | tar -x -C "$LEAN_DIR"
-            done
-            rm -f bundle.zip
-          done < bundles.txt
-          echo "restore: $(wc -l < bundles.txt) bundles, wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          # one download per bundle, its chunks unpacked three at a time
+          bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           du -sh "$LEAN_DIR/.lake/build" 2>/dev/null | tee -a "$OUT/evidence/run.txt" || true
           df -h / | tee -a "$OUT/evidence/run.txt"
           python3 "$HUNT/replay_shard.py" check --lean-dir "$LEAN_DIR" --shard "$shard" | tee -a "$OUT/evidence/run.txt"

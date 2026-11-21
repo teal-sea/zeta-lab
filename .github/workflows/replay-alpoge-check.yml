@@ -249,18 +249,8 @@ jobs:
         run: |
           set -euo pipefail
           shard="plan/shard-$SHARD.json"
-          jq -r '.fetch | to_entries[] | .key' "$shard" > bundles.txt
-          start=$(date +%s)
-          while read -r id; do
-            [ -n "$id" ] || continue
-            bash "$HUNT/fetch_artifact.sh" "$id" bundle.zip
-            for member in $(jq -r --arg id "$id" '.fetch[$id][]' "$shard"); do
-              # the replay reads .olean files only
-              unzip -p bundle.zip "$member" | zstd -dc | tar -x -f - -C "$LEAN_DIR" --wildcards '*.olean'
-            done
-            rm -f bundle.zip
-          done < bundles.txt
-          echo "restore: $(wc -l < bundles.txt) bundles, wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          # the replay reads .olean files only
+          bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" --wildcards '*.olean' | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
 
       # No token is in the environment of this step, and it runs no code of
