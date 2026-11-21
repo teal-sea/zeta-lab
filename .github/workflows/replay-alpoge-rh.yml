@@ -126,6 +126,10 @@ env:
   IO_TUNE: "all"
   IO_TUNE_RA_KB: "16"
   IO_TUNE_FA_BYTES: "4096"
+  # How far over a shard's capacity the plan goes, at the planner's prices:
+  # the cluster pass, and the filling pass. 1.4 and 1.0 without IO_TUNE.
+  PLAN_OVER: "3.0"
+  FILL_OVER: "2.5"
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -208,9 +212,14 @@ jobs:
           # again; a shard given too little sits idle, and round 14, planned
           # at fifteen percent over a rate that round 13's thrashing had
           # inflated, left its runners idle for a third of the hour.
-          budget=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4) * 1.4))")
+          #
+          # With IO_TUNE on, both numbers are multiplied (PLAN_OVER,
+          # FILL_OVER): the planner's prices are the last two rounds', and
+          # under small page-fault windows a module on 45,000 others costs
+          # 20 to 30 s where those rounds paid 130 to 200.
+          budget=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4) * float('${PLAN_OVER:-1.4}')))")
           # what a shard can really do: the filling pass stops there
-          capacity=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4)))")
+          capacity=$(python3 -c "print(int(float('$BUILD_MINUTES') * 60 * float('${LEAN_THREADS:-2}' or 4) * float('${FILL_OVER:-1.0}')))")
           python3 "$HUNT/replay_plan.py" plan --dag dag.json "${args[@]}" \
             --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --fill-budget-s "$capacity" --out plan | tee plan.txt
           n=$(jq .n_shards plan/plan.json)
