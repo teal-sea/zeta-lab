@@ -517,6 +517,29 @@ def cmd_probe(a) -> None:
     print("probes: " + ", ".join(f"{p['file']} imports {p['closure']} modules through {p['sinks']} sinks" for p in listing))
 
 
+def cmd_closure(a) -> None:
+    """One module and everything it imports, all the way down: what a job has
+    to restore before `lean` can import that module. Every one of them must
+    be built and loadable; a module that is not is an error, not a gap."""
+    deps, built = usable_built(a.dag, a.state)
+    if a.module not in deps:
+        raise SystemExit(f"{a.module} is not a module of the archive")
+    seen: set[str] = set()
+    stack = [a.module]
+    while stack:
+        m = stack.pop()
+        if m in seen:
+            continue
+        seen.add(m)
+        stack.extend(d for d in deps[m] if d not in seen)
+    missing = sorted(seen - built)
+    if missing:
+        raise SystemExit(f"{len(missing)} modules under {a.module} are not built, e.g. {missing[:3]}")
+    with open(a.out, "w", encoding="utf-8") as fh:
+        fh.write("".join(f"{m}\n" for m in sorted(seen)))
+    print(f"{a.module} imports {len(seen)} modules, itself included")
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -537,6 +560,9 @@ def main() -> None:
     s = sub.add_parser("builtsinks"); s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
     s.add_argument("--out", required=True)
     s.set_defaults(fn=cmd_builtsinks)
+    s = sub.add_parser("closure"); s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
+    s.add_argument("--module", required=True); s.add_argument("--out", required=True)
+    s.set_defaults(fn=cmd_closure)
     s = sub.add_parser("probe"); s.add_argument("--dag", required=True); s.add_argument("--state", required=True)
     s.add_argument("--targets", default="", help="comma-separated import counts; a last probe always takes everything built")
     s.add_argument("--out-dir", required=True)

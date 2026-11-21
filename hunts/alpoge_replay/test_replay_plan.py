@@ -699,6 +699,24 @@ def test_the_probe_command_writes_import_only_files(tmp_path: Path) -> None:
     assert (out / "probe-1.need").read_text().split() == ["A", "B", "C", "D", "E"]
 
 
+def test_closure_lists_a_module_with_everything_under_it_and_refuses_a_gap(tmp_path: Path) -> None:
+    deps = {"A": [], "B": ["A"], "C": ["A"], "D": ["B", "C"], "E": ["D"], "X": ["Gap"], "Gap": [], "F": []}
+    dag = tmp_path / "dag.json"
+    dag.write_text(json.dumps({"deps": deps, "size": {m: 1 for m in deps}}))
+    state = tmp_path / "state.json"
+    state.write_text(json.dumps({"where": {m: "r0-s0" for m in ("A", "B", "C", "D", "X", "F")}}))
+    out = tmp_path / "need.txt"
+    sys.argv = ["replay_shard.py", "closure", "--dag", str(dag), "--state", str(state), "--module", "D", "--out", str(out)]
+    rs.main()
+    assert out.read_text().split() == ["A", "B", "C", "D"]          # the diamond once, and nothing beside it
+    for bad in ("E", "X", "Nowhere"):                               # not built; standing on a gap; not a module
+        sys.argv = ["replay_shard.py", "closure", "--dag", str(dag), "--state", str(state), "--module", bad,
+                    "--out", str(tmp_path / "no.txt")]
+        with pytest.raises(SystemExit):
+            rs.main()
+    assert not (tmp_path / "no.txt").exists()
+
+
 def test_fetchmap_can_be_narrowed_to_the_chunks_some_modules_are_in(tmp_path: Path) -> None:
     state = tmp_path / "state.json"
     state.write_text(json.dumps({"where": {"A": "r0-s0", "B": "r0-s1", "C": "r1-s0", "D": "r2-s3"},

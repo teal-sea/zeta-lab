@@ -36,7 +36,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: round (plan, build, merge), verdict (restore everything, print axioms), remerge (fold a round whose merge job failed, from its run id), rehearse (the verdict job's restore and no-op build on whatever is built so far, then a timing of imports; prints no axioms), or probe (a timing of imports on a plain directory under several read-ahead settings; builds nothing)
+        description: round (plan, build, merge), verdict (restore everything, print axioms), remerge (fold a round whose merge job failed, from its run id), rehearse (the verdict's jobs on whatever is built so far, that is the restore and no-op build, and with rehearse_module the axioms jobs on that module in place of Main), or probe (a timing of imports on a plain directory under several read-ahead settings; builds nothing)
         type: choice
         options: [round, verdict, remerge, rehearse, probe]
         default: round
@@ -88,6 +88,14 @@ on:
         description: extra swap on each build runner, in GB; the chain sets it after a module was killed alone for memory
         type: string
         default: "0"
+      rehearse_module:
+        description: rehearse only. A built module to import in place of Main for the axioms jobs; empty to rehearse the build job alone
+        type: string
+        default: ""
+      rehearse_names:
+        description: rehearse only. Declarations of that module to print the axioms of, with spaces between
+        type: string
+        default: ""
       probe_restore:
         description: probe only. Which import-only file to restore for (0 imports about 45,000 modules, 1 about 80,000, -1 everything built)
         type: string
@@ -786,7 +794,28 @@ jobs:
             -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS" -f fill="$FILL" -f swap_gb="$SWAP_GB"
 
   # --------------------------------------------------------------------------
-  # verdict: everything on one runner, nothing left to build, print the axioms
+  # verdict, in three jobs.
+  #
+  #   verdict          everything on one runner; `lake build` must find
+  #                    nothing left to do
+  #   axioms           one runner per question: `#print axioms` for each of
+  #                    the five theorems of Main.lean, the four interior
+  #                    statements, and the measurement of what the theorems
+  #                    depend on
+  #   verdict-summary  puts the answers side by side and applies the guard
+  #
+  # One runner per question because of what a question costs. `#print
+  # axioms` walks every constant a theorem rests on, with a fresh memory of
+  # what it has seen for each theorem; the archive's .olean files are about
+  # 95 GB and a runner keeps 13 GB of file pages, so each walk reads its way
+  # through the disk again. In one job the nine walks and three imports of
+  # `Main` would follow one another for hours; side by side they take as
+  # long as the slowest.
+  #
+  # Every job keeps the outputs in a plain directory with small page-fault
+  # windows (io_tune.sh). On the compressed volume this job used until
+  # 2026-11-21, an import of everything built was not done after forty
+  # minutes and 457 GB read (RUNS.md).
   # --------------------------------------------------------------------------
   verdict:
     if: (inputs.mode || 'round') == 'verdict' || inputs.mode == 'rehearse'
@@ -813,11 +842,18 @@ jobs:
           } | tee "$OUT/evidence/run.txt"
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
           sudo docker image prune --all --force >/dev/null 2>&1 || true
+          # Parts of the runner image no step here uses: with them gone the
+          # disk holds the outputs of every module uncompressed (130 GB free
+          # where the usual cleanup leaves 111; run 44921139865).
+          sudo rm -rf /opt/hostedtoolcache /usr/share/swift /usr/local/julia* /usr/lib/jvm /usr/local/share/powershell \
+            /usr/local/lib/node_modules /opt/microsoft /opt/google /usr/lib/google-cloud-sdk /opt/az /usr/share/az_* \
+            /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/miniconda /home/linuxbrew /usr/local/share/chromium \
+            /usr/lib/firefox /opt/pipx /usr/share/gradle-* /usr/share/kotlinc /usr/share/sbt /usr/local/share/vcpkg \
+            /usr/share/apache-maven-* /usr/local/sqlpackage /usr/lib/mono /usr/share/ri /opt/actionarchivecache || true
           sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
-          df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
 
       - name: restore the archive from this branch's cache
-        id: arc
         uses: actions/cache/restore@v4
         with:
           path: ~/replay/lean.tar.gz
@@ -830,13 +866,6 @@ jobs:
           echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c - | tee -a "$OUT/evidence/run.txt"
           tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
           rm -f "$HOME/replay/lean.tar.gz"
-
-      - name: optional compressed volume for the build outputs
-        if: env.COMPRESS_FS == 'true'
-        run: |
-          set -euo pipefail
-          # every module of the archive lands here: always the volume
-          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" 175187 0 | tee -a "$OUT/evidence/run.txt"
 
       - name: install elan and the toolchain the archive names
         run: |
@@ -852,6 +881,15 @@ jobs:
           set -euo pipefail
           lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
+          df -h / | tee -a "$OUT/evidence/run.txt"
+
+      # A plain directory if the disk holds every module of the archive, which
+      # after the cleanup it does; the compressed volume only if it does not.
+      - name: a place for the build outputs
+        if: env.COMPRESS_FS == 'true'
+        run: |
+          set -euo pipefail
+          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" 175187 disk | tee -a "$OUT/evidence/run.txt"
 
       - name: restore every module from every round
         env:
@@ -862,16 +900,19 @@ jobs:
           bash "$HUNT/fetch_artifact.sh" "$STATE_ID" state.zip
           mkdir -p state && unzip -o -q state.zip -d state
           python3 "$HUNT/replay_shard.py" fetchmap --state state/state.json --out all.json | tee -a "$OUT/evidence/run.txt"
-          bash "$HUNT/restore_chunks.sh" all.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
+          # two bundles in flight: the outputs take most of the disk
+          RESTORE_BUNDLES=2 bash "$HUNT/restore_chunks.sh" all.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
           echo "olean files on disk: $(find "$LEAN_DIR/.lake/build/lib/lean" -name '*.olean' | wc -l)" | tee -a "$OUT/evidence/run.txt"
           jq '{modules_built: (.where | length), failed: (.failed | length), rounds: (.history | length)}' state/state.json | tee -a "$OUT/evidence/run.txt"
           cp state/state.json "$OUT/evidence/state.json"
 
-      # No token is in the environment of the steps below.
+      # No token is in the environment of the step below.
       - name: lake build, every default target, which must find nothing left to do
         working-directory: /home/runner/replay/lean
         run: |
+          # not -e: the build's own exit code is reported below, then returned
+          set +e
           set -uo pipefail
           start=$(date +%s)
           # how much memory Lake itself needs to hold the whole workspace
@@ -907,154 +948,6 @@ jobs:
           zstd -q -9 --rm "$OUT/evidence/final-build.log" -o "$OUT/evidence/final-build.log.zst" || true
           exit "$rc"
 
-      # What does a module near the top pay before it elaborates a line? It
-      # imports most of the archive, on a runner whose memory holds a tenth
-      # of it. Nothing built by round 17 imports more than 50,000 modules, so
-      # the price of the last ones is timed here, on files that hold nothing
-      # but imports of what is built (replay_shard.py probe, import_probe.py):
-      # cold and warm, at the volume's own read-ahead and at a small one.
-      # This measures time and checks no proof. A failure here fails nothing.
-      - name: time imports of growing parts of what is built (rehearse only)
-        if: success() && env.MODE == 'rehearse'
-        continue-on-error: true
-        working-directory: /home/runner/replay/lean
-        run: |
-          set -uo pipefail
-          python3 "$GITHUB_WORKSPACE/$HUNT/replay_shard.py" probe --dag "$RUNNER_TEMP/dag.json" \
-            --state "$GITHUB_WORKSPACE/state/state.json" --targets 35000,80000 --out-dir "$RUNNER_TEMP/probe" \
-            | tee -a "$OUT/evidence/run.txt"
-          cp "$RUNNER_TEMP/probe/probes.json" "$OUT/evidence/probes.json"
-          { losetup -l 2>/dev/null || true; findmnt -n -o SOURCE,FSTYPE,OPTIONS --target "$LEAN_DIR/.lake/build" || true; } \
-            | tee -a "$OUT/evidence/run.txt"
-          # The watchdog as the build shards run it: it logs what lean holds,
-          # and ends a lean that would otherwise take the runner with it.
-          python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
-            --root "$RUNNER_TEMP/probe" --log "$OUT/evidence/mem-probe.log" &
-          watchdog=$!
-          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
-          python3 "$GITHUB_WORKSPACE/$HUNT/import_probe.py" --probes "$RUNNER_TEMP/probe" --out "$OUT/evidence" \
-            --build-dir "$LEAN_DIR/.lake/build" \
-            --plan="-1:cold -1:warm ra=128 -1:cold 0:cold 1:cold ra=restore 0:cold 1:cold" \
-            -- lake env lean --tstack=400000 "{file}" | tee -a "$OUT/evidence/run.txt"
-          kill "$watchdog" 2>/dev/null || true
-          wait "$watchdog" 2>/dev/null || true
-          {
-            echo "### import probe"
-            echo '```'
-            cat "$OUT/evidence/import-probe.tsv"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: print the axioms behind the five theorems of Main.lean
-        if: env.MODE == 'verdict'
-        working-directory: /home/runner/replay/lean
-        run: |
-          set -euo pipefail
-          cat > "$RUNNER_TEMP/PrintAxioms.lean" <<'LEAN'
-          import Main
-          set_option maxHeartbeats 0
-          #check (riemannHypothesis : RiemannHypothesis)
-          #print RiemannHypothesis
-          #print axioms riemannHypothesis
-          #print axioms riemannZeta_eq_zero_re
-          #print axioms LFunction_ne_zero_of_half_lt_re
-          #print axioms LFunction_eq_zero_re
-          #print axioms LFunction_eq_zero_re_of_isPrimitive
-          LEAN
-          # `#print axioms` walks every constant the theorem rests on, by
-          # recursion. The archive compiles with a 400 MB thread stack
-          # (lakefile.toml, moreLeanArgs); `lake env lean` does not pass
-          # that on, so it is given here, and the main thread's limit is
-          # lifted. A stack overflow in the last step would say nothing about
-          # the proof and cost an hour.
-          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
-          start=$(date +%s)
-          lake env lean --tstack=400000 "$RUNNER_TEMP/PrintAxioms.lean" 2>&1 | tee "$OUT/evidence/axioms.txt"
-          echo "print axioms rc=${PIPESTATUS[0]} wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
-          printed=$(grep -c 'depends on axioms' "$OUT/evidence/axioms.txt" || true)
-          echo "axiom lines printed: $printed" | tee -a "$OUT/evidence/run.txt"
-          if [ "$printed" -ne 5 ]; then
-            echo "::error::expected 5 'depends on axioms' lines, saw $printed; the guard is not reading what it thinks it is"
-            exit 1
-          fi
-          if grep -q 'sorryAx' "$OUT/evidence/axioms.txt"; then
-            echo "::error::sorryAx appears in the axiom set"; exit 1
-          fi
-          bad=$(grep 'depends on axioms' "$OUT/evidence/axioms.txt" \
-            | sed 's/.*depends on axioms: \[//; s/\]//' | tr ',' '\n' | tr -d ' ' \
-            | grep -v -x -e propext -e Classical.choice -e Quot.sound || true)
-          if [ -n "$bad" ]; then
-            echo "::error::non-standard axiom(s): $bad"; exit 1
-          fi
-          {
-            echo "### verdict, epoch $EPOCH"
-            echo '```'
-            cat "$OUT/evidence/axioms.txt"
-            echo '```'
-            echo "All five theorems of Main.lean depend only on propext, Classical.choice, Quot.sound."
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      # Four interior statements the session reading the proof chain asked
-      # for (hunts/rh_claim_atlas on its own branch): the Landau lemma through
-      # which the archive reaches L-functions, its consumer, the one theorem
-      # all five in Main.lean derive from, and the class-number bound. Their
-      # names were read from the archive text. This step informs and never
-      # decides: a wrong name fails here, not in the verdict above.
-      - name: print the axioms behind four interior statements (supplementary)
-        if: success() && env.MODE == 'verdict'
-        continue-on-error: true
-        working-directory: /home/runner/replay/lean
-        run: |
-          set -uo pipefail
-          cat > "$RUNNER_TEMP/PrintAxiomsInterior.lean" <<'LEAN'
-          import Main
-          set_option maxHeartbeats 0
-          #print axioms Deduction.zeroFree_of_rpow_window
-          #print axioms UpperTheory.Comparison₂.formB
-          #print axioms UpperTheory.FinalTheorems.everyCharacter
-          #print axioms UpperTheory.V.SmallClassNumbers.bound
-          LEAN
-          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
-          lake env lean --tstack=400000 "$RUNNER_TEMP/PrintAxiomsInterior.lean" 2>&1 | tee "$OUT/evidence/axioms-interior.txt"
-          {
-            echo "### four interior statements (supplementary)"
-            echo '```'
-            cat "$OUT/evidence/axioms-interior.txt"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      # How much of the archive do the theorems use? hunts/alpoge_replay/
-      # Cone.lean walks the constants reachable from the five theorems, the
-      # walk #print axioms makes, and counts the archive's modules and
-      # declarations inside and outside it. The note that came with the
-      # archive expects the argument to be "massively simplified"; this is the
-      # first measurement of how much there is to remove. It informs and never
-      # decides, and it checks no proof.
-      - name: measure what the five theorems depend on (supplementary)
-        if: success() && env.MODE == 'verdict'
-        continue-on-error: true
-        run: |
-          set -uo pipefail
-          mkdir -p "$RUNNER_TEMP/cone" && cd "$RUNNER_TEMP/cone"
-          cp "$LEAN_DIR/lean-toolchain" .
-          printf 'name = "cone"\n\n[[lean_exe]]\nname = "cone"\nroot = "Cone"\nsupportInterpreter = true\n' > lakefile.toml
-          cp "$GITHUB_WORKSPACE/$HUNT/Cone.lean" Cone.lean
-          lake build cone 2>&1 | tail -3
-          cd "$LEAN_DIR"
-          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
-          start=$(date +%s)
-          lake env "$RUNNER_TEMP/cone/.lake/build/bin/cone" Main \
-            riemannHypothesis,riemannZeta_eq_zero_re,LFunction_ne_zero_of_half_lt_re,LFunction_eq_zero_re,LFunction_eq_zero_re_of_isPrimitive \
-            BuildAid,CompanionTheory,Development,Formalism,GroundTheory,Lemmata,PositivityTheory,ReciprocityTheory,Supplements,Statements,Main \
-            "$OUT/evidence/cone.json" "$OUT/evidence" > /dev/null
-          echo "cone rc=$? wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
-          zstd -q -9 --rm "$OUT"/evidence/cone-modules-*.txt || true
-          {
-            echo "### what the theorems depend on (supplementary)"
-            echo '```'
-            jq -c '.[] | {label, constants_in_cone, archive_modules, archive_modules_in_cone, archive_declarations, archive_declarations_in_cone, archive_theorems, archive_theorems_in_cone, names_not_found}' "$OUT/evidence/cone.json"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: preserve the evidence, including failures
         if: always()
@@ -1062,6 +955,335 @@ jobs:
         with:
           name: alpoge-${{ env.EPOCH }}-${{ env.MODE }}-${{ github.run_id }}
           path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
+
+  # What the axioms job is asked: for the verdict, the five theorems of
+  # Main.lean, four interior statements (the Landau lemma through which the
+  # archive reaches L-functions, its consumer, the one theorem all five in
+  # Main.lean derive from, and the class-number bound; names read from the
+  # archive text for the session reading the proof chain), and the cone. For
+  # a rehearsal, one built module and names in it, given by the dispatch.
+  axioms-plan:
+    if: (inputs.mode || 'round') == 'verdict' || inputs.mode == 'rehearse'
+    name: what to ask (${{ inputs.mode || 'verdict' }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      n: ${{ steps.plan.outputs.n }}
+    steps:
+      - name: list the questions
+        id: plan
+        env:
+          REHEARSE_MODULE: ${{ inputs.rehearse_module || '' }}
+          REHEARSE_NAMES: ${{ inputs.rehearse_names || '' }}
+        run: |
+          set -euo pipefail
+          python3 - >> "$GITHUB_OUTPUT" <<'PY'
+          import json, os
+          five = ["riemannHypothesis", "riemannZeta_eq_zero_re", "LFunction_ne_zero_of_half_lt_re",
+                  "LFunction_eq_zero_re", "LFunction_eq_zero_re_of_isPrimitive"]
+          interior = ["Deduction.zeroFree_of_rpow_window", "UpperTheory.Comparison\u2082.formB",
+                      "UpperTheory.FinalTheorems.everyCharacter", "UpperTheory.V.SmallClassNumbers.bound"]
+          if os.environ["MODE"] == "verdict":
+              m = [{"key": t, "kind": "axioms", "import": "Main", "names": t} for t in five]
+              m.append({"key": "interior", "kind": "axioms", "import": "Main", "names": " ".join(interior)})
+              m.append({"key": "cone", "kind": "cone", "import": "Main", "names": " ".join(five)})
+          elif os.environ["REHEARSE_MODULE"]:
+              mod, names = os.environ["REHEARSE_MODULE"], " ".join(os.environ["REHEARSE_NAMES"].split())
+              m = [{"key": "rehearsal", "kind": "axioms", "import": mod, "names": names},
+                   {"key": "cone", "kind": "cone", "import": mod, "names": names}]
+          else:
+              m = []
+          print("matrix=" + json.dumps(m, ensure_ascii=False))
+          print(f"n={len(m)}")
+          PY
+          cat "$GITHUB_OUTPUT"
+
+  axioms:
+    needs: axioms-plan
+    if: needs.axioms-plan.outputs.n != '0'
+    name: ${{ matrix.kind }} ${{ matrix.key }} (${{ inputs.epoch || 'p1' }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.axioms-plan.outputs.matrix) }}
+    env:
+      LEAN_DIR: /home/runner/replay/lean
+      OUT: /home/runner/replay/out
+      KEY: ${{ matrix.key }}
+      KIND: ${{ matrix.kind }}
+      IMPORT: ${{ matrix.import }}
+      NAMES: ${{ matrix.names }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: record the run and free the runner's disk
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT/evidence"
+          {
+            echo "zeta-lab commit: $GITHUB_SHA"
+            echo "epoch $EPOCH $MODE from state artifact $STATE_ID: $KIND $KEY, import $IMPORT, names $NAMES"
+            lscpu | grep -E '^(Model name|Thread\(s\) per core|Core\(s\) per socket|Socket\(s\)|CPU\(s\)):' | sed 's/  */ /g' || true
+            echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+          } | tee "$OUT/evidence/run.txt"
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          # Parts of the runner image no step here uses: with them gone the
+          # disk holds the outputs of every module uncompressed (130 GB free
+          # where the usual cleanup leaves 111; run 44921139865).
+          sudo rm -rf /opt/hostedtoolcache /usr/share/swift /usr/local/julia* /usr/lib/jvm /usr/local/share/powershell \
+            /usr/local/lib/node_modules /opt/microsoft /opt/google /usr/lib/google-cloud-sdk /opt/az /usr/share/az_* \
+            /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/miniconda /home/linuxbrew /usr/local/share/chromium \
+            /usr/lib/firefox /opt/pipx /usr/share/gradle-* /usr/share/kotlinc /usr/share/sbt /usr/local/share/vcpkg \
+            /usr/share/apache-maven-* /usr/local/sqlpackage /usr/lib/mono /usr/share/ri /opt/actionarchivecache || true
+          sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
+          sudo mount -t debugfs none /sys/kernel/debug 2>/dev/null || true
+
+      - name: restore the archive from this branch's cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+          fail-on-cache-miss: true
+
+      - name: verify and extract the archive
+        run: |
+          set -euo pipefail
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c - | tee -a "$OUT/evidence/run.txt"
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+          rm -f "$HOME/replay/lean.tar.gz"
+
+      - name: install elan and the toolchain the archive names
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat "$LEAN_DIR/lean-toolchain")"
+          cd "$LEAN_DIR" && "$HOME/.elan/bin/lean" --version | tee -a "$OUT/evidence/run.txt"
+
+      - name: fetch the pinned dependencies and the Mathlib olean cache
+        working-directory: /home/runner/replay/lean
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
+          df -h / | tee -a "$OUT/evidence/run.txt"
+
+      # The .olean files of the module asked about and of everything under it,
+      # and nothing else: `lean` reads no other kind of output.
+      - name: restore what the module imports
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          case "$STATE_ID" in ''|*[!0-9]*) echo "::error::needs a numeric state_id"; exit 1;; esac
+          bash "$HUNT/fetch_artifact.sh" "$STATE_ID" state.zip
+          mkdir -p state && unzip -o -q state.zip -d state
+          python3 "$HUNT/replay_plan.py" dag --src "$LEAN_DIR/src" --out "$RUNNER_TEMP/dag.json"
+          python3 "$HUNT/replay_shard.py" closure --dag "$RUNNER_TEMP/dag.json" --state state/state.json \
+            --module "$IMPORT" --out "$RUNNER_TEMP/need.txt" | tee -a "$OUT/evidence/run.txt"
+          python3 "$HUNT/replay_shard.py" fetchmap --state state/state.json --need "$RUNNER_TEMP/need.txt" \
+            --out fetch.json | tee -a "$OUT/evidence/run.txt"
+          # A full disk takes the runner with it and leaves no log: stop
+          # here instead. The .olean files average 0.55 MB a module, and two
+          # bundles are in flight beside them.
+          free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+          want_gb=$(( $(wc -l < "$RUNNER_TEMP/need.txt") * 56 / 100000 + 12 ))
+          echo "disk: $free_gb GB free, this restore wants $want_gb" | tee -a "$OUT/evidence/run.txt"
+          if [ "$free_gb" -lt "$want_gb" ]; then echo "::error::not enough disk on this runner"; exit 1; fi
+          RESTORE_NEED="$RUNNER_TEMP/need.txt" RESTORE_SUFFIX=.olean RESTORE_BUNDLES=2 \
+            bash "$HUNT/restore_chunks.sh" fetch.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
+          # after the restore, which wants the normal read-ahead
+          bash "$HUNT/io_tune.sh" 16 4096 "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" | tee -a "$OUT/evidence/run.txt" || true
+
+      # No token is in the environment of the two steps below.
+      - name: print the axioms
+        if: env.KIND == 'axioms'
+        working-directory: /home/runner/replay/lean
+        run: |
+          set +e
+          set -uo pipefail
+          {
+            echo "import $IMPORT"
+            echo "set_option maxHeartbeats 0"
+            if [ "$KEY" = "riemannHypothesis" ]; then
+              echo "#check (riemannHypothesis : RiemannHypothesis)"
+              echo "#print RiemannHypothesis"
+            fi
+            for n in $NAMES; do echo "#print axioms $n"; done
+          } > "$RUNNER_TEMP/PrintAxioms.lean"
+          cat "$RUNNER_TEMP/PrintAxioms.lean" | tee -a "$OUT/evidence/run.txt"
+          # The watchdog as the build shards run it: it logs what lean holds
+          # and ends a lean that would otherwise take the runner with it.
+          python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name lean --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+            --swap-floor-mb 512 --root "$RUNNER_TEMP" --log "$OUT/evidence/mem.log" &
+          watchdog=$!
+          # `#print axioms` walks every constant the theorem rests on, by
+          # recursion. The archive compiles with a 400 MB thread stack
+          # (lakefile.toml, moreLeanArgs); `lake env lean` does not pass
+          # that on, so it is given here, and the main thread's limit is
+          # lifted. A stack overflow here would say nothing about the proof.
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
+          start=$(date +%s)
+          timeout --signal=TERM --kill-after=60 300m lake env lean --tstack=400000 "$RUNNER_TEMP/PrintAxioms.lean" 2>&1 \
+            | tee "$OUT/evidence/axioms-$KEY.txt"
+          rc=${PIPESTATUS[0]}
+          kill "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
+          echo "print axioms $KEY rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          tail -1 "$OUT/evidence/mem.log" | tee -a "$OUT/evidence/run.txt" || true
+          {
+            echo "### $KEY"
+            echo '```'
+            cat "$OUT/evidence/axioms-$KEY.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+
+      # How much of the archive do the theorems use? hunts/alpoge_replay/
+      # Cone.lean walks the constants reachable from the roots, the walk
+      # #print axioms makes, and counts the archive's modules and
+      # declarations inside and outside it. The note that came with the
+      # archive expects the argument to be "massively simplified"; this is the
+      # first measurement of how much there is to remove. It informs and never
+      # decides, and it checks no proof.
+      - name: measure what the theorems depend on
+        if: env.KIND == 'cone'
+        run: |
+          set +e
+          set -uo pipefail
+          mkdir -p "$RUNNER_TEMP/cone" && cd "$RUNNER_TEMP/cone"
+          cp "$LEAN_DIR/lean-toolchain" .
+          printf 'name = "cone"\n\n[[lean_exe]]\nname = "cone"\nroot = "Cone"\nsupportInterpreter = true\n' > lakefile.toml
+          cp "$GITHUB_WORKSPACE/$HUNT/Cone.lean" Cone.lean
+          lake build cone 2>&1 | tail -3
+          cd "$LEAN_DIR"
+          python3 "$GITHUB_WORKSPACE/$HUNT/mem_watchdog.py" --name cone --floor-mb 700 --soft-mb 2500 --resume-mb 5000 \
+            --swap-floor-mb 512 --root "$RUNNER_TEMP" --log "$OUT/evidence/mem.log" &
+          watchdog=$!
+          ulimit -s unlimited 2>/dev/null || ulimit -s 1048576 2>/dev/null || true
+          start=$(date +%s)
+          timeout --signal=TERM --kill-after=60 300m lake env "$RUNNER_TEMP/cone/.lake/build/bin/cone" "$IMPORT" \
+            "$(echo "$NAMES" | tr ' ' ',')" \
+            BuildAid,CompanionTheory,Development,Formalism,GroundTheory,Lemmata,PositivityTheory,ReciprocityTheory,Supplements,Statements,Main \
+            "$OUT/evidence/cone.json" "$OUT/evidence" > /dev/null
+          rc=$?
+          kill "$watchdog" 2>/dev/null || true
+          wait "$watchdog" 2>/dev/null || true
+          echo "cone rc=$rc wall_seconds=$(( $(date +%s) - start ))" | tee -a "$OUT/evidence/run.txt"
+          zstd -q -9 --rm "$OUT"/evidence/cone-modules-*.txt || true
+          {
+            echo "### what the theorems depend on (supplementary)"
+            echo '```'
+            jq -c '.[] | {label, constants_in_cone, archive_modules, archive_modules_in_cone, archive_declarations, archive_declarations_in_cone, archive_theorems, archive_theorems_in_cone, names_not_found}' "$OUT/evidence/cone.json"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+
+      - name: preserve the evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-${{ env.MODE }}-${{ github.run_id }}-axioms-${{ matrix.key }}
+          path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
+
+  verdict-summary:
+    needs: [verdict, axioms]
+    if: always() && ((inputs.mode || 'round') == 'verdict' || inputs.mode == 'rehearse')
+    name: ${{ inputs.mode || 'verdict' }} summary (${{ inputs.epoch || 'p1' }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      BUILD_RESULT: ${{ needs.verdict.result }}
+      AXIOMS_RESULT: ${{ needs.axioms.result }}
+    steps:
+      - name: fetch what the axioms jobs printed
+        uses: actions/download-artifact@v4
+        with:
+          pattern: alpoge-${{ env.EPOCH }}-${{ env.MODE }}-${{ github.run_id }}-axioms-*
+          path: answers
+        continue-on-error: true
+
+      - name: put the answers side by side and apply the guard
+        run: |
+          # not -e: every answer that came back is shown, then the guard decides
+          set +e
+          set -uo pipefail
+          mkdir -p summary
+          prefix="answers/alpoge-$EPOCH-$MODE-$GITHUB_RUN_ID-axioms"
+          echo "build job: $BUILD_RESULT; axioms jobs: $AXIOMS_RESULT" | tee summary/summary.txt
+          ls answers 2>/dev/null | tee -a summary/summary.txt || true
+          if [ "$MODE" != "verdict" ]; then
+            cat "$prefix"-*/axioms-*.txt 2>/dev/null | tee summary/axioms.txt || true
+            cp "$prefix-cone/cone.json" summary/ 2>/dev/null || true
+            cat "$prefix"-*/run.txt 2>/dev/null | grep -E 'rc=|restore:|disk:|imports' | tee -a summary/summary.txt || true
+            exit 0
+          fi
+          : > summary/axioms.txt
+          bad=0
+          for t in riemannHypothesis riemannZeta_eq_zero_re LFunction_ne_zero_of_half_lt_re LFunction_eq_zero_re LFunction_eq_zero_re_of_isPrimitive; do
+            cat "$prefix-$t/axioms-$t.txt" >> summary/axioms.txt 2>/dev/null || echo "::error::no answer for $t"
+            # the line must be this theorem's own
+            if ! grep -q "'$t' depends on axioms" "$prefix-$t/axioms-$t.txt" 2>/dev/null; then
+              echo "::error::no axiom line for $t in its own answer"; bad=1
+            fi
+          done
+          cp "$prefix-interior/axioms-interior.txt" summary/ 2>/dev/null || true
+          cp "$prefix-cone/cone.json" summary/ 2>/dev/null || true
+          cat "$prefix"-*/run.txt 2>/dev/null | grep -E 'rc=|restore:|disk:|imports' | tee -a summary/summary.txt || true
+          if [ "$BUILD_RESULT" != "success" ]; then echo "::error::the job that must find nothing left to build ended $BUILD_RESULT"; bad=1; fi
+          printed=$(grep -c 'depends on axioms' summary/axioms.txt || true)
+          echo "axiom lines printed: $printed" | tee -a summary/summary.txt
+          if [ "$printed" -ne 5 ]; then
+            echo "::error::expected 5 'depends on axioms' lines, saw $printed; the guard is not reading what it thinks it is"; bad=1
+          fi
+          if grep -q 'sorryAx' summary/axioms.txt; then echo "::error::sorryAx appears in the axiom set"; bad=1; fi
+          other=$(grep 'depends on axioms' summary/axioms.txt \
+            | sed 's/.*depends on axioms: \[//; s/\]//' | tr ',' '\n' | tr -d ' ' \
+            | grep -v -x -e propext -e Classical.choice -e Quot.sound || true)
+          if [ -n "$other" ]; then echo "::error::non-standard axiom(s): $other"; bad=1; fi
+          {
+            echo "### verdict, epoch $EPOCH"
+            echo '```'
+            cat summary/axioms.txt
+            echo '```'
+            if [ "$bad" = "0" ]; then
+              echo "All five theorems of Main.lean depend only on propext, Classical.choice, Quot.sound; the build job found nothing left to build."
+            else
+              echo "The guard did not pass; see the errors of this job."
+            fi
+            if [ -f summary/axioms-interior.txt ]; then
+              echo "### four interior statements (supplementary)"
+              echo '```'
+              cat summary/axioms-interior.txt
+              echo '```'
+            fi
+            if [ -f summary/cone.json ]; then
+              echo "### what the theorems depend on (supplementary)"
+              echo '```'
+              jq -c '.[] | {label, constants_in_cone, archive_modules, archive_modules_in_cone, archive_declarations, archive_declarations_in_cone, archive_theorems, archive_theorems_in_cone, names_not_found}' summary/cone.json
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$bad"
+
+      - name: publish the summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-${{ env.MODE }}-${{ github.run_id }}-summary
+          path: summary
           retention-days: 90
           if-no-files-found: warn
 
