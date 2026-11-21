@@ -980,6 +980,136 @@ output and `lake build` must find nothing left to do; seven more each
 import `Main` on a runner of their own, one per theorem of `Main.lean`, one
 for the four interior statements and one for the dependency cone.
 
+### The verdict, 2026-11-21 20:07Z, run 44941044062
+
+On `af44b45e`, from state 14720649806. Every job ran on a hosted runner of
+its own: 4 cores, 15 GB.
+
+**The build job.** 122,529 MB free after the cleanup, so a plain directory.
+22 bundles and 222 chunks restored in 631 s, two bundles at a time: 175,187
+`.olean` files on disk. `lake build` of every default target then exited 0
+in 198 s with `Build completed successfully (183903 jobs).` and elaborated
+no module. Its log is what Lake replays from the stored logs of the 104,066
+modules whose compile printed anything: 2,330,552 lines, none an error and
+none containing `sorry` in any letter case. Artifact 14722476517.
+
+**The five theorems of `Main.lean`, and four interior statements.** Each
+job restored the `.olean` files of the 175,187 modules `Main` imports,
+itself included, set the read-ahead to 16 KB and the fault-around window to
+4 KB, and ran `lake env lean --tstack=400000` on a file of `import Main`,
+`set_option maxHeartbeats 0` and one `#print axioms` per name. The file for
+`riemannHypothesis` also asks `#check (riemannHypothesis :
+RiemannHypothesis)` and `#print RiemannHypothesis`.
+
+| question | restore s | `lean` s | largest `lean`, MB | artifact |
+| --- | --- | --- | --- | --- |
+| `riemannHypothesis` | 1,165 | 482 | 1,365 | 14723105904 |
+| `riemannZeta_eq_zero_re` | 559 | 469 | 1,363 | 14722197330 |
+| `LFunction_ne_zero_of_half_lt_re` | 1,040 | 468 | 1,367 | 14722518197 |
+| `LFunction_eq_zero_re` | 1,524 | 482 | 2,043 | 14722648794 |
+| `LFunction_eq_zero_re_of_isPrimitive` | 555 | 461 | 1,367 | 14722521880 |
+| `interior` | 1,095 | 480 | 1,364 | 14722971548 |
+
+The restores differ by runner, 555 s to 1,524 s for the same files; the
+import and the walk took 461 s to 482 s on every one. All six exited 0.
+What Lean printed, whole and unedited, the five theorems in the order of
+`Main.lean`:
+
+```
+riemannHypothesis : RiemannHypothesis
+def RiemannHypothesis : Prop :=
+∀ (s : ℂ), riemannZeta s = 0 → (¬∃ n, s = -2 * (↑n + 1)) → s ≠ 1 → s.re = 1 / 2
+'riemannHypothesis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'riemannZeta_eq_zero_re' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LFunction_ne_zero_of_half_lt_re' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LFunction_eq_zero_re' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LFunction_eq_zero_re_of_isPrimitive' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+and for the interior statements:
+
+```
+'Deduction.zeroFree_of_rpow_window' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UpperTheory.Comparison₂.formB' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UpperTheory.FinalTheorems.everyCharacter' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UpperTheory.V.SmallClassNumbers.bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+**What this is.** Lean 4.33.1 elaborated all 175,187 modules, each once,
+and its kernel accepted every declaration it was given; with every module
+loaded, the axiom walk from each of the five theorems reaches `propext`,
+`Classical.choice` and `Quot.sound` and no other axiom. No `sorryAx`, no
+`Lean.ofReduceBool`, no axiom of the archive's own. The statement of the
+first theorem is the constant `RiemannHypothesis`, and Lean prints that
+constant's definition as above. Whether this is the repository's third
+rung, kernel-checked, for these five statements waits on limits 2 and 3
+below: a composite claim takes the grade of its weakest step.
+
+**What it rests on, checked the same hour.**
+
+- *Mathlib.* The pinned commit `0df444a360eaa60ab8c11dca51a86af692955474`
+  is the tag `v4.33.1` of `leanprover-community/mathlib4`. It is not on
+  `master`: it is one commit, "chore: bump toolchain to v4.33.1" of
+  2026-08-21, on top of `db584cd6`, "chore: bump toolchain to v4.33.0
+  (#42604)", which is on `master`, and the two differ in `lean-toolchain`
+  alone (a treeless clone of the official repository at 20:06Z, `master` at
+  `a495318f`). The definition printed above is the one at lines 185 and
+  186 of `Mathlib/NumberTheory/LSeries/RiemannZeta.lean` at that tag, whose
+  docstring calls it "A formal statement of the **Riemann hypothesis**". The other
+  eight packages of the manifest are under `leanprover-community` and
+  `leanprover`.
+- *The package file.* `lakefile.toml` passes `--tstack=400000` to `lean`
+  and sets `autoImplicit`, `relaxedAutoImplicit`, `maxSynthPendingDepth`,
+  `pp.unicode.fun`, `maxHeartbeats` and, for one library,
+  `synthInstance.maxHeartbeats`. Nothing in it concerns the kernel.
+- *The statements.* `Statements.lean` is 783 bytes, imports `Mathlib` and
+  nothing else, and defines the other four statements with no notation of
+  its own; `Main.lean` is 433 bytes and opens no namespace.
+
+**The text of the archive, 175,187 files.** Text is not the check (the
+second pass and the cone are); it is what a reader would look for first.
+
+| files | containing |
+| --- | --- |
+| 0 | `sorry`; a declared `axiom`; `native_decide`; `ofReduceBool`, `trustCompiler`; `skipKernelTC` or any `debug` option, as text or as a name; `unsafe`; `implemented_by`; `extern`; `initialize`; `#eval`; `command_elab`, `elab_rules`, `macro_rules`, `syntax`; `withOptions`, `setOption`; `addDeclCore`, `WithoutChecking` |
+| 1 | `addDecl`: `CutCptCopy.lean` defines a command `cpt_copy_thms` that copies definitions and theorems under new names, through `addDecl`, which is the kernel |
+| 5 | `run_cmd`, all in `BuildAid/`: each adds one name to the deny list of Lean's library suggestions |
+| 3 | an `elab`, four in all: two tactics, `kcopy` and `kexactB`, and two commands, `#kcopy_probe` and `cpt_copy_thms` |
+| 55 | a `macro`; all tactics but five local term macros |
+| 952 | a notation, most of them `local`; none names `RiemannHypothesis`, `riemannZeta`, `LFunction`, `DirichletCharacter` or `IsPrimitive` |
+
+`set_option` appears in 75,197 files, with 33 distinct options: heartbeat
+and instance-search limits, linters, `autoImplicit`,
+`backward.isDefEq.respectTransparency`, `allowUnsafeReducibility` (37
+files, which permits changing a reducibility attribute and nothing in the
+kernel) and the like. None is a `debug` option.
+
+**The limits.**
+
+1. One kernel. Nothing here is a second implementation of the type
+   checker, and a soundness bug in Lean 4.33.1's kernel would pass every
+   job above and the second pass too.
+2. The build was cut into shards and its outputs carried between runners
+   as artifacts. 4,490 modules were built twice, on different runners, and
+   every pair of outputs is identical. The second pass, which sends every
+   stored declaration through the kernel again, stood at 145,947 modules,
+   83.31 percent, with no rejection when these lines were printed.
+3. `#print axioms` and `#check` run inside the environment they describe.
+   A module of that environment can replace a command or a notation, and
+   `test_replay_check.py` builds one that does. The text above shows no
+   such thing, and text is not the check: run 44943756336 asks the same
+   questions of the stored terms with a program that runs none of the
+   archive's commands. Its answer is recorded below when it is in.
+4. Mathlib's own `.olean` files come from Mathlib's cache and are replayed
+   by neither pass.
+5. Nothing here is a statement about the mathematics, or about whether a
+   person can follow the argument. `Mathlib`'s `RiemannHypothesis` is the
+   statement its authors and reviewers take to be the Riemann hypothesis;
+   that it is, is their claim and is not checked here.
+
+Still running when this was written: the cone job of this run, started
+19:52:59Z, and after it the summary job with its guard.
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
@@ -1089,6 +1219,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 9 | 44905297777 | 14:31 | 6,449 | 127,097 | 72.55 | 0 | 0 | 3.78 | against build state 14704557927; two processes per runner; three of four shards reported, shard 1's runner was lost and left no log, as shard 0's was in round 8 at four; 6,504 planned on the three, one stopped by its deadline; the chain lowered itself to one process per runner for round 10; check state 14710478596 |
 | 10 | 44914347569 | 15:46 | 4,107 | 131,204 | 74.89 | 0 | 0 | 3.08 | against build state 14710597929; one process per runner; all four shards reported; 4,392 planned; one strike, see below: the watchdog ended the replay of `SesquilinearFractions.ExistsFactorThroughMultiplication` at 12.7 GB, alone on its runner, and the 285 modules after it in that list were not reached; check state 14713298174 |
 | 11 | 44924547755 | 18:16 | 8,137 | 139,341 | 79.54 | 0 | 0 | 5.58 | against build state 14713104221; dispatched by hand at 16:26Z after the cancelled run; two processes per runner, small page-fault windows, extra swap, plain directories; all four shards reported; 8,884 planned, three shards stopped by their deadline; no process killed, no new strike; the module struck in round 10, `SesquilinearFractions.ExistsFactorThroughMultiplication`, went through the kernel on shard 0 in 2,076 s with the swap in place; check state 14718594608 |
+| 12 | 44934638612 | 19:52 | 6,606 | 145,947 | 83.31 | 0 | 0 | 4.07 | against build state 14718047776; two processes per runner; three of four shards reported, each with all 2,202 of its modules and none stopped by its deadline; shard 2's runner was lost 49 minutes into its replay and left no log, and the two surviving runners looked at never had less than 11 GB available, so memory in general was not short; check state 14722696394. Round 13 started with four shards (run 44943257562), was cancelled after twelve minutes and dispatched again with twelve (run 44944303371) |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
