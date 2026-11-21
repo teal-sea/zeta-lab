@@ -194,6 +194,9 @@ jobs:
           } | tee "$OUT/evidence/run.txt"
           nohup sudo sh -c 'rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; docker image prune --all --force' >/dev/null 2>&1 &
           sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
+          ( sudo fallocate -l 16G /alpoge-swap && sudo chmod 600 /alpoge-swap \
+            && sudo mkswap -q /alpoge-swap && sudo swapon /alpoge-swap ) || echo "extra swap not available"
+          free -g | tee -a "$OUT/evidence/run.txt"
 
       - name: restore the archive from this branch's cache
         uses: actions/cache/restore@v4

@@ -36,10 +36,14 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: round (plan, build, merge) or verdict (restore everything, print axioms)
+        description: round (plan, build, merge), verdict (restore everything, print axioms), or remerge (fold a round whose merge job failed, from its run id)
         type: choice
-        options: [round, verdict]
+        options: [round, verdict, remerge]
         default: round
+      from_run:
+        description: remerge only. The run id of the round whose shards finished but whose merge job did not
+        type: string
+        default: ""
       epoch:
         description: namespace for this campaign's artifacts; a new epoch starts from nothing
         type: string
@@ -238,6 +242,13 @@ jobs:
           # the default limit of 65530 mappings would make Lean read them into
           # memory instead.
           sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
+          # In round 9 one runner was shut down 52 minutes into its build with
+          # no record of why; running out of memory is the likeliest cause at
+          # this depth of the graph. Sixteen more gigabytes of swap turn that
+          # into a slow shard. Best effort: a runner that refuses still builds.
+          ( sudo fallocate -l 16G /alpoge-swap && sudo chmod 600 /alpoge-swap \
+            && sudo mkswap -q /alpoge-swap && sudo swapon /alpoge-swap ) || echo "extra swap not available"
+          free -g | tee -a "$OUT/evidence/run.txt"
           df -h / /mnt 2>/dev/null | tee -a "$OUT/evidence/run.txt"
 
       - name: restore the archive from this branch's cache
@@ -449,6 +460,7 @@ jobs:
             --done-dir in --round "$ROUND" --out state-count.json --github-output "$GITHUB_OUTPUT" | tee merge.json
 
       - name: bundle this round's chunks into one artifact
+        id: bundle
         if: steps.count.outputs.built_this_round != '0'
         uses: actions/upload-artifact/merge@v4
         with:
@@ -468,9 +480,18 @@ jobs:
           args=()
           if [ -f "$plan/state-prev.json" ]; then args+=(--state "$plan/state-prev.json"); fi
           if [ "${{ steps.count.outputs.built_this_round }}" != "0" ]; then
-            bid=$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
-              --jq ".artifacts[] | select(.name==\"alpoge-${EPOCH}-bundle-r${ROUND}\") | .id" | tail -1)
-            test -n "$bid"
+            # Round 9 (run 44846358339) died here: the bundle had just been
+            # uploaded and the run's artifact listing did not show it yet.
+            # Take the id from the action that made it, and if that is empty
+            # ask the listing for up to three minutes.
+            bid="${{ steps.bundle.outputs.artifact-id }}"
+            tries=0
+            while [ -z "$bid" ] && [ "$tries" -lt 18 ]; do
+              bid=$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+                --jq ".artifacts[] | select(.name==\"alpoge-${EPOCH}-bundle-r${ROUND}\") | .id" < /dev/null | tail -1 || true)
+              if [ -z "$bid" ]; then tries=$((tries + 1)); sleep 10; fi
+            done
+            if [ -z "$bid" ]; then echo "::error::the bundle of round $ROUND never appeared in the artifact listing"; exit 1; fi
             echo "bundle artifact id: $bid"
             args+=(--bundle-id "$bid")
           fi
@@ -542,6 +563,101 @@ jobs:
             if [ "$BUILT" = "0" ] && [ "$MAIN_BUILT" != "true" ]; then exit 1; fi
             exit 0
           fi
+          gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
+            -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
+            -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
+            -f compress_fs="$COMPRESS_FS" -f lean_threads="$LEAN_THREADS"
+
+  # --------------------------------------------------------------------------
+  # remerge: a round whose shards finished and were bundled, but whose merge
+  # job failed before it wrote the state. Reads that run's plan, done records
+  # and bundle by run id, writes the state, and hands on. Nothing is rebuilt.
+  # --------------------------------------------------------------------------
+  remerge:
+    if: (inputs.mode || 'round') == 'remerge'
+    name: remerge round ${{ inputs.round }} from run ${{ inputs.from_run }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: write
+    env:
+      FROM_RUN: ${{ inputs.from_run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: fetch that run's plan and done records, and find its bundle
+        id: fetch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          case "$FROM_RUN" in ''|*[!0-9]*) echo "::error::from_run must be a run id"; exit 1;; esac
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$FROM_RUN/artifacts?per_page=100" \
+            --jq '.artifacts[] | [.id, .name] | @tsv' < /dev/null > artifacts.tsv
+          wc -l artifacts.tsv
+          mkdir -p in
+          bid=""
+          while IFS=$'\t' read -r id name; do
+            case "$name" in
+              "alpoge-${EPOCH}-plan-r${ROUND}"|"alpoge-${EPOCH}-done-r${ROUND}-s"*)
+                gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" < /dev/null > a.zip
+                mkdir -p "in/$name"
+                unzip -o -q a.zip -d "in/$name"
+                rm -f a.zip
+                ;;
+              "alpoge-${EPOCH}-bundle-r${ROUND}")
+                bid="$id"
+                ;;
+            esac
+          done < artifacts.tsv
+          if [ -z "$bid" ]; then echo "::error::run $FROM_RUN has no bundle for round $ROUND"; exit 1; fi
+          test -f "in/alpoge-${EPOCH}-plan-r${ROUND}/dag.json"
+          echo "bundle_id=$bid" >> "$GITHUB_OUTPUT"
+          echo "bundle artifact id: $bid; done records: $(ls in | grep -c -- '-done-')" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: fold the done records into the state
+        id: count
+        run: |
+          set -euo pipefail
+          plan="in/alpoge-${EPOCH}-plan-r${ROUND}"
+          args=()
+          if [ -f "$plan/state-prev.json" ]; then args+=(--state "$plan/state-prev.json"); fi
+          mkdir -p state
+          python3 "$HUNT/replay_shard.py" merge --dag "$plan/dag.json" "${args[@]}" \
+            --done-dir in --round "$ROUND" --bundle-id "${{ steps.fetch.outputs.bundle_id }}" \
+            --out state/state.json --github-output "$GITHUB_OUTPUT" | tee state/merge.json
+          {
+            echo "### remerge, round $ROUND, epoch $EPOCH, from run $FROM_RUN"
+            echo '```'
+            jq -c 'del(.failed)' state/merge.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: publish the state
+        id: up
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-${{ env.EPOCH }}-state-r${{ env.ROUND }}
+          path: state
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: hand on
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATE_ARTIFACT: ${{ steps.up.outputs.artifact-id }}
+          BUILT: ${{ steps.count.outputs.built_this_round }}
+          MAIN_BUILT: ${{ steps.count.outputs.main_built }}
+          PERCENT: ${{ steps.count.outputs.percent }}
+        run: |
+          set -euo pipefail
+          echo "state artifact id: $STATE_ARTIFACT; built in round $ROUND: $BUILT; ${PERCENT}% in all" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$CHAIN" != "true" ]; then exit 0; fi
+          next=round
+          if [ "$MAIN_BUILT" = "true" ]; then next=verdict; fi
           gh workflow run replay-alpoge-rh.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f mode="$next" -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id="$STATE_ARTIFACT" \
             -f shards="$SHARDS" -f build_minutes="$BUILD_MINUTES" -f chain=true -f max_round="$MAX_ROUND" \
