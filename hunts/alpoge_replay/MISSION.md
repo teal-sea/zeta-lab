@@ -73,6 +73,20 @@ records what finished. `.github/workflows/replay-alpoge-rh.yml` runs a round on
 hosted runners, bundles its outputs, and can dispatch the next round by
 itself. Allocations, estimates and outcomes are in `RUNS.md`.
 
+Two later additions bear on what a pass means, and both narrow limit 2 above
+without removing it.
+
+- **Some modules are elaborated twice.** From round 13 an idle shard may
+  build a module whose unbuilt imports another shard owns, and builds those
+  imports a second time on its own runner (`fill_idle`). Only the owner's
+  copy is kept. The merge compares the two `.olean` files byte for byte and
+  records how many agreed. Agreement is a measurement that elaboration is
+  reproducible across runners for those modules; it is not a second kernel.
+- **The whole is put on one machine before the end.** Mode `rehearse` runs
+  the verdict job's restore on whatever is built and asks Lake to check every
+  module there, on one runner. A module Lake rebuilds in that job is one whose
+  restored outputs did not match their inputs.
+
 The archive is never built on a laboratory machine or in an assistant's
 container. It is data from outside this repository and is elaborated only on
 hosted runners that hold a read-only token.
