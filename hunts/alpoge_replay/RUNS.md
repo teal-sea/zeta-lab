@@ -146,6 +146,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 11 | 44864672470 | 05:44 | 9,886 | 127,320 | 72.68 | 0 | 0 | 0 | 14.80 | 16,828 planned; eleven of twelve shards reported, shard 10's runner was lost mid-build; the last round on four compiles and swap; state artifact 14694700878 |
 | 12 | 44872248926 | 07:21 | 10,926 | 138,246 | 78.91 | 0 | 0 | 0 | 7.71 | 17,472 planned at the old sizing; all twelve shards reported; the first round at two compiles and the first with a watchdog, which killed nothing; state artifact 14697715651 |
 | 13 | 44879877336 | 08:54 | 5,170 | 143,416 | 81.86 | 0 | 0 | 0 | 22.30 | three compiles at once: half of round 12's output, see the judgement below; all twelve shards reported, the watchdog suspended and killed nothing; 2 modules built twice, same bytes; state artifact 14699969555 |
+| 14 | 44887113440 | 10:08 | 7,071 | 150,487 | 85.90 | 0 | 0 | 0 | 8.12 | two compiles, outputs in a plain directory; eleven of twelve shards reported, shard 2 was lost to a race in the new restore; 7,239 planned and 7,071 built, see the note below; state artifact 14702344189 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -381,6 +382,50 @@ the graph cost 1.3 times as much. `Main` built between about 15:10Z and
 window given at 07:35Z (13:30Z to 15:10Z) counted on a third compile adding
 a quarter; it took away half a round instead. Round 14 is run 44887113440,
 started 08:57Z; its restore took 4.5 minutes on the shard read.
+
+### Round 14, 2026-11-21 10:08Z: the plain directory, a shard lost to my own script, and a 13.7 GB module
+
+Two compiles at once, outputs in a plain directory, three bundles in
+flight. The round took 71 minutes from dispatch to merge.
+
+| | round 12 | round 13 | round 14 |
+| --- | --- | --- | --- |
+| compiles at once, volume | 2, compressed | 3, compressed | 2, plain |
+| modules built | 10,926 | 5,170 | 7,071 of 7,239 planned |
+| lean seconds per module, mean | 7.7 | 22.3 | 8.1 |
+| major page faults, all runners | not logged | 132.5 million | 36.6 million |
+| pages written to swap | not logged | 84.6 million | 38.8 million |
+
+Three things to read from it.
+
+**The round was planned too small.** The eleven shards that ran built 97.7
+percent of what they were given and spent 51 to 98 percent of their two
+workers' time inside lean; several finished a quarter of an hour early. The
+planner sized the round from the timings of rounds 12 and 13, and round 13's
+were thrashing, not cost. From round 16 a round is planned forty percent
+over its budget (`ae768d0a`): too much is cut by the deadline and planned
+again, too little is an idle runner.
+
+**Shard 2 was lost to a race in the new restore**, seven minutes in. Several
+extractors run side by side into one tree, and Python 3.12's tarfile, which
+the runners have, makes a missing parent directory with a check and then a
+plain mkdir. Two processes both passed the check; the second died with
+`FileExistsError` and the restore, correctly, stopped the shard. Its 600 or
+so modules were planned again. Fixed in `ae768d0a`: the extractor makes the
+parent itself, tolerantly, before it asks tarfile. The test that came with
+`1a6142dd` could not have caught it here: this tree's Python is 3.13, which
+tolerates the race. The new test pins the remedy and fails without it.
+
+**One module needed nearly the whole runner.**
+`Development.WeilBound.CoreStatements.SesquilinearFractions.ExistsFactorThroughMultiplication`
+held 13.7 GB of anonymous memory, on a machine with 15.6 GB and 3 GB of
+swap, and finished. The watchdog did what version two was written for: it
+suspended the other compile twice, killed one suspended compile at the hard
+floor (counted as crowded, no strike, planned again), and left the large
+one alone. Available memory touched 694 MB. Under version one the large
+module would have been the one killed. Nothing in the graph says how many
+more like it lie above; one that needs a gigabyte or two more will not fit,
+and that will show as a module killed alone.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
