@@ -77,7 +77,14 @@ env:
   CHECK_STATE_ID: ${{ inputs.check_state_id || '' }}
   SHARDS: ${{ inputs.shards || '1' }}
   CHECK_MINUTES: ${{ inputs.check_minutes || '8' }}
-  PROCS: ${{ inputs.procs || '4' }}
+  # Never one process per runner. The chain halves the count when a runner
+  # is lost, and went to one after rounds 8 and 9 each lost a runner without
+  # a log; nothing shows those losses were for memory, and under the small
+  # page-fault windows below an import needs a fraction of what it did.
+  PROCS: ${{ inputs.procs == '1' && '2' || inputs.procs || '4' }}
+  # Small page-fault windows on the replay shards, as on the build shards
+  # (io_tune.sh; measured by the probe job, RUNS.md): "" for off, or "all".
+  IO_TUNE: "all"
   CHAIN: ${{ inputs.chain || 'false' }}
   HUNT: hunts/alpoge_replay
 
@@ -223,7 +230,10 @@ jobs:
         run: |
           set -euo pipefail
           need=$(jq '.need | length' "plan/shard-$SHARD.json")
-          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" "$need" 90000 | tee -a "$OUT/evidence/run.txt"
+          # .olean files alone are about 0.54 MB a module: 140,000 are 76 GB
+          # of the 98 a runner has free, and the small page-fault windows
+          # only help on a plain directory.
+          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" "$need" 140000 | tee -a "$OUT/evidence/run.txt"
 
       - name: install elan and the toolchain the archive names
         run: |
@@ -251,6 +261,17 @@ jobs:
           jq -r '.need[]' "$shard" > need.txt
           RESTORE_NEED="$PWD/need.txt" RESTORE_SUFFIX=.olean bash "$HUNT/restore_chunks.sh" "$shard" "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
+
+      # After the restore, which reads its bundles front to back and wants
+      # the normal read-ahead; before the replay, which maps .olean files
+      # and reads a few places in each.
+      - name: smaller page-fault windows for the replay
+        if: env.IO_TUNE == 'all'
+        run: |
+          set -uo pipefail
+          sudo mount -t debugfs none /sys/kernel/debug 2>/dev/null || true
+          bash "$HUNT/io_tune.sh" 16 4096 "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" \
+            | tee -a "$OUT/evidence/run.txt" || true
 
       # No token is in the environment of this step, and it runs no code of
       # the archive: the driver reads .olean files and calls the kernel.
