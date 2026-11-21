@@ -372,6 +372,16 @@ The filling pass placed its first two extras in this round: two modules
 were built by two shards each, and both came out with the same `.olean`
 bytes.
 
+**Forecast after round 13 (09:00Z).** 31,771 modules left, 71 worker-hours
+at round 12's rate. Simulated with twelve shards of two compiles, the
+filling pass on and 28 minutes of overhead a round: five rounds, 6.3 hours
+if modules cost what they did in round 12 and 7.3 hours if those higher in
+the graph cost 1.3 times as much. `Main` built between about 15:10Z and
+16:20Z, the verdict job an hour to an hour and a half after that. The
+window given at 07:35Z (13:30Z to 15:10Z) counted on a third compile adding
+a quarter; it took away half a round instead. Round 14 is run 44887113440,
+started 08:57Z; its restore took 4.5 minutes on the shard read.
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
