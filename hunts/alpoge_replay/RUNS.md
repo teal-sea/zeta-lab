@@ -152,6 +152,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 17 | 44906573935 | 14:18 | 6,229 | 166,451 | 95.01 | 0 | 0 | 0 | 11.55 | two compiles; 8,702 planned and ten of twelve shards stopped by their deadline; 857 modules built by two shards, every pair identical; 1,418 extras built and all kept; 166,449 usable (two modules of round 16 still stand on one unbuilt); no suspension, no kill, largest module 3.0 GB; a compile is now mostly its imports, see below; state artifact 14710597929 |
 | 18 | 44913274901 | 15:40 | 3,280 | 169,731 | 96.89 | 0 | 0 | 0 | 21.71 | two compiles, the last round planned by source size and the last under the runner's own page-fault windows; 7,044 planned and all twelve shards stopped by their deadline; 562 modules built twice, every pair identical; nothing stranded any more; 260 million major page faults over the twelve runners, three suspensions, no kill, largest module 7.4 GB; state artifact 14713104221 |
 | 19 | 44920413546 | 16:58 | 4,611 | 174,342 | 99.52 | 0 | 0 | 0 | 11.24 | the first round with the planner pricing by imports, small page-fault windows on every shard and a plan of three times capacity; 5,150 planned, four of twelve shards stopped by their deadline; 2,327 extras built, 1,603 modules built twice, every pair identical; no suspension, no kill, largest module 4.0 GB; 24 million major page faults where round 18 had 260 million; state artifact 14715757843 |
+| 20 | 44927890126 | 17:49 | 823 | 175,165 | 99.99 | 0 | 0 | 0 | 15.77 | dispatched by hand and planned to 3,024 s a shard; twelve shards, every one of the 823 planned modules built, none stopped by its deadline, 44 minutes from plan to merge; 288 extras, 185 modules built twice, every pair identical (4,490 of 4,490 over the campaign); no suspension, no kill, largest module 4.4 GB; state artifact 14718047776 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -887,6 +888,23 @@ cancelled it at 17:03Z and dispatched round 20 again (run 44927890126) on
 waiting, by the plan reproduced here from the state. The 22 are the top:
 they go to one shard in round 21, which runs with no read-ahead and may
 build for 150 minutes.
+
+### Round 20 and the last round, 2026-11-21 17:49Z
+
+Round 20 built what it was given: 823 modules, 99.99 percent in all, no
+failure. 22 modules are left, a tangle at the top that ends in `Main`: nine
+that import 41,841 to 55,728 modules, then 61,081, 66,168, 79,669, 112,385,
+151,286, 157,603, 157,604, 170,702, and the last five at 175,174 to
+175,187.
+
+Round 21 (run 44932152644, dispatched by the chain at 17:49Z on
+`0fcfa13d`) is one shard with all 22. Its job restored the outputs of all
+175,165 built modules in twelve minutes, one bundle at a time, and
+`lake build` started at 18:05:55Z. By the probe of 16:33Z the modules at
+the very top are an import of eleven minutes or more for the first and
+about four for each after it on a fast disk, twice that on a slow one, so
+`Main` is expected between 19:00Z and 19:40Z; the shard may build until
+20:35Z. When `Main` is built the merge dispatches the verdict.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
