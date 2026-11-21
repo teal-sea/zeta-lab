@@ -145,6 +145,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 10 | 44856849272 | 04:09 | 6,971 | 117,434 | 67.03 | 0 | 0 | 0 | 15.82 | 11,909 planned; only eight of twelve shards reported, see the second incident; state artifact 14691128227 |
 | 11 | 44864672470 | 05:44 | 9,886 | 127,320 | 72.68 | 0 | 0 | 0 | 14.80 | 16,828 planned; eleven of twelve shards reported, shard 10's runner was lost mid-build; the last round on four compiles and swap; state artifact 14694700878 |
 | 12 | 44872248926 | 07:21 | 10,926 | 138,246 | 78.91 | 0 | 0 | 0 | 7.71 | 17,472 planned at the old sizing; all twelve shards reported; the first round at two compiles and the first with a watchdog, which killed nothing; state artifact 14697715651 |
+| 13 | 44879877336 | 08:54 | 5,170 | 143,416 | 81.86 | 0 | 0 | 0 | 22.30 | three compiles at once: half of round 12's output, see the judgement below; all twelve shards reported, the watchdog suspended and killed nothing; 2 modules built twice, same bytes; state artifact 14699969555 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -321,6 +322,55 @@ Round 13 was dispatched by the chain at 07:21:06Z with the old settings (run
 as run 44879877336: three compiles at once, the filling pass on. Three is
 an experiment with a bounded cost, one round: if a third compile adds
 nothing, or a runner is lost, the chain goes back to two.
+
+### Round 13, 2026-11-21 08:54Z: three compiles at once halve the output
+
+The experiment recorded above had a bounded cost, and it cost it. Twelve
+shards at three compiles built 5,170 modules in the hour where round 12
+built 10,926 at two.
+
+| | round 12, two at once | round 13, three at once |
+| --- | --- | --- |
+| modules built | 10,926 | 5,170 |
+| per shard | 452 to 1,672 | 24 to 1,083 |
+| lean seconds per module, mean | 7.7 | 22.3 |
+| per shard, mean | 4.1 to 15.8 | 4.9 to 296 |
+| runners lost | 0 | 0 |
+| major page faults, all runners | not logged | 132.5 million |
+| pages written to swap, all runners | not logged | 84.6 million, about 340 GB |
+| least memory counted as available | 11.2 GB (four shards read) | 7.3 GB |
+
+The memory that runs out is the page cache. A lean process at this depth
+holds a few hundred megabytes of its own and maps 8 to 10 GB of `.olean`
+files; three such processes do not fit beside each other in 15.6 GB, the
+kernel evicts mapped pages and writes heaps to swap, and every import reads
+its files again. "Available" memory counts cache as free and stayed at 7 GB
+and more throughout, so the watchdog, which watches that number, saw
+nothing: no suspension, no kill. One module held 6.2 GB of its own
+(`...DivisorProofs.ZetaSuccPow`), the first of that size seen; five passed
+2 GB.
+
+This also answers what lost runners at four compiles in rounds 9 to 11.
+
+Changed for round 14:
+
+- Two compiles at once again. The chain dispatched round 14 at 08:54:03Z
+  with three (run 44887021838); it was cancelled by hand and dispatched
+  again.
+- `94dd6602` outputs go in a plain directory on the runner's disk when the
+  shard's imports fit (up to 90,000 modules, about 47 GB), and on the
+  compressed btrfs volume only above that. The volume dates from when a
+  shard unpacked every chunk whole. Read through it, a mapped file costs a
+  decompression on every fault and sits in the cache twice. What a shard
+  imports now, about 31 GB for 42,000 modules, fits the disk as it is.
+- `79818e7c` three bundles are downloaded at a time. Round 13's restores,
+  with the bundles one after another, took 5.7 to 27 minutes for the same
+  thirteen bundles; the two slowest shards started their hour 20 minutes
+  after the fastest and the round waited for them.
+
+The filling pass placed its first two extras in this round: two modules
+were built by two shards each, and both came out with the same `.olean`
+bytes.
 
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
