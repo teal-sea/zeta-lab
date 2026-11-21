@@ -171,6 +171,46 @@ def driver_command(driver: str | None, driver_exe: str | None, list_file: str) -
     return ["lake", "env", "lean", "--run", os.path.abspath(driver), list_file]
 
 
+#: Run a driver on several list files, one process after another. A driver
+#: that holds on to memory from module to module (lean4lean's replay keeps
+#: about half a gigabyte per module, measured in the pilot of 2026-11-21)
+#: is given a few modules at a time. It stops at the first process that ends
+#: by anything but 0 (all replayed) or 1 (some rejected), and ends the same
+#: way, so that the module it was on is still the first one not reported.
+BATCH_RUNNER = """
+import json, os, signal, subprocess, sys
+prefix = json.loads(sys.argv[1])
+worst = 0
+for list_file in sys.argv[2:]:
+    code = subprocess.call(prefix + [list_file])
+    if code < 0:
+        signal.signal(-code, signal.SIG_DFL)
+        os.kill(os.getpid(), -code)
+    if code not in (0, 1):
+        sys.exit(code)
+    worst = max(worst, code)
+sys.exit(worst)
+"""
+
+
+def batch_files(out_dir: str, slot: int, modules: list[str], batch: int) -> list[str]:
+    """Cut one process's modules into files of `batch`, each named `list-<slot>.txt`.
+
+    The name is what the memory watchdog reads off a driver's command line,
+    so every batch of a slot is the same process to it; the directory tells
+    the files apart.
+    """
+    files = []
+    for n, start in enumerate(range(0, len(modules), batch)):
+        d = os.path.join(out_dir, "batches", str(n))
+        os.makedirs(d, exist_ok=True)
+        f = os.path.abspath(os.path.join(d, f"list-{slot}.txt"))
+        with open(f, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(modules[start:start + batch]) + "\n")
+        files.append(f)
+    return files
+
+
 def write_toy(pkg: str, toolchain: str) -> None:
     os.makedirs(os.path.join(pkg, "src", "Lib"), exist_ok=True)
     with open(os.path.join(pkg, "lean-toolchain"), "w", encoding="utf-8") as fh:
@@ -309,8 +349,12 @@ def cmd_run(a) -> None:
             fh.write("\n".join(lst) + "\n")
         out = open(os.path.join(a.out, f"driver-{i}.out"), "wb")
         err = open(os.path.join(a.out, f"driver-{i}.err"), "wb")
-        p = subprocess.Popen(driver_command(a.driver, a.driver_exe, lf),
-                             cwd=a.lean_dir, stdout=out, stderr=err, start_new_session=True,
+        if a.batch > 0:
+            prefix = driver_command(a.driver, a.driver_exe, "")[:-1]
+            cmd = [sys.executable, "-c", BATCH_RUNNER, json.dumps(prefix), *batch_files(a.out, i, lst, a.batch)]
+        else:
+            cmd = driver_command(a.driver, a.driver_exe, lf)
+        p = subprocess.Popen(cmd, cwd=a.lean_dir, stdout=out, stderr=err, start_new_session=True,
                              preexec_fn=_big_stack)
         procs.append((i, lst, p))
     codes: dict[str, int | None] = {}
@@ -367,7 +411,7 @@ def cmd_run(a) -> None:
                 startup_errors.append(fh.read()[-600:])
     rec = {"round": shard["round"], "shard": shard["shard"], "planned": len(mods),
            "ok": ok, "failed": failed, "struck": struck, "killed": killed, "exit_codes": codes,
-           "timed_out": timed_out, "minutes": a.minutes, "procs": a.procs,
+           "timed_out": timed_out, "minutes": a.minutes, "procs": a.procs, "batch": a.batch,
            "startup_errors": startup_errors,
            # the modules after which a driver held the most anonymous memory, in MB
            "anon_top": sorted(anon.items(), key=lambda kv: -kv[1])[:20]}
@@ -465,6 +509,8 @@ def main() -> None:
     s.add_argument("--minutes", type=float, required=True); s.add_argument("--procs", type=int, default=4)
     s.add_argument("--driver", help="a Lean file run with `lean --run`: ReplayDriver.lean")
     s.add_argument("--driver-exe", help="a compiled driver with the same output, in place of --driver")
+    s.add_argument("--batch", type=int, default=0,
+                   help="modules per driver process; 0 gives each process its whole list")
     s.add_argument("--out", required=True)
     s.add_argument("--done", required=True)
     s.add_argument("--kills", help="mem_watchdog.py's kills table: crowded is no strike, alone is one")

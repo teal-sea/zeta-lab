@@ -177,6 +177,65 @@ def test_a_toy_package_that_does_not_build_fails_the_selftest(tmp_path: Path, mo
     assert got["passed"] is False and got["build_rc"] == 1 and "build failed" in got["build_tail"]
 
 
+def _run_shard(tmp_path: Path, monkeypatch, modules: list[str], batch: int, procs: int = 1) -> tuple[dict, Path]:
+    """`replay_check.py run` on a stub: a `lake` that runs what follows `env`, and a driver that
+    answers OK for every module of its list, FAIL for one named Bad, and dies of SIGSEGV on Crash."""
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir(parents=True)
+    lake = bin_dir / "lake"
+    lake.write_text('#!/bin/sh\nshift\nexec "$@"\n')
+    lake.chmod(0o755)
+    driver = bin_dir / "driver"
+    driver.write_text(
+        "#!/bin/sh\ncode=0\necho \"$$ $1\" >> \"$(dirname \"$0\")/started\"\n"
+        "while read m; do\n"
+        "  case \"$m\" in\n"
+        "    Crash) kill -SEGV $$ ;;\n"
+        "    Bad) printf 'FAIL\\t%s\\t1\\tno\\n' \"$m\"; code=1 ;;\n"
+        "    *) printf 'OK\\t%s\\t1\\t2048\\n' \"$m\" ;;\n"
+        "  esac\ndone < \"$1\"\nexit $code\n")
+    driver.chmod(0o755)
+    lean_dir = tmp_path / "lean"
+    for m in modules:
+        f = lean_dir / ".lake" / "build" / "lib" / "lean" / (m + ".olean")
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_bytes(b"")
+    shard = tmp_path / "shard.json"
+    shard.write_text(json.dumps({"round": 0, "shard": 0, "modules": modules, "need": modules}))
+    monkeypatch.setenv("PATH", f"{bin_dir}{os.pathsep}{os.environ['PATH']}")
+    done = tmp_path / "done.json"
+    proc = subprocess.run([sys.executable, str(HERE / "replay_check.py"), "run", "--lean-dir", str(lean_dir),
+                           "--shard", str(shard), "--minutes", "1", "--procs", str(procs), "--batch", str(batch),
+                           "--driver-exe", str(driver), "--out", str(tmp_path / "out"), "--done", str(done)],
+                          capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    return json.loads(done.read_text()), bin_dir / "started"
+
+
+def test_a_driver_given_a_few_modules_at_a_time_replays_them_all_in_fresh_processes(tmp_path: Path, monkeypatch) -> None:
+    modules = [f"M{i}" for i in range(7)]
+    whole, started = _run_shard(tmp_path / "whole", monkeypatch, modules, batch=0)
+    assert sorted(whole["ok"]) == modules and len(started.read_text().splitlines()) == 1
+    rec, started = _run_shard(tmp_path / "batched", monkeypatch, modules, batch=3)
+    assert sorted(rec["ok"]) == modules and rec["failed"] == {} and rec["struck"] == [] and rec["batch"] == 3
+    runs = [line.split() for line in started.read_text().splitlines()]
+    # three processes, three different pids, and every list file is named for the slot
+    assert len(runs) == 3 and len({pid for pid, _ in runs}) == 3
+    assert {os.path.basename(f) for _, f in runs} == {"list-0.txt"}
+    assert rec["exit_codes"] == {"0": 0}
+
+
+def test_a_rejection_does_not_stop_the_batches_and_a_crash_does(tmp_path: Path, monkeypatch) -> None:
+    rec, started = _run_shard(tmp_path / "bad", monkeypatch, ["A", "Bad", "C", "D", "E"], batch=2)
+    assert rec["failed"] == {"Bad": "no"} and sorted(rec["ok"]) == ["A", "C", "D", "E"]
+    assert rec["exit_codes"] == {"0": 1} and rec["struck"] == []
+    rec, started = _run_shard(tmp_path / "crash", monkeypatch, ["A", "B", "Crash", "D", "E", "F"], batch=2)
+    # the slot ends where the driver died: the module it was on is the strike, the rest wait
+    assert sorted(rec["ok"]) == ["A", "B"] and rec["struck"] == ["Crash"]
+    assert rec["exit_codes"] == {"0": -11}
+    assert len(started.read_text().splitlines()) == 2
+
+
 CHEAT = rc.CHEAT
 
 

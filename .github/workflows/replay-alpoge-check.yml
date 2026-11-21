@@ -108,6 +108,11 @@ env:
   # v4.33.0-rc2; it is built here with the archive's v4.33.1, which the
   # .olean files require.
   L4L_REV: 67f63b0c818920dfaed2ad07ccff187a6a8fe1e3
+  # Modules per lean4lean process. Its replay keeps about half a gigabyte
+  # from each module it has done (the pilot, run 44946010580: two processes
+  # used up 27 GB of swap in five minutes), so a process is given a few
+  # modules and then replaced.
+  L4L_BATCH: "4"
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -371,7 +376,7 @@ jobs:
           # "killed" (crowded out) or as a strike (killed alone), and after a
           # kill the chain runs the next round with fewer processes.
           if [ "$CHECKER" = "lean4lean" ]; then
-            name=l4ldriver; drv=(--driver-exe "$RUNNER_TEMP/l4l/.lake/build/bin/l4ldriver")
+            name=l4ldriver; drv=(--driver-exe "$RUNNER_TEMP/l4l/.lake/build/bin/l4ldriver" --batch "$L4L_BATCH")
           else
             name=lean; drv=(--driver "$HUNT/ReplayDriver.lean")
           fi
