@@ -142,6 +142,12 @@ env:
   IO_TUNE: "all"
   IO_TUNE_RA_KB: "16"
   IO_TUNE_FA_BYTES: "4096"
+  # An import of everything built does not fit in memory at 16 KB (ten
+  # minutes every time, 46 to 60 GB read; run 44920814617). A shard that
+  # imports more than IO_TUNE_BIG_MODULES gets IO_TUNE_RA_BIG_KB, and so do
+  # the verdict's axioms jobs. 16 until the same run has measured 0.
+  IO_TUNE_BIG_MODULES: "110000"
+  IO_TUNE_RA_BIG_KB: "16"
   # How far over a shard's capacity the plan goes, at the planner's prices:
   # the cluster pass, and the filling pass. 1.4 and 1.0 without IO_TUNE.
   PLAN_OVER: "3.0"
@@ -434,7 +440,13 @@ jobs:
           echo "io tune: $IO_TUNE, this shard: $tune" | tee -a "$OUT/evidence/run.txt"
           if [ "$tune" = "yes" ]; then
             sudo mount -t debugfs none /sys/kernel/debug 2>/dev/null || true
-            bash "$HUNT/io_tune.sh" "$IO_TUNE_RA_KB" "$IO_TUNE_FA_BYTES" "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" \
+            # a shard that imports most of the archive may want a window of
+            # its own (IO_TUNE_BIG_MODULES, IO_TUNE_RA_BIG_KB)
+            ra="$IO_TUNE_RA_KB"
+            need=$(jq '.need | length' "plan/shard-$SHARD.json")
+            if [ "$need" -gt "$IO_TUNE_BIG_MODULES" ]; then ra="$IO_TUNE_RA_BIG_KB"; fi
+            echo "io tune: $need modules imported, read-ahead $ra KB" | tee -a "$OUT/evidence/run.txt"
+            bash "$HUNT/io_tune.sh" "$ra" "$IO_TUNE_FA_BYTES" "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" \
               | tee -a "$OUT/evidence/run.txt" || true
           fi
 
@@ -1109,7 +1121,9 @@ jobs:
             bash "$HUNT/restore_chunks.sh" fetch.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
           df -h / | tee -a "$OUT/evidence/run.txt"
           # after the restore, which wants the normal read-ahead
-          bash "$HUNT/io_tune.sh" 16 4096 "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" | tee -a "$OUT/evidence/run.txt" || true
+          ra="$IO_TUNE_RA_KB"
+          if [ "$(wc -l < "$RUNNER_TEMP/need.txt")" -gt "$IO_TUNE_BIG_MODULES" ]; then ra="$IO_TUNE_RA_BIG_KB"; fi
+          bash "$HUNT/io_tune.sh" "$ra" "$IO_TUNE_FA_BYTES" "$LEAN_DIR/.lake/build" "$LEAN_DIR/.lake/packages" | tee -a "$OUT/evidence/run.txt" || true
 
       # No token is in the environment of the two steps below.
       - name: print the axioms

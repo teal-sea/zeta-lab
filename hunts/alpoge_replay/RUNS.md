@@ -789,6 +789,44 @@ them. It is not the verdict and says nothing about `Main`.
 
 The job that measures the cone was still running when this was written.
 
+### The import of everything built, on a plain directory, 2026-11-21 16:33Z
+
+Run 44920814617, first part. One runner (AMD EPYC 9V45, NVMe, ext4), 129 GB
+free after the further cleanup; the `.olean` files of all 169,731 built
+modules restored in 607 s (86 GB), 32 GB left. `lean` on a file that
+imports all of them through the 2,212 built modules nothing built imports,
+read-ahead 16 KB, fault-around 4 KB:
+
+| cache | wall s | user s | system s | peak resident MB | major faults | disk reads | MB read |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| cold | 737.4 | 25.9 | 76.4 | 8,547 | 3,792,591 | 4,983,932 | 59,744 |
+| warm | 583.7 | 26.3 | 70.3 | 8,862 | 3,122,896 | 4,062,165 | 47,362 |
+| warm | 570.3 | 26.1 | 67.6 | 8,837 | 3,020,269 | 3,922,466 | 45,894 |
+
+Three things. The import works: `lean` loads 169,731 modules of the archive
+together with Mathlib, exit code 0, holding 1.4 GB of its own at most. So
+nothing in the archive so far clashes with anything else in it when all of
+it is in one environment, which is what `Main` will ask for.
+
+It does not fit in memory at this setting. By the line through the 45,128
+and 80,111 imports it would want about 14.5 GB resident and the runner
+keeps 12; each run reads 46 to 60 GB for it, each page about four times
+over, and the warm runs are no better than the cold one. Ten minutes an
+import on this runner, whose disk gave 6,800 reads a second; on a runner
+giving 3,400, twenty.
+
+And it is still the difference between a result and none: on the
+compressed volume the same import was stopped after forty minutes.
+
+The last nine modules import 146,663 and more, one after the other, so at
+this setting they are an hour and a half to three hours of imports. The
+second part of the run measures the same import with no read-ahead at all
+(one 4 KB page per fault): if `lean` touches about three places in each
+module's file, as 48 KB a module at 16 KB windows suggests, that keeps a
+third to a half of it resident and it fits. `IO_TUNE_RA_BIG_KB` in the
+workflow is where the answer goes: the read-ahead for a shard that imports
+more than 110,000 modules, and for the verdict's axioms jobs.
+
 ### Rehearsal of the verdict job, 2026-11-21 07:27Z to 08:04Z, run 44880300164
 
 Estimated before: nothing was known, which is why it was run. One runner
