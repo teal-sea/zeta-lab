@@ -142,6 +142,7 @@ verdict job instead. Rounds are appended below as they merge.
 | 7 | 44827219416 | 23:30 | 15,906 | 80,669 | 46.05 | 0 | 0 | 0 | 8.99 | 17,808 planned; state artifact 14678652610 |
 | 8 | 44837378674 | 00:49 (11-21) | 15,904 | 96,573 | 55.13 | 0 | 0 | 0 | 9.91 | 19,412 planned, seven shards stopped by the deadline; state artifact 14683342288 |
 | 9 | 44846358339, remerged by 44856817210 | 02:36 | 13,890 | 110,463 | 63.05 | 0 | 0 | 0 | 11.02 | eleven of twelve shards; see the incident below; state artifact 14687303640 |
+| 10 | 44856849272 | 04:09 | 6,971 | 117,434 | 67.03 | 0 | 0 | 0 | 15.82 | 11,909 planned; only eight of twelve shards reported, see the second incident; state artifact 14691128227 |
 
 **After round 4 (read 2026-11-20 20:05Z).** 39,235 modules, 243 MB of the
 1,030 MB of source, have elaborated with no failure, no crash, no
@@ -183,6 +184,32 @@ round from its run id without rebuilding anything. Run 44856817210 did that
 for round 9 in 24 seconds and dispatched round 10 at 02:36:46Z. Whether swap
 is the right remedy is not known until a round that deep completes on all
 twelve runners.
+
+### Second incident, round 10, 2026-11-21 04:09Z: four runners lost, and what it means
+
+Round 10 ran with the extra swap. Four of its twelve shards never reported;
+one job is recorded as failed with no log, the others ended without a done
+record. The eight that reported built 6,971 modules at 15.8 s each, against
+11.0 s in round 9 and 7.7 s in round 3. No lean process was recorded as
+crashed in any round. Read together: memory, not chance. Four deep modules
+elaborating side by side fill a 15 GB runner, the runner stops answering
+before the kernel kills anything, and with swap the survivors thrash.
+
+Changed in `0a93a8b5`, taking effect from round 12 (round 11 was already
+running): two compiles at once by default; the swap removed;
+`mem_watchdog.py` in the build and replay steps, which kills the largest lean
+process when available memory stays under 700 MB, so that a full runner
+costs one module and not the shard, and which logs memory every thirty
+seconds; and the chain now lowers the thread count when a round loses shards,
+not only when a compile is killed.
+
+**The estimate above is withdrawn.** It assumed four compiles per runner to
+the top of the graph. At two, and with rounds now about ninety minutes, the
+57,753 modules left are eight or more rounds: `Main` no earlier than about
+18:00Z on 2026-11-21. That in turn assumes one deep module fits a runner by
+itself. Whether it does is not measured; the memory log of round 12 is the
+first measurement, and if the top of the graph needs more than a hosted
+runner has, this route ends there and that will be said.
 
 ## Second pass: kernel replay
 
@@ -231,3 +258,4 @@ for the build; it is raised to twelve shards once the build has finished.
 | 1 | 44812857514 | 22:19 | 18,800 | 19,088 | 10.90 | 0 | 0 | 4.12 | 4 shards x 100 min against build state 14662502720; every planned module replayed; dispatched check round 2 by itself; check state 14674692886 |
 | 2 | 44828069566 | 00:15 (11-21) | 19,539 | 38,627 | 22.05 | 0 | 0 | 4.52 | against build state 14674737119; 20,956 planned, one shard stopped by its deadline; check state 14680894266 |
 | 3 | 44842635028 | 02:10 | 14,133 | 52,760 | 30.12 | 0 | 0 | 6.77 | against build state 14678652610; 19,976 planned, all four shards stopped by the deadline; check state 14687215680 |
+| 4 | 44854433459 | 03:50 | 17,352 | 70,112 | 40.02 | 0 | 0 | 3.89 | against build state 14683342288; every planned module replayed; check state 14690269141 |
