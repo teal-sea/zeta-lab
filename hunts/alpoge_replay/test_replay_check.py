@@ -42,6 +42,34 @@ def test_shards_take_the_lowest_levels_first_and_carry_their_imports() -> None:
     assert shards[0]["fetch"] == {"7": ["chunk-r0-s0.tar.zst"]}
 
 
+def test_a_tail_that_fits_fewer_shards_is_cut_evenly_over_all_of_them() -> None:
+    # The budget is the mean of what was replayed lower down; the modules left
+    # at the end cost several times that, so a plan that trusts it leaves most
+    # runners idle for the rounds that need them most.
+    deps = chain(10)
+    _, level = rp.topo_levels(deps)
+    where = {m: "r0-s0" for m in deps}
+    fresh = rc.load_check_state(None)
+    shards, left, _ = rc.plan_check(deps, level, where, {"0": 7}, fresh, n_shards=4, budget_s=600, default_s=6)
+    assert [s["modules"] for s in shards] == [["M0", "M1"], ["M2", "M3", "M4"], ["M5", "M6"], ["M7", "M8", "M9"]]
+    assert left == 0
+    assert [s["est_s"] for s in shards] == [12.0, 18.0, 12.0, 18.0]
+    # still lowest first, and each shard still carries what it imports
+    assert shards[2]["need"] == [f"M{i}" for i in range(7)]
+    # fewer modules than shards: one each and no empty shard
+    few = {m: "r0-s0" for m in ("M0", "M1", "M2")}
+    shards, left, _ = rc.plan_check(deps, level, few, {"0": 7}, fresh, n_shards=4, budget_s=600, default_s=6)
+    assert [s["modules"] for s in shards] == [["M0"], ["M1"], ["M2"]] and left == 0
+    # a plan that fills every shard, or has only one, is left as it was
+    shards, left, _ = rc.plan_check(deps, level, where, {"0": 7}, fresh, n_shards=2, budget_s=18, default_s=6)
+    assert [len(s["modules"]) for s in shards] == [3, 3] and left == 4
+    shards, left, _ = rc.plan_check(deps, level, where, {"0": 7}, fresh, n_shards=1, budget_s=600, default_s=6)
+    assert [len(s["modules"]) for s in shards] == [10] and left == 0
+    # nothing to plan stays nothing
+    done = {"checked": {m: "c0-s0" for m in deps}, "ms": {}, "failed": {}, "strikes": {}, "history": []}
+    assert rc.plan_check(deps, level, where, {"0": 7}, done, n_shards=4, budget_s=600, default_s=6)[0] == []
+
+
 def test_replayed_failed_and_twice_struck_modules_are_not_planned_again() -> None:
     deps = chain(6)
     _, level = rp.topo_levels(deps)

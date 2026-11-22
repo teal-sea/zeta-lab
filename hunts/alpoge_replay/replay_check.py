@@ -54,7 +54,11 @@ def load_check_state(path: str | None) -> dict:
 
 def plan_check(deps, level, where, bundles, cstate, n_shards, budget_s, default_s, max_strikes=2,
                retry: tuple[str, ...] = ()):
-    """Return (shards, left). A shard is {'modules', 'need', 'fetch', 'est_s'}.
+    """Return (shards, left, mean_s). A shard is {'modules', 'need', 'fetch', 'est_s'}.
+
+    Modules are taken lowest level first and a shard is filled to `budget_s`
+    at the mean time of a replay so far. When everything left fits in fewer
+    than `n_shards` shards, it is cut evenly over all of them instead.
 
     With `retry`, the round is a second attempt and nothing else: it plans the
     modules recorded as failed whose message contains one of the given texts,
@@ -84,6 +88,16 @@ def plan_check(deps, level, where, bundles, cstate, n_shards, budget_s, default_
     if cur and len(shards) < n_shards:
         shards.append(cur)
     planned = sum(len(s) for s in shards)
+    # The budget is an estimate from the mean of what has been replayed, and
+    # the modules left at the end are the highest in the graph, several times
+    # the mean each. A plan that trusts it puts the tail on a runner or two
+    # and leaves the others idle: the kernel's pass took four rounds for its
+    # last 13,662 modules (7,141, 789 and 119 left after each). So when
+    # everything left fits the plan and shards are to spare, cut it evenly
+    # over all of them, still lowest first.
+    if planned == len(todo) and 0 < len(shards) < n_shards:
+        k = min(n_shards, len(todo))
+        shards = [todo[i * len(todo) // k:(i + 1) * len(todo) // k] for i in range(k)]
     out = []
     for sh in shards:
         inside = set(sh)

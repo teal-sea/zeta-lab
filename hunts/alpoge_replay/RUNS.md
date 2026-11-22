@@ -1751,6 +1751,17 @@ kernel's last round, the 119 modules at the top, cost it 66 s a module,
 nearly all of it import, and lean4lean keeps a table of its own of what it
 imports. The five fuel stops are retried in one round after that.
 
+**The plan no longer leaves runners idle at the end, 04:55Z.** The kernel's
+pass needed four rounds for its last 13,662 modules, with 7,141, 789 and
+119 left after each: a shard is filled to its budget at the mean time of a
+replay so far, the modules at the top cost several times the mean, and so
+each plan put what was left on a runner or two and found half of it still
+there two hours later. `plan_minutes` was the repair by hand. From the
+round after 6, `replay_check.py plan` cuts everything left evenly over all
+the shards it is given whenever it would otherwise use fewer
+(`test_a_tail_that_fits_fewer_shards_is_cut_evenly_over_all_of_them`, which
+fails on the planner as it was).
+
 ### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
 
 Round 2 recorded three failures, all with the same message:
