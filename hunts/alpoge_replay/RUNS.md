@@ -1942,7 +1942,7 @@ plan; no shard's own memory log was opened for it, so that the driver given
 up was gone from memory at once is inferred from the shards finishing, not
 seen.
 
-*Added 10:52Z: seen.* Shard 0's evidence (artifact 14748842102). The
+*Added 10:51Z: seen.* Shard 0's evidence (artifact 14748842102). The
 driver's output has the line `FAIL ... EncardComplexPointFibreEqEncardRingHomExtensions
 1804152 no answer after 1800 s: this run stopped waiting, the checker gave
 no verdict`. The watchdog's table has one driver process that peaked at
