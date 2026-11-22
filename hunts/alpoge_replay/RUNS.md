@@ -1751,7 +1751,7 @@ kernel's last round, the 119 modules at the top, cost it 66 s a module,
 nearly all of it import, and lean4lean keeps a table of its own of what it
 imports. The five fuel stops are retried in one round after that.
 
-**The plan no longer leaves runners idle at the end, 04:55Z.** The kernel's
+**The plan no longer leaves runners idle at the end, 04:48Z.** The kernel's
 pass needed four rounds for its last 13,662 modules, with 7,141, 789 and
 119 left after each: a shard is filled to its budget at the mean time of a
 replay so far, the modules at the top cost several times the mean, and so
