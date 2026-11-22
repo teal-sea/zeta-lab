@@ -89,6 +89,18 @@ from the 2026-10-08 precedent is therefore narrower than when this decision
 was written, and not yet closed: that precedent also had a second,
 independent kernel accept the statements on this laboratory's compute.
 
+Added 2026-11-22: hunt #159 finished its second pass (every stored
+declaration of all 175,187 modules through the Lean kernel again, no
+rejection) and its command-free walk of the stored terms (the three standard
+axioms and no other), and graded the five statements at the third rung,
+kernel-checked, pending external verification (the paragraph "The grade" of
+`hunts/alpoge_replay/RUNS.md` on its branch, read for this note). So the
+theorem this decision builds on now carries this laboratory's own kernel
+grade as well as the outside checkers'. What still separates it from the
+2026-10-08 precedent is one thing: no second, independently written kernel
+has accepted the statements on this laboratory's compute. Independently
+written kernels did accept the full export outside it.
+
 The decision "constructive research is the objective" (2026-09-12) named RH
 as the target. That target is now settled by a theorem proved outside this
 laboratory. **No successor target has been chosen.** The candidates are in

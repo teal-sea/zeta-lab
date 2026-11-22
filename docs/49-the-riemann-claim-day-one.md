@@ -57,6 +57,23 @@
 > running. So this laboratory's build now agrees with the outside checks, and
 > its grade is still pending in hunt #159.
 
+> **This laboratory's own grade, 2026-11-22, 04:45 UTC.** Hunt #159 then
+> closed the two checks left open above. Every stored declaration of all
+> 175,187 modules went through the Lean kernel a second time, read from the
+> built files by a program that runs none of the archive's code, with no
+> rejection; and a walk of the stored terms that runs none of the archive's
+> commands found the three standard axioms and no other under the five
+> theorems. Its record now grades the five statements of the top file at the
+> third rung of this laboratory's ladder, kernel-checked, pending external
+> verification (the paragraph "The grade" in `hunts/alpoge_replay/RUNS.md` on
+> its branch, read for this note). In that record's own words the rung says
+> "one kernel, twice": no second kernel had finished on this laboratory's
+> compute, no external checker or comparator was run here, and Mathlib's own
+> compiled files were replayed by neither pass. The outside checks cited in
+> the first update did use independently written kernels. The grade is for
+> five Lean statements; it says nothing about the mathematics, which nobody
+> here has read.
+
 Every item below carries its own grade, and the grades are low on purpose. A
 text-level reading is a reading. A finite computation is never a uniform
 result. A result built on the hypothesis is conditional on the hypothesis,
