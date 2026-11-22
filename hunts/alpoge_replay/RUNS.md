@@ -1761,6 +1761,7 @@ they merge.
 | 5 | 44977057501 | 04:28 | 16,124 | 59,426 | 33.92 | 0 | 0 | 3.93 | all four shards reported, three stopped by their deadline, 17,864 planned; no new stop, five in all; on the 59,426 modules both checkers have timed, lean4lean 61.2 process-hours and the kernel 78.7; the largest driver held 4.6 GB after a module; check state 14739785115. Round 6 started by itself as run 44985248355 with four shards at 04:29Z, was cancelled at 04:41Z with nothing replayed, and was dispatched again as run 44986236486 with sixteen, see below |
 | 6 | 44986236486 | 06:39 | 58,272 | 117,698 | 67.18 | 0 | 0 | 4.08 | sixteen shards, three processes; all sixteen reported, nine stopped by their deadline, 69,888 planned; no new stop, five in all; no process killed and no strike; on the 117,698 modules both checkers have timed, lean4lean 127.3 process-hours and the kernel 155.7; the largest driver held 5.1 GB after a module, and one held 10.3 GB on a module it did not finish, see "A module lean4lean does not finish" below; check state 14743497145. Round 7 is run 44994721820, dispatched by the chain at 06:39Z on `56e684b3`, sixteen shards |
 | 7 | 44994721820 | 08:37 | 35,830 | 153,528 | 87.64 | 0 | 0 | 6.68 | sixteen shards, three processes; all sixteen reported, fourteen stopped by their deadline; the plan took everything left, 57,484; no new stop, five in all; no process killed and no strike; on the 153,528 modules both checkers have timed, lean4lean 193.8 process-hours and the kernel 213.7, and in this round lean4lean 66.5 against the kernel's 58.0: this high it is the slower of the two (1.2, 1.7 and 2.3 times the kernel on the modules of the kernel's rounds 13, 14 and 15); the largest driver held 4.7 GB after a module; two shards were held up by one module each, see "A module lean4lean does not finish"; check state 14747021470. Round 8 is run 45003686475 on `fe199842`: the 21,654 modules left cut evenly over sixteen shards, 1,353 or 1,354 each, and the first round with the limit per module |
+| 8 | 45003686475 | 10:30 | 21,404 | 174,932 | 99.85 | 0 | 0 | 7.33 | sixteen shards, the 21,654 left cut evenly; all sixteen reported, two stopped by their deadline; the first round with the limit per module: six modules given up after 1,800 s, see "Round 8" below; no rejection and no new fuel stop, so eleven listed as failed, five fuel stops and six without an answer; no process killed and no strike; on the 174,932 modules both checkers have timed, lean4lean 237.3 process-hours and the kernel 251.8, in this round 43.6 against 38.1; the largest driver held 4.5 GB after a module; check state 14750736222. Round 9 is run 45012762475 on `33dbea80`: the 244 modules left, fifteen or sixteen a shard |
 
 **Sixteen shards from round 6, 2026-11-22 04:42Z.** The kernel's replay
 ended at 03:37Z and its runners are free; sixteen is what the build and the
@@ -1910,6 +1911,45 @@ So the five stops were lean4lean's counters and nothing else, as their
 message said. This is the rehearsal's state (artifact 14747621968), a fork
 of the chain's that is not carried on: the chain's own state lists the five
 as failed until the retry that counts has run.
+
+### Round 8, 2026-11-22 10:30Z: six modules without an answer, and the limit at work
+
+Round 8 gave up six modules after 1,800 s each. None was rejected, none
+ran out of fuel: lean4lean was still on each when the run stopped waiting.
+
+| module | the kernel's time | round 8's shard |
+| --- | --- | --- |
+| `Development.AbelianVarietyTheory.Proofs.DivisorProofs.EncardComplexPointFibreEqEncardRingHomExtensions` | 4.1 s | 0 |
+| `Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsThetaSymmetricFunctionValuesInGroundField` | 11.8 s | 9 |
+| `Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ValTransOfEq` | 22.7 s | 2 |
+| `Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMovedDataLaterStagesWithNewTwist` | 33.0 s | 7 |
+| `Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMovedDataStateLocalisations` | 34.2 s | 7 |
+| `Development.WeilBound.CoreStatements.SesquilinearFractions.ExistsFactorThroughMultiplication` | 2,076.1 s | 2 |
+
+The first and the last are the two of rounds 6 and 7. `ValTransOfEq` is the
+module the third process of round 7's shard 2 was on when its deadline
+came, so that shard had two of them. Five of the six are quick in the
+kernel.
+
+The limit did on runners what it did on the stub. Shard 0 replayed every
+module of its plan but the one given up, 1,352 of 1,353, where the shards
+that met that module in rounds 6 and 7 replayed 1,319 of 4,368 and 818 of
+3,593. Shard 2, with two, replayed 1,352 of 1,354, and shard 9, with one,
+1,352 of 1,353: what came after a module given up in its batch went to a
+fresh process and was replayed. Shard 7, with two, was stopped by its
+deadline at 1,119 of 1,354. This is read from the check state and the
+plan; no shard's own memory log was opened for it, so that the driver given
+up was gone from memory at once is inferred from the shards finishing, not
+seen.
+
+**The retry, dispatched 10:34Z, run 45013099986.** Epoch `l4r`, round 9,
+from check state 14750736222: the eleven modules listed as failed, one to
+a shard, two hundred minutes, a hundred times the fuel and no limit per
+module. It was not held back for the chain to end. Round 9's sixteenth
+shard holds the sixteen modules at the top and runs to about 11:50Z, the
+retry is the long part, and nothing in it depends on those 244 modules. The
+price is two states at the end, the chain's and the retry's, which the
+close-out names side by side.
 
 ### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
 
