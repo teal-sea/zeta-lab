@@ -5,11 +5,12 @@ cannot carry the converse. These tests pin that, pin that the gate itself is
 not fooled by the same input, and pin the measured least-PSD-diagonal numbers
 quoted in ``CORRECTIONS.md`` ("Later correction").
 
-The second half pins where ``gate()`` itself departs from the criterion
-(``CORRECTIONS.md``, "Found while landing this correction"): its regime test
-misreads oscillating weights, and an excess it cannot resolve reads as PASS.
-Those tests record a defect rather than a desired behaviour, so a repair of
-the gate has to change them on purpose.
+The second half pins the regime reading of ``gate()`` on oscillating
+weights. Until the repair for issue 335 it misread conjugate pairs in both
+directions (``CORRECTIONS.md``, "Found while landing this correction", and
+``DIAGNOSIS-335.md``); those pins were changed on purpose in that repair.
+What remains pinned as a limitation is narrower: in the summable regime an
+excess the truncation estimate cannot resolve still reads as PASS.
 """
 
 import cmath
@@ -20,8 +21,11 @@ import numpy as np
 from hunts.local_positivity import localpos
 from hunts.local_positivity.localpos import (
     gate,
+    lesion_sweep,
     local_lambdas,
+    null_distribution,
     ramanujan_violator,
+    reference_table,
     satake_kernel,
     satake_local,
     threshold,
@@ -158,52 +162,108 @@ def test_the_violator_value_is_a_truncation() -> None:
     assert least_psd_diagonal(weights(aloc, 5, 199), 200) > 1e3
 
 
-def test_the_gate_misreads_oscillating_weights() -> None:
-    # inside the bound, c_p ~ 1.894 < d = 2, and the gate FAILs
+def test_the_gate_reads_oscillating_weights_by_their_envelope() -> None:
+    # Issue 335: until the envelope repair the two-term regime test got all
+    # three of these wrong (FAIL, PASS and FAIL respectively).
+    # inside the bound, c_p ~ 1.894 < d = 2: summable and PASS
     inside = conjugate_pair(0.9, 2, 0.2)
     assert abs(least_psd_diagonal(weights(inside, 2, 119), 120) - 1.894) < 1e-3
-    assert threshold(inside, 2)[2] == "divergent"
-    assert gate(inside, 2, primes=[2])["verdict"] == "FAIL"
-    # outside the bound, c_p = +inf, and the gate PASSes
+    c, tail, regime = threshold(inside, 2)
+    assert regime == "summable" and abs(c - 1.893747) < 1e-6
+    assert math.isfinite(tail) and tail < 0.01
+    assert gate(inside, 2, primes=[2])["verdict"] == "PASS"
+    # outside the bound, c_p = +inf: divergent and FAIL
     outside = conjugate_pair(1.2, 7, 0.4)
     assert least_psd_diagonal(weights(outside, 7, 119), 120) > 1e9
-    assert threshold(outside, 7)[2] == "summable"
-    assert gate(outside, 2, primes=[7])["verdict"] == "PASS"
-    # on the bound, c_p = d = 2 exactly, and the gate FAILs
+    assert threshold(outside, 7)[2] == "divergent"
+    out = gate(outside, 2, primes=[7])
+    assert out["verdict"] == "FAIL" and out["divergent_places"] == [7]
+    # on the bound, c_p = d = 2 exactly: boundary and INDETERMINATE, the
+    # same convention steady weights on the bound have always received
     on = conjugate_pair(1.0, 2, 0.9)
     assert abs(least_psd_diagonal(weights(on, 2, 49), 50) - 2.0) < 1e-9
-    assert gate(on, 2, primes=[2])["verdict"] == "FAIL"
+    assert threshold(on, 2)[2] == "boundary"
+    assert gate(on, 2, primes=[2])["verdict"] == "INDETERMINATE"
 
 
-def test_on_the_bound_the_verdict_depends_on_the_weights() -> None:
+def test_on_the_bound_the_gate_declines_for_steady_and_oscillating_weights() -> None:
     # steady-modulus weights on the bound: the gate declines to decide
     for alphas, p in (((math.sqrt(2),), 2), ((-math.sqrt(3),), 3),
                       ((math.sqrt(97),), 97), ((math.sqrt(5), -math.sqrt(5)), 5)):
         aloc = satake_local(alphas)
         assert threshold(aloc, p)[2] == "boundary"
         assert gate(aloc, len(alphas), primes=[p])["verdict"] == "INDETERMINATE"
-    # one real parameter: the verdict changes within a relative 1e-6 of sqrt p
+    # one real parameter: the verdict changes within a relative 1e-6 of sqrt p;
+    # the envelope interval collapses to its floor when weights are steady
     for p in (2, 97):
         verdicts = [gate(satake_local((f * math.sqrt(p),)), 1, primes=[p])["verdict"]
                     for f in (1 - 2e-6, 1 - 5e-7, 1 + 5e-7, 1 + 2e-6)]
         assert verdicts == ["PASS", "INDETERMINATE", "INDETERMINATE", "FAIL"]
-    # a conjugate pair on the bound (c_p = d = 2 exactly) is read as summable
-    # and PASSes; the FAIL case on the bound is in test_the_gate_misreads_oscillating_weights
-    pair = conjugate_pair(1.0, 2, 2.0)
-    assert threshold(pair, 2)[2] == "summable"
-    assert gate(pair, 2, primes=[2])["verdict"] == "PASS"
+    # conjugate pairs on the bound (c_p = d = 2 exactly) decline as well.
+    # Before the issue 335 repair phi = 0.9 read FAIL and phi = 2.0 read PASS.
+    for phi in (0.9, 2.0):
+        pair = conjugate_pair(1.0, 2, phi)
+        assert threshold(pair, 2)[2] == "boundary"
+        assert gate(pair, 2, primes=[2])["verdict"] == "INDETERMINATE"
 
 
-def test_the_sixty_angle_control_keeps_its_margins_but_not_its_verdicts() -> None:
-    # the unit-modulus degree-2 family behind "margin >= 0.343 over 60 angles"
-    fails, margins = 0, []
+def test_the_sixty_angle_control_keeps_its_margins_and_its_verdicts() -> None:
+    # the unit-modulus degree-2 family behind "margin >= 0.343 over 60 angles";
+    # the 2026-08-10 gate passed all 60, the two-term regime test failed 22,
+    # and the envelope repair passes all 60 again at the same margins
+    verdicts, margins = [], []
     for phi in np.linspace(0.05, math.pi - 0.05, 60):
         alpha = cmath.exp(1j * phi)
         res = gate(satake_local([alpha, alpha.conjugate()]), 2)
-        fails += res["verdict"] == "FAIL"
+        verdicts.append(res["verdict"])
         margins.append(2 - res["max_c"])
     assert abs(min(margins) - 0.3434) < 1e-4
-    assert fails == 22
+    assert verdicts == ["PASS"] * 60
+
+
+def test_conjugate_pair_sweep_has_no_wrong_decisive_regime() -> None:
+    # Envelope methods cannot be decisive at every angle near the bound
+    # (slow amplitudes at phi near 0, pi/2 and pi: DIAGNOSIS-335.md), so
+    # the pin is the honesty property: a wrong decisive regime never
+    # occurs, undecided angles read boundary, and rate exactly 1 is
+    # boundary at every angle on this grid.
+    for radius, forbidden in ((0.9, "divergent"), (1.1, "summable")):
+        for phi in np.linspace(0.05, math.pi - 0.05, 60):
+            regime = threshold(conjugate_pair(radius, 2, float(phi)), 2)[2]
+            assert regime != forbidden, (radius, float(phi), regime)
+    for phi in np.linspace(0.05, math.pi - 0.05, 60):
+        assert threshold(conjugate_pair(1.0, 2, float(phi)), 2)[2] == "boundary"
+
+
+def test_the_recorded_numbers_reproduce_under_the_repair() -> None:
+    # The hunt's recorded outputs (results.json) under the envelope repair:
+    # every verdict stands, every printed max_c stands, and the
+    # Davenport-Heilbronn witnesses are finite again at p = 3 (see
+    # CORRECTIONS.md, the issue 335 update).
+    rows = reference_table()
+    expected = {
+        "zeta": (0.8284271247461844, "PASS"),
+        "L(chi quad mod 5)": (0.8284271247461844, "PASS"),
+        "degree-2 Euler factor (phi=0.9)": (1.5796710859022287, "PASS"),
+        "Davenport-Heilbronn": (1.8360682541448021, "FAIL"),
+        "DH-family t=0": (1.3333333333333428, "FAIL"),
+        "Epstein (1,1,6) principal": (5.9950743518758625, "FAIL"),
+        "Epstein (2,1,3) non-principal": (6.461868411582862, "FAIL"),
+    }
+    assert {row["subject"] for row in rows} == set(expected)
+    for row in rows:
+        want_c, want_verdict = expected[row["subject"]]
+        assert row["agrees"] and row["verdict"] == want_verdict
+        assert abs(row["max_c"] - want_c) < 1e-12
+        assert all(math.isfinite(c) for _, c in row["witnesses"])
+    dh = next(row for row in rows if row["subject"] == "Davenport-Heilbronn")
+    assert dh["witnesses"] == [(2, 1.8360682541448021), (3, 1.3923820214683353)]
+    assert abs(lesion_sweep()["eps_star"] - 0.1841018918280497) < 1e-12
+    null = null_distribution(n_samples=300)
+    assert abs(null["median"] - 5.881092757081788) < 1e-9
+    assert abs(null["p05"] - 0.7444949199285268) < 1e-9
+    assert null["fraction_failing"] == 1.0
+    assert abs(null["dh_percentile"] - 6.333333333333334) < 1e-9
 
 
 def test_an_unresolved_excess_reads_as_pass() -> None:
