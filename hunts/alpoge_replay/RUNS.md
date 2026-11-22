@@ -2026,3 +2026,48 @@ hand once the ordinary rounds are done, so that the chain's check states do
 not fork. The front end was compiled here against a stand-in with
 lean4lean's two signatures and run with a scale of 100; against lean4lean
 itself it is compiled first on a runner.
+
+## A route through an external checker, for single declarations
+
+Why: lean4lean is derived from Lean's kernel, and one module in the cone of
+the five theorems is beyond it on these runners (see "A module lean4lean
+does not finish"). What: `lean4export` writes a declaration and everything
+it depends on, down to the axioms, as text, and `nanoda`, a type checker
+for Lean 4 written in Rust, checks that text. `export_check.py` drives the
+two and reads the export; `.github/workflows/replay-alpoge-export.yml`
+builds both on the runner, where the archive is. It is for single
+declarations: the cone of the five theorems is 1.5 million constants, and
+whether its export and a checker holding it fit a 15 GB runner is not
+measured.
+
+What a pass says: nanoda accepted every declaration in the export, the
+declaration asked for and all it rests on, Mathlib's part included, and the
+export declares no axiom but `propext`, `Classical.choice` and
+`Quot.sound`. What it leans on: lean4export reads the `.olean` files with
+Lean's own code, so the text is what Lean says the files hold.
+
+### Estimate before spending, 2026-11-22 12:08Z
+
+Nothing was known: whether lean4export's tag for Lean 4.33.0 builds with
+4.33.1 (there is no tag for 4.33.1), whether nanoda's `master` reads that
+export format, how nanoda reports a failure. So the toy first, on one
+runner.
+
+### The self-test, 2026-11-22 12:08Z to 12:10Z, run 45020764389
+
+Started by the push that registered the workflow, on `d33aadba`.
+
+| | |
+| --- | --- |
+| lean4export | tag `v4.33.0`, commit `15f6055e299ad5b89345e533cc2192f4cc00f659`, built with the archive's Lean 4.33.1 in 4 s; it writes export format 3.1.0 |
+| nanoda | `nanoda_lib` at `0da9f98feadd3a0a2ef4b3dbcf52a298a6fef929`, its `master` of 2026-11-07, crate version 0.4.32, built by rustc 1.100.0 in 23 s |
+| `honest`, a true theorem | 38 declarations exported, no axiom; accepted, exit code 0 |
+| `worse`, resting on a proof of `1 = 2` that skipped the kernel | 72 declarations, no axiom; rejected, exit code 101 |
+| `lazy`, resting on `sorry` | 380 declarations, the axiom `sorryAx`; rejected, exit code 1 |
+
+So nanoda reads this export and tells the three apart: it rejects a proof
+of the wrong type and an axiom that is not permitted, each with an exit
+code of its own. Every later job runs the same self-test before it checks
+anything. The record of this first run kept the resource report in place
+of nanoda's own words; `export_check.py` now writes that report to a file
+of its own.

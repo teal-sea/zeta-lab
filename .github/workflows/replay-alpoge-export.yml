@@ -20,16 +20,13 @@
 # theorems (`export_check.py selftest`): a check that cannot fail is not one.
 name: replay-alpoge-export
 
-run-name: "alpoge export ${{ (github.event_name == 'push' || inputs.selftest_only) && 'selftest' || inputs.module }}"
+run-name: "alpoge export ${{ inputs.selftest_only && 'selftest' || inputs.module }}"
 
 on:
-  # A workflow that exists only on a feature branch cannot be dispatched by
-  # name until it has run once. This commit carries a push trigger for that
-  # reason; the run it starts is the self-test and nothing else. The trigger
-  # goes with the next commit.
-  push:
-    branches: [claude/bold-ramanujan-x7z42m]
-    paths: [".github/workflows/replay-alpoge-export.yml"]
+  # Dispatch only. A workflow that exists only on a feature branch cannot be
+  # dispatched by name until it has run once; the commit that added this file
+  # (d33aadba) carried a push trigger for that reason, and the run it started
+  # was the first self-test, run 45020764389.
   workflow_dispatch:
     inputs:
       module:
@@ -68,13 +65,13 @@ env:
   DECLS: ${{ inputs.decls }}
   STATE_ID: ${{ inputs.state_id || '14720649806' }}
   MINUTES: ${{ inputs.minutes || '120' }}
-  SELFTEST_ONLY: ${{ (github.event_name == 'push' || inputs.selftest_only) && 'true' || 'false' }}
+  SELFTEST_ONLY: ${{ inputs.selftest_only && 'true' || 'false' }}
   # lean4export's tag for Lean 4.33.0; there is none for 4.33.1. It is built
   # with the archive's toolchain, which the .olean files require.
   L4E_TAG: v4.33.0
-  # nanoda_lib has no tag near this export format; "master" until a pilot
-  # has printed the commit it built, then that commit.
-  NANODA_REV: ${{ inputs.nanoda_rev || 'master' }}
+  # nanoda_lib has no tag near this export format. This is its master of
+  # 2026-11-07, crate version 0.4.32, the commit the first self-test built.
+  NANODA_REV: ${{ inputs.nanoda_rev || '0da9f98feadd3a0a2ef4b3dbcf52a298a6fef929' }}
   HUNT: hunts/alpoge_replay
   LEAN_DIR: /home/runner/replay/lean
   OUT: /home/runner/replay/out

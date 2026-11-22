@@ -154,9 +154,11 @@ def check(nanoda: str, export_path: str, work: str, threads: int = 4, timeout_s:
     with open(cfg, "w", encoding="utf-8") as fh:
         json.dump(nanoda_config(export_path, threads), fh, indent=1)
     cmd = [os.path.abspath(nanoda), cfg]
-    timed = os.path.exists("/usr/bin/time")
-    if timed:
-        cmd = ["/usr/bin/time", "-v", *cmd]
+    # the resource report goes to a file of its own, so that what the checker
+    # says is not buried under it
+    report = cfg + ".time.txt"
+    if os.path.exists("/usr/bin/time"):
+        cmd = ["/usr/bin/time", "-v", "-o", report, *cmd]
     start = time.time()
     try:
         p = subprocess.run(cmd, capture_output=True, timeout=timeout_s)
@@ -167,9 +169,11 @@ def check(nanoda: str, export_path: str, work: str, threads: int = 4, timeout_s:
         err = (e.stderr or b"").decode("utf-8", "replace")
     res = {"exit_code": code, "accepted": code == 0, "seconds": round(time.time() - start, 1),
            "stdout_tail": out[-1500:], "stderr_tail": err[-2500:]}
-    for line in err.splitlines():
-        if "Maximum resident set size" in line:
-            res["max_rss_mb"] = int(line.rsplit(":", 1)[1]) // 1024
+    if os.path.exists(report):
+        with open(report, encoding="utf-8", errors="replace") as fh:
+            for line in fh:
+                if "Maximum resident set size" in line:
+                    res["max_rss_mb"] = int(line.rsplit(":", 1)[1]) // 1024
     return res
 
 
