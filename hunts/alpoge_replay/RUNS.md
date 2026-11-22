@@ -1762,6 +1762,7 @@ they merge.
 | 6 | 44986236486 | 06:39 | 58,272 | 117,698 | 67.18 | 0 | 0 | 4.08 | sixteen shards, three processes; all sixteen reported, nine stopped by their deadline, 69,888 planned; no new stop, five in all; no process killed and no strike; on the 117,698 modules both checkers have timed, lean4lean 127.3 process-hours and the kernel 155.7; the largest driver held 5.1 GB after a module, and one held 10.3 GB on a module it did not finish, see "A module lean4lean does not finish" below; check state 14743497145. Round 7 is run 44994721820, dispatched by the chain at 06:39Z on `56e684b3`, sixteen shards |
 | 7 | 44994721820 | 08:37 | 35,830 | 153,528 | 87.64 | 0 | 0 | 6.68 | sixteen shards, three processes; all sixteen reported, fourteen stopped by their deadline; the plan took everything left, 57,484; no new stop, five in all; no process killed and no strike; on the 153,528 modules both checkers have timed, lean4lean 193.8 process-hours and the kernel 213.7, and in this round lean4lean 66.5 against the kernel's 58.0: this high it is the slower of the two (1.2, 1.7 and 2.3 times the kernel on the modules of the kernel's rounds 13, 14 and 15); the largest driver held 4.7 GB after a module; two shards were held up by one module each, see "A module lean4lean does not finish"; check state 14747021470. Round 8 is run 45003686475 on `fe199842`: the 21,654 modules left cut evenly over sixteen shards, 1,353 or 1,354 each, and the first round with the limit per module |
 | 8 | 45003686475 | 10:30 | 21,404 | 174,932 | 99.85 | 0 | 0 | 7.33 | sixteen shards, the 21,654 left cut evenly; all sixteen reported, two stopped by their deadline; the first round with the limit per module: six modules given up after 1,800 s, see "Round 8" below; no rejection and no new fuel stop, so eleven listed as failed, five fuel stops and six without an answer; no process killed and no strike; on the 174,932 modules both checkers have timed, lean4lean 237.3 process-hours and the kernel 251.8, in this round 43.6 against 38.1; the largest driver held 4.5 GB after a module; check state 14750736222. Round 9 is run 45012762475 on `33dbea80`: the 244 modules left, fifteen or sixteen a shard |
+| 9 | 45012762475 | 11:08 | 244 | 175,176 | 99.99 | 0 | 0 | 31.12 | sixteen shards; all sixteen reported, none stopped by its deadline; all 244 replayed, nothing given up, no new stop; `Main` itself in 503 s on shard 15, where the kernel took 852 s; on the 175,176 modules both checkers have timed, lean4lean 239.4 process-hours and the kernel 253.6; the largest driver held 3.4 GB after a module; check state 14751622040. The chain then dispatched round 10, run 45015851476, whose plan had no shard: it ended in a minute (its own state artifact is 14751418758, not opened here), and the chain was over at 11:09Z |
 
 **Sixteen shards from round 6, 2026-11-22 04:42Z.** The kernel's replay
 ended at 03:37Z and its runners are free; sixteen is what the build and the
@@ -1959,6 +1960,39 @@ shard holds the sixteen modules at the top and runs to about 11:50Z, the
 retry is the long part, and nothing in it depends on those 244 modules. The
 price is two states at the end, the chain's and the retry's, which the
 close-out names side by side.
+
+### The chain is over, 2026-11-22 11:09Z: 175,176 of 175,187, none rejected
+
+Ten rounds, 20:23Z on 2026-11-21 to 11:09Z on 2026-11-22. Read from check
+state 14751622040 at 11:56Z, against build state 14720649806:
+
+| | |
+| --- | --- |
+| modules lean4lean replayed and accepted | 175,176, `Main` among them |
+| modules it rejected | 0 |
+| modules listed as failed | 11: five that ran out of lean4lean's fuel, six given up after 1,800 s. Accepted and failed together are the 175,187 of the build state, with no module in both |
+| strikes, processes killed | 0, 0 |
+| cost | 239.4 process-hours, against the kernel's 253.6 on the same modules: mean 4.92 s a module, median 3.77 s, 99th percentile 20.6 s, slowest 4,961 s |
+| lost shards | none of the 82 dispatched in rounds 0 to 9 |
+
+**The retry so far, read 11:57Z from its shards' own records.** Run
+45013099986 has ten of its eleven shards done. The five that held the
+modules given up for time, each alone on a runner with no limit:
+
+| module | lean4lean, alone | the kernel |
+| --- | --- | --- |
+| `IwasawaDecomposition.ExistsMovedDataLaterStagesWithNewTwist` | accepted, 1,139 s | 33.0 s |
+| `AutomorphicMembership.ValTransOfEq` | accepted, 1,399 s | 22.7 s |
+| `IwasawaDecomposition.ExistsMovedDataStateLocalisations` | accepted, 1,744 s | 34.2 s |
+| `SesquilinearFractions.ExistsFactorThroughMultiplication` | accepted, 3,552 s | 2,076.1 s |
+| `DivisorProofs.ExistsThetaSymmetricFunctionValuesInGroundField` | accepted, 3,722 s | 11.8 s |
+
+Three of them finished inside the 1,800 s that round 8 allowed, alone on a
+runner: beside two other processes they had not. The five shards with the
+fuel stops finished within eleven minutes of the dispatch; their records
+are read when the run has merged. The eleventh shard is still running. By
+elimination it holds `EncardComplexPointFibreEqEncardRingHomExtensions`,
+and it has until about 14:05Z.
 
 ### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
 
