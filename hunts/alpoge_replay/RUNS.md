@@ -1874,21 +1874,42 @@ one strike of the second pass. Fifty minutes without an answer is nearly
 one and a half times the kernel, which is where lean4lean stands on other
 modules this high. So this one is slow, as far as fifty minutes can tell,
 and the first one is something else: 77 minutes in round 6 and 85 in round
-7 without an answer, on a module the kernel does in four seconds. Round 8 gives both up after 1,800 s and
-the retry takes each alone on a runner.
+7 without an answer, on a module the kernel does in four seconds. Round 8
+gives both up after 1,800 s and the retry takes each alone on a runner.
 
 **Where the pass stands after round 7.** 21,654 modules left, 40.6
 process-hours by the kernel's clock. Fifteen of round 8's shards hold 1.4
 to 2.8 of those hours each. The sixteenth holds the top of the graph, 6.6,
 more than a shard delivers at lean4lean's rate up there, so a round 9 is
 expected for what is left of it, cut over sixteen runners. Estimate: round
-8 merged about 10:40Z, round 9 about 11:45Z to 12:00Z, then the retry
+8 merges about 10:40Z and round 9 about 11:45Z to 12:00Z; then the retry
 round, whose deadline is the time the modules without an answer are given.
 The retry's path has not run on a runner, so it is rehearsed in an epoch of
 its own, `t3`, run 45004870709: the five fuel stops, from check state
 14747021470, with a hundred times the fuel, on three shards. Its check
 state is thrown away; the retry that counts starts from the chain's last
 state.
+
+**The rehearsal, 08:53Z to 08:59Z: with a hundred times the fuel lean4lean
+accepts all five.** Run 45004870709 took six minutes. The plan found the
+five modules and nothing else and cut them over the three shards; the
+driver reported `l4ldriver: fuel times 100` and ran with no limit per
+module; all five were replayed and accepted; and the merge moved them from
+`failed` to `checked`, their first messages kept under `retried`
+(`n_retried_ok` 5, nothing failed, nothing struck).
+
+| module | lean4lean, fuel times 100 | kernel |
+| --- | --- | --- |
+| `ChebyshevPrimeBounds.SmallLoop` | 90.3 s | 95.6 s |
+| `DyadicPrimeIntervals.Run1` | 55.2 s | 22.8 s |
+| `DyadicPrimeIntervals.Run2` | 54.9 s | 22.5 s |
+| `DyadicPrimeIntervals.Run3` | 39.8 s | 28.6 s |
+| `DyadicPrimeIntervals.Run4` | 40.0 s | 25.2 s |
+
+So the five stops were lean4lean's counters and nothing else, as their
+message said. This is the rehearsal's state (artifact 14747621968), a fork
+of the chain's that is not carried on: the chain's own state lists the five
+as failed until the retry that counts has run.
 
 ### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
 
