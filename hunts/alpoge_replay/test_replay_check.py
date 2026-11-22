@@ -117,6 +117,46 @@ def test_merge_counts_replays_failures_and_strikes(tmp_path: Path) -> None:
 # the planted fault
 # ---------------------------------------------------------------------------
 
+def test_a_retry_round_plans_the_modules_that_ran_out_of_fuel_and_nothing_else() -> None:
+    deps = chain(6)
+    order, level = rp.topo_levels(deps)
+    where = {m: "r0-s0" for m in deps}
+    cstate = {"checked": {"M0": "c0-s0"}, "ms": {"M0": 1000},
+              "failed": {"M1": "at foo: (kernel) deterministic timeout", "M2": "at bar: (kernel) declaration type mismatch",
+                         "M4": "at baz: (kernel) deep recursion detected"},
+              "strikes": {}, "history": []}
+    shards, left, _ = rc.plan_check(deps, level, where, {"0": 1}, cstate, 2, 100.0, 6.0,
+                                    retry=("deterministic timeout", "deep recursion"))
+    assert [m for sh in shards for m in sh["modules"]] == ["M1", "M4"] and left == 0
+    # an ordinary round still leaves every failed module alone and takes what was never tried
+    shards, left, _ = rc.plan_check(deps, level, where, {"0": 1}, cstate, 2, 100.0, 6.0)
+    assert [m for sh in shards for m in sh["modules"]] == ["M3", "M5"]
+
+
+def test_a_retried_module_that_passes_leaves_the_failed_list_and_keeps_its_first_message(tmp_path: Path) -> None:
+    deps = chain(4)
+    (tmp_path / "dag.json").write_text(json.dumps({"deps": deps}))
+    (tmp_path / "state.json").write_text(json.dumps({"where": {m: "r0-s0" for m in deps}, "bundles": {"0": 1}}))
+    (tmp_path / "cstate.json").write_text(json.dumps({
+        "checked": {"M0": "c0-s0"}, "ms": {"M0": 5},
+        "failed": {"M1": "at foo: (kernel) deterministic timeout", "M2": "at bar: (kernel) deterministic timeout"},
+        "strikes": {}, "history": []}))
+    done = tmp_path / "done"
+    done.mkdir()
+    (done / "checkdone-c7-s0.json").write_text(json.dumps({
+        "round": 7, "shard": 0, "planned": 2, "ok": {"M1": 4000},
+        "failed": {"M2": "at bar: (kernel) deterministic timeout"}, "struck": [], "killed": []}))
+    out = tmp_path / "out.json"
+    subprocess.run([sys.executable, str(HERE / "replay_check.py"), "merge", "--dag", str(tmp_path / "dag.json"),
+                    "--state", str(tmp_path / "state.json"), "--check-state", str(tmp_path / "cstate.json"),
+                    "--done-dir", str(done), "--round", "7", "--out", str(out)], check=True, capture_output=True)
+    c = json.loads(out.read_text())
+    assert c["checked"]["M1"] == "c7-s0" and "M1" not in c["failed"]
+    assert c["retried"] == {"M1": "at foo: (kernel) deterministic timeout"}
+    assert c["failed"] == {"M2": "at bar: (kernel) deterministic timeout"}
+    assert c["history"][-1]["retried_ok"] == 1 and c["history"][-1]["failed"] == 1
+
+
 def test_the_driver_is_one_lean_file_or_one_program_never_both_or_neither() -> None:
     assert rc.driver_command("/h/ReplayDriver.lean", None, "/o/list-0.txt") == [
         "lake", "env", "lean", "--run", "/h/ReplayDriver.lean", "/o/list-0.txt"]

@@ -52,14 +52,26 @@ def load_check_state(path: str | None) -> dict:
 # plan
 # --------------------------------------------------------------------------
 
-def plan_check(deps, level, where, bundles, cstate, n_shards, budget_s, default_s, max_strikes=2):
-    """Return (shards, left). A shard is {'modules', 'need', 'fetch', 'est_s'}."""
+def plan_check(deps, level, where, bundles, cstate, n_shards, budget_s, default_s, max_strikes=2,
+               retry: tuple[str, ...] = ()):
+    """Return (shards, left). A shard is {'modules', 'need', 'fetch', 'est_s'}.
+
+    With `retry`, the round is a second attempt and nothing else: it plans the
+    modules recorded as failed whose message contains one of the given texts,
+    and no module that has not been tried. That is for a checker that gave up
+    for a limit of its own (lean4lean's fuel) and is now given more; a module
+    that failed for any other reason stays failed.
+    """
     checked, failed, strikes = cstate["checked"], cstate["failed"], cstate.get("strikes", {})
     ms = cstate.get("ms", {})
     mean_s = (sum(ms.values()) / len(ms) / 1000.0) if len(ms) >= 200 else default_s
-    todo = sorted((m for m in where
-                   if m not in checked and m not in failed and strikes.get(m, 0) < max_strikes),
-                  key=lambda m: (level[m], m))
+    if retry:
+        todo = sorted((m for m in where if m in failed and any(text in failed[m] for text in retry)),
+                      key=lambda m: (level[m], m))
+    else:
+        todo = sorted((m for m in where
+                       if m not in checked and m not in failed and strikes.get(m, 0) < max_strikes),
+                      key=lambda m: (level[m], m))
     shards, cur, load = [], [], 0.0
     for m in todo:
         if len(shards) == n_shards:
@@ -109,7 +121,8 @@ def cmd_plan(a) -> None:
     where = {m: c for m, c in where.items() if m in ok}
     cstate = load_check_state(a.check_state)
     shards, left, mean_s = plan_check(deps, level, where, st.get("bundles", {}), cstate,
-                                      a.shards, a.budget_s, a.default_s, a.max_strikes)
+                                      a.shards, a.budget_s, a.default_s, a.max_strikes,
+                                      retry=tuple(a.retry_failed or ()))
     os.makedirs(a.out, exist_ok=True)
     for i, sh in enumerate(shards):
         sh.update({"round": a.round, "shard": i})
@@ -123,6 +136,7 @@ def cmd_plan(a) -> None:
         "planned": sum(len(s["modules"]) for s in shards),
         "left_after_plan": left,
         "n_shards": len(shards),
+        "retry_failed": list(a.retry_failed or ()),
         "mean_s_per_module": round(mean_s, 3),
         "shards": [{"shard": i, "modules": len(s["modules"]), "need": len(s["need"]),
                     "bundles": len(s["fetch"]), "est_s": s["est_s"]} for i, s in enumerate(shards)],
@@ -450,8 +464,13 @@ def cmd_merge(a) -> None:
                 cstate["ms"][m] = ms
                 rnd["ok"] += 1
                 rnd["ms_sum"] += ms
+                # a second attempt that passed: the module is replayed, and
+                # what the first attempt said is kept beside it
+                if m in cstate["failed"]:
+                    cstate.setdefault("retried", {})[m] = cstate["failed"].pop(m)
+                    rnd["retried_ok"] = rnd.get("retried_ok", 0) + 1
         for m, msg in rec.get("failed", {}).items():
-            if m in known:
+            if m in known and m not in cstate["checked"]:
                 cstate["failed"][m] = msg
                 rnd["failed"] += 1
         for m in rec.get("struck", []):
@@ -475,6 +494,7 @@ def cmd_merge(a) -> None:
         "left_in_this_build_state": len(built) - len(cstate["checked"]) - len(cstate["failed"]),
         "n_failed": len(cstate["failed"]),
         "failed": sorted(cstate["failed"])[:20],
+        "n_retried_ok": len(cstate.get("retried", {})),
         "n_struck": len(cstate.get("strikes", {})),
         "mean_ms": round(rnd["ms_sum"] / max(1, rnd["ok"]), 1),
         "all_replayed": len(built) == len(known) and len(cstate["checked"]) == len(known),
@@ -502,6 +522,8 @@ def main() -> None:
     s.add_argument("--default-s", type=float, default=6.0, help="seconds per module before any is measured")
     s.add_argument("--max-strikes", type=int, default=2,
                    help="a module a replay process died on this many times is not planned again")
+    s.add_argument("--retry-failed", nargs="*", metavar="TEXT",
+                   help="plan only the failed modules whose message contains one of these texts")
     s.add_argument("--out", required=True)
     s.set_defaults(fn=cmd_plan)
     s = sub.add_parser("run")

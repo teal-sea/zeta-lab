@@ -1346,6 +1346,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 11 | 44924547755 | 18:16 | 8,137 | 139,341 | 79.54 | 0 | 0 | 5.58 | against build state 14713104221; dispatched by hand at 16:26Z after the cancelled run; two processes per runner, small page-fault windows, extra swap, plain directories; all four shards reported; 8,884 planned, three shards stopped by their deadline; no process killed, no new strike; the module struck in round 10, `SesquilinearFractions.ExistsFactorThroughMultiplication`, went through the kernel on shard 0 in 2,076 s with the swap in place; check state 14718594608 |
 | 12 | 44934638612 | 19:52 | 6,606 | 145,947 | 83.31 | 0 | 0 | 4.07 | against build state 14718047776; two processes per runner; three of four shards reported, each with all 2,202 of its modules and none stopped by its deadline; shard 2's runner was lost 49 minutes into its replay and left no log, and the two surviving runners looked at never had less than 11 GB available, so memory in general was not short; check state 14722696394. Round 13 started with four shards (run 44943257562), was cancelled after twelve minutes and dispatched again with twelve (run 44944303371) |
 | 13 | 44944303371 | 22:00 | 15,578 | 161,525 | 92.20 | 0 | 0 | 6.79 | against build state 14720649806, the complete one; twelve shards, two processes per runner; nine of twelve shards reported, eight of them stopped by their deadline, 19,971 planned on the nine; shards 5, 6 and 11 lost their runners 91, 65 and 89 minutes into the replay and left no log, see "The lost runners are not a module" below; check state 14727455301. Round 14 is run 44954431174, twelve shards, the first round with the self-test |
+| 14 | 44954431174 | 00:39 | 6,521 | 168,046 | 95.92 | 0 | 0 | 7.12 | seven shards for the 13,662 modules left, the self-test passed on all seven; four reported, three of them stopped by their deadline, 7,248 planned on the four; shards 1 and 2 lost their runners (marked failed 106 and 78 minutes into the replay), and shard 5 was still "in progress" 138 minutes into a replay of 100 with the round waiting on it, so the run was cancelled at 00:33Z: the merge then ran on the four records and handed on; check state 14732520405. Round 15 is run 44967645994 |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
@@ -1441,6 +1442,35 @@ again, and there is no module to isolate or to strike. The chain carries
 on; a round that loses shards leaves their modules to the next. If the
 rate holds, about a fifth of each round's runner time is lost. Uploading a
 shard's record in parts would cap that, and has not been built.
+
+**Round 14, 2026-11-22 00:40Z: the rate rises with the height of the
+modules, and a lost runner is one that has stopped answering.** Three of
+seven shards in round 14, after three of twelve in round 13 and one of four
+in round 12, as the modules left climb the import graph (a shard of round
+13 needed 72,000 to 129,000 files restored). One of the three, shard 5, was
+not marked failed at all: its replay step still read "in progress" 38
+minutes after the deadline `replay_check.py` enforces, and it did not react
+to the run's cancellation at 00:33:37Z: the run ended, and the merge ran,
+five minutes later, which is GitHub ending a job by force. So these runners
+do not crash. They stop answering, and GitHub fails them when it notices.
+
+A mechanism that fits, not shown: a replay process this high maps a
+hundred thousand files and reads more than the runner's memory holds, so
+the page cache turns over for the whole replay; every idle process on the
+machine loses its pages to that, the runner's own agent among them, and
+has to read them back through a disk that is busy. `MemAvailable` counts
+page cache as available, which is why the shards that survived looked
+comfortable. The build's shards at the top did the same reading and lost
+no runner, which this does not explain; the replay sets `vm.swappiness` to
+10 where the build left it at 60, and that is one difference.
+
+The test of it is `cgroup_cap.sh`: from the next round each shard's replay
+processes run in a memory group of their own, 4 GB under the runner's
+memory, with the cache dropped first so that what they read is charged to
+the group. The turnover then happens inside the group and the rest of the
+machine keeps 4 GB. If shards stop being lost, that was it; if they are
+still lost at the same rate, it was not, and the cap has cost a few
+minutes of cold cache per shard.
 
 ### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
 
@@ -1590,3 +1620,37 @@ they merge.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 0 | 44946010580 | 20:38 | 86 | 86 | 0.05 | 0 | 0 | 9.63 | first pilot, swapping |
 | 1 | 44947689609 | 20:54 | 180 | 266 | 0.15 | 0 | 0 | 2.69 | second pilot, four modules per process |
+| 2 | 44949631188 | 22:52 | 12,175 | 12,441 | 7.10 | 0 | 0 | 4.19 | four shards, three processes, four modules per process; all four reported, two stopped by their deadline, 13,140 planned; three modules ended in lean4lean's `deterministic timeout`, see below; on the 12,441 modules both checkers have timed, lean4lean 14.5 process-hours and the kernel 13.9; the largest driver held 7.0 GB after a module; check state 14728422994. Round 3 is run 44958976482 |
+
+### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
+
+Round 2 recorded three failures, all with the same message:
+
+```
+Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ChebyshevPrimeBounds.SmallLoop    at PI.PC.loop_run._proof_1_1: (kernel) deterministic timeout
+Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicPrimeIntervals.Run1         at PI.PrimesDyadicRS.K.run1._proof_1_1: (kernel) deterministic timeout
+Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicPrimeIntervals.Run3         at PI.PrimesDyadicRS.K.run3._proof_1_1: (kernel) deterministic timeout
+```
+
+`Run1.lean` is eight lines: `theorem run1 : run 32768 1612 32766 2 1 =
+true := by decide +kernel`. These are computations the kernel carries out
+by reduction (a count of primes in dyadic intervals); the C++ kernel takes
+23, 29 and 96 s to replay the three modules. lean4lean bounds its
+reduction loops with counters "set so mathlib passes"
+(`Lean4Lean/FuelConfig.lean`: 100,000 unfolding steps, among others) and
+ends in `deterministic timeout` when one runs out. That is lean4lean
+stopping, not lean4lean finding an error, and the check state's word
+"failed" for these three is wrong in the second sense until they are tried
+with more fuel.
+
+So that they can be: `L4LDriver.lean` reads `L4L_FUEL_SCALE` and multiplies
+lean4lean's counters by it (the recursion depth by at most ten, since that
+one costs stack); `replay_check.py plan --retry-failed TEXT...` plans only
+the failed modules whose message contains one of the texts; and the merge
+moves a module that passes its second attempt from `failed` to `checked`,
+keeping the first message under `retried`. The workflow's inputs are
+`retry_failed=fuel` and `fuel_scale`. A retry is one round, dispatched by
+hand once the ordinary rounds are done, so that the chain's check states do
+not fork. The front end was compiled here against a stand-in with
+lean4lean's two signatures and run with a scale of 100; against lean4lean
+itself it is compiled first on a runner.

@@ -31,7 +31,7 @@
 # to reject that module and only that one (replay_check.py selftest). A
 # shard whose checker cannot say no replays nothing.
 name: replay-alpoge-check
-run-name: alpoge check ${{ inputs.checker == 'lean4lean' && 'lean4lean ' || '' }}${{ inputs.epoch || 'p1' }} c${{ inputs.round || '0' }} build-state ${{ inputs.state_id || 'latest' }} check-state ${{ inputs.check_state_id || 'none' }} (${{ inputs.shards || '1' }}x${{ inputs.check_minutes || '8' }}min)
+run-name: alpoge check ${{ inputs.checker == 'lean4lean' && 'lean4lean ' || '' }}${{ inputs.retry_failed && format('retry-{0} x{1} ', inputs.retry_failed, inputs.fuel_scale || '1') || '' }}${{ inputs.epoch || 'p1' }} c${{ inputs.round || '0' }} build-state ${{ inputs.state_id || 'latest' }} check-state ${{ inputs.check_state_id || 'none' }} (${{ inputs.shards || '1' }}x${{ inputs.check_minutes || '8' }}min)
 
 on:
   # Dispatch only. The commit that added this file (ab1874fb) carried a push
@@ -75,6 +75,14 @@ on:
         description: kernel (Lean's own, through ReplayDriver.lean) or lean4lean (the checker written in Lean, built on the runner); use an epoch of its own for lean4lean
         type: string
         default: kernel
+      retry_failed:
+        description: empty for an ordinary round; "fuel" plans only the modules lean4lean gave up on (deterministic timeout, deep recursion) and nothing else
+        type: string
+        default: ""
+      fuel_scale:
+        description: lean4lean only. Its fuel counters are multiplied by this whole number; 1 is lean4lean's own fuel
+        type: string
+        default: "1"
 
 permissions:
   contents: read
@@ -104,6 +112,10 @@ env:
   IO_TUNE: "all"
   CHAIN: ${{ inputs.chain || 'false' }}
   CHECKER: ${{ inputs.checker || 'kernel' }}
+  RETRY_FAILED: ${{ inputs.retry_failed || '' }}
+  # Read by L4LDriver.lean. The chain does not hand it on: a retry with more
+  # fuel is one round, dispatched by hand when the ordinary rounds are done.
+  L4L_FUEL_SCALE: ${{ inputs.fuel_scale || '1' }}
   # lean4lean's master of 2026-10-10. Its own toolchain file says
   # v4.33.0-rc2; it is built here with the archive's v4.33.1, which the
   # .olean files require.
@@ -113,6 +125,9 @@ env:
   # used up 27 GB of swap in five minutes), so a process is given a few
   # modules and then replaced.
   L4L_BATCH: "4"
+  # The replay's processes run in a memory group of their own, this many MB
+  # under the runner's memory (cgroup_cap.sh says why); "" for no group.
+  CGROUP_BELOW_TOTAL_MB: "4096"
   HUNT: hunts/alpoge_replay
 
 jobs:
@@ -180,6 +195,12 @@ jobs:
           # (SesquilinearFractions.ExistsFactorThroughMultiplication, 12.7 GB
           # held when the watchdog ended its replay in round 10) was struck
           # on runners without the extra swap the shards have from round 12.
+          if [ "$RETRY_FAILED" = "fuel" ]; then
+            args+=(--retry-failed "deterministic timeout" "deep recursion")
+          elif [ -n "$RETRY_FAILED" ]; then
+            echo "::error::unknown retry_failed '$RETRY_FAILED'"; exit 1
+          fi
+          case "$L4L_FUEL_SCALE" in ''|*[!0-9]*) echo "::error::fuel_scale must be a whole number"; exit 1;; esac
           python3 "$HUNT/replay_check.py" plan --dag dag.json --state state/state.json "${args[@]}" \
             --round "$ROUND" --shards "$SHARDS" --budget-s "$budget" --max-strikes 4 --out plan | tee plan.txt
           n=$(jq .n_shards plan/plan.json)
@@ -375,6 +396,14 @@ jobs:
           # kill one; the driver records the module that process was on as
           # "killed" (crowded out) or as a strike (killed alone), and after a
           # kill the chain runs the next round with fewer processes.
+          # From here on this shell and what it starts are in a memory group
+          # of their own. The cache is dropped first so that the pages the
+          # replay reads are charged to the group and not to the restore.
+          if [ -n "$CGROUP_BELOW_TOTAL_MB" ]; then
+            sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null || true
+            total_mb=$(awk '/MemTotal/{print int($2/1024)}' /proc/meminfo)
+            bash "$HUNT/cgroup_cap.sh" "$(( total_mb - CGROUP_BELOW_TOTAL_MB ))" "$$" | tee -a "$OUT/evidence/run.txt" || true
+          fi
           if [ "$CHECKER" = "lean4lean" ]; then
             name=l4ldriver; drv=(--driver-exe "$RUNNER_TEMP/l4l/.lake/build/bin/l4ldriver" --batch "$L4L_BATCH")
           else

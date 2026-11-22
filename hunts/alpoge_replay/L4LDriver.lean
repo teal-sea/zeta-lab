@@ -37,15 +37,36 @@ def rssAnonKb : IO Nat := do
     return 0
   catch _ => return 0
 
+/-- lean4lean's fuel, every counter times `k`, the recursion depth times at
+most ten. Its loops are bounded by counters "set so mathlib passes"
+(`Lean4Lean/FuelConfig.lean`); a declaration that needs more ends in
+`deterministic timeout` or `deep recursion`, which says that lean4lean gave
+up and nothing about the declaration. The depth is the one counter that
+costs stack, so it is raised less. -/
+def scaledFuel (k : Nat) : Lean4Lean.FuelConfig :=
+  let f : Lean4Lean.FuelConfig := {}
+  { f with
+    whnf := f.whnf * k
+    whnfEager := f.whnfEager * k
+    lazyDelta := f.lazyDelta * k
+    etaExpand := f.etaExpand * k
+    recDepth := f.recDepth * (min k 10)
+    inductiveFuel := f.inductiveFuel * k }
+
 /-- `l4ldriver <file of module names>`: one line per module,
 `OK<tab>module<tab>milliseconds<tab>anonymous kB<tab>declarations` or
 `FAIL<tab>module<tab>milliseconds<tab>message`. The fourth field of an `OK`
 line is the anonymous memory the process holds once the module is done, the
 fifth the number of declarations lean4lean added. Exit code 0 if every module
-replayed, 1 otherwise. -/
+replayed, 1 otherwise. The environment variable `L4L_FUEL_SCALE`, a whole
+number of at least 1, multiplies lean4lean's fuel (`scaledFuel`); without it
+the fuel is lean4lean's own. -/
 unsafe def main (args : List String) : IO UInt32 := do
   let [listFile] := args
     | do IO.eprintln "usage: l4ldriver <file of module names>"; return 2
+  let scale := max 1 (((← IO.getEnv "L4L_FUEL_SCALE").bind (·.trimAscii.toString.toNat?)).getD 1)
+  let fuel := scaledFuel scale
+  if scale != 1 then IO.eprintln s!"l4ldriver: fuel times {scale}"
   initSearchPath (← findSysroot)
   let out ← IO.getStdout
   let mut bad := 0
@@ -54,7 +75,7 @@ unsafe def main (args : List String) : IO UInt32 := do
     if name.isEmpty then continue
     let t0 ← IO.monoMsNow
     try
-      let n ← replayFromImports name.toName
+      let n ← replayFromImports name.toName (fuel := fuel)
       out.putStrLn s!"OK\t{name}\t{(← IO.monoMsNow) - t0}\t{← rssAnonKb}\t{n}"
     catch e =>
       bad := bad + 1
