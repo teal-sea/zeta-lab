@@ -1347,6 +1347,7 @@ for the build; it is raised to twelve shards once the build has finished.
 | 12 | 44934638612 | 19:52 | 6,606 | 145,947 | 83.31 | 0 | 0 | 4.07 | against build state 14718047776; two processes per runner; three of four shards reported, each with all 2,202 of its modules and none stopped by its deadline; shard 2's runner was lost 49 minutes into its replay and left no log, and the two surviving runners looked at never had less than 11 GB available, so memory in general was not short; check state 14722696394. Round 13 started with four shards (run 44943257562), was cancelled after twelve minutes and dispatched again with twelve (run 44944303371) |
 | 13 | 44944303371 | 22:00 | 15,578 | 161,525 | 92.20 | 0 | 0 | 6.79 | against build state 14720649806, the complete one; twelve shards, two processes per runner; nine of twelve shards reported, eight of them stopped by their deadline, 19,971 planned on the nine; shards 5, 6 and 11 lost their runners 91, 65 and 89 minutes into the replay and left no log, see "The lost runners are not a module" below; check state 14727455301. Round 14 is run 44954431174, twelve shards, the first round with the self-test |
 | 14 | 44954431174 | 00:39 | 6,521 | 168,046 | 95.92 | 0 | 0 | 7.12 | seven shards for the 13,662 modules left, the self-test passed on all seven; four reported, three of them stopped by their deadline, 7,248 planned on the four; shards 1 and 2 lost their runners (marked failed 106 and 78 minutes into the replay), and shard 5 was still "in progress" 138 minutes into a replay of 100 with the round waiting on it, so the run was cancelled at 00:33Z: the merge then ran on the four records and handed on; check state 14732520405. Round 15 started as run 44967645994 on the old commit, was cancelled after four minutes and dispatched again as run 44967950293 on `f225a431`: forty-minute shards and the memory group |
+| 15 | 44967950293 | 01:40 | 6,352 | 174,398 | 99.55 | 0 | 0 | 6.32 | forty-minute shards inside the memory group; nine shards for the 7,141 modules left and all nine reported, four of them stopped by their deadline; check state 14734760370. Round 16 is run 44972556875: the plan put the 789 modules left on one runner |
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
@@ -1471,6 +1472,17 @@ the group. The turnover then happens inside the group and the rest of the
 machine keeps 4 GB. If shards stop being lost, that was it; if they are
 still lost at the same rate, it was not, and the cap has cost a few
 minutes of cold cache per shard.
+
+**Round 15, 2026-11-22 01:40Z: nine of nine.** The first round inside the
+group, and the first with forty-minute shards, lost no runner, on modules
+higher than those of rounds 13 and 14, which lost three of twelve and three
+of seven. Shard 0's record shows the group in force (`cgroup_cap: pid 4610
+is in alpoge-replay, memory.high 12168724480 bytes`): page cache never over
+9.3 GB where the earlier survivors showed 10 to 11, and all 842 of its
+modules replayed in 2,202 s. Two things changed at once, so this does not
+say which of them did it: the earlier losses came 49 to 106 minutes into a
+replay, and no shard of round 15 ran that long. It is one round. What it
+does say is that the combination runs clean where its absence did not.
 
 ### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
 
