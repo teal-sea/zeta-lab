@@ -1,0 +1,253 @@
+# A route that shares no checker with the three passes of the Alpöge replay:
+# export one declaration and everything it depends on, down to the axioms,
+# with lean4export, and check that file with nanoda, a type checker for
+# Lean 4 written in Rust. What the passes are: hunts/alpoge_replay/MISSION.md
+# and RUNS.md. What this adds and what it cannot say:
+# hunts/alpoge_replay/export_check.py.
+#
+# It is for single declarations. The first use is the one module the
+# lean4lean pass could not finish. The cone of the five theorems of
+# `Main.lean` is 1.5 million constants, and whether its export and a checker
+# holding it fit a 15 GB runner is not known.
+#
+# Both programs are fetched and compiled here, on the runner, where the
+# archive is: nothing downloaded is built anywhere else. The job holds a
+# read-only token and runs no code of the archive: the exporter reads
+# .olean files and writes text, and the checker reads that text.
+#
+# Before it checks anything a job exports three toy theorems and requires
+# the checker to accept the honest one and reject the two that are not
+# theorems (`export_check.py selftest`): a check that cannot fail is not one.
+name: replay-alpoge-export
+
+run-name: "alpoge export ${{ (github.event_name == 'push' || inputs.selftest_only) && 'selftest' || inputs.module }}"
+
+on:
+  # A workflow that exists only on a feature branch cannot be dispatched by
+  # name until it has run once. This commit carries a push trigger for that
+  # reason; the run it starts is the self-test and nothing else. The trigger
+  # goes with the next commit.
+  push:
+    branches: [claude/bold-ramanujan-x7z42m]
+    paths: [".github/workflows/replay-alpoge-export.yml"]
+  workflow_dispatch:
+    inputs:
+      module:
+        description: the module that declares what is exported
+        type: string
+        default: Development.AbelianVarietyTheory.Proofs.DivisorProofs.EncardComplexPointFibreEqEncardRingHomExtensions
+      decls:
+        description: declarations to export with everything they depend on, separated by spaces
+        type: string
+        default: GlobalTheory.encard_fibre_eq_encard_ringHom
+      state_id:
+        description: artifact id of the build state that holds the module's outputs
+        type: string
+        default: "14720649806"
+      minutes:
+        description: minutes the checker is given for the export
+        type: string
+        default: "120"
+      nanoda_rev:
+        description: commit or branch of nanoda_lib to build; empty for the one pinned below
+        type: string
+        default: ""
+      selftest_only:
+        description: build the two programs, run the self-test on the toy, and stop
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  ARCHIVE_SHA256: 9631b4f020199e580ba86178cb56c6e9b09f690c2369a80dc4334aa93f49c7fc
+  ARCHIVE_CACHE_KEY: alpoge-archive-9631b4f02019
+  MODULE: ${{ inputs.module }}
+  DECLS: ${{ inputs.decls }}
+  STATE_ID: ${{ inputs.state_id || '14720649806' }}
+  MINUTES: ${{ inputs.minutes || '120' }}
+  SELFTEST_ONLY: ${{ (github.event_name == 'push' || inputs.selftest_only) && 'true' || 'false' }}
+  # lean4export's tag for Lean 4.33.0; there is none for 4.33.1. It is built
+  # with the archive's toolchain, which the .olean files require.
+  L4E_TAG: v4.33.0
+  # nanoda_lib has no tag near this export format; "master" until a pilot
+  # has printed the commit it built, then that commit.
+  NANODA_REV: ${{ inputs.nanoda_rev || 'master' }}
+  HUNT: hunts/alpoge_replay
+  LEAN_DIR: /home/runner/replay/lean
+  OUT: /home/runner/replay/out
+
+jobs:
+  export:
+    name: export and check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: record the run and free the runner's disk
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT/evidence"
+          {
+            echo "zeta-lab commit: $GITHUB_SHA"
+            echo "module $MODULE declarations $DECLS selftest_only $SELFTEST_ONLY minutes $MINUTES"
+            echo "runner: $(nproc) cores, $(free -g | awk '/Mem:/{print $2}') GB RAM, kernel $(uname -r)"
+          } | tee "$OUT/evidence/run.txt"
+          nohup sudo sh -c 'rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL; docker image prune --all --force; rm -rf /usr/share/swift /usr/local/julia* /usr/lib/jvm /usr/local/share/powershell /opt/microsoft /opt/google /usr/lib/google-cloud-sdk /opt/az /usr/share/az_* /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/miniconda /home/linuxbrew /usr/local/share/chromium /usr/lib/firefox /usr/share/gradle-* /usr/share/kotlinc /usr/share/sbt /usr/local/share/vcpkg /usr/share/apache-maven-* /usr/local/sqlpackage /usr/lib/mono /usr/share/ri /opt/actionarchivecache' >/dev/null 2>&1 &
+          sudo sysctl -w vm.max_map_count=2097152 | tee -a "$OUT/evidence/run.txt"
+
+      - name: restore the archive from this branch's cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/replay/lean.tar.gz
+          key: ${{ env.ARCHIVE_CACHE_KEY }}
+          fail-on-cache-miss: true
+
+      - name: verify and extract the archive
+        run: |
+          set -euo pipefail
+          echo "$ARCHIVE_SHA256  $HOME/replay/lean.tar.gz" | sha256sum -c -
+          tar -xzf "$HOME/replay/lean.tar.gz" -C "$HOME/replay" --no-same-owner
+          rm -f "$HOME/replay/lean.tar.gz"
+
+      - name: install elan and the toolchain the archive names
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" toolchain install "$(cat "$LEAN_DIR/lean-toolchain")"
+          cd "$LEAN_DIR" && "$HOME/.elan/bin/lean" --version | tee -a "$OUT/evidence/run.txt"
+
+      # No token is in the environment of the two build steps.
+      - name: build lean4export
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --branch "$L4E_TAG" https://github.com/leanprover/lean4export "$RUNNER_TEMP/l4e"
+          cd "$RUNNER_TEMP/l4e"
+          echo "lean4export: tag $L4E_TAG, commit $(git rev-parse HEAD), its own toolchain file: $(cat lean-toolchain)" | tee -a "$OUT/evidence/run.txt"
+          cp "$LEAN_DIR/lean-toolchain" lean-toolchain
+          start=$(date +%s)
+          lake build 2>&1 | tail -15
+          test -x .lake/build/bin/lean4export
+          echo "lean4export built with $(cat lean-toolchain) in $(( $(date +%s) - start )) s" | tee -a "$OUT/evidence/run.txt"
+
+      - name: build nanoda
+        run: |
+          set -euo pipefail
+          git clone --quiet https://github.com/ammkrn/nanoda_lib "$RUNNER_TEMP/nanoda"
+          cd "$RUNNER_TEMP/nanoda"
+          git checkout --quiet "$NANODA_REV"
+          echo "nanoda_lib: $NANODA_REV, commit $(git rev-parse HEAD), $(git log -1 --format=%cI), crate version $(sed -n 's/^version *= *"\(.*\)"/\1/p' Cargo.toml | head -1)" | tee -a "$OUT/evidence/run.txt"
+          rustc --version | tee -a "$OUT/evidence/run.txt"
+          start=$(date +%s)
+          cargo build --release 2>&1 | tail -8
+          bin=$(find target/release -maxdepth 1 -type f -executable ! -name '*.so' ! -name '*.d' | head -1)
+          test -n "$bin"
+          cp "$bin" "$RUNNER_TEMP/nanoda-bin"
+          echo "nanoda binary $(basename "$bin") built in $(( $(date +%s) - start )) s" | tee -a "$OUT/evidence/run.txt"
+
+      - name: the checker must tell a theorem from two that are not
+        run: |
+          set -uo pipefail
+          python3 "$HUNT/export_check.py" selftest --lean4export "$RUNNER_TEMP/l4e/.lake/build/bin/lean4export" \
+            --nanoda "$RUNNER_TEMP/nanoda-bin" --toolchain "$(cat "$LEAN_DIR/lean-toolchain")" \
+            --work "$RUNNER_TEMP/export-selftest" | tee -a "$OUT/evidence/run.txt"
+          rc=${PIPESTATUS[0]}
+          ls -la "$RUNNER_TEMP/export-selftest" | tee -a "$OUT/evidence/run.txt" || true
+          head -c 1500 "$RUNNER_TEMP/export-selftest/toy-honest.ndjson" > "$OUT/evidence/toy-honest-head.txt" 2>/dev/null || true
+          exit "$rc"
+
+      - name: a place for the restored outputs, and the Mathlib olean cache
+        if: env.SELFTEST_ONLY != 'true'
+        run: |
+          set -euo pipefail
+          bash "$HUNT/build_volume.sh" "$LEAN_DIR/.lake/build" 1 180000 | tee -a "$OUT/evidence/run.txt"
+          cd "$LEAN_DIR"
+          lake exe cache get 2>&1 | tail -4 | tr '\r' '\n' | tail -4
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 0df444a360eaa60ab8c11dca51a86af692955474
+
+      - name: restore the module and everything it imports
+        if: env.SELFTEST_ONLY != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 "$HUNT/replay_plan.py" dag --src "$LEAN_DIR/src" --out dag.json
+          bash "$HUNT/fetch_artifact.sh" "$STATE_ID" state.zip
+          mkdir -p state && unzip -o -q state.zip -d state && test -f state/state.json
+          # a plan of one module: everything else counts as replayed
+          python3 - "$MODULE" <<'EOF'
+          import json, sys
+          st = json.load(open("state/state.json"))
+          m = sys.argv[1]
+          assert m in st["where"], f"{m} is not a module of the build state"
+          json.dump({"checked": {x: "other" for x in st["where"] if x != m}, "ms": {}, "failed": {},
+                     "strikes": {}, "history": []}, open("only.json", "w"))
+          EOF
+          python3 "$HUNT/replay_check.py" plan --dag dag.json --state state/state.json --check-state only.json \
+            --round 0 --shards 1 --budget-s 1000000 --out plan | tee -a "$OUT/evidence/run.txt"
+          test "$(jq -r '.modules | join(" ")' plan/shard-0.json)" = "$MODULE"
+          jq -r '.need[]' plan/shard-0.json > need.txt
+          RESTORE_NEED="$PWD/need.txt" RESTORE_SUFFIX=.olean bash "$HUNT/restore_chunks.sh" plan/shard-0.json "$LEAN_DIR" | tee -a "$OUT/evidence/run.txt"
+          df -h / | tee -a "$OUT/evidence/run.txt"
+
+      - name: extra swap on what the disk has left
+        if: env.SELFTEST_ONLY != 'true'
+        run: |
+          set -uo pipefail
+          free_gb=$(df --output=avail -BG / | tail -1 | tr -dc 0-9)
+          swap_gb=$(( free_gb - 30 ))
+          if [ "$swap_gb" -gt 24 ]; then swap_gb=24; fi
+          if [ "$swap_gb" -ge 4 ]; then
+            sudo fallocate -l "${swap_gb}G" /swapfile-alpoge && sudo chmod 600 /swapfile-alpoge \
+              && sudo mkswap -q /swapfile-alpoge && sudo swapon /swapfile-alpoge \
+              || echo "extra swap could not be added" | tee -a "$OUT/evidence/run.txt"
+          fi
+          free -g | tee -a "$OUT/evidence/run.txt"
+
+      # No token is in the environment of this step.
+      - name: export the declarations and check the export
+        if: env.SELFTEST_ONLY != 'true'
+        run: |
+          set -uo pipefail
+          cd "$LEAN_DIR"
+          lake env lean --run "$GITHUB_WORKSPACE/$HUNT/ModuleConsts.lean" "$MODULE" > "$OUT/evidence/module-consts.jsonl"
+          echo "module constants: $(wc -l < "$OUT/evidence/module-consts.jsonl")" | tee -a "$OUT/evidence/run.txt"
+          cd "$GITHUB_WORKSPACE"
+          # shellcheck disable=SC2086
+          python3 "$HUNT/export_check.py" run --lean4export "$RUNNER_TEMP/l4e/.lake/build/bin/lean4export" \
+            --nanoda "$RUNNER_TEMP/nanoda-bin" --lean-dir "$LEAN_DIR" --module "$MODULE" --decl $DECLS \
+            --consts "$OUT/evidence/module-consts.jsonl" --threads "$(nproc)" --minutes "$MINUTES" \
+            --work "$RUNNER_TEMP/export" | tee "$OUT/evidence/result.json"
+          rc=${PIPESTATUS[0]}
+          {
+            ls -la "$RUNNER_TEMP/export"
+            sha256sum "$RUNNER_TEMP/export/export.ndjson"
+            free -g
+          } 2>&1 | tee -a "$OUT/evidence/run.txt"
+          head -c 2000 "$RUNNER_TEMP/export/export.ndjson" > "$OUT/evidence/export-head.txt" 2>/dev/null || true
+          cp "$RUNNER_TEMP"/export/*.nanoda.json "$OUT/evidence/" 2>/dev/null || true
+          echo "export_check rc=$rc" | tee -a "$OUT/evidence/run.txt"
+          echo "$rc" > "$OUT/evidence/rc.txt"
+          cat "$OUT/evidence/result.json" >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: preserve the evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpoge-export-${{ github.run_id }}
+          path: /home/runner/replay/out/evidence
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: the job is what the check said
+        if: env.SELFTEST_ONLY != 'true'
+        run: |
+          rc=$(cat "$OUT/evidence/rc.txt" 2>/dev/null || echo 1)
+          if [ "$rc" != "0" ]; then echo "::error::the export was not accepted, or was not made: see result.json"; fi
+          exit "$rc"
