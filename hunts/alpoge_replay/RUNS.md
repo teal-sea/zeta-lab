@@ -1830,6 +1830,15 @@ was not restarted for that: its runners had restored their files and were
 replaying, and a restart costs more than the shard. The limit applies from
 round 8.
 
+*Pilot of the new runner, 07:09Z to 07:16Z, run 44996902719.* Epoch `t2`,
+one shard, four minutes, on `810cf308`: the runner drove the real driver
+through `lake env` with the limit set (`"module_seconds": 1800.0`, four
+modules a process): 108 planned, 108 replayed in 152 s, none rejected,
+every process ended 0, and the watchdog still saw each driver under its
+list's name. What it does not show is a module given up on a runner: none
+of the 108 is slow. That path has run on the stub of the tests only, and
+round 8 is its first real use.
+
 **Where the pass stands after round 6.** 57,484 modules left, 98.6
 process-hours by the kernel's clock; round 6 delivered 66.1 process-hours
 of lean4lean's time, 0.86 of the kernel's on the same modules. Round 7
