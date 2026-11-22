@@ -1942,6 +1942,15 @@ plan; no shard's own memory log was opened for it, so that the driver given
 up was gone from memory at once is inferred from the shards finishing, not
 seen.
 
+*Added 10:52Z: seen.* Shard 0's evidence (artifact 14748842102). The
+driver's output has the line `FAIL ... EncardComplexPointFibreEqEncardRingHomExtensions
+1804152 no answer after 1800 s: this run stopped waiting, the checker gave
+no verdict`. The watchdog's table has one driver process that peaked at
+10.7 GB and ended after 1,798 s. The memory log has the runner at 12.5 GB
+used with swap in use at 1,501 s and at 4.8 GB with the swap free again at
+1,862 s. The shard was done 3,222 s after it began, 1,352 of 1,353
+replayed.
+
 **The retry, dispatched 10:34Z, run 45013099986.** Epoch `l4r`, round 9,
 from check state 14750736222: the eleven modules listed as failed, one to
 a shard, two hundred minutes, a hundred times the fuel and no limit per
