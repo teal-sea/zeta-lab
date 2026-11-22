@@ -31,12 +31,17 @@ sequence grows (regime ``"divergent"``) the module's convention is
 diagonal can still be finite: for ``ζ(s − ½)`` it is exactly ``1 = d``
 (measured, every section up to N = 400), :func:`threshold` reports the
 ``"boundary"`` regime there, and :func:`gate` says INDETERMINATE rather than
-a number. The regime is read off two weighted terms a decade apart near the
-truncation edge, so weights that oscillate (Satake parameters in a conjugate
-pair) can be misread on either side of the bound, which is measured in
-:func:`scope` and ``CORRECTIONS.md``. This one reading of ``c_p`` is used
-throughout. Nothing is chosen: ``d`` is the degree read off the object's own
-gamma factors, and ``c_p`` is a minimum, not a fit.
+a number. The regime is read from an envelope fit to block maxima of the
+weighted terms over at least 96 terms, with an uncertainty interval built
+from several variants of that fit (``DIAGNOSIS-335.md``): summable and
+divergent both require the whole interval on one side of 1, so oscillating
+weights from a conjugate pair of Satake parameters are read by their
+envelope, and cases whose envelope rate the window cannot separate from 1
+are reported as boundary rather than guessed. An earlier version read the
+regime off two sampled terms, which a cosine zero in either sampled term
+could throw to the wrong side in both directions. This one reading of
+``c_p`` is used throughout. Nothing is chosen: ``d`` is the degree read off
+the object's own gamma factors, and ``c_p`` is a minimum, not a fit.
 
 For a genuine Euler factor with real coefficients (Satake parameters real or
 in conjugate pairs) ``λ_m = Σ_j α_j^m``, and for ``|α_j| < √p`` the convergent
@@ -149,9 +154,17 @@ DEFAULT_TOL: float = 1e-14
 # ---------------------------------------------------------------------------
 
 
-#: how close the weighted-series ratio may sit to 1 before the place is called
-#: a boundary case rather than summable or divergent
+#: how close the weighted-series envelope rate may sit to 1, in log units,
+#: before the place in question can no longer be separated from the boundary:
+#: the floor of the uncertainty interval in :func:`_envelope_estimate`
 _RATIO_EPS = 1e-6
+
+#: minimum number of weighted terms the regime envelope is read from. The
+#: series truncation depth for ``c_p`` can be as small as 15 at p = 97, and a
+#: window that short cannot separate envelope growth from a slowly varying
+#: amplitude, so the regime reading extends the same lambda computation to at
+#: least this many terms. The depth used for ``c_p`` itself does not move.
+_REGIME_DEPTH = 96
 
 
 def periodic_local(period: Sequence[float]) -> Callable[[int, int], float]:
@@ -299,6 +312,144 @@ def _depth(p: int, tol: float) -> int:
     return max(8, math.ceil(2 * math.log(1 / tol) / math.log(p)))
 
 
+def _exp_capped(x: float) -> float:
+    return float("inf") if x > 709.0 else math.exp(x)
+
+
+def _block_maxima(
+    a: np.ndarray, ms: np.ndarray, width: int
+) -> tuple[np.ndarray, np.ndarray]:
+    """Largest ``a`` in each contiguous block, at its actual index ``m``."""
+    nblocks = max(2, len(a) // width)
+    positions, values = [], []
+    for idx in np.array_split(np.arange(len(a)), nblocks):
+        seg = a[idx]
+        j = int(np.argmax(seg))
+        if seg[j] > 0 and math.isfinite(float(seg[j])):
+            positions.append(float(ms[idx[j]]))
+            values.append(float(seg[j]))
+    return np.array(positions), np.array(values)
+
+
+def _fit_line(xs: np.ndarray, ys: np.ndarray) -> tuple[float, float, np.ndarray]:
+    """Least squares ``ys ~ intercept + slope * xs`` with its residuals."""
+    design = np.vstack([np.ones_like(xs), xs]).T
+    coef, *_ = np.linalg.lstsq(design, ys, rcond=None)
+    intercept, slope = float(coef[0]), float(coef[1])
+    return intercept, slope, ys - (intercept + slope * xs)
+
+
+def _block_rms_slope(a: np.ndarray, ms: np.ndarray, width: int) -> float:
+    """Envelope slope read from block root-mean-square values, for cross-check."""
+    nblocks = max(2, len(a) // width)
+    starts, logs = [], []
+    for idx in np.array_split(np.arange(len(a)), nblocks):
+        value = float(np.sqrt(np.mean(a[idx].astype(float) ** 2)))
+        if value > 0 and math.isfinite(value):
+            starts.append(float(ms[idx[0]]))
+            logs.append(math.log(value))
+    if len(starts) < 2:
+        return float("nan")
+    return _fit_line(np.array(starts), np.array(logs))[1]
+
+
+def _envelope_estimate(
+    weights: np.ndarray,
+) -> tuple[float, float, float, float]:
+    """``(rate, rate_lo, rate_hi, level)`` for the envelope of ``|weights|``.
+
+    The regime question is the value of ``limsup |w_m|^(1/m)`` relative to
+    1. Individual terms cannot answer it when the weights oscillate: for a
+    conjugate pair ``w_m = 2 R^m cos(m phi)`` a sampled term can sit near a
+    cosine zero whatever ``R`` does. Block maxima can: a block that spans
+    a zero still contains terms near the envelope ``level * rate^m``, and a
+    least squares line through their logs at their actual indices estimates
+    ``log rate``. The interval, not the point estimate, carries the verdict.
+    It covers several variants of the fit (three block widths, a block RMS
+    slope and the two half-window slopes), widened by half the variant
+    spread on each side and by a statistical term from the main fit, with a
+    floor of ``_RATIO_EPS``. When the weights are steady every variant
+    agrees to floating point accuracy and the interval collapses to that
+    floor, which keeps the sharp single-parameter boundary resolution.
+    When the window cannot separate a slowly varying amplitude from
+    growth, the variants disagree, the interval widens past 1 and the
+    caller reports the boundary regime. NaN components mean the finite
+    window supplied cannot support a reading at all. See
+    ``DIAGNOSIS-335.md`` for the measurements behind this design.
+    """
+    a = np.abs(np.asarray(weights, dtype=float))
+    ms = np.arange(1, len(a) + 1, dtype=float)
+    if len(a) < 8 or not np.any(a > 0):
+        return 0.0, 0.0, 0.0, 0.0
+    tail_a, tail_m = a[len(a) // 2 :], ms[len(a) // 2 :]
+    if not np.any(tail_a > 0):
+        return 0.0, 0.0, 0.0, 0.0
+    width = int(min(12, max(4, len(a) // 12)))
+    bm, bmax = _block_maxima(tail_a, tail_m, width)
+    if len(bm) < 4:
+        return float("nan"), float("nan"), float("nan"), float("nan")
+    log_bmax = np.log(bmax)
+    _, slope, resid = _fit_line(bm, log_bmax)
+    n = len(bm)
+    sxx = float(np.sum((bm - bm.mean()) ** 2))
+    if n > 2 and sxx > 0:
+        std_err = math.sqrt(float(np.sum(resid**2) / (n - 2)) / sxx)
+    else:
+        std_err = float("inf")
+    pair_slopes = np.array(
+        [
+            (log_bmax[j] - log_bmax[i]) / (bm[j] - bm[i])
+            for i in range(n)
+            for j in range(i + 1, n)
+        ]
+    )
+    pair_mad = (
+        float(np.median(np.abs(pair_slopes - np.median(pair_slopes))))
+        if pair_slopes.size
+        else 0.0
+    )
+    variants = [slope]
+    for variant_width in (4, 8, 16):
+        if len(tail_a) >= 2 * variant_width:
+            v_bm, v_bmax = _block_maxima(tail_a, tail_m, variant_width)
+            if len(v_bm) >= 2:
+                variants.append(_fit_line(v_bm, np.log(v_bmax))[1])
+    rms_slope = _block_rms_slope(tail_a, tail_m, width)
+    if rms_slope == rms_slope:
+        variants.append(rms_slope)
+    for part in (slice(0, n // 2), slice(n // 2, None)):
+        if len(bm[part]) >= 2:
+            variants.append(_fit_line(bm[part], log_bmax[part])[1])
+    delta = max(
+        _RATIO_EPS,
+        3.0 * std_err if math.isfinite(std_err) else 0.0,
+        2.0 * pair_mad,
+    )
+    spread = (max(variants) - min(variants)) / 2.0
+    log_level = float(np.max(log_bmax - slope * bm))
+    return (
+        _exp_capped(slope),
+        _exp_capped(min(variants) - spread - delta),
+        _exp_capped(max(variants) + spread + delta),
+        _exp_capped(log_level),
+    )
+
+
+def _legacy_ratio(weights: np.ndarray, depth: int) -> float:
+    """The two-term ratio of the 2026-08-11 regime test.
+
+    Kept only for coefficient callables that cannot be evaluated at the
+    extended regime depth, so their previous behaviour is preserved
+    exactly instead of failing where they used to return a reading.
+    """
+    w = np.abs(weights)
+    nz = np.flatnonzero(w > 0)
+    if nz.size < 2:
+        return 0.0
+    last, prev = nz[-1], nz[max(0, nz.size - 1 - max(1, depth // 10))]
+    return float((w[last] / w[prev]) ** (1.0 / max(1, last - prev)))
+
+
 def threshold(
     aloc: Callable[[int, int], float],
     p: int,
@@ -327,41 +478,80 @@ def threshold(
     ``x = 1`` inherit that, which is why :func:`gate` now reports a third
     verdict instead of resolving the doubt in either direction.
 
-    ``tail_ok`` (third entry) is the honest guard: the geometric ratio of the
-    weighted terms over the last decade of m, which must be < 1 for the
-    truncation estimate to mean anything.
+    The third entry is the regime of the weighted series, read from its
+    envelope by :func:`_envelope_estimate` over at least ``_REGIME_DEPTH``
+    terms. It must be ``"summable"``, with the whole uncertainty interval for
+    the envelope rate below 1, for the truncation estimate to mean anything.
+    The geometric part of the estimate in that regime is read off the fitted
+    envelope at the truncation depth, which for steady weights is the same
+    geometric term this function has reported since 2026-08-11. Until the
+    repair for issue 335 the regime was read off two sampled terms, which a
+    cosine zero in either term could throw to the wrong side of 1 for
+    conjugate-pair weights, in both directions (``DIAGNOSIS-335.md``).
     """
     M = _depth(p, tol)
-    lam = local_lambdas(aloc, p, M)
+    regime_depth = max(M, _REGIME_DEPTH)
+    extended = True
+    try:
+        lam_full = local_lambdas(aloc, p, regime_depth)
+    except Exception:
+        # A coefficient callable that cannot reach the extended depth keeps
+        # its previous reading: the legacy two-term ratio at depth M.
+        extended = False
+        regime_depth = M
+        lam_full = local_lambdas(aloc, p, M)
+    lam = lam_full[: M + 1]
     weights = lam[1:] * p ** (-np.arange(1, M + 1) / 2.0)
     theta = np.linspace(0.0, np.pi, ngrid)
     series = 2 * np.sum(weights[:, None] * np.cos(np.outer(np.arange(1, M + 1), theta)), axis=0)
     tail = 2 * float(np.max(np.abs(lam))) * p ** (-(M + 1) / 2.0) / (1 - p ** -0.5)
-    # The estimate above maxes over computed terms; the discarded ones can be
-    # larger. Read the actual geometric ratio off the weighted tail: below 1
-    # the remainder really is a geometric series and can be bounded; at or
-    # above 1 the weighted series does not converge, which is not a numerical
-    # nuisance but the violation itself (it is exactly |alpha| > sqrt(p)).
-    # [2026-10-21] Only when the weights near the edge keep a steady modulus,
-    # e.g. one real parameter. Two terms cannot read the envelope of
-    # oscillating weights (a conjugate pair), and the regime is then misread
-    # in both directions: see gate() and test_closed_form.py.
-    w = np.abs(weights)
-    nz = np.flatnonzero(w > 0)
-    if nz.size >= 2:
-        last, prev = nz[-1], nz[max(0, nz.size - 1 - max(1, M // 10))]
-        ratio = float((w[last] / w[prev]) ** (1.0 / max(1, last - prev)))
-    else:
-        ratio = 0.0
-    if ratio < 1.0 - _RATIO_EPS:
+    if not extended:
+        ratio = _legacy_ratio(weights, M)
+        if ratio < 1.0 - _RATIO_EPS:
+            regime = "summable"
+            w = np.abs(weights)
+            nz = np.flatnonzero(w > 0)
+            if nz.size:
+                tail = max(tail, 2.0 * float(w[nz[-1]]) * ratio / (1.0 - ratio))
+        elif ratio > 1.0 + _RATIO_EPS:
+            regime = "divergent"
+            tail = float("inf")
+        else:
+            regime = "boundary"
+            tail = float("inf")
+        return float(-series.min()), float(tail), regime
+    # Read the envelope on the finite prefix of the extended weights. A
+    # non-finite entry means the weighted terms overflowed double precision
+    # inside the window, which at the primes this module scans is itself
+    # growth past any finite diagonal, unless the finite prefix is still
+    # long enough to carry its own envelope reading. NaN entries are not
+    # read as growth: they leave the regime undecided.
+    regime_weights = lam_full[1:] * p ** (-np.arange(1, regime_depth + 1) / 2.0)
+    if np.any(np.isnan(regime_weights)):
+        return float(-series.min()), float("inf"), "boundary"
+    finite = np.isfinite(regime_weights)
+    if not np.all(finite):
+        cut = int(np.flatnonzero(~finite)[0])
+        if cut < 24:
+            return float(-series.min()), float("inf"), "divergent"
+        regime_weights = regime_weights[:cut]
+    rate, rate_lo, rate_hi, level = _envelope_estimate(regime_weights)
+    if rate != rate:
+        regime = "boundary"
+        tail = float("inf")
+    elif rate == 0.0:
         regime = "summable"
-        if nz.size:
-            tail = max(tail, 2.0 * float(w[nz[-1]]) * ratio / (1.0 - ratio))
-    elif ratio > 1.0 + _RATIO_EPS:
+    elif rate_lo > 1.0:
         regime = "divergent"  # c_p is +infinity; any finite degree is violated
         tail = float("inf")
+    elif rate_hi < 1.0:
+        regime = "summable"
+        tail = max(tail, 2.0 * level * rate ** (M + 1) / (1.0 - rate))
     else:
-        regime = "boundary"  # |alpha| = sqrt(p) to numerical resolution (steady-modulus weights)
+        # The interval straddles 1: on the bound to the resolution this
+        # window supports, including slow amplitude patterns the window
+        # cannot separate from a rate of exactly 1.
+        regime = "boundary"
         tail = float("inf")
     return float(-series.min()), float(tail), regime
 
@@ -425,28 +615,35 @@ def gate(
     returns **FAIL with named witness primes**. Both move with ``tol``, which
     is this repository's own signature of an artifact.
 
-    ``INDETERMINATE`` is now returned whenever any place's weighted series is
-    not contracting at the truncation edge (``tail_ok`` false), which is the
-    condition both failures share. That follows ``zeta.rigor``'s discipline:
+    ``INDETERMINATE`` is returned whenever any place falls in the
+    ``"boundary"`` regime: its weighted series is not contracting on the
+    evidence of the computed terms, which is the condition both failures
+    share. That follows the discipline this repository applies elsewhere:
     the safe answer to "cannot decide" is a third value, never the pleasant
     one of the two.
 
-    **What that regime test cannot see (measured 2026-10-21).** It compares
-    two weighted terms a decade apart, and for a conjugate pair of Satake
-    parameters the weights oscillate, so the comparison can land on either
-    side of 1 whatever the envelope does. ``α = 0.9·√2·e^{±0.2i}`` at
-    ``p = 2`` is called divergent and FAILs although ``c_p ≈ 1.894 < 2``;
-    ``α = 1.2·√7·e^{±0.4i}`` at ``p = 7`` PASSes although ``c_p = +∞``; and
-    the unit-modulus degree-2 family that the 60-angle control measures gets
-    FAIL at 22 of its 60 angles, while the original gate of 2026-08-10 passed
-    all 60. Separately, in the summable regime a place whose truncated ``c``
-    exceeds ``d`` by less than ``margin·tail`` is no witness, so the verdict
-    is PASS although nothing was decided: for ``ζ(s−δ)`` at ``δ = 0.49``,
-    ``p = 2``, the truncated ``c`` reads 15.99 against ``d = 1`` with a tail
-    estimate of 149.9, and the PASS is right only because the true value,
-    0.9965, happens to lie below ``d``. ``test_closed_form.py`` pins all of
-    these, so changing the regime test is a deliberate act; this function
-    has not been changed.
+    **Regime reading (repaired for issue 335).** From 2026-08-11 to this
+    repair the regime was read off two weighted terms a decade apart. For
+    a conjugate pair the weights ``2 R^m cos(m phi)`` oscillate, so that
+    comparison could land on either side of 1 whatever the envelope did:
+    ``α = 0.9·√2·e^{±0.2i}`` at ``p = 2`` was called divergent and FAILed
+    although ``c_p ≈ 1.894 < 2``; ``α = 1.2·√7·e^{±0.4i}`` at ``p = 7``
+    PASSed although ``c_p = +∞``; and 22 of the 60 unit-modulus control
+    angles FAILed although every margin was at least 0.343. The regime is
+    now read from an envelope fit over at least 96 weighted terms, and a
+    place is called summable or divergent only when the whole uncertainty
+    interval for its envelope rate lies on one side of 1
+    (``DIAGNOSIS-335.md``). Near-boundary rates with slow amplitude
+    patterns, which a finite window cannot separate from 1 by envelope
+    methods, return INDETERMINATE instead of a guessed verdict. One
+    limitation this repair does not remove: in the summable regime a place
+    whose truncated ``c`` exceeds ``d`` by less than ``margin·tail`` is no
+    witness, so the verdict can be PASS although that place was not
+    resolved. For ``ζ(s−δ)`` at ``δ = 0.49``, ``p = 2``, the truncated
+    ``c`` reads 15.99 against ``d = 1`` with a tail estimate of 149.9, and
+    the PASS is right only because the true value, 0.9965, happens to lie
+    below ``d``. ``test_closed_form.py`` pins that case as well as the
+    corrected conjugate-pair verdicts.
     """
     primes = list(primes)
     cs, tails, oks = [], [], []
@@ -692,22 +889,23 @@ def scope() -> dict:
             "conjugate-paired Satake parameters, |alpha_j| <= sqrt(p) implies c_p <= d (derived); "
             "the converse is not established by the closed form and rests on an unreviewed "
             "PSD-boundedness derivation (CORRECTIONS.md, 'Later correction'). On the bound "
-            "|alpha_j| = sqrt(p), gate() reports INDETERMINATE when the weighted terms keep a "
-            "constant modulus near the truncation edge (measured: zeta(s - 1/2); single real "
-            "parameters +sqrt(2), -sqrt(3), +sqrt(97); the pair +-sqrt(5)), and can return FAIL "
-            "or PASS for a conjugate pair there (see is_not)."
+            "|alpha_j| = sqrt(p), gate() reports INDETERMINATE: for steady weights (measured: "
+            "zeta(s - 1/2); single real parameters +sqrt(2), -sqrt(3), +sqrt(97); the pair "
+            "+-sqrt(5)) and, after the repair for issue 335, for conjugate pairs on the bound "
+            "as well (measured: sqrt(2) e^(+-0.9i) and sqrt(2) e^(+-2.0i) at p = 2)."
         ),
         "is_not": [
             "evidence for RH (docs/08); nothing computed here could be",
             "a test for 'has an Euler product', see ramanujan_violator()",
             "a global positivity statement: Q_p - ||f||^2 is not of definite sign, so the "
             "local norms do not assemble into a global one",
-            "a decision procedure: gate() measures c_p in floating point by truncation and reads "
-            "the regime off two weighted terms near the truncation edge, which conjugate-pair "
-            "Satake parameters mislead in both directions (alpha = 0.9 sqrt(2) e^(+-0.2i) at "
-            "p = 2 FAILs with c_p ~ 1.894 < 2; alpha = 1.2 sqrt(7) e^(+-0.4i) at p = 7 PASSes "
-            "with c_p = +inf; 22 of the 60 unit-modulus degree-2 control angles FAIL); "
-            "pinned in test_closed_form.py",
+            "a decision procedure: gate() measures c_p in floating point by truncation and "
+            "reads the regime from an envelope fit to the weighted terms with an uncertainty "
+            "interval; an envelope rate the computed window cannot separate from 1, including "
+            "near-boundary conjugate pairs with slow amplitude patterns, returns "
+            "INDETERMINATE rather than a verdict, and in the summable regime an excess the "
+            "truncation estimate cannot resolve still reads as PASS (zeta(s - 0.49) at p = 2); "
+            "both limitations are pinned in test_closed_form.py",
         ],
         "pass_means": (
             "no violation above the measured blindness threshold at the tested places; "

@@ -348,3 +348,15 @@ A repair of the regime test is a deliberate act: it has to re-measure the
 hunt's recorded numbers and change the tests that pin findings 1 to 3. This
 landing records and pins the defect and leaves the gate as it is. Nothing here
 is evidence for or against RH.
+
+Postscript (repair, on branch `muse/fix-335-gate`, awaiting review): the
+two-term regime sampler has been replaced by an envelope fit over block maxima
+of `|w_m|` with a data-derived uncertainty interval (see `DIAGNOSIS-335.md` and
+`REPORT-335.md`). Under the repair the named conjugate-pair cases classify by
+their envelopes (inside PASS, outside FAIL, on the bound INDETERMINATE at both
+measured angles), the 60-angle control passes at all 60 angles with its margins
+unchanged, and the recorded numbers re-measured unchanged: the reference table,
+`eps_star = 0.1841018918280497`, the null distribution, and the violator
+readings at depths 23/41/52. Tests that pinned the defect now pin the corrected
+behavior, including a no-wrong-decisive-verdict sweep; the findings above remain
+the record of the defect as measured before the repair.
