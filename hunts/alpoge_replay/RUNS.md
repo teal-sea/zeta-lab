@@ -2071,3 +2071,39 @@ code of its own. Every later job runs the same self-test before it checks
 anything. The record of this first run kept the resource report in place
 of nanoda's own words; `export_check.py` now writes that report to a file
 of its own.
+
+### The module lean4lean does not finish, through nanoda, 2026-11-22 12:19Z to 12:23Z, run 45021654396
+
+On `9d161ca2`, one runner, four minutes in all. The self-test passed again
+first. Then, for
+`Development.AbelianVarietyTheory.Proofs.DivisorProofs.EncardComplexPointFibreEqEncardRingHomExtensions`
+(artifact 14753873514):
+
+| | |
+| --- | --- |
+| the module | declares one constant, the theorem `GlobalTheory.encard_fibre_eq_encard_ringHom`; it imports 324 other modules of the archive, restored in 42 s |
+| the export | `lean4export` on that theorem and all it depends on: 21.2 s, 2,585,916 lines, 137 MB, export format 3.1.0, sha256 `3634d5c4...c0a6` |
+| what it holds | 21,711 declarations: 13,526 theorems, 5,980 definitions, 693 inductive types with 802 constructors and 695 recursors, 8 opaque constants, the 4 of the quotient, 3 axioms. The module's one constant is among them; none is unsafe or partial |
+| its axioms | `Classical.choice`, `Quot.sound`, `propext`, and no other |
+| nanoda | "Checked 21711 declarations with no typechecker errors", exit code 0, 4.9 s, 231 MB at most |
+
+nanoda also reported one error of its printer ("Unable to print axioms"),
+which is about its output and not a check.
+
+So the theorem lean4lean was on for 85 minutes and 10.7 GB without an
+answer is accepted, with every declaration it rests on from the axioms up,
+Mathlib's among them, by a checker that shares no code with Lean's kernel,
+in five seconds. That is what the kernel's four seconds suggested: the
+trouble is lean4lean's on this term, not the proof's. The export is not
+kept: it is 137 MB and the same job writes it again.
+
+**What this does not reach.** One theorem's cone, 21,711 declarations. The
+cone of `riemannHypothesis` is 1,478,219 constants. At this export's
+density, 6.3 KB a declaration on disk and 1.7 times the file in nanoda's
+memory, that is about 9 GB of text and 16 GB in memory, already more than a
+runner has; and this export is mostly Mathlib, whose declarations are
+small beside the archive's (the archive's `.olean` files come to 50 KB a
+declaration), so the real figures are higher and are not measured. An
+external check of the whole cone is a job for one machine with something
+like 64 to 128 GB of memory. No such machine is free here, and that is the
+operator's decision, not this hunt's.

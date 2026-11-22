@@ -167,10 +167,37 @@ agents_may_not:
   - edit the archive or its build configuration
 ```
 
+## After the verdict: a second checker, and an external one
+
+Added 2026-11-22, after the two passes above were done. Both are Lean's own
+kernel, and limit 1 of the verdict is that there is one kernel.
+
+*The third pass* replays every module again with lean4lean, a type checker
+for Lean written in Lean, behind the same plan, shards and records as the
+second pass (`L4LDriver.lean`, `checker=lean4lean` in
+`replay-alpoge-check.yml`). lean4lean is derived from the C++ kernel and
+runs on Lean's runtime: a second route, not an independent one.
+
+*The export route* is for single declarations. `lean4export` writes a
+declaration and everything it depends on as text, and `nanoda`, a type
+checker written in Rust, checks the text (`export_check.py`,
+`ModuleConsts.lean`, `.github/workflows/replay-alpoge-export.yml`). It
+shares no checker with the passes. It was built for the one module
+lean4lean could not finish, and it does not reach the cone of the five
+theorems as a whole on a 15 GB runner.
+
+Every one of these programs is fetched and compiled on a runner, next to
+the archive, and none of them runs the archive's code. What each found is in
+`RUNS.md`.
+
 ## What this hunt may touch
 
-`hunts/alpoge_replay/`, `.github/workflows/replay-alpoge-rh.yml` and
-`.github/workflows/replay-alpoge-check.yml`, on branch
-`claude/bold-ramanujan-x7z42m`. Not `zeta/`, `lean/`, `docs/`, `README.md` or
+`hunts/alpoge_replay/`, `.github/workflows/replay-alpoge-rh.yml`,
+`.github/workflows/replay-alpoge-check.yml` and
+`.github/workflows/replay-alpoge-export.yml`, on branch
+`claude/bold-ramanujan-x7z42m`. Two entries in `tests/` that its files
+need: the runner image's account name in `test_repo_hygiene.py`, and
+`L4LDriver.lean` among the files `test_palomar_module_port.py` lets go
+without a `module` header. Not `zeta/`, `lean/`, `docs/`, `README.md` or
 `ROADMAP.md`. A lab record of the outcome is a `docs/` page and is not written
 from here.
