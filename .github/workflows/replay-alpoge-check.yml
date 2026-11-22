@@ -67,6 +67,10 @@ on:
         description: replay processes side by side on one runner
         type: string
         default: "4"
+      plan_minutes:
+        description: minutes of replay a shard is planned for, where that should differ from check_minutes, its deadline; empty for the same. The plan prices a module at the mean so far, and the last modules cost many times that, so a small value here spreads them over more runners
+        type: string
+        default: ""
       chain:
         description: dispatch the next check round when this one is merged and modules are left
         type: boolean
@@ -102,6 +106,8 @@ env:
   CHECK_STATE_ID: ${{ inputs.check_state_id || '' }}
   SHARDS: ${{ inputs.shards || '1' }}
   CHECK_MINUTES: ${{ inputs.check_minutes || '8' }}
+  PLAN_MINUTES: ${{ inputs.plan_minutes || inputs.check_minutes || '8' }}
+  PLAN_MINUTES_IN: ${{ inputs.plan_minutes || '' }}
   # Never one process per runner. The chain halves the count when a runner
   # is lost, and went to one after rounds 8 and 9 each lost a runner without
   # a log; nothing shows those losses were for memory, and under the small
@@ -190,7 +196,7 @@ jobs:
           python3 "$HUNT/replay_plan.py" dag --src "$HOME/replay/lean/src" --out dag.json
           args=()
           if [ -f cstate/checkstate.json ]; then args+=(--check-state cstate/checkstate.json); fi
-          budget=$(python3 -c "print(int(float('$CHECK_MINUTES') * 60 * int('$PROCS') * 0.9))")
+          budget=$(python3 -c "print(int(float('$PLAN_MINUTES') * 60 * int('$PROCS') * 0.9))")
           # Four strikes, not two: the one module struck so far
           # (SesquilinearFractions.ExistsFactorThroughMultiplication, 12.7 GB
           # held when the watchdog ended its replay in round 10) was struck
@@ -542,4 +548,5 @@ jobs:
           gh workflow run replay-alpoge-check.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
             -f epoch="$EPOCH" -f round="$((ROUND + 1))" -f state_id=latest \
             -f check_state_id="$CHECK_STATE_ARTIFACT" -f shards="$SHARDS" \
-            -f check_minutes="$CHECK_MINUTES" -f procs="$PROCS" -f chain=true -f checker="$CHECKER"
+            -f check_minutes="$CHECK_MINUTES" -f procs="$PROCS" -f chain=true -f checker="$CHECKER" \
+            -f plan_minutes="$PLAN_MINUTES_IN"
