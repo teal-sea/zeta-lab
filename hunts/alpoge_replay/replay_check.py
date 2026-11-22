@@ -199,26 +199,11 @@ def driver_command(driver: str | None, driver_exe: str | None, list_file: str) -
     return ["lake", "env", "lean", "--run", os.path.abspath(driver), list_file]
 
 
-#: Run a driver on several list files, one process after another. A driver
-#: that holds on to memory from module to module (lean4lean's replay keeps
-#: about half a gigabyte per module, measured in the pilot of 2026-11-21)
-#: is given a few modules at a time. It stops at the first process that ends
-#: by anything but 0 (all replayed) or 1 (some rejected), and ends the same
-#: way, so that the module it was on is still the first one not reported.
-BATCH_RUNNER = """
-import json, os, signal, subprocess, sys
-prefix = json.loads(sys.argv[1])
-worst = 0
-for list_file in sys.argv[2:]:
-    code = subprocess.call(prefix + [list_file])
-    if code < 0:
-        signal.signal(-code, signal.SIG_DFL)
-        os.kill(os.getpid(), -code)
-    if code not in (0, 1):
-        sys.exit(code)
-    worst = max(worst, code)
-sys.exit(worst)
-"""
+#: Runs a driver on several list files, one process after another, and gives
+#: up a module the driver has been on for too long: `batch_runner.py`. It is
+#: started with `-I`, from the directory of the archive, so that nothing in
+#: that directory can stand in for a module it imports.
+BATCH_RUNNER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "batch_runner.py")
 
 
 def batch_files(out_dir: str, slot: int, modules: list[str], batch: int) -> list[str]:
@@ -377,13 +362,15 @@ def cmd_run(a) -> None:
             fh.write("\n".join(lst) + "\n")
         out = open(os.path.join(a.out, f"driver-{i}.out"), "wb")
         err = open(os.path.join(a.out, f"driver-{i}.err"), "wb")
-        if a.batch > 0:
+        if a.batch > 0 or a.module_seconds > 0:
             prefix = driver_command(a.driver, a.driver_exe, "")[:-1]
-            cmd = [sys.executable, "-c", BATCH_RUNNER, json.dumps(prefix), *batch_files(a.out, i, lst, a.batch)]
+            files = batch_files(a.out, i, lst, a.batch) if a.batch > 0 else [lf]
+            cmd = [sys.executable, "-I", BATCH_RUNNER, json.dumps(prefix), *files]
         else:
             cmd = driver_command(a.driver, a.driver_exe, lf)
         p = subprocess.Popen(cmd, cwd=a.lean_dir, stdout=out, stderr=err, start_new_session=True,
-                             preexec_fn=_big_stack)
+                             preexec_fn=_big_stack,
+                             env=dict(os.environ, REPLAY_MODULE_SECONDS=str(a.module_seconds)))
         procs.append((i, lst, p))
     codes: dict[str, int | None] = {}
     timed_out = False
@@ -440,6 +427,7 @@ def cmd_run(a) -> None:
     rec = {"round": shard["round"], "shard": shard["shard"], "planned": len(mods),
            "ok": ok, "failed": failed, "struck": struck, "killed": killed, "exit_codes": codes,
            "timed_out": timed_out, "minutes": a.minutes, "procs": a.procs, "batch": a.batch,
+           "module_seconds": a.module_seconds,
            "startup_errors": startup_errors,
            # the modules after which a driver held the most anonymous memory, in MB
            "anon_top": sorted(anon.items(), key=lambda kv: -kv[1])[:20]}
@@ -547,6 +535,9 @@ def main() -> None:
     s.add_argument("--driver-exe", help="a compiled driver with the same output, in place of --driver")
     s.add_argument("--batch", type=int, default=0,
                    help="modules per driver process; 0 gives each process its whole list")
+    s.add_argument("--module-seconds", type=float, default=0.0,
+                   help="give up a module the driver has been on for longer than this, report it as a "
+                        "FAIL with 'no answer after', and go on with the rest in a fresh process; 0 for no limit")
     s.add_argument("--out", required=True)
     s.add_argument("--done", required=True)
     s.add_argument("--kills", help="mem_watchdog.py's kills table: crowded is no strike, alone is one")

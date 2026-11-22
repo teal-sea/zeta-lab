@@ -21,6 +21,7 @@ import pytest
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
+import batch_runner as br  # noqa: E402
 import replay_check as rc  # noqa: E402
 import replay_plan as rp  # noqa: E402
 
@@ -245,9 +246,11 @@ def test_a_toy_package_that_does_not_build_fails_the_selftest(tmp_path: Path, mo
     assert got["passed"] is False and got["build_rc"] == 1 and "build failed" in got["build_tail"]
 
 
-def _run_shard(tmp_path: Path, monkeypatch, modules: list[str], batch: int, procs: int = 1) -> tuple[dict, Path]:
+def _run_shard(tmp_path: Path, monkeypatch, modules: list[str], batch: int, procs: int = 1,
+               minutes: float = 1, module_seconds: float = 0) -> tuple[dict, Path]:
     """`replay_check.py run` on a stub: a `lake` that runs what follows `env`, and a driver that
-    answers OK for every module of its list, FAIL for one named Bad, and dies of SIGSEGV on Crash."""
+    answers OK for every module of its list, FAIL for one named Bad, dies of SIGSEGV on Crash,
+    and never answers on Hang."""
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir(parents=True)
     lake = bin_dir / "lake"
@@ -259,6 +262,7 @@ def _run_shard(tmp_path: Path, monkeypatch, modules: list[str], batch: int, proc
         "while read m; do\n"
         "  case \"$m\" in\n"
         "    Crash) kill -SEGV $$ ;;\n"
+        "    Hang) sleep 300 ;;\n"
         "    Bad) printf 'FAIL\\t%s\\t1\\tno\\n' \"$m\"; code=1 ;;\n"
         "    *) printf 'OK\\t%s\\t1\\t2048\\n' \"$m\" ;;\n"
         "  esac\ndone < \"$1\"\nexit $code\n")
@@ -273,7 +277,8 @@ def _run_shard(tmp_path: Path, monkeypatch, modules: list[str], batch: int, proc
     monkeypatch.setenv("PATH", f"{bin_dir}{os.pathsep}{os.environ['PATH']}")
     done = tmp_path / "done.json"
     proc = subprocess.run([sys.executable, str(HERE / "replay_check.py"), "run", "--lean-dir", str(lean_dir),
-                           "--shard", str(shard), "--minutes", "1", "--procs", str(procs), "--batch", str(batch),
+                           "--shard", str(shard), "--minutes", str(minutes), "--procs", str(procs),
+                           "--batch", str(batch), "--module-seconds", str(module_seconds),
                            "--driver-exe", str(driver), "--out", str(tmp_path / "out"), "--done", str(done)],
                           capture_output=True, text=True)
     assert proc.returncode == 0, proc.stdout + proc.stderr
@@ -302,6 +307,83 @@ def test_a_rejection_does_not_stop_the_batches_and_a_crash_does(tmp_path: Path, 
     assert sorted(rec["ok"]) == ["A", "B"] and rec["struck"] == ["Crash"]
     assert rec["exit_codes"] == {"0": -11}
     assert len(started.read_text().splitlines()) == 2
+
+
+def _alive(pid: str) -> bool:
+    try:
+        with open(f"/proc/{pid}/stat", encoding="utf-8", errors="replace") as fh:
+            return fh.read().rsplit(")", 1)[1].split()[0] != "Z"
+    except OSError:
+        return False
+
+
+def test_a_module_with_no_answer_is_given_up_and_the_rest_go_on(tmp_path: Path, monkeypatch) -> None:
+    # Round 6 of the lean4lean pass: one module held a driver for 77 minutes
+    # and 10 GB until the shard's deadline, and the shard lost two thirds of
+    # its round to it.
+    modules = ["A", "Hang", "C", "D", "E", "F", "G"]
+    rec, started = _run_shard(tmp_path, monkeypatch, modules, batch=4, module_seconds=1)
+    assert sorted(rec["ok"]) == ["A", "C", "D", "E", "F", "G"]
+    assert list(rec["failed"]) == ["Hang"] and rec["failed"]["Hang"].startswith(br.NO_ANSWER + " 1 s")
+    assert rec["struck"] == [] and rec["killed"] == [] and rec["timed_out"] is False
+    assert rec["exit_codes"] == {"0": 1} and rec["module_seconds"] == 1
+    runs = [line.split() for line in started.read_text().splitlines()]
+    # the batch of four, a fresh process for what came after Hang in it, and the second batch
+    assert len(runs) == 3 and {os.path.basename(f) for _, f in runs} == {"list-0.txt"}
+    assert not any(_alive(pid) for pid, _ in runs)        # the driver that hung is gone
+    # the text is the one a retry round asks for
+    deps = chain(3)
+    _, level = rp.topo_levels(deps)
+    cstate = {"checked": {"M0": "c0-s0"}, "ms": {}, "failed": {"M1": rec["failed"]["Hang"], "M2": "(kernel) type mismatch"},
+              "strikes": {}, "history": []}
+    shards, _, _ = rc.plan_check(deps, level, {m: "r0-s0" for m in deps}, {"0": 1}, cstate, 2, 100.0, 6.0,
+                                 retry=(br.NO_ANSWER,))
+    assert [m for sh in shards for m in sh["modules"]] == ["M1"]
+    # without a limit the same shard waits for its deadline and reports nothing for Hang or after it
+    rec, started = _run_shard(tmp_path / "nolimit", monkeypatch, ["A", "Hang", "C"], batch=4, minutes=0.05)
+    assert sorted(rec["ok"]) == ["A"] and rec["failed"] == {} and rec["timed_out"] is True
+
+
+@pytest.mark.parametrize("batch", [0, 2])
+def test_the_deadline_ends_a_driver_that_runs_in_a_group_of_its_own(tmp_path: Path, monkeypatch, batch: int) -> None:
+    rec, started = _run_shard(tmp_path, monkeypatch, ["A", "Hang", "C"], batch=batch, minutes=0.05, module_seconds=600)
+    assert sorted(rec["ok"]) == ["A"] and rec["failed"] == {} and rec["timed_out"] is True
+    assert rec["exit_codes"] == {"0": None}
+    pids = [line.split()[0] for line in started.read_text().splitlines()]
+    assert pids and not any(_alive(pid) for pid in pids)
+
+
+def test_time_a_driver_spends_stopped_is_not_held_against_its_module(tmp_path: Path, monkeypatch) -> None:
+    import io
+    import signal
+    import time
+    # the watchdog suspends drivers; /proc shows it, and only for that group
+    p = subprocess.Popen(["sleep", "60"], start_new_session=True)
+    try:
+        assert br.group_stopped(p.pid) is False
+        os.kill(p.pid, signal.SIGSTOP)
+        for _ in range(100):
+            if br.group_stopped(p.pid):
+                break
+            time.sleep(0.02)
+        assert br.group_stopped(p.pid) is True and br.group_stopped(os.getpgid(0)) is False
+    finally:
+        p.kill()
+        p.wait()
+    # a module that answers after 1.5 s, under a limit of half a second
+    driver = tmp_path / "driver"
+    driver.write_text("#!/bin/sh\nwhile read m; do sleep 1.5; printf 'OK\\t%s\\t1\\t0\\n' \"$m\"; done < \"$1\"\n")
+    driver.chmod(0o755)
+    names = tmp_path / "list-0.txt"
+    names.write_text("A\nB\n")
+    out = io.BytesIO()
+    code, rest = br.run_list([str(driver)], str(names), 0.5, out, {}, tick_s=0.1)
+    assert (code, rest) == (1, ["B"]) and out.getvalue().startswith(b"FAIL\tA\t")
+    # the same driver, seen as stopped the whole time: nothing is given up
+    monkeypatch.setattr(br, "group_stopped", lambda pgid: True)
+    out = io.BytesIO()
+    code, rest = br.run_list([str(driver)], str(names), 0.5, out, {}, tick_s=0.1)
+    assert (code, rest) == (0, []) and out.getvalue() == b"OK\tA\t1\t0\nOK\tB\t1\t0\n"
 
 
 CHEAT = rc.CHEAT

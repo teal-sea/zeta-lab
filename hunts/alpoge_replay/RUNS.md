@@ -1585,6 +1585,14 @@ shards were lost, and from round 6 it runs sixteen such shards through the
 heights at which rounds 13 and 14 lost six of nineteen. If those report,
 it was the group.
 
+**Round 6 of the second checker, 2026-11-22 07:07Z: sixteen of sixteen,
+and a correction.** All sixteen hundred-minute shards inside the group
+reported. They were not yet at the heights the paragraph above names: round
+6 planned positions 59,000 to 129,000 of the graph's order, which is where
+the kernel's rounds 4 to 10 ran, and those lost three of 28 shards (one
+each in rounds 5, 8 and 9). The heights of rounds 13 and 14 are reached in
+round 7.
+
 ### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
 
 Check round 6 was the first with a memory log. On shard 0, four driver
@@ -1737,6 +1745,7 @@ they merge.
 | 3 | 44958976482 | 00:47 | 14,509 | 26,950 | 15.38 | 0 | 0 | 3.21 | all four shards reported, one stopped by its deadline, 15,408 planned; two more `deterministic timeout` stops of the same kind (`DyadicPrimeIntervals.Run2` and `Run4`), five in all; on the 26,950 modules both checkers have timed, lean4lean 27.5 process-hours and the kernel 31.7; check state 14732841469. Round 4 is run 44968369103, the first with the fuel scale in the driver (built against lean4lean in 27 to 33 s, self-test passed) and with the memory group |
 | 4 | 44968369103 | 02:38 | 16,352 | 43,302 | 24.72 | 0 | 0 | 3.56 | the first round inside the memory group and with the fuel scale in the driver; all four shards reported, two stopped by their deadline, 17,668 planned; no new stop, five in all; on the 43,302 modules both checkers have timed, lean4lean 43.6 process-hours and the kernel 56.4; the largest driver held 5.4 GB after a module; check state 14735144301. Round 5 is run 44977057501 |
 | 5 | 44977057501 | 04:28 | 16,124 | 59,426 | 33.92 | 0 | 0 | 3.93 | all four shards reported, three stopped by their deadline, 17,864 planned; no new stop, five in all; on the 59,426 modules both checkers have timed, lean4lean 61.2 process-hours and the kernel 78.7; the largest driver held 4.6 GB after a module; check state 14739785115. Round 6 started by itself as run 44985248355 with four shards at 04:29Z, was cancelled at 04:41Z with nothing replayed, and was dispatched again as run 44986236486 with sixteen, see below |
+| 6 | 44986236486 | 06:39 | 58,272 | 117,698 | 67.18 | 0 | 0 | 4.08 | sixteen shards, three processes; all sixteen reported, nine stopped by their deadline, 69,888 planned; no new stop, five in all; no process killed and no strike; on the 117,698 modules both checkers have timed, lean4lean 127.3 process-hours and the kernel 155.7; the largest driver held 5.1 GB after a module, and one held 10.3 GB on a module it did not finish, see "A module lean4lean does not finish" below; check state 14743497145. Round 7 is run 44994721820, dispatched by the chain at 06:39Z on `56e684b3`, sixteen shards |
 
 **Sixteen shards from round 6, 2026-11-22 04:42Z.** The kernel's replay
 ended at 03:37Z and its runners are free; sixteen is what the build and the
@@ -1761,6 +1770,71 @@ round after 6, `replay_check.py plan` cuts everything left evenly over all
 the shards it is given whenever it would otherwise use fewer
 (`test_a_tail_that_fits_fewer_shards_is_cut_evenly_over_all_of_them`, which
 fails on the planner as it was).
+
+### A module lean4lean does not finish, 2026-11-22 07:07Z: no answer is not a rejection
+
+Fifteen of round 6's sixteen shards delivered 3.5 to 4.7 process-hours of
+replay. Shard 6 delivered 2.2 and replayed 1,319 of its 4,368 modules. From
+its evidence (artifact 14743362390) and the round's plan (artifact
+14739727611):
+
+- About 1,400 s into the replay one of the three driver processes began to
+  grow: 9.3 GB of anonymous memory at 1,622 s, 10.3 GB at its peak. The
+  runner swapped from then on. At 3,604 s the watchdog suspended the other
+  two processes, as it is built to (it suspends all but the largest), and
+  they were suspended for most of the last forty minutes. The large process
+  was still running at the deadline, 6,003 s, 4,644 s after it had started.
+- It was on the third module of its batch, the two before it done in 2.6 s
+  and 3.3 s:
+  `Development.AbelianVarietyTheory.Proofs.DivisorProofs.EncardComplexPointFibreEqEncardRingHomExtensions`,
+  51 lines, one theorem about points of schemes, its last steps a `change`,
+  a `rw` and a `rfl`. So lean4lean had been on this module for about 77
+  minutes.
+  The kernel replayed it in 4.07 s (its round 6).
+- lean4lean printed nothing for it: no rejection, and none of its fuel
+  counters stopped it.
+
+So this is neither a verdict nor a fuel stop: lean4lean was still working
+and the shard's time ran out. Slow modules are not new to it. It took
+4,961 s over `HidaCompleteRings.OrdBasic` in round 3, which the kernel
+replays in 52 s, and 1,690 s and 1,535 s over two modules of round 6 that
+take the kernel 18 s and 13 s; all three finished and were accepted. In
+total it is the faster of the two on what both have timed, and on a few
+modules it is a hundred times the slower.
+
+Left alone this would have cost a shard a round, every round: the module
+is neither failed nor struck, so each plan takes it up again, and the chain
+would have ended only on a round that replayed nothing.
+
+**The repair.** `batch_runner.py` (the runner that gives a driver a few
+modules at a time, until now a string inside `replay_check.py`) takes a
+limit per module, `replay_check.py run --module-seconds`. A module the
+driver has been on for longer is given up: the driver is ended, the module
+is recorded as `FAIL` with the message `no answer after 1800 s: this run
+stopped waiting, the checker gave no verdict`, and the modules after it go
+to a fresh process. Time a driver spends suspended by the watchdog does not
+count. The limit is 1,800 s in ordinary lean4lean rounds
+(`L4L_MODULE_SECONDS`) and none in the kernel's. A module given up is not
+lost: `retry_failed=fuel` now plans the `no answer after` modules with the
+fuel stops, and a retry round has no limit but its deadline. Of the 117,698
+modules lean4lean has finished, the limit would have put one into that
+retry, the 4,961 s one. Three tests in `test_replay_check.py`: a module
+that never answers is given up and the rest of its batch and the later
+batches are replayed; the deadline still ends a driver that now runs in a
+process group of its own (it fails when the runner is made to forget the
+driver); a stopped driver's time is not held against its module.
+
+Round 7 was dispatched before this and has no limit. The module is in its
+plan again and will cost one of its sixteen shards most of its round. It
+was not restarted for that: its runners had restored their files and were
+replaying, and a restart costs more than the shard. The limit applies from
+round 8.
+
+**Where the pass stands after round 6.** 57,484 modules left, 98.6
+process-hours by the kernel's clock; round 6 delivered 66.1 process-hours
+of lean4lean's time, 0.86 of the kernel's on the same modules. Round 7
+should leave a tail that the next plan cuts over sixteen shards, then the
+retry of the five fuel stops and of whatever was given up.
 
 ### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
 

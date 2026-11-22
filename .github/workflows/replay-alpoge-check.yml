@@ -80,7 +80,7 @@ on:
         type: string
         default: kernel
       retry_failed:
-        description: empty for an ordinary round; "fuel" plans only the modules lean4lean gave up on (deterministic timeout, deep recursion) and nothing else
+        description: empty for an ordinary round; "fuel" plans only the modules lean4lean gave up on (deterministic timeout, deep recursion) or an earlier round stopped waiting for (no answer after), and nothing else, and sets no limit on a module but the shard's deadline
         type: string
         default: ""
       fuel_scale:
@@ -131,6 +131,15 @@ env:
   # used up 27 GB of swap in five minutes), so a process is given a few
   # modules and then replaced.
   L4L_BATCH: "4"
+  # Seconds an ordinary lean4lean round waits for one module before it ends
+  # that driver, records "no answer after" and goes on (batch_runner.py). In
+  # round 6 one module, four seconds in the kernel, held a driver for 77
+  # minutes and 10 GB until the deadline and cost its shard two thirds of
+  # the round. Of the 117,698 modules lean4lean had finished by then, one
+  # took longer than this (4,961 s, in round 3) and two more over 1,500 s:
+  # a module given up here is not lost, the retry round tries it again
+  # with no limit but the deadline.
+  L4L_MODULE_SECONDS: "1800"
   # The replay's processes run in a memory group of their own, this many MB
   # under the runner's memory (cgroup_cap.sh says why); "" for no group.
   CGROUP_BELOW_TOTAL_MB: "4096"
@@ -202,7 +211,7 @@ jobs:
           # held when the watchdog ended its replay in round 10) was struck
           # on runners without the extra swap the shards have from round 12.
           if [ "$RETRY_FAILED" = "fuel" ]; then
-            args+=(--retry-failed "deterministic timeout" "deep recursion")
+            args+=(--retry-failed "deterministic timeout" "deep recursion" "no answer after")
           elif [ -n "$RETRY_FAILED" ]; then
             echo "::error::unknown retry_failed '$RETRY_FAILED'"; exit 1
           fi
@@ -412,6 +421,8 @@ jobs:
           fi
           if [ "$CHECKER" = "lean4lean" ]; then
             name=l4ldriver; drv=(--driver-exe "$RUNNER_TEMP/l4l/.lake/build/bin/l4ldriver" --batch "$L4L_BATCH")
+            # a retry round is there to give a module its time: no limit but the deadline
+            if [ -z "$RETRY_FAILED" ]; then drv+=(--module-seconds "$L4L_MODULE_SECONDS"); fi
           else
             name=lean; drv=(--driver "$HUNT/ReplayDriver.lean")
           fi
