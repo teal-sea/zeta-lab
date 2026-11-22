@@ -1095,6 +1095,10 @@ kernel) and the like. None is a `debug` option.
    every pair of outputs is identical. The second pass, which sends every
    stored declaration through the kernel again, stood at 145,947 modules,
    83.31 percent, with no rejection when these lines were printed.
+   *Closed 2026-11-22 03:37Z.* The second pass finished: 175,187 of
+   175,187 modules, no rejection, each replayed from the artifact these
+   jobs restored it from ("The second pass is complete" under "Second
+   pass: kernel replay").
 3. `#print axioms` and `#check` run inside the environment they describe.
    A module of that environment can replace a command or a notation, and
    `test_replay_check.py` builds one that does. The text above shows no
@@ -1111,6 +1115,39 @@ kernel) and the like. None is a `debug` option.
 
 Still running when this was written: the cone job of this run, started
 19:52:59Z, and after it the summary job with its guard.
+
+**The grade, 2026-11-22 04:45Z.** Limits 2 and 3 are closed, so the
+sentence left open under "What this is" can be finished. On this
+repository's ladder the five statements of `Main.lean` stand at the third
+rung, kernel-checked: they are theorems of Lean 4.33.1 over Mathlib at its
+tag `v4.33.1`, from `propext`, `Classical.choice` and `Quot.sound`.
+*Pending external verification.* The steps, and the grade of each:
+
+- Lean 4.33.1 elaborated every one of the archive's 175,187 modules with no
+  error and no `sorry`, its kernel accepting each declaration as it was
+  made (the build, rounds 0 to 21).
+- Every stored declaration of every module went through that kernel a
+  second time, read from the `.olean` files by a program that runs none of
+  the archive's code, with no rejection (the second pass, rounds 0 to 17).
+- Read from the stored terms by a program that runs none of the archive's
+  commands, the five theorems rest on the three standard axioms and no
+  other, and the first is a proof of the constant `RiemannHypothesis` that
+  Mathlib defines (run 44943756336).
+
+Each is the third rung by this repository's definition of it, whose own
+Lean arm is checked by one kernel and takes Mathlib's `.olean` files from
+Mathlib's cache. So the rung says no more than that: one kernel, twice.
+What it does not include, and what the footnote stands for:
+
+- No second kernel has finished and no external checker or `comparator`
+  has been run (limit 1). The lean4lean pass stood at 59,426 of 175,187
+  modules with no rejection when this was written ("Third pass" below);
+  it is a second route, not an independent one.
+- Mathlib's own `.olean` files were replayed by neither pass (limit 4).
+- Limit 5 as written: this grades five Lean statements. That the first
+  says what mathematicians mean by the Riemann hypothesis is Mathlib's
+  reading, and whether the argument can be followed, shortened or
+  explained is not touched by any of it.
 
 **The cone and the summary, 20:35Z.** The cone job exited 0 after 2,495 s
 (artifact 14724395088), and the summary job found all seven answers, the
@@ -1349,6 +1386,58 @@ for the build; it is raised to twelve shards once the build has finished.
 | 14 | 44954431174 | 00:39 | 6,521 | 168,046 | 95.92 | 0 | 0 | 7.12 | seven shards for the 13,662 modules left, the self-test passed on all seven; four reported, three of them stopped by their deadline, 7,248 planned on the four; shards 1 and 2 lost their runners (marked failed 106 and 78 minutes into the replay), and shard 5 was still "in progress" 138 minutes into a replay of 100 with the round waiting on it, so the run was cancelled at 00:33Z: the merge then ran on the four records and handed on; check state 14732520405. Round 15 started as run 44967645994 on the old commit, was cancelled after four minutes and dispatched again as run 44967950293 on `f225a431`: forty-minute shards and the memory group |
 | 15 | 44967950293 | 01:40 | 6,352 | 174,398 | 99.55 | 0 | 0 | 6.32 | forty-minute shards inside the memory group; nine shards for the 7,141 modules left and all nine reported, four of them stopped by their deadline; check state 14734760370. Round 16 is run 44972556875: the plan put the 789 modules left on one runner |
 | 16 | 44972556875 | 02:37 | 670 | 175,068 | 99.93 | 0 | 0 | 7.14 | one shard of forty minutes inside the memory group, 789 planned, stopped by its deadline with 119 left: the modules at the top. Check state 14735552970. Round 17 started as run 44976967434 with one shard again, was cancelled and dispatched as run 44977095184 on `c3621689`: planned for half a minute a shard (`plan_minutes`), so that the 119 spread over twelve runners, with a deadline of sixty minutes |
+| 17 | 44977095184 | 03:37 | 119 | 175,187 | 100.00 | 0 | 0 | 66.03 | eleven shards inside the memory group, eleven modules each and nine on the last; all eleven reported, the self-test passed on each, none stopped by its deadline; `Main` itself replayed on shard 10 in 852 s, and the slowest of the round was `SmallClassNumbers.CorGKOf` in 879 s; the merge found nothing left to plan and the chain ended itself; check state 14737209276 |
+
+### The second pass is complete, 2026-11-22 03:37Z
+
+Eighteen rounds, 20:17Z on 2026-11-20 to 03:37Z on 2026-11-22. Read from
+check state 14737209276 at 04:36Z (the zip's sha256 is the digest GitHub
+reports for the artifact, `befcd447...8458`), against build state
+14720649806:
+
+| | |
+| --- | --- |
+| modules replayed | 175,187, and as a set of names they are the 175,187 of the build state: nothing missing, nothing extra |
+| kernel rejections | 0 |
+| modules left out | 0 |
+| strikes | 1: `SesquilinearFractions.ExistsFactorThroughMultiplication`, ended by the watchdog for memory in round 10 and replayed in round 11 in 2,076 s |
+| cost | 254.3 process-hours: mean 5.23 s a module, median 4.37 s, 90th percentile 7.2 s, 99th 15.6 s; the slowest after the struck one took 879 s |
+| lost shards | one in round 5 and 9 of the 39 of rounds 8 to 14; none of the 21 of rounds 15 to 17, which ran inside the memory group. A lost shard cost its round's work and no module |
+
+**What a replay of a module is.** `ReplayDriver.lean` reads the module's
+`.olean`, loads its imports from their `.olean` files without checking
+them, and sends the module's constants through the kernel in that
+environment (`Lean.Environment.replay`). It runs no command, tactic or
+macro of the archive. With every module replayed, every import a replay
+relied on was itself replayed, so the whole is checked from Mathlib up.
+Three things that sentence leans on, each looked at:
+
+- *The files replayed are the files the verdict read.* Rounds 0 to 12 ran
+  while the build was still going, against twelve earlier build states. A
+  build state names, for each module, the chunk that holds its outputs,
+  and for each build round the artifact that holds that round's chunks.
+  In all twelve (39,235 to 175,165 modules) every module is recorded in the
+  chunk the final state names for it, and every bundle carries the
+  artifact id the final state gives it: no difference in any of them. Every
+  module was in the build state of the round that replayed it. So each
+  `.olean` was replayed from the artifact the verdict's jobs restored it
+  from (for the 4,490 modules built twice, from one of two identical
+  copies), and artifacts are not rewritten.
+- *An `.olean` of the archive holds whole proofs.* No file of the archive
+  is a `module` in Lean's sense (0 of 175,187 has a line starting with
+  `module`, `public import`, `import all`, `public section` or
+  `@[expose]`), so there is one `.olean` per file and it stores every
+  theorem with its proof term. (Mathlib at the pinned tag does use the
+  module system, as the first lines of its `RiemannZeta.lean` show; its
+  files are limit 4, not this.)
+- *What the replay leaves out.* `Lean.Environment.replay` skips constants
+  marked unsafe or partial. The archive's text has no `unsafe` and two
+  `partial def`, both helpers of its own tactics (`copyAt` in
+  `OwnStruct.lean`, `go` in `CutCptCopy.lean`). The kernel does not let a
+  theorem mention such a constant; that is from memory of Lean's source
+  (`type_checker::infer_constant`) and was not read again here.
+
+The grade this gives the verdict is written there, under "The grade".
 
 ### Third incident, check round 5, 2026-11-21: one stalled download held the replay chain for an hour
 
@@ -1484,6 +1573,17 @@ modules replayed in 2,202 s. Two things changed at once, so this does not
 say which of them did it: the earlier losses came 49 to 106 minutes into a
 replay, and no shard of round 15 ran that long. It is one round. What it
 does say is that the combination runs clean where its absence did not.
+
+**Rounds 16 and 17, and the test that separates the two, 2026-11-22
+04:45Z.** The kernel's last two rounds lost none either: one shard of
+forty minutes and eleven of sixty, the longest replaying for 43 minutes.
+So 21 shards inside the group, none lost, and none of them long enough to
+say whether the group or the shorter shard did it. The second checker's
+pass says more: its rounds 4 and 5 ran eight shards of one hundred minutes
+inside the group and lost none, lower in the graph than where the kernel's
+shards were lost, and from round 6 it runs sixteen such shards through the
+heights at which rounds 13 and 14 lost six of nineteen. If those report,
+it was the group.
 
 ### The driver's memory, 2026-11-21 09:05Z: a leak inherited from upstream, fixed
 
@@ -1636,6 +1736,20 @@ they merge.
 | 2 | 44949631188 | 22:52 | 12,175 | 12,441 | 7.10 | 0 | 0 | 4.19 | four shards, three processes, four modules per process; all four reported, two stopped by their deadline, 13,140 planned; three modules ended in lean4lean's `deterministic timeout`, see below; on the 12,441 modules both checkers have timed, lean4lean 14.5 process-hours and the kernel 13.9; the largest driver held 7.0 GB after a module; check state 14728422994. Round 3 is run 44958976482 |
 | 3 | 44958976482 | 00:47 | 14,509 | 26,950 | 15.38 | 0 | 0 | 3.21 | all four shards reported, one stopped by its deadline, 15,408 planned; two more `deterministic timeout` stops of the same kind (`DyadicPrimeIntervals.Run2` and `Run4`), five in all; on the 26,950 modules both checkers have timed, lean4lean 27.5 process-hours and the kernel 31.7; check state 14732841469. Round 4 is run 44968369103, the first with the fuel scale in the driver (built against lean4lean in 27 to 33 s, self-test passed) and with the memory group |
 | 4 | 44968369103 | 02:38 | 16,352 | 43,302 | 24.72 | 0 | 0 | 3.56 | the first round inside the memory group and with the fuel scale in the driver; all four shards reported, two stopped by their deadline, 17,668 planned; no new stop, five in all; on the 43,302 modules both checkers have timed, lean4lean 43.6 process-hours and the kernel 56.4; the largest driver held 5.4 GB after a module; check state 14735144301. Round 5 is run 44977057501 |
+| 5 | 44977057501 | 04:28 | 16,124 | 59,426 | 33.92 | 0 | 0 | 3.93 | all four shards reported, three stopped by their deadline, 17,864 planned; no new stop, five in all; on the 59,426 modules both checkers have timed, lean4lean 61.2 process-hours and the kernel 78.7; the largest driver held 4.6 GB after a module; check state 14739785115. Round 6 started by itself as run 44985248355 with four shards at 04:29Z, was cancelled at 04:41Z with nothing replayed, and was dispatched again as run 44986236486 with sixteen, see below |
+
+**Sixteen shards from round 6, 2026-11-22 04:42Z.** The kernel's replay
+ended at 03:37Z and its runners are free; sixteen is what the build and the
+replay held between them. The estimate, before spending: the 115,756
+modules left took the kernel 175.6 process-hours; lean4lean has run at 0.78
+of the kernel's time on the 59,426 both have timed (0.65 to 1.04 by round);
+and a shard of one hundred minutes at three processes delivered 4.4
+process-hours in round 5. Sixteen shards are then about 70 process-hours a
+round and the rest is two to three rounds of two hours each, done between
+09:00Z and 11:00Z, if the ratio holds higher up. That is not measured: the
+kernel's last round, the 119 modules at the top, cost it 66 s a module,
+nearly all of it import, and lean4lean keeps a table of its own of what it
+imports. The five fuel stops are retried in one round after that.
 
 ### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
 
