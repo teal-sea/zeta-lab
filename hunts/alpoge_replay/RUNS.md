@@ -1090,6 +1090,10 @@ kernel) and the like. None is a `debug` option.
    checker, and a soundness bug in Lean 4.33.1's kernel would pass every
    job above and the second pass too. What is known about that kernel is
    set out under "Limit 1 in detail" below.
+   *Narrowed 2026-11-22 13:59Z, not closed.* A second implementation,
+   lean4lean, has since accepted 175,186 of the 175,187 modules, and a
+   checker that shares no code with the kernel, nanoda, the one theorem of
+   the module left. See "After the third pass" under "The grade".
 2. The build was cut into shards and its outputs carried between runners
    as artifacts. 4,490 modules were built twice, on different runners, and
    every pair of outputs is identical. The second pass, which sends every
@@ -1148,6 +1152,41 @@ What it does not include, and what the footnote stands for:
   says what mathematicians mean by the Riemann hypothesis is Mathlib's
   reading, and whether the argument can be followed, shortened or
   explained is not touched by any of it.
+
+**After the third pass, 2026-11-22 14:14Z.** The rung is the same; the
+ladder has none above it. What stands behind it is more than one kernel
+twice:
+
+- lean4lean, a type checker written in Lean, replayed the archive module by
+  module as the second pass did, and accepted 175,186 of its 175,187
+  modules, `Main` among them. It rejected none. ("Third pass" below: the
+  chain's state 14751622040 and the retry's 14756539657.)
+- The module it did not finish is
+  `Development.AbelianVarietyTheory.Proofs.DivisorProofs.EncardComplexPointFibreEqEncardRingHomExtensions`,
+  one theorem, which the kernel replays in four seconds. lean4lean had two
+  hundred minutes on it alone on a runner, used all of the runner's memory
+  and swap, about 39 GB, and gave no verdict. The module is in the cone of
+  the five theorems.
+- nanoda, a type checker written in Rust that shares no code with Lean's
+  kernel or with lean4lean, was given that theorem and everything it rests
+  on from the axioms up, 21,711 declarations, Mathlib's among them, and
+  accepted all of them in five seconds (run 45021654396).
+
+So every one of the 146,440 modules in the cone of the five theorems has
+been accepted by a second implementation of the checker: 146,439 by
+lean4lean and the last by nanoda. No checker rejected anything.
+
+What this still is not. lean4lean is derived from the C++ kernel and runs
+on Lean's runtime: a second route, not an independent one, and a mistake
+the two share would pass both. The independent checker has seen one
+theorem's cone and not the five theorems'. An export of the whole cone
+through an external checker, or Lean's `comparator`, has not been run: the
+exporter and the checker each hold the whole cone in memory, which is
+beyond a 15 GB runner by an amount that is not measured ("What this does
+not reach" at the end of this file). And Mathlib's `.olean` files were
+replayed by lean4lean no more than by the kernel (limit 4); nanoda checked
+the part of Mathlib that the one theorem uses. The footnote stays:
+*pending external verification*.
 
 **The cone and the summary, 20:35Z.** The cone job exited 0 after 2,495 s
 (artifact 14724395088), and the summary job found all seven answers, the
@@ -1993,6 +2032,62 @@ fuel stops finished within eleven minutes of the dispatch; their records
 are read when the run has merged. The eleventh shard is still running. By
 elimination it holds `EncardComplexPointFibreEqEncardRingHomExtensions`,
 and it has until about 14:05Z.
+
+### The retry, merged 2026-11-22 13:59Z: ten of eleven accepted, one without a verdict
+
+Run 45013099986, check state 14756539657 (read 14:13Z; a fork of the
+chain's state after round 8, so it lacks round 9's 244 modules and the two
+are read together). All eleven shards reported. Ten modules moved from
+failed to accepted, their first messages kept; nothing was rejected, struck
+or killed.
+
+| module | first message | lean4lean in the retry | the kernel |
+| --- | --- | --- | --- |
+| `DyadicPrimeIntervals.Run4` | deterministic timeout | accepted, 36.2 s | 25.2 s |
+| `DyadicPrimeIntervals.Run1` | deterministic timeout | accepted, 37.8 s | 22.8 s |
+| `DyadicPrimeIntervals.Run2` | deterministic timeout | accepted, 47.8 s | 22.5 s |
+| `ChebyshevPrimeBounds.SmallLoop` | deterministic timeout | accepted, 64.1 s | 95.6 s |
+| `DyadicPrimeIntervals.Run3` | deterministic timeout | accepted, 78.5 s | 28.6 s |
+| `IwasawaDecomposition.ExistsMovedDataLaterStagesWithNewTwist` | no answer after 1800 s | accepted, 1,139.2 s | 33.0 s |
+| `AutomorphicMembership.ValTransOfEq` | no answer after 1800 s | accepted, 1,398.9 s | 22.7 s |
+| `IwasawaDecomposition.ExistsMovedDataStateLocalisations` | no answer after 1800 s | accepted, 1,744.2 s | 34.2 s |
+| `SesquilinearFractions.ExistsFactorThroughMultiplication` | no answer after 1800 s | accepted, 3,551.7 s | 2,076.1 s |
+| `DivisorProofs.ExistsThetaSymmetricFunctionValuesInGroundField` | no answer after 1800 s | accepted, 3,721.8 s | 11.8 s |
+| `DivisorProofs.EncardComplexPointFibreEqEncardRingHomExtensions` | no answer after 1800 s | no verdict at the deadline, 11,993 s | 4.1 s |
+
+The five fuel stops were lean4lean's counters, as in the rehearsal: with a
+hundred times the fuel all five are accepted.
+
+**The one without a verdict** (shard 5, artifact 14756923421). The module
+had a runner to itself, no limit but the shard's two hundred minutes, and
+a hundred times the fuel. The driver ran 11,993 s to the deadline and
+printed nothing: no verdict, no fuel stop. Its resident memory stood at
+about 11 GB by the nineteenth minute and stayed there, which is what the
+memory group allows it, and the rest went to swap: 6.6 GB of the runner's 27.6 GB of
+swap in use at 1,141 s, 11.6 at 2,343 s, 16.2 at 5,946 s, 22.7 at 9,550 s,
+all of it at 11,954 s. So about 39 GB when the deadline came, after
+growing the whole time. The watchdog stopped and killed nothing; with the
+swap gone, ending the process was its next step. More time on this machine
+would not have ended differently, and more memory is not free here.
+
+What lean4lean is doing there was not looked for. The theorem is one
+statement about points of schemes, its proof ends in a `change`, a `rw`
+and a `rfl`, the kernel replays the module in four seconds and nanoda
+checks the theorem and its whole cone in five ("A route through an
+external checker" below). Three checkers, two of them quick and in
+agreement: the reading that fits is a term on which lean4lean's reduction
+does work the other two avoid, and that is a statement about lean4lean.
+
+### The third pass, in one place
+
+| | |
+| --- | --- |
+| modules lean4lean accepted | 175,186 of 175,187: 175,176 in the chain (state 14751622040) and ten more in the retry (state 14756539657) |
+| modules it rejected | 0 |
+| modules without a verdict | 1, named above |
+| in the cone of the five theorems | 146,440 modules, of which lean4lean accepted 146,439 |
+| cost | 242.7 process-hours for the modules accepted, against the kernel's 254.3 for all of them; 82 shards in the chain and 11 in the retry, none lost |
+| what it is | a second implementation of the checker, derived from the first and running on the same runtime: a second route, not an independent one |
 
 ### Three modules lean4lean gave up on, 2026-11-21 22:52Z: its fuel, not a rejection
 
